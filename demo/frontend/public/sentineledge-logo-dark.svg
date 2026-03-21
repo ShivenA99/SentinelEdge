@@ -1,0 +1,81 @@
+<svg width="480" height="120" viewBox="0 0 480 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#14B8A6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0D9488;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D9488;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#0D9488;stop-opacity:0" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="subtleGlow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="480" height="120" fill="#0A1628" rx="12"/>
+
+  <!-- Shield body -->
+  <path d="M44 18 L76 18 L76 62 Q76 80 60 90 Q44 80 44 62 Z" fill="none" stroke="url(#shieldGrad)" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Shield fill subtle -->
+  <path d="M44 18 L76 18 L76 62 Q76 80 60 90 Q44 80 44 62 Z" fill="#0D9488" fill-opacity="0.08"/>
+
+  <!-- Shield top accent line -->
+  <line x1="44" y1="24" x2="76" y2="24" stroke="#0D9488" stroke-width="1" stroke-opacity="0.4"/>
+
+  <!-- AI signal waveform inside shield -->
+  <!-- Flat line left -->
+  <line x1="49" y1="54" x2="53" y2="54" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" filter="url(#subtleGlow)"/>
+  <!-- Up spike -->
+  <polyline points="53,54 55,44 57,64 59,38 61,64 63,44 65,54" fill="none" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" filter="url(#subtleGlow)"/>
+  <!-- Flat line right -->
+  <line x1="65" y1="54" x2="71" y2="54" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" filter="url(#subtleGlow)"/>
+
+  <!-- Glow dot at shield tip -->
+  <circle cx="60" cy="90" r="2" fill="#0D9488" filter="url(#glow)"/>
+
+  <!-- Corner accent dots -->
+  <circle cx="44" cy="18" r="1.5" fill="#0D9488" opacity="0.7"/>
+  <circle cx="76" cy="18" r="1.5" fill="#0D9488" opacity="0.7"/>
+
+  <!-- Wordmark: SentinelEdge -->
+  <!-- SENTINEL -->
+  <text x="100" y="58" 
+        font-family="'SF Mono', 'Fira Code', 'Courier New', monospace" 
+        font-size="28" 
+        font-weight="700" 
+        letter-spacing="2"
+        fill="#E2E8F0">SENTINEL</text>
+
+  <!-- EDGE with teal accent -->
+  <text x="100" y="82" 
+        font-family="'SF Mono', 'Fira Code', 'Courier New', monospace" 
+        font-size="14" 
+        font-weight="400" 
+        letter-spacing="8"
+        fill="#0D9488">EDGE</text>
+
+  <!-- Separator line between wordmark sections -->
+  <line x1="100" y1="63" x2="380" y2="63" stroke="#0D9488" stroke-width="0.5" stroke-opacity="0.3"/>
+
+  <!-- Tagline -->
+  <text x="100" y="100" 
+        font-family="'SF Mono', 'Fira Code', 'Courier New', monospace" 
+        font-size="9" 
+        font-weight="400" 
+        letter-spacing="3"
+        fill="#475569">AI-POWERED SCAM DETECTION</text>
+</svg>
