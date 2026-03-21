@@ -1,0 +1,29 @@
+# Core ML
+numpy>=1.24
+scikit-learn>=1.3
+xgboost>=2.0
+onnxruntime>=1.16
+onnxmltools>=1.12
+skl2onnx>=1.16
+pandas>=2.1
+joblib>=1.3
+
+# Audio
+openai-whisper>=20231117
+pyaudio>=0.2.14
+soundfile>=0.12
+
+# Server
+fastapi>=0.104
+uvicorn[standard]>=0.24
+websockets>=12.0
+pydantic>=2.5
+httpx>=0.25
+
+# Privacy / Crypto
+PyNaCl>=1.5
+
+# Dev
+pytest>=7.4
+pytest-asyncio>=0.23
+matplotlib>=3.8

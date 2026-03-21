@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node / Frontend
+node_modules/
+demo/frontend/dist/
+
+# Secrets & Keys - NEVER COMMIT THESE
+model_store/
+*.key
+*.pem
+.env
+.env.*
+
+# Large data files (regenerate with training/generate_synthetic_data.py)
+data/raw/
+data/processed/
+
+# Large model artifacts (regenerate with training scripts)
+models/*.onnx
+
+# Federated simulation outputs
+federated/simulation_results.json
+federated/federated_results.png
+
+# Misc
+*.log
+.claude/plans/
+package-lock.json

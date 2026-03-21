@@ -1,0 +1,185 @@
+"""SentinelEdge Hub - Federated Aggregation Server.
+
+A lightweight coordination server that:
+- Accepts DP-noised gradient deltas from edge devices
+- Performs federated averaging with Byzantine fault detection
+- Validates aggregated models against a held-out set
+- Signs and distributes improved global models
+
+Run with:
+    python -m hub.server
+    uvicorn hub.server:app --host 0.0.0.0 --port 8080
+"""
+
+import logging
+
+import uvicorn
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
+from .model_store import ModelStore
+from .round_manager import RoundManager
+from .schemas import (
+    AggregationResponse,
+    FederatedUpdate,
+    GlobalMetrics,
+    ModelVersionInfo,
+    RoundStatus,
+)
+from .validator import ModelValidator
+
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# App
+# ---------------------------------------------------------------------------
+app = FastAPI(
+    title="SentinelEdge Hub",
+    description=(
+        "Federated aggregation server for SentinelEdge -- "
+        "coordinates edge devices performing on-device phone call fraud detection."
+    ),
+    version="0.1.0",
+)
+
+# CORS for frontend / dashboard
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ---------------------------------------------------------------------------
+# Component initialisation
+# ---------------------------------------------------------------------------
+model_store = ModelStore()
+validator = ModelValidator()
+round_manager = RoundManager(
+    min_devices=5,
+    model_store=model_store,
+    validator=validator,
+)
+
+
+# ---------------------------------------------------------------------------
+# Endpoints
+# ---------------------------------------------------------------------------
+
+
+@app.post("/v1/federated/submit", response_model=RoundStatus)
+async def submit_update(update: FederatedUpdate):
+    """Edge device submits a DP-noised gradient delta.
+
+    The hub collects updates until `min_devices` are reached, then
+    automatically triggers federated averaging, validation, and
+    (if accepted) publishes a new global model version.
+    """
+    try:
+        status = await round_manager.submit_update(update)
+        return status
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except Exception as exc:
+        logger.error("Error processing update: %s", exc, exc_info=True)
+        raise HTTPException(status_code=500, detail="Internal aggregation error")
+
+
+@app.get("/v1/model/latest", response_model=AggregationResponse)
+async def get_latest_model():
+    """Edge device downloads the latest global model as a delta patch.
+
+    Returns a base64-encoded gzip-compressed weight delta, along with
+    the Ed25519 signature so the device can verify authenticity.
+    """
+    version, weights = model_store.get_latest()
+    if version == 0:
+        raise HTTPException(status_code=404, detail="No model available yet")
+
+    try:
+        # Create delta from version 0 (full weights) -- edge devices
+        # that already have a previous version can request a specific delta
+        # via /v1/model/delta/{old}/{new} (future endpoint).
+        model_delta_b64 = model_store.create_delta_patch_b64(
+            old_version=0, new_version=version
+        )
+        signature = model_store.get_signature_for_version(version)
+        meta = model_store.get_metadata(version)
+
+        return AggregationResponse(
+            model_version=version,
+            model_delta=model_delta_b64,
+            signature=signature,
+            n_contributing_devices=meta.get("n_contributing_devices", 0) if meta else 0,
+            round_accuracy=meta.get("accuracy", 0.0) if meta else 0.0,
+        )
+    except Exception as exc:
+        logger.error("Error creating model response: %s", exc, exc_info=True)
+        raise HTTPException(status_code=500, detail="Failed to prepare model")
+
+
+@app.get("/v1/model/version", response_model=ModelVersionInfo)
+async def get_model_version():
+    """Check current model version -- edge devices poll this to decide
+    whether to download a newer model.
+    """
+    version, _ = model_store.get_latest()
+    if version == 0:
+        raise HTTPException(status_code=404, detail="No model available yet")
+
+    meta = model_store.get_metadata(version)
+    if meta is None:
+        raise HTTPException(status_code=404, detail="Model metadata not found")
+
+    return ModelVersionInfo(
+        model_version=version,
+        created_at=meta.get("created_at", ""),
+        n_contributing_devices=meta.get("n_contributing_devices", 0),
+        round_accuracy=meta.get("accuracy", 0.0),
+    )
+
+
+@app.get("/v1/round/status", response_model=RoundStatus)
+async def get_round_status():
+    """Get current federated round status."""
+    return round_manager.get_status()
+
+
+@app.get("/v1/metrics/global", response_model=GlobalMetrics)
+async def get_global_metrics():
+    """Aggregated stats only: total rounds, accuracy trend, etc.
+
+    No per-device data is exposed -- privacy by design.
+    """
+    metrics = round_manager.get_global_metrics()
+    return GlobalMetrics(**metrics)
+
+
+@app.get("/v1/model/public_key")
+async def get_public_key():
+    """Return the hub's Ed25519 public key (hex) for signature verification.
+
+    Edge devices use this to verify that model updates are authentic.
+    """
+    return {"public_key": model_store.get_public_key()}
+
+
+@app.get("/health")
+async def health():
+    """Health check endpoint."""
+    return {"status": "ok", "service": "sentineledge-hub"}
+
+
+# ---------------------------------------------------------------------------
+# Entrypoint
+# ---------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8080)

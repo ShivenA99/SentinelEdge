@@ -1,0 +1,11 @@
+Good afternoon, this is the fraud prevention department at your bank.
+We have detected suspicious activity on your account ending in four seven eight two.
+Someone attempted to make an unauthorized purchase of fifteen hundred dollars.
+For your security, we need to verify your identity immediately.
+Can you please confirm your full account number and routing number.
+We also need the three digit security code on the back of your debit card.
+I am going to send you a verification code and please read it back to me.
+We need to transfer your funds to a secure temporary account to protect them from the fraudster.
+Please do not hang up or contact your branch directly as this is time sensitive.
+Your account will be permanently frozen if we cannot complete this verification process now.
+Remember, do not share this call information with anyone for security purposes.
