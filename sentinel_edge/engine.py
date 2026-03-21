@@ -106,7 +106,14 @@ class SentinelEngine:
         self.classifier = None       # FraudClassifier or MLPClassifier
         self.pipeline: FeaturePipeline = None  # type: ignore[assignment]
 
+        # Channel-specific classifiers (loaded separately)
+        self._sms_classifier = None   # XGBClassifier for SMS
+        self._sms_pipeline: FeaturePipeline | None = None
+        self._url_classifier = None   # XGBClassifier for URLs
+
         self._init_pipeline(pipeline)
+        self._init_sms_classifier()
+        self._init_url_classifier()
 
         # --- Score accumulator (per-call state) ---
         self.accumulator = ScoreAccumulator(alpha=alpha)

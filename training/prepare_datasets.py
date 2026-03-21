@@ -197,6 +197,7 @@ def prepare_sms_data(
             return
     else:
         # Try reading as the Kaggle SMS Spam Collection format first
+        loaded_kaggle = False
         try:
             df = pd.read_csv(
                 raw_path,
@@ -211,11 +212,16 @@ def prepare_sms_data(
                 df["label"] = df["label_str"].map(label_map)
                 df = df.dropna(subset=["label"])
                 df["label"] = df["label"].astype(int)
-                df["category"] = df["label_str"]
-                df = df[["text", "label", "category"]]
-                print(f"  Loaded Kaggle SMS format from {raw_path}: {len(df):,} rows")
+                if len(df) > 0:
+                    df["category"] = df["label_str"]
+                    df = df[["text", "label", "category"]]
+                    print(f"  Loaded Kaggle SMS format from {raw_path}: {len(df):,} rows")
+                    loaded_kaggle = True
         except Exception:
-            # Fall back to standard CSV
+            pass
+
+        if not loaded_kaggle:
+            # Fall back to standard CSV with text,label columns
             df = pd.read_csv(raw_path, dtype={"text": str, "label": int})
             print(f"  Loaded CSV from {raw_path}: {len(df):,} rows")
 
