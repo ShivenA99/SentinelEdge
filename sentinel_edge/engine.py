@@ -199,11 +199,71 @@ class SentinelEngine:
         return False
 
     # ------------------------------------------------------------------
+    # Channel-specific model loading (SMS, URL)
+    # ------------------------------------------------------------------
+
+    def _init_sms_classifier(self) -> None:
+        """Load the SMS-specific XGBoost model and TF-IDF vectorizer."""
+        model_path = self._resolve_model("sms_fraud_xgb.json")
+        tfidf_path = self._resolve_model("tfidf_sms_vectorizer.pkl")
+
+        if model_path is None:
+            logger.debug("SMS model sms_fraud_xgb.json not found in %s", self._models_dir)
+            return
+
+        try:
+            import xgboost as xgb
+
+            model = xgb.XGBClassifier()
+            model.load_model(model_path)
+            self._sms_classifier = model
+
+            # Load the SMS-specific TF-IDF vectorizer into a FeaturePipeline
+            from sentinel_edge.features.tfidf import TfidfFeatureExtractor
+
+            if tfidf_path is not None:
+                sms_tfidf = TfidfFeatureExtractor(tfidf_path)
+            else:
+                sms_tfidf = TfidfFeatureExtractor()
+
+            self._sms_pipeline = FeaturePipeline(tfidf_path, mode="tfidf")
+            logger.info(
+                "Loaded SMS fraud classifier from %s (tfidf: %s)",
+                model_path, tfidf_path or "default",
+            )
+        except Exception as exc:
+            logger.warning("Could not load SMS classifier: %s", exc)
+            self._sms_classifier = None
+            self._sms_pipeline = None
+
+    def _init_url_classifier(self) -> None:
+        """Load the URL-specific XGBoost model."""
+        model_path = self._resolve_model("url_fraud_xgb.json")
+
+        if model_path is None:
+            logger.debug("URL model url_fraud_xgb.json not found in %s", self._models_dir)
+            return
+
+        try:
+            import xgboost as xgb
+
+            model = xgb.XGBClassifier()
+            model.load_model(model_path)
+            self._url_classifier = model
+            logger.info("Loaded URL fraud classifier from %s", model_path)
+        except Exception as exc:
+            logger.warning("Could not load URL classifier: %s", exc)
+            self._url_classifier = None
+
+    # ------------------------------------------------------------------
     # Channel-specific analysis
     # ------------------------------------------------------------------
 
     def analyze_sms(self, text: str) -> DetectionResult:
         """Analyse an SMS / text message for fraud indicators.
+
+        Uses the dedicated SMS XGBoost classifier if available,
+        otherwise falls back to the general pipeline.
 
         Parameters
         ----------
@@ -215,7 +275,20 @@ class SentinelEngine:
         DetectionResult
         """
         t0 = time.perf_counter()
-        score, features = self.analyze_sentence(text)
+
+        features = extract_handcrafted_features(text)
+
+        if self._sms_classifier is not None and self._sms_pipeline is not None:
+            # Use the dedicated SMS classifier
+            feature_vec = self._sms_pipeline.extract(text)
+            feature_vec = np.asarray(feature_vec, dtype=np.float32).reshape(1, -1)
+            proba = self._sms_classifier.predict_proba(feature_vec)
+            # predict_proba returns shape (n_samples, n_classes) for XGBClassifier
+            score = float(proba[0, 1]) if proba.ndim == 2 else float(proba[0])
+        else:
+            # Fallback to general pipeline
+            score, features = self.analyze_sentence(text)
+
         alert = self.alert_engine.evaluate(score, features)
         elapsed_ms = (time.perf_counter() - t0) * 1000.0
 
@@ -231,7 +304,8 @@ class SentinelEngine:
     def analyze_url(self, url: str) -> DetectionResult:
         """Analyse a URL for phishing indicators.
 
-        Uses URL-structural features rather than the NLP pipeline.
+        Uses the dedicated URL XGBoost classifier if available,
+        otherwise falls back to heuristic scoring from URL features.
 
         Parameters
         ----------
@@ -246,9 +320,22 @@ class SentinelEngine:
 
         url_feats = extract_url_features(url)
 
-        # Heuristic score from URL features (weighted sum) when no
-        # dedicated URL classifier is loaded.
-        score = self._heuristic_url_score(url_feats)
+        if self._url_classifier is not None:
+            # Use the dedicated URL classifier with the training-time
+            # feature extraction (from train_url_classifier.py).
+            from training.train_url_classifier import (
+                extract_url_features as extract_train_url_features,
+            )
+
+            train_feats = extract_train_url_features(url)
+            feature_vec = np.array(
+                list(train_feats.values()), dtype=np.float32
+            ).reshape(1, -1)
+            proba = self._url_classifier.predict_proba(feature_vec)
+            score = float(proba[0, 1]) if proba.ndim == 2 else float(proba[0])
+        else:
+            # Heuristic score from URL features (weighted sum)
+            score = self._heuristic_url_score(url_feats)
 
         reasons: list[str] = []
         if url_feats["has_ip"]:
