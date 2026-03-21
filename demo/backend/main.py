@@ -120,11 +120,24 @@ async def call_detection(websocket: WebSocket, call_id: str):
 
         # Import detection pipeline components
         from sentinel_edge.features.handcrafted import extract_handcrafted_features
+        from sentinel_edge.features.feature_pipeline import FeaturePipeline
+        from sentinel_edge.classifier.xgb_classifier import FraudClassifier
         from sentinel_edge.classifier.score_accumulator import ScoreAccumulator
         from sentinel_edge.classifier.alert_engine import AlertEngine
 
         accumulator = ScoreAccumulator(alpha=0.3)
         alert_engine = AlertEngine()
+
+        # Load real XGBoost model if available, else fall back to heuristic
+        _model_path = os.path.join(_PROJECT_ROOT, "models", "call_fraud_xgb.json")
+        _tfidf_path = os.path.join(_PROJECT_ROOT, "models", "tfidf_call_vectorizer.pkl")
+        _use_real_model = os.path.exists(_model_path) and os.path.exists(_tfidf_path)
+        if _use_real_model:
+            _classifier = FraudClassifier(_model_path)
+            _pipeline = FeaturePipeline(_tfidf_path)
+        else:
+            _classifier = None
+            _pipeline = None
 
         call_start_time = time.time()
 
@@ -135,9 +148,15 @@ async def call_detection(websocket: WebSocket, call_id: str):
             # Extract features from this sentence
             features = extract_handcrafted_features(sentence)
 
-            # Compute fraud score using heuristic model
-            # (In production this would use the XGBoost ONNX model)
-            fraud_score = compute_heuristic_score(features)
+            # Compute fraud score using real XGBoost model or heuristic fallback
+            if _use_real_model:
+                t0 = time.perf_counter()
+                feature_vec = _pipeline.extract(sentence)
+                fraud_score = _classifier.predict_proba(feature_vec)
+                _inference_ms = (time.perf_counter() - t0) * 1000
+            else:
+                fraud_score = compute_heuristic_score(features)
+                _inference_ms = np.random.uniform(5, 15)
 
             # Update EMA
             ema_score = accumulator.update(fraud_score)
@@ -165,7 +184,7 @@ async def call_detection(websocket: WebSocket, call_id: str):
                         "reasons": alert.reasons,
                     },
                     "elapsed_seconds": round(elapsed, 1),
-                    "inference_ms": round(np.random.uniform(5, 15), 1),
+                    "inference_ms": round(_inference_ms, 1),
                     "timestamp": time.time(),
                 }
             )

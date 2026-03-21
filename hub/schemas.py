@@ -72,3 +72,16 @@ class RoundStatus(BaseModel):
     updates_received: int
     min_updates_required: int
     model_version: int
+
+
+class DeviceRegistration(BaseModel):
+    """Request body for device registration."""
+
+    device_id: str
+
+
+class DeviceRegistrationResponse(BaseModel):
+    """Response after successful device registration."""
+
+    api_key: str
+    device_id: str

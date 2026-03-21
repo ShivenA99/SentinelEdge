@@ -43,7 +43,10 @@ class TestDPInjector:
     def test_add_noise_returns_tuple(self):
         dp = DPInjector()
         gradient = np.ones(50)
-        noised, sigma = dp.add_noise(gradient, n_local_samples=20)
+        result = dp.add_noise(gradient, n_local_samples=20)
+        # May return 2-tuple (noised, sigma) or 3-tuple (noised, sigma, epsilon)
+        noised = result[0]
+        sigma = result[1]
         assert noised.shape == gradient.shape
         assert sigma > 0
 
@@ -55,7 +58,7 @@ class TestDPInjector:
 
 class TestFederatedSimulation:
     def test_simulation_runs(self):
-        sim = FederatedSimulation(n_devices=3, n_rounds=2, n_features=20)
+        sim = FederatedSimulation(n_devices=3, n_rounds=2)
         results = sim.run()
         assert len(results) == 2
         assert all('accuracy' in r for r in results)
@@ -64,7 +67,7 @@ class TestFederatedSimulation:
     def test_accuracy_improves(self):
         """Accuracy should generally improve over rounds."""
         np.random.seed(42)
-        sim = FederatedSimulation(n_devices=5, n_rounds=5, n_features=20)
+        sim = FederatedSimulation(n_devices=5, n_rounds=5)
         results = sim.run()
         # Last round should be better than first (with some tolerance)
         assert results[-1]['accuracy'] >= results[0]['accuracy'] - 0.1

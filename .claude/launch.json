@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "demo-backend",
-      "runtimeExecutable": "/opt/homebrew/bin/python3",
+      "runtimeExecutable": "python3",
       "runtimeArgs": ["demo/backend/main.py"],
       "port": 8000
     },
@@ -15,7 +15,7 @@
     },
     {
       "name": "hub-server",
-      "runtimeExecutable": "/opt/homebrew/bin/python3",
+      "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "uvicorn", "hub.server:app", "--host", "0.0.0.0", "--port", "8080"],
       "port": 8080
     }

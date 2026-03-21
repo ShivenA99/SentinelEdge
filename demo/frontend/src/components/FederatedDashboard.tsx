@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import {
   BarChart,
   Bar,
@@ -22,9 +22,10 @@ import {
   Users,
   Database,
   Smartphone,
+  WifiOff,
 } from 'lucide-react'
 
-// Simulated federated learning data
+// -------- Mock data generators (used as fallback when hub is offline) --------
 function generateRoundData(numRounds: number) {
   const data = []
   let accuracy = 0.62
@@ -32,7 +33,6 @@ function generateRoundData(numRounds: number) {
   let loss = 0.82
 
   for (let i = 1; i <= numRounds; i++) {
-    // Simulate learning curve with noise
     const accGain = (0.98 - accuracy) * 0.08 + (Math.random() - 0.5) * 0.015
     const f1Gain = (0.95 - f1) * 0.09 + (Math.random() - 0.5) * 0.02
     const lossDecay = loss * 0.06 + (Math.random() - 0.5) * 0.02
@@ -62,6 +62,13 @@ function generateDeviceData() {
   return devices
 }
 
+// Generate a random gradient delta for simulated FL submissions
+function generateGradientDelta(size = 64): number[] {
+  return Array.from({ length: size }, () =>
+    Number(((Math.random() - 0.5) * 0.01).toFixed(6))
+  )
+}
+
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -80,16 +87,170 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export default function FederatedDashboard() {
   const [roundData, setRoundData] = useState(() => generateRoundData(20))
-  const [deviceData] = useState(() => generateDeviceData())
+  const [deviceData, setDeviceData] = useState(() => generateDeviceData())
   const [isSimulating, setIsSimulating] = useState(false)
   const [currentRound, setCurrentRound] = useState(20)
+  const [hubConnected, setHubConnected] = useState(false)
+  const [totalSamples, setTotalSamples] = useState(1450)
+  const [privacyBudget, setPrivacyBudget] = useState('epsilon=1.0')
+
+  const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const isMountedRef = useRef(true)
+
+  // Fetch global metrics from the hub API
+  const fetchGlobalMetrics = useCallback(async () => {
+    try {
+      const response = await fetch('http://localhost:8080/v1/metrics/global', {
+        signal: AbortSignal.timeout(3000),
+      })
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const data = await response.json()
+
+      if (!isMountedRef.current) return
+
+      // Map hub API response to our local state
+      if (data.accuracy_history && Array.isArray(data.accuracy_history)) {
+        const mapped = data.accuracy_history.map((entry: any, i: number) => ({
+          round: entry.round ?? i + 1,
+          accuracy: entry.accuracy ?? 0,
+          f1: entry.f1 ?? 0,
+          loss: entry.loss ?? 0,
+        }))
+        if (mapped.length > 0) {
+          setRoundData(mapped)
+          setCurrentRound(mapped.length)
+        }
+      }
+      if (data.device_count != null) {
+        // Update device count visually -- keep existing device data shape
+        const count = Number(data.device_count)
+        if (count > 0 && count !== deviceData.length) {
+          const generated = Array.from({ length: count }, (_, i) => ({
+            name: `Device ${String.fromCharCode(65 + i)}`,
+            samples: Math.floor(Math.random() * 400) + 100,
+            contribution: Number((1 / count).toFixed(2)),
+          }))
+          setDeviceData(generated)
+        }
+      }
+      if (data.round_count != null) {
+        setCurrentRound(Number(data.round_count))
+      }
+      if (data.total_samples != null) {
+        setTotalSamples(Number(data.total_samples))
+      }
+      if (data.privacy_budget != null) {
+        setPrivacyBudget(String(data.privacy_budget))
+      }
+
+      setHubConnected(true)
+    } catch {
+      if (isMountedRef.current) {
+        setHubConnected(false)
+      }
+    }
+  }, [deviceData.length])
+
+  // Fetch round status (current round progress)
+  const fetchRoundStatus = useCallback(async () => {
+    try {
+      const response = await fetch('http://localhost:8080/v1/round/status', {
+        signal: AbortSignal.timeout(3000),
+      })
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const data = await response.json()
+
+      if (!isMountedRef.current) return
+
+      if (data.current_round != null) {
+        setCurrentRound(Number(data.current_round))
+      }
+      if (data.is_aggregating != null) {
+        setIsSimulating(Boolean(data.is_aggregating))
+      }
+    } catch {
+      // Silently fail -- global metrics fetch already handles connection status
+    }
+  }, [])
+
+  // Poll hub API every 5 seconds while tab is active
+  useEffect(() => {
+    isMountedRef.current = true
+
+    // Initial fetch
+    fetchGlobalMetrics()
+    fetchRoundStatus()
+
+    const startPolling = () => {
+      if (pollIntervalRef.current) clearInterval(pollIntervalRef.current)
+      pollIntervalRef.current = setInterval(() => {
+        fetchGlobalMetrics()
+        fetchRoundStatus()
+      }, 5000)
+    }
+
+    const stopPolling = () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current)
+        pollIntervalRef.current = null
+      }
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopPolling()
+      } else {
+        fetchGlobalMetrics()
+        fetchRoundStatus()
+        startPolling()
+      }
+    }
+
+    startPolling()
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      isMountedRef.current = false
+      stopPolling()
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [fetchGlobalMetrics, fetchRoundStatus])
 
   const latestMetrics = roundData[roundData.length - 1]
 
-  const runSimulationRound = useCallback(() => {
+  // Run FL Round: POST to hub if connected, else simulate locally
+  const runSimulationRound = useCallback(async () => {
     setIsSimulating(true)
 
-    // Simulate a new round arriving
+    if (hubConnected) {
+      try {
+        const payload = {
+          device_id: `device_${Math.random().toString(36).slice(2, 8)}`,
+          gradient_delta: generateGradientDelta(),
+          num_samples: Math.floor(Math.random() * 200) + 50,
+          round: currentRound + 1,
+        }
+        const response = await fetch('http://localhost:8080/v1/federated/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(5000),
+        })
+
+        if (response.ok) {
+          // After successful submit, re-fetch to pick up the new round data
+          await fetchGlobalMetrics()
+          await fetchRoundStatus()
+          setIsSimulating(false)
+          return
+        }
+      } catch {
+        // Hub became unreachable during the request -- fall through to local simulation
+        setHubConnected(false)
+      }
+    }
+
+    // Fallback: local simulation
     const timer = setTimeout(() => {
       setRoundData(prev => {
         const last = prev[prev.length - 1]
@@ -106,7 +267,7 @@ export default function FederatedDashboard() {
     }, 1500)
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [hubConnected, currentRound, fetchGlobalMetrics, fetchRoundStatus])
 
   const stats = [
     {
@@ -118,21 +279,21 @@ export default function FederatedDashboard() {
     },
     {
       label: 'Active Devices',
-      value: '5',
+      value: String(deviceData.length),
       icon: <Users className="w-4 h-4" />,
       color: 'text-blue-400',
       bgColor: 'bg-blue-400/10',
     },
     {
       label: 'Total Samples',
-      value: '1,450',
+      value: totalSamples.toLocaleString(),
       icon: <Database className="w-4 h-4" />,
       color: 'text-purple-400',
       bgColor: 'bg-purple-400/10',
     },
     {
       label: 'Privacy Budget',
-      value: 'epsilon=1.0',
+      value: privacyBudget,
       icon: <Lock className="w-4 h-4" />,
       color: 'text-safe',
       bgColor: 'bg-safe/10',
@@ -155,6 +316,16 @@ export default function FederatedDashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Offline banner */}
+      {!hubConnected && (
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-warning/10 border border-warning/20">
+          <WifiOff className="w-4 h-4 text-warning flex-shrink-0" />
+          <p className="text-xs text-warning font-medium">
+            Hub offline &mdash; showing simulated data
+          </p>
+        </div>
+      )}
+
       {/* Header with action */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -162,7 +333,16 @@ export default function FederatedDashboard() {
             <GitBranch className="w-5 h-5 text-brand-teal" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white">Federated Learning Dashboard</h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold text-white">Federated Learning Dashboard</h2>
+              {/* Connection status indicator */}
+              <span
+                className={`inline-block w-2.5 h-2.5 rounded-full ${
+                  hubConnected ? 'bg-safe animate-pulse' : 'bg-gray-500'
+                }`}
+                title={hubConnected ? 'Hub connected' : 'Hub offline'}
+              />
+            </div>
             <p className="text-xs text-gray-500">Model training across distributed edge devices</p>
           </div>
         </div>
@@ -405,4 +585,3 @@ export default function FederatedDashboard() {
     </div>
   )
 }
-

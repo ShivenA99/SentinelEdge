@@ -3,6 +3,11 @@
 Ties together the feature pipeline, classifier, score accumulator,
 and alert engine into a single, easy-to-use API for analysing SMS
 messages, URLs, and phone call transcripts in real time.
+
+Supports three classifier back-ends:
+  - ``"mlp"``     -- MiniLM embeddings + MLP (federable)
+  - ``"xgboost"`` -- TF-IDF + XGBoost (legacy)
+  - ``"auto"``    -- tries MLP first, then XGBoost, then heuristic
 """
 
 from __future__ import annotations
@@ -66,8 +71,9 @@ class SentinelEngine:
     models_dir : str
         Directory containing trained model artefacts:
 
-        - ``xgb_model.json`` or ``xgb_model.onnx`` -- XGBoost classifier
-        - ``tfidf.joblib`` -- fitted TF-IDF vectorizer
+        - ``call_fraud_mlp.npz``           -- MLP classifier
+        - ``xgb_model.json`` / ``.onnx``   -- XGBoost classifier
+        - ``tfidf.joblib``                  -- fitted TF-IDF vectorizer
 
         If the directory (or individual files) does not exist, the engine
         falls back to handcrafted-features-only mode so that development
@@ -76,6 +82,12 @@ class SentinelEngine:
         Decision threshold for the binary fraud prediction.
     alpha : float
         EMA smoothing factor for phone-call score accumulation.
+    pipeline : str
+        Classifier pipeline to use:
+
+        - ``"auto"``    -- MLP if available, then XGBoost, then heuristic.
+        - ``"mlp"``     -- MiniLM embeddings + MLP.
+        - ``"xgboost"`` -- TF-IDF + XGBoost (legacy behaviour).
     """
 
     def __init__(
@@ -83,36 +95,18 @@ class SentinelEngine:
         models_dir: str = "models",
         threshold: float = 0.5,
         alpha: float = 0.3,
+        pipeline: str = "auto",
     ) -> None:
         self._models_dir = Path(models_dir)
         self.threshold = threshold
+        self._pipeline_mode = pipeline
 
-        # --- Feature pipeline ---
-        tfidf_path = self._resolve_model("tfidf.joblib")
-        self.pipeline = FeaturePipeline(tfidf_path)
+        # Resolved at init time
+        self._active_backend: str = "heuristic"  # "mlp" | "xgboost" | "heuristic"
+        self.classifier = None       # FraudClassifier or MLPClassifier
+        self.pipeline: FeaturePipeline = None  # type: ignore[assignment]
 
-        # --- Classifier ---
-        self.classifier: FraudClassifier | None = None
-        for ext in ("json", "onnx"):
-            model_path = self._resolve_model(f"xgb_model.{ext}")
-            if model_path is not None:
-                try:
-                    self.classifier = FraudClassifier(model_path)
-                    break
-                except Exception as exc:
-                    logger.warning(
-                        "Could not load classifier from %s: %s",
-                        model_path,
-                        exc,
-                    )
-
-        if self.classifier is None:
-            logger.warning(
-                "No XGBoost model found in %s -- running in "
-                "handcrafted-features-only mode (scores will be "
-                "heuristic-based).",
-                models_dir,
-            )
+        self._init_pipeline(pipeline)
 
         # --- Score accumulator (per-call state) ---
         self.accumulator = ScoreAccumulator(alpha=alpha)
@@ -122,6 +116,80 @@ class SentinelEngine:
 
         # --- Sentence splitter (reusable across calls) ---
         self._splitter = SentenceSplitter()
+
+    # ------------------------------------------------------------------
+    # Pipeline initialisation
+    # ------------------------------------------------------------------
+
+    def _init_pipeline(self, pipeline: str) -> None:
+        """Resolve which classifier back-end to use and set up the
+        corresponding feature pipeline."""
+        if pipeline == "mlp" or pipeline == "auto":
+            if self._try_load_mlp():
+                return
+
+        if pipeline == "xgboost" or pipeline == "auto":
+            if self._try_load_xgboost():
+                return
+
+        if pipeline not in ("auto", "mlp", "xgboost"):
+            raise ValueError(
+                f"Unknown pipeline '{pipeline}'. "
+                "Expected 'auto', 'mlp', or 'xgboost'."
+            )
+
+        # Heuristic fallback
+        logger.warning(
+            "No trained model found in %s -- running in "
+            "handcrafted-features-only mode (scores will be "
+            "heuristic-based).",
+            self._models_dir,
+        )
+        tfidf_path = self._resolve_model("tfidf.joblib")
+        self.pipeline = FeaturePipeline(tfidf_path, mode="tfidf")
+        self._active_backend = "heuristic"
+
+    def _try_load_mlp(self) -> bool:
+        """Attempt to load the MLP classifier and embedding pipeline."""
+        mlp_path = self._resolve_model("call_fraud_mlp.npz")
+        if mlp_path is None:
+            return False
+
+        try:
+            from sentinel_edge.classifier.mlp_classifier import MLPClassifier
+
+            self.classifier = MLPClassifier.load(mlp_path)
+            self.pipeline = FeaturePipeline(mode="embedding")
+            self._active_backend = "mlp"
+            logger.info("Using MLP pipeline (embedding + MLP classifier).")
+            return True
+        except Exception as exc:
+            logger.warning(
+                "Could not load MLP classifier from %s: %s", mlp_path, exc
+            )
+            return False
+
+    def _try_load_xgboost(self) -> bool:
+        """Attempt to load the XGBoost classifier and TF-IDF pipeline."""
+        tfidf_path = self._resolve_model("tfidf.joblib")
+        for ext in ("json", "onnx"):
+            model_path = self._resolve_model(f"xgb_model.{ext}")
+            if model_path is not None:
+                try:
+                    self.classifier = FraudClassifier(model_path)
+                    self.pipeline = FeaturePipeline(tfidf_path, mode="tfidf")
+                    self._active_backend = "xgboost"
+                    logger.info(
+                        "Using XGBoost pipeline (TF-IDF + XGBoost classifier)."
+                    )
+                    return True
+                except Exception as exc:
+                    logger.warning(
+                        "Could not load XGBoost model from %s: %s",
+                        model_path,
+                        exc,
+                    )
+        return False
 
     # ------------------------------------------------------------------
     # Channel-specific analysis
@@ -319,6 +387,18 @@ class SentinelEngine:
     def reset_call_state(self) -> None:
         """Reset the EMA accumulator for a new phone call."""
         self.accumulator.reset()
+
+    # ------------------------------------------------------------------
+    # Introspection
+    # ------------------------------------------------------------------
+
+    @property
+    def active_backend(self) -> str:
+        """Return the name of the active classifier back-end.
+
+        One of ``"mlp"``, ``"xgboost"``, or ``"heuristic"``.
+        """
+        return self._active_backend
 
     # ------------------------------------------------------------------
     # Heuristic fallback scorers
