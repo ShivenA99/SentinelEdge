@@ -503,7 +503,10 @@ async def run_interactive_scripted_call(
     input_device: str | int | None = None,
 ) -> None:
     """Turn-based scripted call: scammer line, wait for user reply, repeat."""
-    from live_mic import LiveMicCapture
+    try:
+        from live_mic import LiveMicCapture
+    except ImportError:
+        from demo.backend.live_mic import LiveMicCapture
     from sentinel_edge.audio.transcriber import Transcriber
     from sentinel_edge.engine import SentinelEngine
 
@@ -833,7 +836,10 @@ async def run_live_mic_detection(
     input_device: str | int | None = None,
 ) -> None:
     """Run live microphone -> transcription -> model scoring pipeline."""
-    from live_mic import LiveMicCapture
+    try:
+        from live_mic import LiveMicCapture
+    except ImportError:
+        from demo.backend.live_mic import LiveMicCapture
     from sentinel_edge.audio.sentence_splitter import SentenceSplitter
     from sentinel_edge.audio.transcriber import Transcriber
     from sentinel_edge.engine import SentinelEngine
@@ -985,7 +991,10 @@ async def live_mic_detection(websocket: WebSocket):
     mic = None
     try:
         try:
-            from demo.backend.live_mic import LiveMicCapture
+            try:
+        from live_mic import LiveMicCapture
+    except ImportError:
+        from demo.backend.live_mic import LiveMicCapture
         except ImportError as e:
             await websocket.send_json({
                 "type": "error",
