@@ -126,8 +126,8 @@ export default function App() {
     window.speechSynthesis.speak(utterance)
   }, [])
 
-  // WebSocket hook for live backend connection
-  const wsUrl = currentCallId
+  // WebSocket hook for live backend connection (dev only — production uses local playback)
+  const wsUrl = (import.meta.env.DEV && currentCallId)
     ? (() => {
         const params = new URLSearchParams()
         if (isMicActive) {
@@ -137,10 +137,7 @@ export default function App() {
           params.set('input_device', selectedInputDevice)
         }
         const qs = params.toString()
-        const wsBase = import.meta.env.DEV
-          ? 'ws://localhost:8000'
-          : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`
-        return `${wsBase}/ws/call/${currentCallId}${qs ? `?${qs}` : ''}`
+        return `ws://localhost:8000/ws/call/${currentCallId}${qs ? `?${qs}` : ''}`
       })()
     : ''
 
