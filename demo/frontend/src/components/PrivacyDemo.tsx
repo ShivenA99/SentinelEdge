@@ -1,12 +1,21 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Lock, Smartphone, Server, ArrowRight, Eye, EyeOff, ShieldCheck, RotateCcw, WifiOff, Wifi } from 'lucide-react'
 
+interface DisplayEntry {
+  text: string
+  score: number
+  features: Record<string, number>
+  gradient: number[]
+  sigma: number
+  epsilon: number
+}
+
 // -------- Fallback example data for offline mode --------
-const FALLBACK_EXAMPLES = [
+const FALLBACK_EXAMPLES: DisplayEntry[] = [
   {
     text: "This is Officer James Wilson from the Internal Revenue Service.",
     score: 0.15,
-    features: { authority_claim: 0.3, financial_terms: 0.2 },
+    features: { authority_claim: 0.3, financial_terms: 0.2 } as Record<string, number>,
     gradient: [-0.003421, 0.001872, -0.000543, 0.004219, -0.002103, 0.000891, -0.001567, 0.003245, 0.000123, -0.002876, 0.001432, -0.000765],
     sigma: 0.5,
     epsilon: 1.0,
@@ -14,7 +23,7 @@ const FALLBACK_EXAMPLES = [
   {
     text: "There is an outstanding balance of $4,789 that must be resolved immediately.",
     score: 0.42,
-    features: { urgency: 0.5, financial_terms: 0.7, specific_amount: 0.6, time_pressure: 0.4 },
+    features: { urgency: 0.5, financial_terms: 0.7, specific_amount: 0.6, time_pressure: 0.4 } as Record<string, number>,
     gradient: [0.002156, -0.004312, 0.001098, -0.003567, 0.000432, -0.002789, 0.004101, -0.001234, 0.003456, -0.000876, 0.002345, -0.001678],
     sigma: 0.5,
     epsilon: 1.0,
@@ -22,7 +31,7 @@ const FALLBACK_EXAMPLES = [
   {
     text: "If this is not paid today, a warrant will be issued for your arrest.",
     score: 0.68,
-    features: { urgency: 0.9, threat_language: 0.8, time_pressure: 0.9, authority_claim: 0.5 },
+    features: { urgency: 0.9, threat_language: 0.8, time_pressure: 0.9, authority_claim: 0.5 } as Record<string, number>,
     gradient: [-0.001234, 0.003678, -0.002901, 0.000456, 0.004512, -0.003123, 0.001789, -0.000345, 0.002567, -0.004089, 0.000912, -0.003456],
     sigma: 0.5,
     epsilon: 1.0,
@@ -30,7 +39,7 @@ const FALLBACK_EXAMPLES = [
   {
     text: "You need to purchase Google Play gift cards worth $4,789 and read me the codes.",
     score: 0.85,
-    features: { urgency: 0.8, financial_terms: 0.9, gift_card_mention: 1.0, unusual_payment: 1.0 },
+    features: { urgency: 0.8, financial_terms: 0.9, gift_card_mention: 1.0, unusual_payment: 1.0 } as Record<string, number>,
     gradient: [0.004567, -0.001234, 0.002890, -0.003456, 0.000789, -0.004123, 0.001567, 0.003012, -0.002345, 0.000678, -0.001890, 0.004234],
     sigma: 0.5,
     epsilon: 1.0,
@@ -38,7 +47,7 @@ const FALLBACK_EXAMPLES = [
   {
     text: "This is the only way to avoid criminal prosecution. Do it now.",
     score: 0.92,
-    features: { urgency: 1.0, threat_language: 0.95, time_pressure: 1.0, coercion: 0.9 },
+    features: { urgency: 1.0, threat_language: 0.95, time_pressure: 1.0, coercion: 0.9 } as Record<string, number>,
     gradient: [-0.002345, 0.004567, -0.000891, 0.003210, -0.001678, 0.002456, -0.004012, 0.000345, 0.001789, -0.003567, 0.002123, -0.000456],
     sigma: 0.5,
     epsilon: 1.0,
@@ -53,15 +62,6 @@ interface PrivacyDemoProps {
   }>
   gradientVectors: number[][]
   isCallActive: boolean
-}
-
-interface DisplayEntry {
-  text: string
-  score: number
-  features: Record<string, number>
-  gradient: number[]
-  sigma: number
-  epsilon: number
 }
 
 export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }: PrivacyDemoProps) {

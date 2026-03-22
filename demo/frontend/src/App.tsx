@@ -108,6 +108,7 @@ export default function App() {
   const [isBackendDriven, setIsBackendDriven] = useState(false)
   const [audioDevices, setAudioDevices] = useState<AudioDevice[]>([])
   const [selectedInputDevice, setSelectedInputDevice] = useState<string>('')
+  const [callHistory, setCallHistory] = useState<CallHistoryEntry[]>([])
 
   const durationRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
