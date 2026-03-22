@@ -312,11 +312,45 @@ export default function App() {
     void loadAudioDevices()
   }, [])
 
+  const localPlaybackRef = useRef<ReturnType<typeof setTimeout>[]>([])
+
   useEffect(() => {
-    if (isCallActive && currentCallId) {
-      connect()
+    if (!isCallActive || !currentCallId) return
+
+    // Try WebSocket first
+    connect()
+
+    // After a short delay, check if backend connected.
+    // If not, run local playback with built-in scripts.
+    const fallbackTimer = setTimeout(() => {
+      if (!isBackendDriven && currentCallId) {
+        const call = SAMPLE_CALLS[currentCallId]
+        if (!call) return
+
+        let ema = 0
+        const alpha = 0.3
+
+        call.lines.forEach((line, i) => {
+          const timer = setTimeout(() => {
+            ema = i === 0 ? line.score : alpha * line.score + (1 - alpha) * ema
+            setSentences(prev => [...prev, { text: line.text, score: line.score, index: i }])
+            setCurrentScore(line.score)
+            setEmaScore(ema)
+            setFeatures(line.features)
+            setPrivacySentences(prev => [...prev, { text: line.text, score: line.score, features: line.features }])
+            if (ema >= 0.5) setFraudSignalReceived(true)
+          }, (i + 1) * 3000)
+          localPlaybackRef.current.push(timer)
+        })
+      }
+    }, 2000)
+
+    return () => {
+      clearTimeout(fallbackTimer)
+      localPlaybackRef.current.forEach(t => clearTimeout(t))
+      localPlaybackRef.current = []
     }
-  }, [isCallActive, currentCallId, connect])
+  }, [isCallActive, currentCallId, connect, isBackendDriven])
 
   // Record a completed call into history
   const recordCallHistory = useCallback((outcome: 'Blocked' | 'Dismissed' | 'Completed') => {
