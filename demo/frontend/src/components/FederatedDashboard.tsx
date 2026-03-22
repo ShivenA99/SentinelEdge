@@ -100,7 +100,7 @@ export default function FederatedDashboard() {
   // Fetch global metrics from the hub API
   const fetchGlobalMetrics = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:8080/v1/metrics/global', {
+      const response = await fetch(`${import.meta.env.DEV ? 'http://localhost:8080' : '/hub'}/v1/metrics/global`, {
         signal: AbortSignal.timeout(3000),
       })
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
@@ -154,7 +154,7 @@ export default function FederatedDashboard() {
   // Fetch round status (current round progress)
   const fetchRoundStatus = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:8080/v1/round/status', {
+      const response = await fetch(`${import.meta.env.DEV ? 'http://localhost:8080' : '/hub'}/v1/round/status`, {
         signal: AbortSignal.timeout(3000),
       })
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
@@ -230,7 +230,7 @@ export default function FederatedDashboard() {
           num_samples: Math.floor(Math.random() * 200) + 50,
           round: currentRound + 1,
         }
-        const response = await fetch('http://localhost:8080/v1/federated/submit', {
+        const response = await fetch(`${import.meta.env.DEV ? 'http://localhost:8080' : '/hub'}/v1/federated/submit`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),

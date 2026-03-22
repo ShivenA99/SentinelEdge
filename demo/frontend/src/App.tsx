@@ -137,7 +137,10 @@ export default function App() {
           params.set('input_device', selectedInputDevice)
         }
         const qs = params.toString()
-        return `ws://localhost:8000/ws/call/${currentCallId}${qs ? `?${qs}` : ''}`
+        const wsBase = import.meta.env.DEV
+          ? 'ws://localhost:8000'
+          : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`
+        return `${wsBase}/ws/call/${currentCallId}${qs ? `?${qs}` : ''}`
       })()
     : ''
 
@@ -297,7 +300,8 @@ export default function App() {
   useEffect(() => {
     const loadAudioDevices = async () => {
       try {
-        const resp = await fetch('http://localhost:8000/api/audio-devices')
+        const apiBase = import.meta.env.DEV ? 'http://localhost:8000' : ''
+        const resp = await fetch(`${apiBase}/api/audio-devices`)
         const data = await resp.json()
         const devices: AudioDevice[] = Array.isArray(data.devices) ? data.devices : []
         setAudioDevices(devices)

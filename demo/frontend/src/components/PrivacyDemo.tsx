@@ -80,7 +80,10 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
     let ws: WebSocket | null = null
 
     try {
-      ws = new WebSocket('ws://localhost:8000/ws/privacy-demo')
+      const wsBase = import.meta.env.DEV
+        ? 'ws://localhost:8000'
+        : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`
+      ws = new WebSocket(`${wsBase}/ws/privacy-demo`)
       wsRef.current = ws
 
       ws.onopen = () => {
