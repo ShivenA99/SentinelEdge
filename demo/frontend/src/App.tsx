@@ -5,10 +5,11 @@ import CallScreen from './components/CallScreen'
 import TranscriptPanel from './components/TranscriptPanel'
 import ScoreGauge from './components/ScoreGauge'
 import FeatureBreakdown from './components/FeatureBreakdown'
-import FraudAlert from './components/FraudAlert'
 import DemoControls from './components/DemoControls'
 import PrivacyDemo from './components/PrivacyDemo'
 import FederatedDashboard from './components/FederatedDashboard'
+import CallHistory from './components/CallHistory'
+import type { CallHistoryEntry } from './components/CallHistory'
 import { useWebSocket } from './hooks/useWebSocket'
 
 // -------- Sample call scripts --------
@@ -316,7 +317,45 @@ export default function App() {
     }
   }, [isCallActive, currentCallId, connect])
 
+  // Record a completed call into history
+  const recordCallHistory = useCallback((outcome: 'Blocked' | 'Dismissed' | 'Completed') => {
+    if (!currentCallId) return
+    const call = SAMPLE_CALLS[currentCallId]
+    if (!call) return
+
+    // Gather top features from all sentences seen so far
+    const featureCounts: Record<string, number> = {}
+    privacySentences.forEach(s => {
+      Object.entries(s.features).forEach(([k, v]) => {
+        if (v > 0.3) {
+          featureCounts[k] = Math.max(featureCounts[k] ?? 0, v)
+        }
+      })
+    })
+    const topFeatures = Object.entries(featureCounts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5)
+      .map(([k]) => k)
+
+    const peakScore = sentences.reduce((max, s) => Math.max(max, s.score), 0)
+
+    const entry: CallHistoryEntry = {
+      id: `${currentCallId}_${Date.now()}`,
+      callType: currentCallId,
+      callLabel: call.description,
+      duration: callDuration,
+      peakScore,
+      finalScore: emaScore,
+      outcome,
+      timestamp: Date.now(),
+      totalSentences: sentences.length,
+      topFeatures,
+    }
+    setCallHistory(prev => [entry, ...prev])
+  }, [currentCallId, callDuration, emaScore, sentences, privacySentences])
+
   const endCall = useCallback(() => {
+    recordCallHistory('Completed')
     setIsCallActive(false)
     setCurrentCallId(null)
     if (durationRef.current) {
@@ -327,7 +366,7 @@ export default function App() {
       window.speechSynthesis.cancel()
     }
     disconnect()
-  }, [disconnect])
+  }, [disconnect, recordCallHistory])
 
   const blockCaller = useCallback(() => {
     send({ action: 'block' })
@@ -483,6 +522,9 @@ export default function App() {
                 </div>
               </div>
             </div>
+
+            {/* Call History - collapsible section below main content */}
+            <CallHistory entries={callHistory} />
           </div>
         )}
 

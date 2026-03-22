@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+import re
 import time
 import os
 import sys
@@ -270,6 +271,36 @@ SAMPLE_CALLS = {
         "caller_name": "Dr. Smith Office",
         "description": "Legitimate Appointment Reminder",
     },
+    "crypto_investment": {
+        "file": "sample_calls/crypto_investment_scam.txt",
+        "caller": "+1 (833) 555-0291",
+        "caller_name": "Digital Asset Partners",
+        "description": "Crypto Investment Scam",
+    },
+    "grandparent": {
+        "file": "sample_calls/grandparent_scam.txt",
+        "caller": "+1 (555) 867-5309",
+        "caller_name": "Unknown Number",
+        "description": "Grandparent Scam",
+    },
+    "amazon_refund": {
+        "file": "sample_calls/amazon_refund_scam.txt",
+        "caller": "+1 (888) 555-0342",
+        "caller_name": "Amazon Support",
+        "description": "Amazon Refund Scam",
+    },
+    "utility_shutoff": {
+        "file": "sample_calls/utility_shutoff_scam.txt",
+        "caller": "+1 (800) 555-0476",
+        "caller_name": "Utility Company",
+        "description": "Utility Shutoff Scam",
+    },
+    "prize_notification": {
+        "file": "sample_calls/prize_notification_scam.txt",
+        "caller": "+1 (877) 555-0188",
+        "caller_name": "National Sweepstakes",
+        "description": "Prize Notification Scam",
+    },
 }
 
 # ---------------------------------------------------------------------------
@@ -372,11 +403,24 @@ async def call_detection(websocket: WebSocket, call_id: str):
 
         # Import detection pipeline components
         from sentinel_edge.features.handcrafted import extract_handcrafted_features
+        from sentinel_edge.features.feature_pipeline import FeaturePipeline
+        from sentinel_edge.classifier.xgb_classifier import FraudClassifier
         from sentinel_edge.classifier.score_accumulator import ScoreAccumulator
         from sentinel_edge.classifier.alert_engine import AlertEngine
 
         accumulator = ScoreAccumulator(alpha=0.3)
         alert_engine = AlertEngine()
+
+        # Load real XGBoost model if available, else fall back to heuristic
+        _model_path = os.path.join(_PROJECT_ROOT, "models", "call_fraud_xgb.json")
+        _tfidf_path = os.path.join(_PROJECT_ROOT, "models", "tfidf_call_vectorizer.pkl")
+        _use_real_model = os.path.exists(_model_path) and os.path.exists(_tfidf_path)
+        if _use_real_model:
+            _classifier = FraudClassifier(_model_path)
+            _pipeline = FeaturePipeline(_tfidf_path)
+        else:
+            _classifier = None
+            _pipeline = None
 
         call_start_time = time.time()
 
@@ -387,9 +431,15 @@ async def call_detection(websocket: WebSocket, call_id: str):
             # Extract features from this sentence
             features = extract_handcrafted_features(sentence)
 
-            # Compute fraud score using heuristic model
-            # (In production this would use the XGBoost ONNX model)
-            fraud_score = compute_heuristic_score(features)
+            # Compute fraud score using real XGBoost model or heuristic fallback
+            if _use_real_model:
+                t0 = time.perf_counter()
+                feature_vec = _pipeline.extract(sentence)
+                fraud_score = _classifier.predict_proba(feature_vec)
+                _inference_ms = (time.perf_counter() - t0) * 1000
+            else:
+                fraud_score = compute_heuristic_score(features)
+                _inference_ms = np.random.uniform(5, 15)
 
             # Update EMA
             ema_score = accumulator.update(fraud_score)
@@ -418,7 +468,7 @@ async def call_detection(websocket: WebSocket, call_id: str):
                         "reasons": alert.reasons,
                     },
                     "elapsed_seconds": round(elapsed, 1),
-                    "inference_ms": round(np.random.uniform(5, 15), 1),
+                    "inference_ms": round(_inference_ms, 1),
                     "timestamp": time.time(),
                 }
             )
@@ -940,6 +990,262 @@ async def run_live_mic_detection(
         )
     finally:
         mic.stop()
+
+
+# ---------------------------------------------------------------------------
+# WebSocket: live microphone fraud detection
+# ---------------------------------------------------------------------------
+
+# Duration of audio to accumulate before transcribing (seconds)
+_LIVE_MIC_BUFFER_DURATION = 5.0
+
+
+@app.websocket("/ws/call/live")
+async def live_mic_detection(websocket: WebSocket):
+    """WebSocket endpoint for live microphone fraud detection.
+
+    Captures audio from the system microphone, transcribes it with Whisper,
+    runs the fraud-detection pipeline on each sentence, and streams results
+    to the frontend using the same message format as pre-recorded calls.
+    """
+    await websocket.accept()
+    active_connections.append(websocket)
+
+    mic = None
+    try:
+        # ------------------------------------------------------------------
+        # Check dependencies
+        # ------------------------------------------------------------------
+        try:
+            from demo.backend.live_mic import LiveMicCapture
+        except ImportError as e:
+            await websocket.send_json({
+                "type": "error",
+                "message": f"Missing dependency for live mic: {e}",
+                "timestamp": time.time(),
+            })
+            return
+
+        try:
+            from sentinel_edge.audio.transcriber import Transcriber
+        except ImportError as e:
+            await websocket.send_json({
+                "type": "error",
+                "message": f"Missing dependency for transcription: {e}",
+                "timestamp": time.time(),
+            })
+            return
+
+        # ------------------------------------------------------------------
+        # Initialise mic capture and Whisper transcriber
+        # ------------------------------------------------------------------
+        mic = LiveMicCapture(sample_rate=16000)
+        transcriber = Transcriber(model_name="tiny.en")
+
+        # Whisper model may need to download on first use -- notify client
+        if not transcriber.is_loaded:
+            await websocket.send_json({
+                "type": "status",
+                "message": "Loading Whisper model (may download on first use)...",
+                "timestamp": time.time(),
+            })
+
+        try:
+            transcriber.load()
+        except Exception as e:
+            await websocket.send_json({
+                "type": "error",
+                "message": (
+                    f"Failed to load Whisper model: {e}. "
+                    "Install with: pip install openai-whisper"
+                ),
+                "timestamp": time.time(),
+            })
+            return
+
+        # ------------------------------------------------------------------
+        # Import detection pipeline
+        # ------------------------------------------------------------------
+        from sentinel_edge.features.handcrafted import extract_handcrafted_features
+        from sentinel_edge.features.feature_pipeline import FeaturePipeline
+        from sentinel_edge.classifier.xgb_classifier import FraudClassifier as XGBFraudClassifier
+        from sentinel_edge.classifier.score_accumulator import ScoreAccumulator
+        from sentinel_edge.classifier.alert_engine import AlertEngine
+
+        accumulator = ScoreAccumulator(alpha=0.3)
+        alert_engine = AlertEngine()
+
+        # Load real XGBoost model if available, else fall back to heuristic
+        _model_path = os.path.join(_PROJECT_ROOT, "models", "call_fraud_xgb.json")
+        _tfidf_path = os.path.join(_PROJECT_ROOT, "models", "tfidf_call_vectorizer.pkl")
+        _use_real_model = os.path.exists(_model_path) and os.path.exists(_tfidf_path)
+        if _use_real_model:
+            _classifier = XGBFraudClassifier(_model_path)
+            _pipeline = FeaturePipeline(_tfidf_path)
+        else:
+            _classifier = None
+            _pipeline = None
+
+        # ------------------------------------------------------------------
+        # Start mic capture and send call_start event
+        # ------------------------------------------------------------------
+        try:
+            mic.start()
+        except ImportError as e:
+            await websocket.send_json({
+                "type": "error",
+                "message": str(e),
+                "timestamp": time.time(),
+            })
+            return
+        except Exception as e:
+            await websocket.send_json({
+                "type": "error",
+                "message": f"Failed to start microphone: {e}",
+                "timestamp": time.time(),
+            })
+            return
+
+        await websocket.send_json({
+            "type": "call_start",
+            "caller": "Live Microphone",
+            "caller_name": "Live Input",
+            "description": "Live Microphone Analysis",
+            "timestamp": time.time(),
+        })
+
+        # ------------------------------------------------------------------
+        # Main capture -> transcribe -> classify loop
+        # ------------------------------------------------------------------
+        call_start_time = time.time()
+        sentence_index = 0
+        audio_buffer: list[np.ndarray] = []
+        buffered_seconds = 0.0
+
+        while True:
+            # Non-blocking check for client stop / block / disconnect
+            try:
+                msg = await asyncio.wait_for(
+                    websocket.receive_text(), timeout=0.05
+                )
+                data = json.loads(msg)
+                if data.get("action") in ("stop", "block"):
+                    if data.get("action") == "block":
+                        await websocket.send_json({
+                            "type": "call_blocked",
+                            "timestamp": time.time(),
+                        })
+                    break
+            except asyncio.TimeoutError:
+                pass
+            except json.JSONDecodeError:
+                pass
+
+            # Grab available audio chunks from the mic
+            chunk = await asyncio.get_event_loop().run_in_executor(
+                None, mic.get_chunk, 0.1
+            )
+            if chunk is not None:
+                audio_buffer.append(chunk)
+                buffered_seconds += len(chunk) / mic.sample_rate
+
+            # Once we have enough audio, transcribe and classify
+            if buffered_seconds >= _LIVE_MIC_BUFFER_DURATION and audio_buffer:
+                audio_segment = np.concatenate(audio_buffer)
+                audio_buffer.clear()
+                buffered_seconds = 0.0
+
+                # Transcribe in a thread so we don't block the event loop
+                transcript = await asyncio.get_event_loop().run_in_executor(
+                    None, transcriber.transcribe, audio_segment, 16000
+                )
+
+                if not transcript.strip():
+                    continue
+
+                # Split transcript into sentences (crude split on punctuation)
+                sentences = _split_sentences(transcript)
+
+                for sentence in sentences:
+                    sentence = sentence.strip()
+                    if not sentence:
+                        continue
+
+                    features = extract_handcrafted_features(sentence)
+
+                    if _use_real_model:
+                        t0 = time.perf_counter()
+                        feature_vec = _pipeline.extract(sentence)
+                        fraud_score = _classifier.predict_proba(feature_vec)
+                        _inference_ms = (time.perf_counter() - t0) * 1000
+                    else:
+                        fraud_score = compute_heuristic_score(features)
+                        _inference_ms = np.random.uniform(5, 15)
+
+                    ema_score = accumulator.update(fraud_score)
+                    alert = alert_engine.evaluate(ema_score, features)
+                    elapsed = time.time() - call_start_time
+
+                    await websocket.send_json({
+                        "type": "sentence",
+                        "index": sentence_index,
+                        "text": sentence,
+                        "raw_score": round(fraud_score, 4),
+                        "ema_score": round(ema_score, 4),
+                        "features": {
+                            k: round(v, 4) if isinstance(v, float) else int(v)
+                            for k, v in features.items()
+                        },
+                        "alert": {
+                            "should_alert": alert.should_alert,
+                            "risk_level": alert.risk_level.value,
+                            "reasons": alert.reasons,
+                        },
+                        "elapsed_seconds": round(elapsed, 1),
+                        "inference_ms": round(_inference_ms, 1),
+                        "timestamp": time.time(),
+                    })
+                    sentence_index += 1
+
+        # Call ended (client sent stop/block or disconnected)
+        await websocket.send_json({
+            "type": "call_end",
+            "final_score": round(accumulator.current_score, 4),
+            "peak_score": round(accumulator.peak_score, 4),
+            "mean_score": round(accumulator.mean_score, 4),
+            "total_sentences": sentence_index,
+            "duration_seconds": round(time.time() - call_start_time, 1),
+            "timestamp": time.time(),
+        })
+
+    except WebSocketDisconnect:
+        pass
+    except Exception as exc:
+        try:
+            await websocket.send_json({
+                "type": "error",
+                "message": str(exc),
+                "timestamp": time.time(),
+            })
+        except Exception:
+            pass
+    finally:
+        # Always clean up microphone resources
+        if mic is not None and mic.is_running:
+            mic.stop()
+        if websocket in active_connections:
+            active_connections.remove(websocket)
+
+
+def _split_sentences(text: str) -> list[str]:
+    """Split transcribed text into individual sentences.
+
+    Uses a simple regex to split on sentence-ending punctuation while
+    keeping the punctuation attached.  Falls back to returning the
+    entire text as a single sentence if no split points are found.
+    """
+    parts = re.split(r'(?<=[.!?])\s+', text.strip())
+    return [p for p in parts if p.strip()]
 
 
 # ---------------------------------------------------------------------------

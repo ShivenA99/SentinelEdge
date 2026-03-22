@@ -3,6 +3,11 @@
 Ties together the feature pipeline, classifier, score accumulator,
 and alert engine into a single, easy-to-use API for analysing SMS
 messages, URLs, and phone call transcripts in real time.
+
+Supports three classifier back-ends:
+  - ``"mlp"``     -- MiniLM embeddings + MLP (federable)
+  - ``"xgboost"`` -- TF-IDF + XGBoost (legacy)
+  - ``"auto"``    -- tries MLP first, then XGBoost, then heuristic
 """
 
 from __future__ import annotations
@@ -66,8 +71,9 @@ class SentinelEngine:
     models_dir : str
         Directory containing trained model artefacts:
 
-        - ``xgb_model.json`` or ``xgb_model.onnx`` -- XGBoost classifier
-        - ``tfidf.joblib`` -- fitted TF-IDF vectorizer
+        - ``call_fraud_mlp.npz``           -- MLP classifier
+        - ``xgb_model.json`` / ``.onnx``   -- XGBoost classifier
+        - ``tfidf.joblib``                  -- fitted TF-IDF vectorizer
 
         If the directory (or individual files) does not exist, the engine
         falls back to handcrafted-features-only mode so that development
@@ -76,6 +82,12 @@ class SentinelEngine:
         Decision threshold for the binary fraud prediction.
     alpha : float
         EMA smoothing factor for phone-call score accumulation.
+    pipeline : str
+        Classifier pipeline to use:
+
+        - ``"auto"``    -- MLP if available, then XGBoost, then heuristic.
+        - ``"mlp"``     -- MiniLM embeddings + MLP.
+        - ``"xgboost"`` -- TF-IDF + XGBoost (legacy behaviour).
     """
 
     def __init__(
@@ -83,36 +95,25 @@ class SentinelEngine:
         models_dir: str = "models",
         threshold: float = 0.5,
         alpha: float = 0.3,
+        pipeline: str = "auto",
     ) -> None:
         self._models_dir = Path(models_dir)
         self.threshold = threshold
+        self._pipeline_mode = pipeline
 
-        # --- Feature pipeline ---
-        tfidf_path = self._resolve_model("tfidf.joblib")
-        self.pipeline = FeaturePipeline(tfidf_path)
+        # Resolved at init time
+        self._active_backend: str = "heuristic"  # "mlp" | "xgboost" | "heuristic"
+        self.classifier = None       # FraudClassifier or MLPClassifier
+        self.pipeline: FeaturePipeline = None  # type: ignore[assignment]
 
-        # --- Classifier ---
-        self.classifier: FraudClassifier | None = None
-        for ext in ("json", "onnx"):
-            model_path = self._resolve_model(f"xgb_model.{ext}")
-            if model_path is not None:
-                try:
-                    self.classifier = FraudClassifier(model_path)
-                    break
-                except Exception as exc:
-                    logger.warning(
-                        "Could not load classifier from %s: %s",
-                        model_path,
-                        exc,
-                    )
+        # Channel-specific classifiers (loaded separately)
+        self._sms_classifier = None   # XGBClassifier for SMS
+        self._sms_pipeline: FeaturePipeline | None = None
+        self._url_classifier = None   # XGBClassifier for URLs
 
-        if self.classifier is None:
-            logger.warning(
-                "No XGBoost model found in %s -- running in "
-                "handcrafted-features-only mode (scores will be "
-                "heuristic-based).",
-                models_dir,
-            )
+        self._init_pipeline(pipeline)
+        self._init_sms_classifier()
+        self._init_url_classifier()
 
         # --- Score accumulator (per-call state) ---
         self.accumulator = ScoreAccumulator(alpha=alpha)
@@ -124,11 +125,181 @@ class SentinelEngine:
         self._splitter = SentenceSplitter()
 
     # ------------------------------------------------------------------
+    # Pipeline initialisation
+    # ------------------------------------------------------------------
+
+    def _init_pipeline(self, pipeline: str) -> None:
+        """Resolve which classifier back-end to use and set up the
+        corresponding feature pipeline."""
+        if pipeline == "mlp" or pipeline == "auto":
+            if self._try_load_mlp():
+                return
+
+        if pipeline == "xgboost" or pipeline == "auto":
+            if self._try_load_xgboost():
+                return
+
+        if pipeline not in ("auto", "mlp", "xgboost"):
+            raise ValueError(
+                f"Unknown pipeline '{pipeline}'. "
+                "Expected 'auto', 'mlp', or 'xgboost'."
+            )
+
+        # Heuristic fallback
+        logger.warning(
+            "No trained model found in %s -- running in "
+            "handcrafted-features-only mode (scores will be "
+            "heuristic-based).",
+            self._models_dir,
+        )
+        tfidf_path = (
+            self._resolve_model("tfidf_call_vectorizer.pkl")
+            or self._resolve_model("tfidf.joblib")
+        )
+        self.pipeline = FeaturePipeline(tfidf_path, mode="tfidf")
+        self._active_backend = "heuristic"
+
+    def _try_load_mlp(self) -> bool:
+        """Attempt to load the MLP classifier and embedding pipeline.
+
+        Requires ``sentence-transformers`` for real MiniLM embeddings.
+        If the package is missing, falls back to XGBoost/heuristic to
+        avoid producing NaN scores from hash-based fallback embeddings
+        fed into weights trained on real embeddings.
+        """
+        mlp_path = self._resolve_model("call_fraud_mlp.npz")
+        if mlp_path is None:
+            return False
+
+        # Check that sentence-transformers is actually importable --
+        # without it, the embedding pipeline produces hash vectors
+        # that are incompatible with weights trained on real MiniLM.
+        try:
+            import sentence_transformers  # noqa: F401
+        except ImportError:
+            logger.warning(
+                "MLP model exists at %s but sentence-transformers is not "
+                "installed.  Skipping MLP pipeline to avoid NaN scores. "
+                "Install with: pip install sentence-transformers",
+                mlp_path,
+            )
+            return False
+
+        try:
+            from sentinel_edge.classifier.mlp_classifier import MLPClassifier
+
+            self.classifier = MLPClassifier.load(mlp_path)
+            self.pipeline = FeaturePipeline(mode="embedding")
+            self._active_backend = "mlp"
+            logger.info("Using MLP pipeline (embedding + MLP classifier).")
+            return True
+        except Exception as exc:
+            logger.warning(
+                "Could not load MLP classifier from %s: %s", mlp_path, exc
+            )
+            return False
+
+    def _try_load_xgboost(self) -> bool:
+        """Attempt to load the XGBoost classifier and TF-IDF pipeline."""
+        # Try multiple naming conventions for TF-IDF vectorizer
+        tfidf_path = (
+            self._resolve_model("tfidf_call_vectorizer.pkl")
+            or self._resolve_model("tfidf_call_vectorizer_adversarial.pkl")
+            or self._resolve_model("tfidf.joblib")
+        )
+        # Try multiple naming conventions for XGBoost model
+        model_candidates = [
+            "call_fraud_xgb_adversarial.json",
+            "call_fraud_xgb.json",
+            "xgb_model.json",
+            "call_fraud_xgb.onnx",
+            "xgb_model.onnx",
+        ]
+        for name in model_candidates:
+            model_path = self._resolve_model(name)
+            if model_path is not None:
+                try:
+                    self.classifier = FraudClassifier(model_path)
+                    self.pipeline = FeaturePipeline(tfidf_path, mode="tfidf")
+                    self._active_backend = "xgboost"
+                    logger.info(
+                        "Using XGBoost pipeline (TF-IDF + XGBoost classifier)."
+                    )
+                    return True
+                except Exception as exc:
+                    logger.warning(
+                        "Could not load XGBoost model from %s: %s",
+                        model_path,
+                        exc,
+                    )
+        return False
+
+    # ------------------------------------------------------------------
+    # Channel-specific model loading (SMS, URL)
+    # ------------------------------------------------------------------
+
+    def _init_sms_classifier(self) -> None:
+        """Load the SMS-specific XGBoost model and TF-IDF vectorizer."""
+        model_path = self._resolve_model("sms_fraud_xgb.json")
+        tfidf_path = self._resolve_model("tfidf_sms_vectorizer.pkl")
+
+        if model_path is None:
+            logger.debug("SMS model sms_fraud_xgb.json not found in %s", self._models_dir)
+            return
+
+        try:
+            import xgboost as xgb
+
+            model = xgb.XGBClassifier()
+            model.load_model(model_path)
+            self._sms_classifier = model
+
+            # Load the SMS-specific TF-IDF vectorizer into a FeaturePipeline
+            from sentinel_edge.features.tfidf import TfidfFeatureExtractor
+
+            if tfidf_path is not None:
+                sms_tfidf = TfidfFeatureExtractor(tfidf_path)
+            else:
+                sms_tfidf = TfidfFeatureExtractor()
+
+            self._sms_pipeline = FeaturePipeline(tfidf_path, mode="tfidf")
+            logger.info(
+                "Loaded SMS fraud classifier from %s (tfidf: %s)",
+                model_path, tfidf_path or "default",
+            )
+        except Exception as exc:
+            logger.warning("Could not load SMS classifier: %s", exc)
+            self._sms_classifier = None
+            self._sms_pipeline = None
+
+    def _init_url_classifier(self) -> None:
+        """Load the URL-specific XGBoost model."""
+        model_path = self._resolve_model("url_fraud_xgb.json")
+
+        if model_path is None:
+            logger.debug("URL model url_fraud_xgb.json not found in %s", self._models_dir)
+            return
+
+        try:
+            import xgboost as xgb
+
+            model = xgb.XGBClassifier()
+            model.load_model(model_path)
+            self._url_classifier = model
+            logger.info("Loaded URL fraud classifier from %s", model_path)
+        except Exception as exc:
+            logger.warning("Could not load URL classifier: %s", exc)
+            self._url_classifier = None
+
+    # ------------------------------------------------------------------
     # Channel-specific analysis
     # ------------------------------------------------------------------
 
     def analyze_sms(self, text: str) -> DetectionResult:
         """Analyse an SMS / text message for fraud indicators.
+
+        Uses the dedicated SMS XGBoost classifier if available,
+        otherwise falls back to the general pipeline.
 
         Parameters
         ----------
@@ -140,7 +311,25 @@ class SentinelEngine:
         DetectionResult
         """
         t0 = time.perf_counter()
-        score, features = self.analyze_sentence(text)
+
+        features = extract_handcrafted_features(text)
+
+        if self._sms_classifier is not None and self._sms_pipeline is not None:
+            # Use the dedicated SMS classifier
+            feature_vec = self._sms_pipeline.extract(text)
+            feature_vec = np.asarray(feature_vec, dtype=np.float32).reshape(1, -1)
+            proba = self._sms_classifier.predict_proba(feature_vec)
+            # predict_proba returns shape (n_samples, n_classes) for XGBClassifier
+            score = float(proba[0, 1]) if proba.ndim == 2 else float(proba[0])
+        else:
+            # BUG-MARKER: SMS classifier fallback -- no dedicated SMS model.
+            logger.warning(
+                "HEURISTIC FALLBACK: No SMS classifier loaded, using general "
+                "pipeline. Load models/sms_fraud_xgb.json for accurate SMS "
+                "detection."
+            )
+            score, features = self.analyze_sentence(text)
+
         alert = self.alert_engine.evaluate(score, features)
         elapsed_ms = (time.perf_counter() - t0) * 1000.0
 
@@ -156,7 +345,8 @@ class SentinelEngine:
     def analyze_url(self, url: str) -> DetectionResult:
         """Analyse a URL for phishing indicators.
 
-        Uses URL-structural features rather than the NLP pipeline.
+        Uses the dedicated URL XGBoost classifier if available,
+        otherwise falls back to heuristic scoring from URL features.
 
         Parameters
         ----------
@@ -171,9 +361,27 @@ class SentinelEngine:
 
         url_feats = extract_url_features(url)
 
-        # Heuristic score from URL features (weighted sum) when no
-        # dedicated URL classifier is loaded.
-        score = self._heuristic_url_score(url_feats)
+        if self._url_classifier is not None:
+            # Use the dedicated URL classifier with the training-time
+            # feature extraction (from train_url_classifier.py).
+            from training.train_url_classifier import (
+                extract_url_features as extract_train_url_features,
+            )
+
+            train_feats = extract_train_url_features(url)
+            feature_vec = np.array(
+                list(train_feats.values()), dtype=np.float32
+            ).reshape(1, -1)
+            proba = self._url_classifier.predict_proba(feature_vec)
+            score = float(proba[0, 1]) if proba.ndim == 2 else float(proba[0])
+        else:
+            # BUG-MARKER: URL heuristic fallback -- no trained URL model.
+            logger.warning(
+                "HEURISTIC FALLBACK: No URL classifier loaded, scoring with "
+                "structural features only. Load models/url_fraud_xgb.json "
+                "for accurate detection."
+            )
+            score = self._heuristic_url_score(url_feats)
 
         reasons: list[str] = []
         if url_feats["has_ip"]:
@@ -274,7 +482,15 @@ class SentinelEngine:
             feature_vec = self.pipeline.extract(sentence)
             score = self.classifier.predict_proba(feature_vec)
         else:
-            # Fallback heuristic when no model is available
+            # BUG-MARKER: Heuristic fallback active -- no trained model loaded.
+            # This produces lower-quality scores. If you see this in logs,
+            # check that model files exist in the models/ directory.
+            logger.warning(
+                "HEURISTIC FALLBACK: No classifier loaded, scoring with "
+                "handcrafted features only. Results will be degraded. "
+                "Ensure model files exist in %s",
+                self._models_dir,
+            )
             score = self._heuristic_text_score(features)
 
         return score, features
@@ -321,6 +537,18 @@ class SentinelEngine:
         self.accumulator.reset()
 
     # ------------------------------------------------------------------
+    # Introspection
+    # ------------------------------------------------------------------
+
+    @property
+    def active_backend(self) -> str:
+        """Return the name of the active classifier back-end.
+
+        One of ``"mlp"``, ``"xgboost"``, or ``"heuristic"``.
+        """
+        return self._active_backend
+
+    # ------------------------------------------------------------------
     # Heuristic fallback scorers
     # ------------------------------------------------------------------
 
@@ -328,25 +556,36 @@ class SentinelEngine:
     def _heuristic_text_score(features: dict[str, float]) -> float:
         """Produce a rough fraud score from handcrafted features alone.
 
-        This is used only when no trained classifier is loaded.  It is
-        intentionally conservative (high false-negative rate) to avoid
-        nuisance alerts.
+        This is used only when no trained classifier is loaded.  Weights
+        are calibrated so that a single strong signal (e.g. 3 urgency
+        words + 2 financial words + a threat) reaches the 0.5 threshold,
+        and multiple converging signals push well above it.
         """
         score = 0.0
-        score += min(features.get("urgency_count", 0) * 0.08, 0.24)
-        score += min(features.get("action_count", 0) * 0.06, 0.18)
-        score += min(features.get("financial_count", 0) * 0.06, 0.18)
-        score += min(features.get("impersonation_count", 0) * 0.10, 0.20)
-        score += features.get("has_threat", 0) * 0.10
-        score += features.get("has_prize", 0) * 0.08
-        score += features.get("has_url", 0) * 0.04
-        score += features.get("has_shortened_url", 0) * 0.06
-        score += features.get("has_account_ref", 0) * 0.05
-        score += features.get("has_verify_pattern", 0) * 0.04
-        score += features.get("dollar_sign", 0) * 0.02
-        score += features.get("has_phone_number", 0) * 0.02
-        # Clamp to [0, 1]
-        return min(max(score, 0.0), 1.0)
+        # High-signal features (impersonation + urgency are the strongest
+        # discriminators on real data -- see real_data_results.txt)
+        score += min(features.get("impersonation_count", 0) * 0.15, 0.45)
+        score += min(features.get("urgency_count", 0) * 0.12, 0.36)
+        score += min(features.get("financial_count", 0) * 0.10, 0.30)
+        score += min(features.get("action_count", 0) * 0.08, 0.24)
+
+        # Binary pattern features
+        score += features.get("has_threat", 0) * 0.15
+        score += features.get("has_prize", 0) * 0.12
+        score += features.get("has_verify_pattern", 0) * 0.10
+        score += features.get("has_account_ref", 0) * 0.08
+        score += features.get("has_shortened_url", 0) * 0.08
+        score += features.get("has_url", 0) * 0.05
+        score += features.get("dollar_sign", 0) * 0.05
+        score += features.get("has_phone_number", 0) * 0.03
+
+        # Apply sigmoid-like compression so scores spread across [0, 1]
+        # instead of clustering near 0. Raw sum can exceed 1.0 with
+        # multiple signals, the sigmoid maps it to (0, 1).
+        if score > 0:
+            score = 1.0 / (1.0 + np.exp(-4.0 * (score - 0.4)))
+
+        return float(np.clip(score, 0.0, 1.0))
 
     @staticmethod
     def _heuristic_url_score(url_feats: dict[str, float]) -> float:
