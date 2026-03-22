@@ -11,6 +11,7 @@ import FederatedDashboard from './components/FederatedDashboard'
 import CallHistory from './components/CallHistory'
 import type { CallHistoryEntry } from './components/CallHistory'
 import { useWebSocket } from './hooks/useWebSocket'
+import PrivacyDashboard from './components/PrivacyDashboard'
 
 // -------- Sample call scripts --------
 interface ScriptLine {
@@ -82,7 +83,7 @@ function getAlertLevel(score: number): AlertLevel {
   return 'critical'
 }
 
-type Tab = 'detection' | 'privacy' | 'federated'
+type Tab = 'detection' | 'privacy' | 'federated' | 'privacy-dashboard'
 
 interface AudioDevice {
   index: number
@@ -451,6 +452,7 @@ export default function App() {
     { id: 'detection', label: 'Live Detection', icon: <Radio className="w-4 h-4" /> },
     { id: 'privacy', label: 'Privacy Demo', icon: <Lock className="w-4 h-4" /> },
     { id: 'federated', label: 'Federated Learning', icon: <GitBranch className="w-4 h-4" /> },
+    { id: 'privacy-dashboard', label: 'Privacy Dashboard', icon: <Shield className="w-4 h-4" /> },
   ]
   const isDetectionLoading = isCallActive && sentences.length === 0
 
@@ -615,6 +617,10 @@ export default function App() {
 
         {activeTab === 'federated' && (
           <FederatedDashboard />
+        )}
+
+        {activeTab === 'privacy-dashboard' && (
+          <PrivacyDashboard />
         )}
       </main>
     </div>
