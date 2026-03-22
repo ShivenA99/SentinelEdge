@@ -617,8 +617,29 @@ class SentinelEngine:
     # ------------------------------------------------------------------
 
     def _resolve_model(self, filename: str) -> str | None:
-        """Return the full path to a model file if it exists, else None."""
+        """Return the full path to a model file if it exists, else None.
+
+        Supports legacy artifact names so training outputs can be used
+        without manual renaming.
+        """
+        aliases = {
+            "tfidf.joblib": "tfidf_call_vectorizer.pkl",
+            "xgb_model.json": "call_fraud_xgb.json",
+        }
+
         path = self._models_dir / filename
         if path.exists():
             return str(path)
+
+        alias = aliases.get(filename)
+        if alias is not None:
+            alias_path = self._models_dir / alias
+            if alias_path.exists():
+                logger.info(
+                    "Using legacy model artifact %s for %s",
+                    alias,
+                    filename,
+                )
+                return str(alias_path)
+
         return None

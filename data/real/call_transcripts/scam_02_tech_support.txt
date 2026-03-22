@@ -1,0 +1,22 @@
+# Source: Zeltser.com tech support scammer conversation, FTC undercover investigation,
+#   WRTV Indianapolis investigative report on tech support scam recordings
+# Type: SCAM - Tech Support
+# Category: Tech Support Scam
+# Label: FRAUD
+# Notes: Reconstructed from documented tech support scam calls per FTC reports
+#   and the Zeltser.com transcript. Reflects real tactics including Event Viewer
+#   manipulation and remote access software installation.
+
+Hello, am I speaking with the owner of this Windows computer? Good. My name is Kevin from Microsoft Technical Support Division. Our servers have detected suspicious activity from your computer. Your Windows computer has been sending us alerts about multiple viruses and malware that are compromising your system and your personal information.
+
+These sophisticated viruses are designed to operate in the background without you noticing them. They can steal your personal information, banking details, passwords, and even monitor your webcam. This is a very serious security issue.
+
+Let me help you verify this. Can you please go to your computer right now? Good. Now I need you to press that Windows key and at the same time press the letter R. That will open a Run dialog box. Do you see it? Now type E-V-E-N-T-V-W-R and press enter.
+
+What you are looking at now is your computer's error log. Do you see all those yellow warnings and red errors? Each one of those errors represents a potential security breach or malware intrusion. Can you see how many there are? Your computer has been severely compromised.
+
+Now if you look at the left side, click on Windows Logs, then click on System. You see even more errors, right? That is a security feature that is built into the Operating System showing you that hackers have been accessing your system.
+
+What we need to do is install our certified security software to clean your computer and protect it going forward. But first I need to connect remotely to your computer to run a diagnostic scan. Please go to support dot microsoft dash help dot com and download the remote access tool. Then give me the six digit code that appears on your screen.
+
+The diagnostic and repair service costs $299 for a one-time fix, or we offer our premium protection plan at $499 for three years of coverage. We accept Visa, Mastercard, and direct bank transfer. I will need your credit card number to process this right away before the hackers steal more of your data.

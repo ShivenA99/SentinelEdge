@@ -1,0 +1,19 @@
+# Source: FCC "Older Americans and Medicare Call Scams", California Health Advocates
+#   Medicare card scam script, Senior Medicare Patrol documentation,
+#   FTC Open Enrollment scam alerts
+# Type: SCAM - Medicare Card Scam
+# Category: Medicare / Healthcare Scam
+# Label: FRAUD
+# Notes: Reconstructed from FCC and California Health Advocates documented
+#   Medicare card scam scripts, where a scammer named "Steve" from the
+#   "new card verification department" was documented.
+
+Good afternoon, this is Steve calling from the Medicare Benefits Center, the new card verification department. How are you doing today? Good, good. The reason for my call is that Medicare is issuing brand new cards to all beneficiaries in your area. Your new card will include an updated chip for added security and will replace your current card.
+
+Now, to process your new card and make sure your benefits are not interrupted, I just need to verify some information. Can you please confirm your Medicare number for me? It should be on your current card. I also need the last four digits of your Social Security number and your date of birth for verification.
+
+Great, thank you for confirming that. Now, with your new card you are also eligible for some additional benefits that many people don't know about. We can add dental coverage, vision coverage, and a prescription drug discount plan at no additional cost to you. These are benefits you've been paying into your whole life and you deserve them.
+
+To activate these additional benefits, there is just a small one-time enrollment processing fee of $50. We can charge that directly to your bank account if you can provide me with your routing number and checking account number. Or if you prefer, I can take a credit card number.
+
+Once we have your payment processed, your new card will be mailed out within 7 to 10 business days and your enhanced benefits will be active immediately. If you do not complete this verification today, your current card will be deactivated at the end of the month and you could experience a gap in your Medicare coverage. Shall we go ahead and get you set up with the new card today?

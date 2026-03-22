@@ -1,0 +1,22 @@
+# Source: SSA.gov scam alerts, FTC "What a Social Security scam sounds like" (2018),
+#   SSA 2019 Phone Scam Alert Scripts, FCC SSN spoofing scam warnings
+# Type: SCAM - Social Security Administration Impersonation
+# Category: Government Impersonation / SSA Scam
+# Label: FRAUD
+# Notes: Reconstructed from SSA.gov documented scam scripts and the FTC's
+#   consumer alert with audio examples. The SSA published exact scripts
+#   scammers use in their 2019 Phone Scam Alert document.
+
+This call is from the Department of Social Security Administration. The reason you have received this phone call from our department is to inform you that we have just suspended your Social Security number because we have found suspicious activity. So if you want to know about this case, just press one. Thank you.
+
+Hello, this is Officer Katherine Richardson, badge number SSA-4471, calling from the Social Security Administration Office of Inspector General. I'm calling to inform you that your Social Security number has been linked to some very serious criminal activity.
+
+We have identified that your Social Security number was used to open fraudulent bank accounts in Texas that were connected to money laundering and drug trafficking. There is an active federal arrest warrant that has been issued under your name and the courts are moving to seize all of your bank and retirement accounts.
+
+I need to verify your identity right now. Can you please confirm your full Social Security number for me? I already have the first five digits, I just need you to confirm the last four. I also need your current home address and your date of birth for verification purposes.
+
+Now, here is what we can do to help you. In order to protect your assets from being seized, you need to withdraw your funds from your bank account and convert them to either gold bars or gift cards, which we can hold in a secure government vault until the investigation is complete and your name is cleared.
+
+We will send a federal agent to your home to collect the gold or gift cards and provide you with an official receipt. This is standard procedure when a Social Security number has been compromised in a federal investigation.
+
+I want to emphasize that this is extremely time-sensitive. If you do not cooperate with this investigation immediately, local law enforcement will be dispatched to your residence within the hour. Do not contact your bank or your family about this as it could be considered obstruction of a federal investigation. Do you understand the seriousness of this situation?

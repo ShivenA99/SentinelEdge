@@ -1,0 +1,15 @@
+# Source: Standard food service order interaction
+# Type: LEGITIMATE - Pizza Delivery Order
+# Category: Food Service / Restaurant
+# Label: LEGITIMATE
+# Notes: Completely benign pizza order call for baseline testing.
+
+Thank you for calling Luigi's Pizza, this is Tony speaking. What can I get for you tonight?
+
+Sure thing, one large pepperoni with extra cheese. Would you like thin crust or regular? Regular it is. Anything else with that? We have a special tonight, add a side of garlic bread and two liter soda for $5.99.
+
+Great choice. So that's one large regular crust pepperoni with extra cheese, one garlic bread, and a two-liter Coke. Your total comes to $24.97 with tax.
+
+Is this for pickup or delivery? Delivery, okay. Can I get your address please? 742 Maple Drive, apartment 3B. And a phone number in case the driver needs to reach you? Perfect.
+
+Your order should be ready in about 35 to 40 minutes. The driver will call when they're outside. Will you be paying with cash or card? Card on delivery, sounds good. Thank you for your order, enjoy your pizza!

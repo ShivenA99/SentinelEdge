@@ -1,0 +1,24 @@
+# Source: Standard bank customer service interaction patterns,
+#   documented best practices from banking industry
+# Type: LEGITIMATE - Real Bank Customer Service
+# Category: Financial / Banking
+# Label: LEGITIMATE
+# Notes: A real bank customer service call where the customer initiates
+#   the call. Banks do contact customers about fraud, but they never
+#   ask for full SSN, PIN, or payment via gift cards.
+
+Thank you for calling Chase customer service. For quality assurance purposes, this call may be monitored or recorded. My name is Angela, how can I help you today?
+
+Hi Mrs. Thompson, I'd be happy to help you check on that. For security purposes, can you please verify the last four digits of your Social Security number and the billing zip code on your account? Thank you, that matches our records.
+
+I can see your checking account right here. Your current available balance is $4,237.15. Your most recent deposit was a direct deposit of $2,800 on March 14th, and your most recent debit was $47.82 at Whole Foods Market on March 18th.
+
+I don't see any pending charges that look unusual. Is there a specific transaction you're concerned about?
+
+Okay, you mentioned a charge of $29.99 from a company called StreamPlus. Let me look into that. That charge posted on March 16th. It appears to be a recurring monthly subscription. Does that sound familiar to you? It could be a streaming service.
+
+If you don't recognize it and believe it's unauthorized, I can open a dispute for you. The process takes about 10 business days and we'll issue a provisional credit to your account while we investigate. Would you like me to go ahead and file that dispute?
+
+Great, I've filed the dispute and a provisional credit of $29.99 will appear in your account within 1 to 2 business days. You'll also receive a letter in the mail with the details of the dispute and any additional steps if needed.
+
+Is there anything else I can help you with today? Alright, thank you for banking with Chase. Have a good evening.

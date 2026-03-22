@@ -1,0 +1,175 @@
+================================================================================
+SentinelEdge SMS Classifier - Real Data Evaluation
+Date: 2026-03-21 16:09:56
+Dataset: UCI SMS Spam Collection (5,574 real SMS messages)
+Source: https://archive.ics.uci.edu/ml/datasets/sms+spam+collection
+================================================================================
+Dataset: /Users/shivenagarwal/Desktop/SentinelEdge/data/real/sms_spam/SMSSpamCollection.tsv
+Model: /Users/shivenagarwal/Desktop/SentinelEdge/models/sms_fraud_xgb.json
+TF-IDF: /Users/shivenagarwal/Desktop/SentinelEdge/models/tfidf_sms_vectorizer.pkl
+
+Loading real SMS data ...
+  Total messages: 5,574
+  Ham (legitimate): 4,827 (86.6%)
+  Spam: 747 (13.4%)
+
+Loading trained model ...
+  Model: /Users/shivenagarwal/Desktop/SentinelEdge/models/sms_fraud_xgb.json
+  Num features expected: 518
+Loading TF-IDF vectorizer ...
+  Vectorizer: /Users/shivenagarwal/Desktop/SentinelEdge/models/tfidf_sms_vectorizer.pkl
+  Vocabulary size: 500
+
+Extracting features from real data ...
+  Feature matrix shape: (5574, 518)
+  Feature extraction time: 0.7s (0.13ms per message)
+
+Running predictions ...
+  Prediction time: 0.00s (0.001ms per message)
+
+================================================================================
+OVERALL RESULTS
+================================================================================
+  Accuracy:  0.6360 (63.60%)
+  Precision: 0.2650 (26.50%)
+  Recall:    0.9679 (96.79%)
+  F1 Score:  0.4161 (41.61%)
+  ROC AUC:   0.9239 (92.39%)
+
+Confusion Matrix:
+                  Predicted Ham   Predicted Spam
+  Actual Ham      TN =   2822     FP =   2005
+  Actual Spam     FN =     24     TP =    723
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.58      0.74      4827
+        spam       0.27      0.97      0.42       747
+
+    accuracy                           0.64      5574
+   macro avg       0.63      0.78      0.58      5574
+weighted avg       0.89      0.64      0.69      5574
+
+Prediction Probability Distribution:
+  Ham messages (n=4827):
+    Mean prob(spam): 0.4074
+    Std:             0.4702
+    Min:             0.0002
+    Max:             0.9996
+    Median:          0.0058
+
+  Spam messages (n=747):
+    Mean prob(spam): 0.9633
+    Std:             0.1742
+    Min:             0.0002
+    Max:             0.9997
+    Median:          0.9982
+
+================================================================================
+THRESHOLD ANALYSIS
+================================================================================
+ Threshold   Accuracy  Precision     Recall         F1     FP     FN
+----------------------------------------------------------------
+       0.1     0.6123     0.2530     0.9692     0.4012   2138     23
+       0.2     0.6198     0.2566     0.9679     0.4056   2095     24
+       0.3     0.6283     0.2609     0.9679     0.4110   2048     24
+       0.4     0.6319     0.2628     0.9679     0.4134   2028     24
+       0.5     0.6360     0.2650     0.9679     0.4161   2005     24
+       0.6     0.6423     0.2685     0.9679     0.4203   1970     24
+       0.7     0.6505     0.2731     0.9679     0.4260   1924     24
+       0.8     0.6554     0.2758     0.9665     0.4291   1896     25
+       0.9     0.6674     0.2825     0.9625     0.4368   1826     28
+
+================================================================================
+ERROR ANALYSIS
+================================================================================
+
+False Positives (ham classified as spam): 2005
+------------------------------------------------------------
+  [1] prob=1.000 | Actually i deleted my old website..now i m blogging at magicalsongs.blogspot.com
+  [2] prob=0.999 | Hey pple...$700 or $900 for 5 nights...Excellent location wif breakfast hamper!!!
+  [3] prob=0.999 | Lol no. I just need to cash in my nitros. Hurry come on before I crash out!
+  [4] prob=0.999 | Faith makes things possible,Hope makes things work,Love makes things beautiful,May you have all three this Christmas!Mer
+  [5] prob=0.999 | "Si.como no?!listened2the plaid album-quite gd&the new air1 which is hilarious-also boughtbraindancea comp.ofstuff on 
+  [6] prob=0.999 | "HI BABE UAWAKE?FEELLIKW SHIT.JUSTFOUND OUT VIA ALETTER THATMUM GOTMARRIED 4thNOV.BEHIND OURBACKS  FUCKINNICE!SELFISH,D
+  [7] prob=0.999 | I promise to take good care of you, princess. I have to run now. Please send pics when you get a chance. Ttyl!
+  [8] prob=0.999 | Good afternoon starshine! How's my boytoy? Does he crave me yet? Ache to fuck me ? *sips cappuccino* I miss you babe *te
+  [9] prob=0.999 | Princess, i like to make love  &lt;#&gt;  times per night. Hope thats not a problem!
+  [10] prob=0.999 | Yeah, probably but not sure. Ilol let u know, but personally I wuldnt bother, then again if ur goin to then I mite as we
+  [11] prob=0.999 | I jus hope its true that  missin me cos i'm really missin him! You haven't done anything to feel guilty about, yet.
+  [12] prob=0.999 | Well I wasn't available as I washob nobbing with last night so they had to ask Nickey Platt instead of me!;
+  [13] prob=0.999 | would u fuckin believe it they didnt know i had thurs pre booked off so they re cancelled me AGAIN! that needs to b sack
+  [14] prob=0.999 | Rose for red,red for blood,blood for heart,heart for u. But u for me.... Send tis to all ur friends.. Including me.. If 
+  [15] prob=0.999 | Rose for red,red for blood,blood for heart,heart for u. But u for me.... Send tis to all ur friends.. Including me.. If 
+  [16] prob=0.999 | Hmm. Shall i bring a bottle of wine to keep us amused? Just joking! I'll still bring a bottle. Red or white? See you tom
+  [17] prob=0.999 | Shall I bring us a bottle of wine to keep us amused? Only joking! I‘ll bring one anyway
+  [18] prob=0.999 | Hi! You just spoke to MANEESHA V. We'd like to know if you were satisfied with the experience. Reply Toll Free with Yes 
+  [19] prob=0.999 | Hi! You just spoke to MANEESHA V. We'd like to know if you were satisfied with the experience. Reply Toll Free with Yes 
+  [20] prob=0.999 | Hi! You just spoke to MANEESHA V. We'd like to know if you were satisfied with the experience. Reply Toll Free with Yes 
+  ... and 1985 more
+
+False Negatives (spam classified as ham): 24
+------------------------------------------------------------
+  [1] prob=0.000 | Filthy stories and GIRLS waiting for your
+  [2] prob=0.000 | 3. You have received your mobile content. Enjoy
+  [3] prob=0.000 | 88066 FROM 88066 LOST 3POUND HELP
+  [4] prob=0.000 | FROM 88066 LOST £12 HELP
+  [5] prob=0.000 | RCT' THNQ Adrian for U text. Rgds Vatian
+  [6] prob=0.001 | 2/2 146tf150p
+  [7] prob=0.001 | PRIVATE! Your 2003 Account Statement for 078
+  [8] prob=0.001 | Adult 18 Content Your video will be with you shortly
+  [9] prob=0.001 | FreeMsg>FAV XMAS TONES!Reply REAL
+  [10] prob=0.001 | ringtoneking 84484
+  [11] prob=0.001 | 100 dating service cal;l 09064012103 box334sk38ch
+  [12] prob=0.001 | 08714712388 between 10am-7pm Cost 10p
+  [13] prob=0.002 | You have 1 new voicemail. Please call 08719181503
+  [14] prob=0.002 | You have 1 new voicemail. Please call 08719181513.
+  [15] prob=0.002 | You have 1 new message. Please call 08718738034.
+  [16] prob=0.002 | You have 1 new message. Please call 08712400200.
+  [17] prob=0.002 | You have 1 new voicemail. Please call 08719181513.
+  [18] prob=0.002 | You have 1 new message. Please call 08715205273
+  [19] prob=0.002 | You have 1 new message. Call 0207-083-6089
+  [20] prob=0.008 | Call FREEPHONE 0800 542 0578 now!
+  ... and 4 more
+
+================================================================================
+HANDCRAFTED FEATURE DISTRIBUTION (Real Data)
+================================================================================
+Feature                     Ham Mean    Ham Std  Spam Mean   Spam Std      Sep
+---------------------------------------------------------------------------
+urgency_count                  0.068      0.260      0.371      0.565    0.689
+action_count                   0.007      0.095      0.070      0.294    0.287
+financial_count                0.011      0.150      0.052      0.234    0.210
+impersonation_count            0.004      0.086      0.003      0.052    0.015
+has_url                        0.000      0.020      0.142      0.349    0.572
+has_shortened_url              0.000      0.014      0.007      0.082    0.111
+has_verify_pattern             0.002      0.048      0.005      0.073    0.050
+has_threat                     0.003      0.054      0.007      0.082    0.055
+has_prize                      0.007      0.082      0.210      0.407    0.692
+has_account_ref                0.005      0.069      0.031      0.173    0.198
+dollar_sign                    0.003      0.054      0.005      0.073    0.038
+has_phone_number               0.000      0.014      0.573      0.495    1.637
+char_count                    71.472     58.321    138.676     28.852    1.461
+word_count                    14.304     11.500     23.912      5.776    1.056
+avg_word_len                   4.170      1.130      4.969      0.998    0.750
+url_count                      0.000      0.020      0.142      0.349    0.572
+exclamation_count              0.177      0.606      0.730      0.942    0.698
+caps_ratio                     0.079      0.148      0.167      0.132    0.631
+
+================================================================================
+HONEST ASSESSMENT
+================================================================================
+The model performs POORLY on real data.
+F1=0.4161 indicates the model fails to generalize from synthetic to real data.
+
+Key observations:
+- Model predicts 2846 ham and 2728 spam
+- Missed 24 out of 747 real spam messages (3.2% miss rate)
+- Falsely flagged 2005 out of 4827 legitimate messages (41.5% false alarm rate)
+
+Training data was synthetic (template-generated). Real-world SMS data differs in:
+- Language: informal abbreviations, slang, non-English text
+- Spam patterns: UK-specific shortcodes, premium rate numbers, different scam types
+- Message length: real messages vary more widely
+- TF-IDF vocabulary: trained on synthetic templates, real vocabulary differs significantly

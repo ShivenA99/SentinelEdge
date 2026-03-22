@@ -1,0 +1,22 @@
+# Source: FTC robocall scam examples (AI notification bot transcript),
+#   FTC student loan forgiveness scam alerts, consumer reports
+# Type: SCAM - Student Loan Forgiveness
+# Category: Student Loan Scam
+# Label: FRAUD
+# Notes: Reconstructed from FTC's documented robocall example that begins
+#   "Hello. I am an artificial intelligent notification bot." Also incorporates
+#   patterns from FTC student loan scam consumer alerts.
+
+Hello. I am an artificial intelligent notification bot. The purpose of this call is to make you aware that as a U.S. resident, you are now able to take advantage of alternative federal student loan repayment options and hardship programs. These programs are only for individuals who have less than $160,000 in federal student loan debt.
+
+If you have federal student loans, press one now to check your eligibility for the Biden administration's new student loan forgiveness program. Limited spots are available and the enrollment deadline is this Friday.
+
+Thank you for your interest. My name is Amanda and I'm a student loan specialist with the Federal Student Aid Processing Center. Based on your phone number, I've pulled up your file and I can see you may qualify for complete loan forgiveness under the new federal program.
+
+Now, the government has authorized this program to forgive up to $50,000 in federal student loans for qualifying borrowers. Based on preliminary screening, you appear to be eligible for either full forgiveness or a significant reduction in your monthly payment, potentially down to zero dollars per month.
+
+To lock in your enrollment before the deadline, I need to verify some information. Can you confirm your full name, date of birth, and the last four digits of your Social Security number? I'll also need your Federal Student Aid ID if you have it.
+
+Now, there is a one-time program enrollment and processing fee of $995 that covers the application, legal review, and filing with the Department of Education. This fee is fully refundable if your application is not approved. We can set up a payment plan for the fee if needed.
+
+I can process your enrollment right now with a credit card or bank account number. Once enrolled, you'll stop making payments immediately and your loans will be placed in a special administrative forbearance while the forgiveness is processed. This typically takes 90 to 120 days. Shall I go ahead and start your enrollment?

@@ -1,0 +1,176 @@
+========================================================================
+SentinelEdge URL Classifier -- Real-World Data Evaluation
+Date: 2026-03-21 23:13:00 UTC
+========================================================================
+
+Model: /Users/shivenagarwal/Desktop/SentinelEdge/models/url_fraud_xgb.json
+  Loaded XGBoost model successfully
+  Number of trees: None
+  Max depth: None
+
+--- Data Sources ---
+
+Combined dataset: 4,000 URLs
+  Phishing (label=1): 2,000
+  Legitimate (label=0): 2,000
+
+Saving combined dataset to /Users/shivenagarwal/Desktop/SentinelEdge/data/real/phishing_urls/combined_real_urls.csv
+
+--- Feature Extraction ---
+  Feature matrix shape: (4000, 14)
+  Feature extraction time: 0.03s (0.01ms per URL)
+
+  Feature means by class:
+  Feature                       Phishing   Legitimate         Diff
+  ------------------------- ------------ ------------ ------------
+  url_length                     60.1890      19.2420     +40.9470
+  hostname_length                19.2010      11.2420      +7.9590
+  path_length                    20.6310       0.0000     +20.6310
+  num_dots                        1.9775       1.0890      +0.8885
+  num_hyphens                     0.8050       0.0220      +0.7830
+  num_underscores                 0.2170       0.0000      +0.2170
+  num_slashes                     1.7670       0.0000      +1.7670
+  num_query_params                0.5005       0.0000      +0.5005
+  has_ip_address                  0.0045       0.0000      +0.0045
+  has_at_symbol                   0.0090       0.0000      +0.0090
+  is_https                        0.9590       1.0000      -0.0410
+  is_shortened                    0.0465       0.0060      +0.0405
+  has_suspicious_tld              0.0275       0.0040      +0.0235
+  entropy                         4.3799       3.6512      +0.7286
+
+--- Model Predictions ---
+  Prediction time: 0.00s (0.00ms per URL)
+
+--- Overall Metrics ---
+  Accuracy:    0.5700  (57.0%)
+  Precision:   0.9730  (97.3%)
+  Recall:      0.1440  (14.4%)
+  F1 Score:    0.2509  (25.1%)
+  ROC AUC:     0.8279
+
+  Confusion Matrix:
+                  Predicted Legit   Predicted Phish
+    Actual Legit       TN= 1992         FP=    8
+    Actual Phish       FN= 1712         TP=  288
+
+  False Positive Rate: 0.4% (legit URLs flagged as phishing)
+  False Negative Rate: 85.6% (phishing URLs missed)
+
+  Classification Report:
+                precision    recall  f1-score   support
+  
+    legitimate       0.54      1.00      0.70      2000
+      phishing       0.97      0.14      0.25      2000
+  
+      accuracy                           0.57      4000
+     macro avg       0.76      0.57      0.47      4000
+  weighted avg       0.76      0.57      0.47      4000
+  
+
+--- Score Distribution ---
+  Phishing URLs:
+    Mean score:   0.1579
+    Median score: 0.0059
+    Std dev:      0.3164
+    Min/Max:      0.0005 / 0.9996
+
+  Legitimate URLs:
+    Mean score:   0.0054
+    Median score: 0.0012
+    Std dev:      0.0564
+    Min/Max:      0.0005 / 0.9153
+
+  Score distribution by bucket:
+  Bucket         Phishing   Legitimate    Total
+  ------------ ---------- ------------ --------
+  [0.0, 0.1)         1438         1992     3430
+  [0.1, 0.2)          238            0      238
+  [0.2, 0.3)           13            0       13
+  [0.3, 0.4)            8            0        8
+  [0.4, 0.5)           15            0       15
+  [0.5, 0.6)            8            0        8
+  [0.6, 0.7)            9            0        9
+  [0.7, 0.8)           16            0       16
+  [0.8, 0.9)           71            2       73
+  [0.9, 1.0)          184            6      190
+
+--- Threshold Analysis ---
+   Threshold   Accuracy  Precision     Recall         F1        FPR
+  ---------- ---------- ---------- ---------- ---------- ----------
+         0.3     0.5757     0.9749     0.1555     0.2682     0.0040
+         0.4     0.5737     0.9743     0.1515     0.2622     0.0040
+         0.5     0.5700     0.9730     0.1440     0.2509     0.0040
+         0.6     0.5680     0.9722     0.1400     0.2448     0.0040
+         0.7     0.5657     0.9713     0.1355     0.2378     0.0040
+         0.8     0.5617     0.9696     0.1275     0.2254     0.0040
+         0.9     0.5445     0.9684     0.0920     0.1680     0.0030
+
+--- Misclassified Examples ---
+
+  False Positives (legitimate URLs flagged as phishing): 8
+    score=0.8511  https://aboutads.info
+    score=0.9153  https://wa.link
+    score=0.9080  https://arduino.cc
+    score=0.9153  https://page.link
+    score=0.8239  https://worldometers.info
+    score=0.9153  https://app.link
+    score=0.9153  https://tiny.cc
+    score=0.9080  https://postimg.cc
+
+  False Negatives (phishing URLs missed): 1712
+    score=0.1031  https://docs.google.com/presentation/d/e/2PACX-1vTLY5i7AMWlBbwpuzts-HzJAm0fyd0Rj471MAZrK0VZkMtj8qs4cOf499fY7GyKVANVxFgejyOY8sFS/pub?start=false&amp;loop=false&amp;delayms=3000
+    score=0.0076  https://muniv-grenoblemro.weebly.com/
+    score=0.0316  https://credito-seguro-prestamos-pichincha.lovable.app/
+    score=0.0013  https://qr-codes.io/I3l3d1
+    score=0.0031  https://q-r.to/bfTq2V
+    score=0.1031  https://docs.google.com/presentation/d/1JWqy1Nd0dyxVrbBT--RIR_-fRXzHy2KZcdYunkXyv8k/pub?start=false&amp;loop=false&amp;delayms=3000
+    score=0.0051  https://l.ead.me/bgFnaZ
+    score=0.0008  https://fullaski.com/longman/ourtimepge/v3/index.html
+    score=0.1031  https://docs.google.com/presentation/d/e/2PACX-1vRBGWOEJs1naz_HRpgtnRhs6diTMD3sdqkiTjjo_4nwjB1sv5x-226xrqm3iXb5l6bh51nRSDO23JWX/pub?start=false&amp;loop=false&amp;delayms=3000
+    score=0.0535  https://newserverececxsperetum-01.weebly.com/
+    score=0.0077  https://btiinternetttttt.weebly.com/
+    score=0.0007  https://betg366.start.page/
+    score=0.0021  https://docs.google.com/drawings/d/10NzoRuy9P8mEVPWn2VgU3gVDm4Qzz-BD2-cbcc8lxNs/edit
+    score=0.0049  https://crediunion1alaska.web.app/
+    score=0.0113  https://ov-h-709f2.web.app/#a@b.com
+
+--- Feature Importance (from trained model) ---
+  Rank  Feature                     Importance
+  ----  ------------------------- ------------
+     1  is_https                      0.647898
+     2  has_suspicious_tld            0.197329
+     3  has_ip_address                0.102387
+     4  num_slashes                   0.014041
+     5  num_dots                      0.008623
+     6  num_query_params              0.007342
+     7  hostname_length               0.005557
+     8  path_length                   0.004843
+     9  entropy                       0.003946
+    10  url_length                    0.002855
+    11  num_underscores               0.002848
+    12  num_hyphens                   0.002332
+    13  is_shortened                  0.000000
+    14  has_at_symbol                 0.000000
+
+--- Analysis ---
+
+  VERDICT: The model FAILS on real-world data.
+
+  Root cause analysis:
+  The model was trained on synthetic data generated by
+  training/generate_synthetic_data.py. The feature distributions
+  in that synthetic data likely do not match real phishing URLs.
+
+  - LOW RECALL (14.4%): The model misses 1712/2000 real phishing URLs.
+    Real phishing URLs may have feature distributions that differ
+    significantly from the synthetic training data.
+
+  Recommendations:
+  1. Retrain on real phishing data (PhishTank + legitimate domains)
+  2. Add more discriminative features (WHOIS age, certificate info, etc.)
+  3. Use domain reputation lists as additional features
+  4. Consider an ensemble with a deep learning model on raw URL strings
+
+========================================================================
+End of evaluation report
+========================================================================

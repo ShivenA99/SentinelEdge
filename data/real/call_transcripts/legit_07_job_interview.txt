@@ -1,0 +1,19 @@
+# Source: Standard HR/recruiter phone screen patterns
+# Type: LEGITIMATE - Job Interview Phone Screen
+# Category: Employment / HR
+# Label: LEGITIMATE
+# Notes: Standard recruiter phone screen call. Contains no fraud indicators.
+
+Hi, is this Michael? Great. This is Rachel from TechCorp's talent acquisition team. I'm calling about the software engineer position you applied for last week. Do you have a few minutes to chat?
+
+Wonderful. So I've had a chance to review your resume and I was really impressed with your experience, especially the distributed systems work you did at your last company. I'd love to learn a little more about your background.
+
+Can you walk me through your most recent role and what you were responsible for? That sounds like a great experience. And what technologies were you primarily working with? Python, Go, and PostgreSQL, that aligns well with our stack.
+
+Now let me tell you a little bit about the role. We're looking for someone to join our platform engineering team. The team is about 12 people and you'd be working on our backend services that handle about 50 million requests per day. It's a hybrid position, three days in the office and two days remote.
+
+The salary range for this position is $140,000 to $170,000 depending on experience, plus equity and benefits. Does that range work for you?
+
+Great. The next step would be a technical interview with two of our senior engineers. That's typically a 90-minute session with some system design and coding questions. Would you be available sometime next week? How about Wednesday at 2 PM?
+
+Perfect. I'll send you a calendar invite with the video call link and some information about what to expect. Do you have any questions for me in the meantime? Alright, we're looking forward to speaking with you next week. Good luck with your preparation, Michael.

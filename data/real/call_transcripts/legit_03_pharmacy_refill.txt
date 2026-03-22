@@ -1,0 +1,13 @@
+# Source: Standard pharmacy automated refill notification patterns
+# Type: LEGITIMATE - Pharmacy Prescription Refill
+# Category: Healthcare / Pharmacy
+# Label: LEGITIMATE
+# Notes: Standard automated pharmacy refill notification call.
+
+Hello, this is an automated message from Walgreens Pharmacy for Robert Anderson. Your prescription is ready for pickup at the Walgreens located on 1200 Main Street.
+
+Your prescription for Lisinopril 10 milligram tablets has been refilled. Your copay for this prescription is $12. Please pick up your prescription at your convenience. Our pharmacy hours are Monday through Friday 8 AM to 9 PM and Saturday and Sunday 9 AM to 6 PM.
+
+If you have any questions about your medication, please speak with one of our pharmacists when you come in, or call us at 555-0198.
+
+If you would like to set up automatic refills for this prescription, press one. To hear this message again, press two. To opt out of future automated calls, press three. Thank you for choosing Walgreens.

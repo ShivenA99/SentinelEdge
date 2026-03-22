@@ -155,6 +155,14 @@ export default function CallScreen({
                 SentinelEdge Active
               </p>
             </div>
+
+            {callerName === 'Live Microphone' && (
+              <div className="mt-3 px-3 py-2 rounded-lg bg-brand-teal/10 border border-brand-teal/25">
+                <p className="text-[10px] text-brand-teal text-center tracking-wide uppercase">
+                  Speak now: live mic analysis in progress
+                </p>
+              </div>
+            )}
           </>
         ) : (
           /* Idle state */

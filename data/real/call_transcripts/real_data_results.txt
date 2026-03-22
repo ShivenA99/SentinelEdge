@@ -1,0 +1,1059 @@
+================================================================================
+  SENTINELEDGE REAL-WORLD TRANSCRIPT EVALUATION REPORT
+================================================================================
+
+Date: 2026-03-21
+Backend: xgboost
+Total transcripts tested: 23
+  Scam transcripts: 15
+  Legitimate transcripts: 8
+
+================================================================================
+  OVERALL RESULTS SUMMARY
+================================================================================
+  Overall Accuracy:  21/23 (91.3%)
+  True Positives:    13 (scams correctly flagged)
+  False Negatives:   2 (scams MISSED)
+  True Negatives:    8 (legit calls correctly cleared)
+  False Positives:   0 (legit calls wrongly flagged)
+  Precision:         100.0%
+  Recall:            86.7%
+  F1 Score:          92.9%
+
+================================================================================
+  DETAILED PER-CALL RESULTS
+================================================================================
+
+--- Call 1: legit_01_doctor_appointment.txt ---
+  Type:       LEGITIMATE - Doctor Appointment Reminder
+  Category:   Healthcare / Appointment Reminder
+  Source:     Standard medical office appointment reminder patterns from...
+  True Label: LEGITIMATE
+  Verdict:    LEGITIMATE
+  Correct:    YES
+  Final EMA:  0.2026
+  Peak Score: 0.7554
+  Mean Score: 0.2508
+  Risk Level: low
+  Sentences:  9
+  Latency:    9.1 ms
+  Reasons:    Threatening language detected (arrest, suspension, etc.)
+  Score Progression:
+    [ 1] raw=0.6492  ema=0.6492  features=[] <<<< HIGH
+    [ 2] raw=0.1090  ema=0.4871  features=[]
+    [ 3] raw=0.1500  ema=0.3860  features=[]
+    [ 4] raw=0.0797  ema=0.2941  features=[]
+    [ 5] raw=0.0713  ema=0.2273  features=[]
+    [ 6] raw=0.7554  ema=0.3857  features=[] <<<< HIGH
+    [ 7] raw=0.3817  ema=0.3845  features=[has_threat] << MEDIUM
+    [ 8] raw=0.0467  ema=0.2832  features=[]
+    [ 9] raw=0.0145  ema=0.2026  features=[]
+
+
+--- Call 2: legit_02_customer_service.txt ---
+  Type:       LEGITIMATE - Customer Service Call
+  Category:   Retail Customer Service
+  Source:     Zapier customer service script examples, HubSpot service scripts,...
+  True Label: LEGITIMATE
+  Verdict:    LEGITIMATE
+  Correct:    YES
+  Final EMA:  0.2156
+  Peak Score: 0.9320
+  Mean Score: 0.2299
+  Risk Level: low
+  Sentences:  25
+  Latency:    10.7 ms
+  Reasons:    Urgency language detected, References financial accounts or transactions, Prize or lottery claim detected, Requests sensitive account or credential information
+  Score Progression:
+    [ 1] raw=0.2056  ema=0.2056  features=[]
+    [ 2] raw=0.2576  ema=0.2212  features=[]
+    [ 3] raw=0.0835  ema=0.1799  features=[]
+    [ 4] raw=0.0349  ema=0.1364  features=[]
+    [ 5] raw=0.0189  ema=0.1011  features=[]
+    [ 6] raw=0.1151  ema=0.1053  features=[]
+    [ 7] raw=0.0273  ema=0.0819  features=[]
+    [ 8] raw=0.2581  ema=0.1348  features=[]
+    [ 9] raw=0.2333  ema=0.1643  features=[urgency_count]
+    [10] raw=0.0211  ema=0.1214  features=[]
+    [11] raw=0.1734  ema=0.1370  features=[]
+    [12] raw=0.0227  ema=0.1027  features=[]
+    [13] raw=0.0074  ema=0.0741  features=[]
+    [14] raw=0.0117  ema=0.0554  features=[]
+    [15] raw=0.5372  ema=0.1999  features=[] <<<< HIGH
+    [16] raw=0.3872  ema=0.2561  features=[urgency_count] << MEDIUM
+    [17] raw=0.9175  ema=0.4545  features=[has_prize] <<<< HIGH
+    [18] raw=0.9320  ema=0.5978  features=[financial_count, has_account_ref] <<<< HIGH
+    [19] raw=0.1617  ema=0.4670  features=[]
+    [20] raw=0.6476  ema=0.5212  features=[] <<<< HIGH
+    [21] raw=0.0655  ema=0.3845  features=[]
+    [22] raw=0.0309  ema=0.2784  features=[]
+    [23] raw=0.1613  ema=0.2433  features=[]
+    [24] raw=0.3813  ema=0.2847  features=[] << MEDIUM
+    [25] raw=0.0545  ema=0.2156  features=[]
+
+
+--- Call 3: legit_03_pharmacy_refill.txt ---
+  Type:       LEGITIMATE - Pharmacy Prescription Refill
+  Category:   Healthcare / Pharmacy
+  Source:     Standard pharmacy automated refill notification patterns...
+  True Label: LEGITIMATE
+  Verdict:    LEGITIMATE
+  Correct:    YES
+  Final EMA:  0.3100
+  Peak Score: 0.9094
+  Mean Score: 0.4024
+  Risk Level: medium
+  Sentences:  11
+  Latency:    4.9 ms
+  Reasons:    References a monetary amount
+  Score Progression:
+    [ 1] raw=0.5161  ema=0.5161  features=[] <<<< HIGH
+    [ 2] raw=0.1633  ema=0.4103  features=[]
+    [ 3] raw=0.1729  ema=0.3391  features=[]
+    [ 4] raw=0.9094  ema=0.5101  features=[dollar_sign] <<<< HIGH
+    [ 5] raw=0.4294  ema=0.4859  features=[] << MEDIUM
+    [ 6] raw=0.5702  ema=0.5112  features=[] <<<< HIGH
+    [ 7] raw=0.5246  ema=0.5152  features=[] <<<< HIGH
+    [ 8] raw=0.2291  ema=0.4294  features=[]
+    [ 9] raw=0.5182  ema=0.4560  features=[] <<<< HIGH
+    [10] raw=0.3507  ema=0.4244  features=[] << MEDIUM
+    [11] raw=0.0430  ema=0.3100  features=[]
+
+
+--- Call 4: legit_04_airline_booking.txt ---
+  Type:       LEGITIMATE - Airline Booking Confirmation
+  Category:   Travel / Airline
+  Source:     Standard airline customer service interaction patterns...
+  True Label: LEGITIMATE
+  Verdict:    LEGITIMATE
+  Correct:    YES
+  Final EMA:  0.1132
+  Peak Score: 0.7800
+  Mean Score: 0.2527
+  Risk Level: safe
+  Sentences:  20
+  Latency:    8.0 ms
+  Reasons:    Excessive use of capital letters
+  Score Progression:
+    [ 1] raw=0.1366  ema=0.1366  features=[]
+    [ 2] raw=0.2977  ema=0.1850  features=[]
+    [ 3] raw=0.2891  ema=0.2162  features=[]
+    [ 4] raw=0.4744  ema=0.2937  features=[] << MEDIUM
+    [ 5] raw=0.0445  ema=0.2189  features=[]
+    [ 6] raw=0.0081  ema=0.1557  features=[]
+    [ 7] raw=0.7800  ema=0.3430  features=[] <<<< HIGH
+    [ 8] raw=0.0979  ema=0.2694  features=[]
+    [ 9] raw=0.4905  ema=0.3358  features=[] << MEDIUM
+    [10] raw=0.0396  ema=0.2469  features=[]
+    [11] raw=0.0771  ema=0.1960  features=[]
+    [12] raw=0.4740  ema=0.2794  features=[] << MEDIUM
+    [13] raw=0.2623  ema=0.2742  features=[]
+    [14] raw=0.6732  ema=0.3939  features=[] <<<< HIGH
+    [15] raw=0.7179  ema=0.4911  features=[] <<<< HIGH
+    [16] raw=0.0211  ema=0.3501  features=[caps_ratio]
+    [17] raw=0.0771  ema=0.2682  features=[]
+    [18] raw=0.0264  ema=0.1957  features=[]
+    [19] raw=0.0322  ema=0.1466  features=[]
+    [20] raw=0.0352  ema=0.1132  features=[]
+
+
+--- Call 5: legit_05_bank_genuine.txt ---
+  Type:       LEGITIMATE - Real Bank Customer Service
+  Category:   Financial / Banking
+  Source:     Standard bank customer service interaction patterns,...
+  True Label: LEGITIMATE
+  Verdict:    LEGITIMATE
+  Correct:    YES
+  Final EMA:  0.1885
+  Peak Score: 0.9970
+  Mean Score: 0.3878
+  Risk Level: low
+  Sentences:  26
+  Latency:    9.7 ms
+  Reasons:    Prompts user to perform a specific action, References financial accounts or transactions, Requests sensitive account or credential information, Asks to verify or confirm identity/account, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.1160  ema=0.1160  features=[]
+    [ 2] raw=0.6997  ema=0.2911  features=[] <<<< HIGH
+    [ 3] raw=0.1037  ema=0.2349  features=[]
+    [ 4] raw=0.0147  ema=0.1688  features=[caps_ratio]
+    [ 5] raw=0.0953  ema=0.1468  features=[]
+    [ 6] raw=0.9881  ema=0.3992  features=[action_count, financial_count, has_verify_pattern, has_account_ref] <<<< HIGH
+    [ 7] raw=0.0850  ema=0.3049  features=[]
+    [ 8] raw=0.4204  ema=0.3396  features=[financial_count, has_account_ref] << MEDIUM
+    [ 9] raw=0.9903  ema=0.5348  features=[financial_count, dollar_sign] <<<< HIGH
+    [10] raw=0.9926  ema=0.6721  features=[financial_count, dollar_sign] <<<< HIGH
+    [11] raw=0.2453  ema=0.5441  features=[]
+    [12] raw=0.5938  ema=0.5590  features=[financial_count] <<<< HIGH
+    [13] raw=0.9791  ema=0.6850  features=[dollar_sign] <<<< HIGH
+    [14] raw=0.0074  ema=0.4817  features=[]
+    [15] raw=0.0285  ema=0.3458  features=[]
+    [16] raw=0.5934  ema=0.4201  features=[] <<<< HIGH
+    [17] raw=0.0939  ema=0.3222  features=[]
+    [18] raw=0.1372  ema=0.2667  features=[]
+    [19] raw=0.4822  ema=0.3314  features=[] << MEDIUM
+    [20] raw=0.9377  ema=0.5133  features=[financial_count, has_account_ref] <<<< HIGH
+    [21] raw=0.0622  ema=0.3779  features=[]
+    [22] raw=0.9970  ema=0.5637  features=[financial_count, has_account_ref, dollar_sign] <<<< HIGH
+    [23] raw=0.3247  ema=0.4920  features=[] << MEDIUM
+    [24] raw=0.0264  ema=0.3523  features=[]
+    [25] raw=0.0532  ema=0.2626  features=[]
+    [26] raw=0.0155  ema=0.1885  features=[]
+
+
+--- Call 6: legit_06_pizza_delivery.txt ---
+  Type:       LEGITIMATE - Pizza Delivery Order
+  Category:   Food Service / Restaurant
+  Source:     Standard food service order interaction...
+  True Label: LEGITIMATE
+  Verdict:    LEGITIMATE
+  Correct:    YES
+  Final EMA:  0.1362
+  Peak Score: 0.8779
+  Mean Score: 0.1837
+  Risk Level: safe
+  Sentences:  21
+  Latency:    7.9 ms
+  Reasons:    References a monetary amount
+  Score Progression:
+    [ 1] raw=0.8674  ema=0.8674  features=[] <<<< HIGH
+    [ 2] raw=0.0100  ema=0.6102  features=[]
+    [ 3] raw=0.1497  ema=0.4720  features=[]
+    [ 4] raw=0.0311  ema=0.3398  features=[]
+    [ 5] raw=0.0238  ema=0.2450  features=[]
+    [ 6] raw=0.0115  ema=0.1749  features=[]
+    [ 7] raw=0.1576  ema=0.1697  features=[dollar_sign]
+    [ 8] raw=0.0309  ema=0.1281  features=[]
+    [ 9] raw=0.3696  ema=0.2005  features=[] << MEDIUM
+    [10] raw=0.8779  ema=0.4038  features=[dollar_sign] <<<< HIGH
+    [11] raw=0.1309  ema=0.3219  features=[]
+    [12] raw=0.0091  ema=0.2281  features=[]
+    [13] raw=0.0544  ema=0.1760  features=[]
+    [14] raw=0.0352  ema=0.1337  features=[]
+    [15] raw=0.1475  ema=0.1378  features=[]
+    [16] raw=0.0352  ema=0.1070  features=[]
+    [17] raw=0.0606  ema=0.0931  features=[]
+    [18] raw=0.6253  ema=0.2528  features=[] <<<< HIGH
+    [19] raw=0.1237  ema=0.2140  features=[]
+    [20] raw=0.0047  ema=0.1512  features=[]
+    [21] raw=0.1009  ema=0.1362  features=[]
+
+
+--- Call 7: legit_07_job_interview.txt ---
+  Type:       LEGITIMATE - Job Interview Phone Screen
+  Category:   Employment / HR
+  Source:     Standard HR/recruiter phone screen patterns...
+  True Label: LEGITIMATE
+  Verdict:    LEGITIMATE
+  Correct:    YES
+  Final EMA:  0.1106
+  Peak Score: 0.9230
+  Mean Score: 0.1951
+  Risk Level: safe
+  Sentences:  28
+  Latency:    10.4 ms
+  Reasons:    Urgency language detected, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.4062  ema=0.4062  features=[] << MEDIUM
+    [ 2] raw=0.0309  ema=0.2936  features=[]
+    [ 3] raw=0.6854  ema=0.4111  features=[] <<<< HIGH
+    [ 4] raw=0.0559  ema=0.3046  features=[]
+    [ 5] raw=0.0322  ema=0.2229  features=[]
+    [ 6] raw=0.0352  ema=0.1666  features=[]
+    [ 7] raw=0.7268  ema=0.3346  features=[] <<<< HIGH
+    [ 8] raw=0.1973  ema=0.2934  features=[]
+    [ 9] raw=0.2499  ema=0.2804  features=[]
+    [10] raw=0.0301  ema=0.2053  features=[]
+    [11] raw=0.0986  ema=0.1733  features=[]
+    [12] raw=0.0627  ema=0.1401  features=[]
+    [13] raw=0.0187  ema=0.1037  features=[urgency_count]
+    [14] raw=0.1058  ema=0.1043  features=[]
+    [15] raw=0.4466  ema=0.2070  features=[] << MEDIUM
+    [16] raw=0.0801  ema=0.1689  features=[]
+    [17] raw=0.9230  ema=0.3952  features=[dollar_sign] <<<< HIGH
+    [18] raw=0.0124  ema=0.2803  features=[]
+    [19] raw=0.0309  ema=0.2055  features=[]
+    [20] raw=0.2023  ema=0.2045  features=[]
+    [21] raw=0.1781  ema=0.1966  features=[]
+    [22] raw=0.3667  ema=0.2476  features=[] << MEDIUM
+    [23] raw=0.0084  ema=0.1759  features=[]
+    [24] raw=0.0352  ema=0.1337  features=[]
+    [25] raw=0.1919  ema=0.1511  features=[]
+    [26] raw=0.0481  ema=0.1202  features=[]
+    [27] raw=0.1056  ema=0.1158  features=[]
+    [28] raw=0.0984  ema=0.1106  features=[]
+
+
+--- Call 8: legit_08_plumber_scheduling.txt ---
+  Type:       LEGITIMATE - Plumber Service Call Scheduling
+  Category:   Home Services
+  Source:     Standard home service scheduling interaction...
+  True Label: LEGITIMATE
+  Verdict:    LEGITIMATE
+  Correct:    YES
+  Final EMA:  0.1423
+  Peak Score: 0.9890
+  Mean Score: 0.2402
+  Risk Level: safe
+  Sentences:  21
+  Latency:    8.3 ms
+  Reasons:    Urgency language detected, References a monetary amount, Excessive use of capital letters
+  Score Progression:
+    [ 1] raw=0.3073  ema=0.3073  features=[] << MEDIUM
+    [ 2] raw=0.0188  ema=0.2207  features=[]
+    [ 3] raw=0.0352  ema=0.1651  features=[]
+    [ 4] raw=0.0159  ema=0.1203  features=[]
+    [ 5] raw=0.0124  ema=0.0879  features=[]
+    [ 6] raw=0.2603  ema=0.1396  features=[]
+    [ 7] raw=0.8116  ema=0.3412  features=[] <<<< HIGH
+    [ 8] raw=0.0058  ema=0.2406  features=[]
+    [ 9] raw=0.4478  ema=0.3027  features=[] << MEDIUM
+    [10] raw=0.0451  ema=0.2255  features=[]
+    [11] raw=0.0396  ema=0.1697  features=[]
+    [12] raw=0.9890  ema=0.4155  features=[urgency_count, dollar_sign] <<<< HIGH
+    [13] raw=0.8396  ema=0.5427  features=[dollar_sign] <<<< HIGH
+    [14] raw=0.3094  ema=0.4727  features=[] << MEDIUM
+    [15] raw=0.0903  ema=0.3580  features=[]
+    [16] raw=0.0866  ema=0.2766  features=[]
+    [17] raw=0.3635  ema=0.3026  features=[] << MEDIUM
+    [18] raw=0.0651  ema=0.2314  features=[]
+    [19] raw=0.0211  ema=0.1683  features=[caps_ratio]
+    [20] raw=0.2718  ema=0.1993  features=[]
+    [21] raw=0.0092  ema=0.1423  features=[]
+
+
+--- Call 9: scam_01_irs_tax.txt ---
+  Type:       SCAM - IRS Tax Impersonation
+  Category:   Government Impersonation / Tax Scam
+  Source:     IRS.gov scam warnings + AARP undercover recordings...
+  True Label: FRAUD
+  Verdict:    LEGITIMATE
+  Correct:    *** NO ***
+  Final EMA:  0.5000
+  Peak Score: 0.9981
+  Mean Score: 0.7227
+  Risk Level: medium
+  Sentences:  24
+  Latency:    9.3 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, References financial accounts or transactions, Threatening language detected (arrest, suspension, etc.), Requests sensitive account or credential information, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.9022  ema=0.9022  features=[impersonation_count] <<<< HIGH
+    [ 2] raw=0.9479  ema=0.9159  features=[impersonation_count] <<<< HIGH
+    [ 3] raw=0.9285  ema=0.9196  features=[urgency_count, impersonation_count] <<<< HIGH
+    [ 4] raw=0.3164  ema=0.7387  features=[urgency_count] << MEDIUM
+    [ 5] raw=0.9576  ema=0.8043  features=[has_threat] <<<< HIGH
+    [ 6] raw=0.0378  ema=0.5744  features=[urgency_count]
+    [ 7] raw=0.9065  ema=0.6740  features=[impersonation_count] <<<< HIGH
+    [ 8] raw=0.1464  ema=0.5157  features=[]
+    [ 9] raw=0.9970  ema=0.6601  features=[impersonation_count, dollar_sign] <<<< HIGH
+    [10] raw=0.8677  ema=0.7224  features=[financial_count, has_account_ref] <<<< HIGH
+    [11] raw=0.9764  ema=0.7986  features=[urgency_count] <<<< HIGH
+    [12] raw=0.9961  ema=0.8579  features=[urgency_count, impersonation_count, has_threat] <<<< HIGH
+    [13] raw=0.9694  ema=0.8913  features=[impersonation_count] <<<< HIGH
+    [14] raw=0.9949  ema=0.9224  features=[financial_count, has_threat] <<<< HIGH
+    [15] raw=0.6387  ema=0.8373  features=[] <<<< HIGH
+    [16] raw=0.3204  ema=0.6822  features=[] << MEDIUM
+    [17] raw=0.9936  ema=0.7756  features=[urgency_count, financial_count, dollar_sign] <<<< HIGH
+    [18] raw=0.7003  ema=0.7530  features=[] <<<< HIGH
+    [19] raw=0.9981  ema=0.8265  features=[impersonation_count, dollar_sign] <<<< HIGH
+    [20] raw=0.5706  ema=0.7498  features=[] <<<< HIGH
+    [21] raw=0.9855  ema=0.8205  features=[urgency_count, financial_count, impersonation_count] <<<< HIGH
+    [22] raw=0.8680  ema=0.8347  features=[has_threat] <<<< HIGH
+    [23] raw=0.0750  ema=0.6068  features=[]
+    [24] raw=0.2506  ema=0.5000  features=[]
+
+
+--- Call 10: scam_02_tech_support.txt ---
+  Type:       SCAM - Tech Support
+  Category:   Tech Support Scam
+  Source:     Zeltser.com tech support scammer conversation, FTC undercover investigation,...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.7912
+  Peak Score: 0.9880
+  Mean Score: 0.5813
+  Risk Level: critical
+  Sentences:  30
+  Latency:    11.8 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, Pressure to take immediate action, References financial accounts or transactions, Asks to verify or confirm identity/account, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.8322  ema=0.8322  features=[] <<<< HIGH
+    [ 2] raw=0.0155  ema=0.5872  features=[]
+    [ 3] raw=0.7715  ema=0.6425  features=[impersonation_count] <<<< HIGH
+    [ 4] raw=0.5374  ema=0.6110  features=[] <<<< HIGH
+    [ 5] raw=0.9316  ema=0.7071  features=[] <<<< HIGH
+    [ 6] raw=0.9241  ema=0.7722  features=[] <<<< HIGH
+    [ 7] raw=0.9482  ema=0.8250  features=[] <<<< HIGH
+    [ 8] raw=0.8558  ema=0.8343  features=[] <<<< HIGH
+    [ 9] raw=0.1496  ema=0.6289  features=[action_count, has_verify_pattern]
+    [10] raw=0.9117  ema=0.7137  features=[urgency_count] <<<< HIGH
+    [11] raw=0.0155  ema=0.5042  features=[]
+    [12] raw=0.7176  ema=0.5683  features=[urgency_count] <<<< HIGH
+    [13] raw=0.0578  ema=0.4151  features=[]
+    [14] raw=0.0207  ema=0.2968  features=[]
+    [15] raw=0.5302  ema=0.3668  features=[urgency_count, action_count, caps_ratio] <<<< HIGH
+    [16] raw=0.6601  ema=0.4548  features=[urgency_count] <<<< HIGH
+    [17] raw=0.1661  ema=0.3682  features=[]
+    [18] raw=0.8864  ema=0.5237  features=[] <<<< HIGH
+    [19] raw=0.1377  ema=0.4079  features=[]
+    [20] raw=0.4655  ema=0.4252  features=[] << MEDIUM
+    [21] raw=0.3728  ema=0.4095  features=[urgency_count, action_count] << MEDIUM
+    [22] raw=0.0641  ema=0.3059  features=[]
+    [23] raw=0.8793  ema=0.4779  features=[] <<<< HIGH
+    [24] raw=0.9609  ema=0.6228  features=[action_count] <<<< HIGH
+    [25] raw=0.7170  ema=0.6511  features=[] <<<< HIGH
+    [26] raw=0.9458  ema=0.7395  features=[action_count, impersonation_count] <<<< HIGH
+    [27] raw=0.3606  ema=0.6258  features=[] << MEDIUM
+    [28] raw=0.9385  ema=0.7196  features=[dollar_sign] <<<< HIGH
+    [29] raw=0.6774  ema=0.7069  features=[financial_count] <<<< HIGH
+    [30] raw=0.9880  ema=0.7912  features=[urgency_count, financial_count] <<<< HIGH
+
+
+--- Call 11: scam_03_grandparent.txt ---
+  Type:       SCAM - Grandparent/Family Emergency
+  Category:   Family Emergency Scam
+  Source:     FCC grandparent scam alert, CBS News 60 Minutes investigation,...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.8329
+  Peak Score: 0.9791
+  Mean Score: 0.5488
+  Risk Level: critical
+  Sentences:  25
+  Latency:    10.1 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, References financial accounts or transactions, Threatening language detected (arrest, suspension, etc.), References a monetary amount
+  Score Progression:
+    [ 1] raw=0.0352  ema=0.0352  features=[]
+    [ 2] raw=0.5633  ema=0.1936  features=[] <<<< HIGH
+    [ 3] raw=0.0211  ema=0.1419  features=[]
+    [ 4] raw=0.1432  ema=0.1423  features=[urgency_count]
+    [ 5] raw=0.5678  ema=0.2699  features=[] <<<< HIGH
+    [ 6] raw=0.2889  ema=0.2756  features=[]
+    [ 7] raw=0.0146  ema=0.1973  features=[]
+    [ 8] raw=0.9634  ema=0.4271  features=[impersonation_count, has_threat] <<<< HIGH
+    [ 9] raw=0.8168  ema=0.5440  features=[] <<<< HIGH
+    [10] raw=0.5001  ema=0.5308  features=[urgency_count] <<<< HIGH
+    [11] raw=0.9397  ema=0.6535  features=[dollar_sign] <<<< HIGH
+    [12] raw=0.3779  ema=0.5708  features=[] << MEDIUM
+    [13] raw=0.0238  ema=0.4067  features=[]
+    [14] raw=0.9791  ema=0.5784  features=[urgency_count, financial_count] <<<< HIGH
+    [15] raw=0.9544  ema=0.6912  features=[financial_count] <<<< HIGH
+    [16] raw=0.1418  ema=0.5264  features=[]
+    [17] raw=0.2415  ema=0.4409  features=[]
+    [18] raw=0.9115  ema=0.5821  features=[] <<<< HIGH
+    [19] raw=0.3826  ema=0.5222  features=[] << MEDIUM
+    [20] raw=0.2252  ema=0.4331  features=[]
+    [21] raw=0.9778  ema=0.5965  features=[dollar_sign] <<<< HIGH
+    [22] raw=0.8905  ema=0.6847  features=[urgency_count] <<<< HIGH
+    [23] raw=0.9444  ema=0.7626  features=[] <<<< HIGH
+    [24] raw=0.9524  ema=0.8196  features=[financial_count] <<<< HIGH
+    [25] raw=0.8641  ema=0.8329  features=[financial_count] <<<< HIGH
+
+
+--- Call 12: scam_04_social_security.txt ---
+  Type:       SCAM - Social Security Administration Impersonation
+  Category:   Government Impersonation / SSA Scam
+  Source:     SSA.gov scam alerts, FTC "What a Social Security scam sounds like" (2018),...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.9352
+  Peak Score: 0.9958
+  Mean Score: 0.7980
+  Risk Level: critical
+  Sentences:  20
+  Latency:    9.1 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, Prompts user to perform a specific action, References financial accounts or transactions, Threatening language detected (arrest, suspension, etc.), Requests sensitive account or credential information, Asks to verify or confirm identity/account
+  Score Progression:
+    [ 1] raw=0.9622  ema=0.9622  features=[impersonation_count, has_account_ref] <<<< HIGH
+    [ 2] raw=0.9920  ema=0.9711  features=[impersonation_count, has_threat, has_account_ref] <<<< HIGH
+    [ 3] raw=0.5397  ema=0.8417  features=[] <<<< HIGH
+    [ 4] raw=0.0771  ema=0.6123  features=[]
+    [ 5] raw=0.9875  ema=0.7249  features=[impersonation_count, has_account_ref] <<<< HIGH
+    [ 6] raw=0.9569  ema=0.7945  features=[has_account_ref] <<<< HIGH
+    [ 7] raw=0.9940  ema=0.8543  features=[financial_count, has_account_ref] <<<< HIGH
+    [ 8] raw=0.9874  ema=0.8942  features=[financial_count, impersonation_count, has_threat] <<<< HIGH
+    [ 9] raw=0.7630  ema=0.8549  features=[urgency_count, action_count, has_verify_pattern] <<<< HIGH
+    [10] raw=0.6603  ema=0.7965  features=[action_count, has_verify_pattern, has_account_ref] <<<< HIGH
+    [11] raw=0.4831  ema=0.7025  features=[action_count, has_verify_pattern] << MEDIUM
+    [12] raw=0.6214  ema=0.6781  features=[] <<<< HIGH
+    [13] raw=0.1717  ema=0.5262  features=[urgency_count]
+    [14] raw=0.9877  ema=0.6647  features=[financial_count, impersonation_count, has_threat, has_account_ref] <<<< HIGH
+    [15] raw=0.8993  ema=0.7350  features=[action_count, impersonation_count] <<<< HIGH
+    [16] raw=0.9937  ema=0.8126  features=[impersonation_count, has_account_ref] <<<< HIGH
+    [17] raw=0.9363  ema=0.8497  features=[] <<<< HIGH
+    [18] raw=0.9845  ema=0.8901  features=[urgency_count] <<<< HIGH
+    [19] raw=0.9958  ema=0.9218  features=[financial_count, impersonation_count] <<<< HIGH
+    [20] raw=0.9663  ema=0.9352  features=[] <<<< HIGH
+
+
+--- Call 13: scam_05_bank_fraud.txt ---
+  Type:       SCAM - Bank Fraud Department Impersonation
+  Category:   Bank Fraud / Financial Scam
+  Source:     FTC consumer alert "Got a call about fraud activity on your bank account?" (2024...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.7530
+  Peak Score: 0.9971
+  Mean Score: 0.6773
+  Risk Level: critical
+  Sentences:  24
+  Latency:    10.1 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, Prompts user to perform a specific action, References financial accounts or transactions, Requests sensitive account or credential information, Asks to verify or confirm identity/account, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.9753  ema=0.9753  features=[financial_count, impersonation_count] <<<< HIGH
+    [ 2] raw=0.9694  ema=0.9735  features=[financial_count, has_account_ref] <<<< HIGH
+    [ 3] raw=0.7380  ema=0.9029  features=[financial_count] <<<< HIGH
+    [ 4] raw=0.9958  ema=0.9308  features=[financial_count, has_account_ref, dollar_sign] <<<< HIGH
+    [ 5] raw=0.9853  ema=0.9471  features=[urgency_count, action_count, financial_count, has_verify_pattern, has_account_ref] <<<< HIGH
+    [ 6] raw=0.8967  ema=0.9320  features=[action_count, has_verify_pattern, has_account_ref] <<<< HIGH
+    [ 7] raw=0.4079  ema=0.7748  features=[action_count, has_verify_pattern, has_account_ref] << MEDIUM
+    [ 8] raw=0.0218  ema=0.5489  features=[]
+    [ 9] raw=0.2270  ema=0.4523  features=[urgency_count, financial_count, has_account_ref]
+    [10] raw=0.9971  ema=0.6158  features=[financial_count, dollar_sign] <<<< HIGH
+    [11] raw=0.6611  ema=0.6294  features=[] <<<< HIGH
+    [12] raw=0.9035  ema=0.7116  features=[urgency_count] <<<< HIGH
+    [13] raw=0.3086  ema=0.5907  features=[] << MEDIUM
+    [14] raw=0.5245  ema=0.5708  features=[] <<<< HIGH
+    [15] raw=0.5312  ema=0.5589  features=[urgency_count] <<<< HIGH
+    [16] raw=0.0195  ema=0.3971  features=[]
+    [17] raw=0.0352  ema=0.2885  features=[]
+    [18] raw=0.9742  ema=0.4942  features=[urgency_count, financial_count] <<<< HIGH
+    [19] raw=0.9827  ema=0.6408  features=[financial_count, has_account_ref] <<<< HIGH
+    [20] raw=0.9777  ema=0.7419  features=[financial_count, dollar_sign] <<<< HIGH
+    [21] raw=0.7527  ema=0.7451  features=[] <<<< HIGH
+    [22] raw=0.9285  ema=0.8001  features=[financial_count, has_account_ref] <<<< HIGH
+    [23] raw=0.7951  ema=0.7986  features=[] <<<< HIGH
+    [24] raw=0.6464  ema=0.7530  features=[action_count, financial_count, has_verify_pattern] <<<< HIGH
+
+
+--- Call 14: scam_06_auto_warranty.txt ---
+  Type:       SCAM - Auto Warranty
+  Category:   Auto Warranty Robocall Scam
+  Source:     FCC auto warranty scam guide, NPR Planet Money "About Your Extended Warranty",...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.5594
+  Peak Score: 0.9904
+  Mean Score: 0.6102
+  Risk Level: high
+  Sentences:  21
+  Latency:    8.6 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, References financial accounts or transactions, Threatening language detected (arrest, suspension, etc.), References a monetary amount, Excessive use of capital letters
+  Score Progression:
+    [ 1] raw=0.0147  ema=0.0147  features=[caps_ratio]
+    [ 2] raw=0.9904  ema=0.3074  features=[impersonation_count] <<<< HIGH
+    [ 3] raw=0.2714  ema=0.2966  features=[]
+    [ 4] raw=0.2032  ema=0.2686  features=[]
+    [ 5] raw=0.8129  ema=0.4319  features=[] <<<< HIGH
+    [ 6] raw=0.9741  ema=0.5945  features=[] <<<< HIGH
+    [ 7] raw=0.6001  ema=0.5962  features=[] <<<< HIGH
+    [ 8] raw=0.0194  ema=0.4232  features=[]
+    [ 9] raw=0.2173  ema=0.3614  features=[]
+    [10] raw=0.9346  ema=0.5334  features=[urgency_count] <<<< HIGH
+    [11] raw=0.9432  ema=0.6563  features=[] <<<< HIGH
+    [12] raw=0.9865  ema=0.7554  features=[dollar_sign] <<<< HIGH
+    [13] raw=0.7039  ema=0.7399  features=[dollar_sign] <<<< HIGH
+    [14] raw=0.5802  ema=0.6920  features=[urgency_count] <<<< HIGH
+    [15] raw=0.9204  ema=0.7605  features=[dollar_sign] <<<< HIGH
+    [16] raw=0.9632  ema=0.8213  features=[dollar_sign] <<<< HIGH
+    [17] raw=0.6599  ema=0.7729  features=[] <<<< HIGH
+    [18] raw=0.0234  ema=0.5480  features=[urgency_count]
+    [19] raw=0.9716  ema=0.6751  features=[financial_count] <<<< HIGH
+    [20] raw=0.8742  ema=0.7348  features=[has_threat] <<<< HIGH
+    [21] raw=0.1500  ema=0.5594  features=[financial_count]
+
+
+--- Call 15: scam_07_utility_shutoff.txt ---
+  Type:       SCAM - Utility Company Impersonation
+  Category:   Utility Shutoff Threat Scam
+  Source:     FTC "Scammers Pretend To Be Your Utility Company" consumer alert,...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.6203
+  Peak Score: 0.9983
+  Mean Score: 0.7035
+  Risk Level: high
+  Sentences:  17
+  Latency:    7.7 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, References financial accounts or transactions, Threatening language detected (arrest, suspension, etc.), Requests sensitive account or credential information, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.5906  ema=0.5906  features=[impersonation_count] <<<< HIGH
+    [ 2] raw=0.0749  ema=0.4359  features=[]
+    [ 3] raw=0.7722  ema=0.5368  features=[] <<<< HIGH
+    [ 4] raw=0.9943  ema=0.6740  features=[financial_count, has_account_ref, dollar_sign] <<<< HIGH
+    [ 5] raw=0.8077  ema=0.7141  features=[financial_count] <<<< HIGH
+    [ 6] raw=0.5579  ema=0.6673  features=[] <<<< HIGH
+    [ 7] raw=0.9983  ema=0.7666  features=[urgency_count, financial_count, dollar_sign] <<<< HIGH
+    [ 8] raw=0.5796  ema=0.7105  features=[] <<<< HIGH
+    [ 9] raw=0.2251  ema=0.5649  features=[]
+    [10] raw=0.9561  ema=0.6822  features=[urgency_count, financial_count, has_threat] <<<< HIGH
+    [11] raw=0.9852  ema=0.7731  features=[financial_count, dollar_sign] <<<< HIGH
+    [12] raw=0.9453  ema=0.8248  features=[financial_count] <<<< HIGH
+    [13] raw=0.6786  ema=0.7809  features=[] <<<< HIGH
+    [14] raw=0.9668  ema=0.8367  features=[urgency_count, financial_count, has_account_ref] <<<< HIGH
+    [15] raw=0.8891  ema=0.8524  features=[financial_count] <<<< HIGH
+    [16] raw=0.8764  ema=0.8596  features=[urgency_count, financial_count] <<<< HIGH
+    [17] raw=0.0619  ema=0.6203  features=[]
+
+
+--- Call 16: scam_08_medicare.txt ---
+  Type:       SCAM - Medicare Card Scam
+  Category:   Medicare / Healthcare Scam
+  Source:     FCC "Older Americans and Medicare Call Scams", California Health Advocates...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.5616
+  Peak Score: 0.9969
+  Mean Score: 0.6058
+  Risk Level: high
+  Sentences:  19
+  Latency:    7.6 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, Prompts user to perform a specific action, References financial accounts or transactions, Requests sensitive account or credential information, Asks to verify or confirm identity/account, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.4764  ema=0.4764  features=[impersonation_count] << MEDIUM
+    [ 2] raw=0.6016  ema=0.5140  features=[] <<<< HIGH
+    [ 3] raw=0.0155  ema=0.3644  features=[]
+    [ 4] raw=0.7550  ema=0.4816  features=[] <<<< HIGH
+    [ 5] raw=0.9844  ema=0.6324  features=[] <<<< HIGH
+    [ 6] raw=0.9674  ema=0.7329  features=[urgency_count, action_count, has_verify_pattern] <<<< HIGH
+    [ 7] raw=0.3061  ema=0.6049  features=[action_count, has_verify_pattern] << MEDIUM
+    [ 8] raw=0.0416  ema=0.4359  features=[]
+    [ 9] raw=0.9790  ema=0.5988  features=[has_account_ref] <<<< HIGH
+    [10] raw=0.0192  ema=0.4249  features=[]
+    [11] raw=0.7113  ema=0.5108  features=[urgency_count] <<<< HIGH
+    [12] raw=0.6281  ema=0.5460  features=[] <<<< HIGH
+    [13] raw=0.7157  ema=0.5969  features=[] <<<< HIGH
+    [14] raw=0.9907  ema=0.7151  features=[action_count, dollar_sign] <<<< HIGH
+    [15] raw=0.9731  ema=0.7925  features=[action_count, financial_count, has_account_ref] <<<< HIGH
+    [16] raw=0.5615  ema=0.7232  features=[financial_count] <<<< HIGH
+    [17] raw=0.9969  ema=0.8053  features=[urgency_count, financial_count] <<<< HIGH
+    [18] raw=0.7655  ema=0.7934  features=[] <<<< HIGH
+    [19] raw=0.0207  ema=0.5616  features=[]
+
+
+--- Call 17: scam_09_amazon_impersonator.txt ---
+  Type:       SCAM - Amazon Order Impersonation
+  Category:   Business Impersonation Scam
+  Source:     FTC robocall scam examples, FTC consumer alerts on Amazon impersonation,...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.7215
+  Peak Score: 0.9977
+  Mean Score: 0.7408
+  Risk Level: high
+  Sentences:  25
+  Latency:    10.2 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, Prompts user to perform a specific action, References financial accounts or transactions, Requests sensitive account or credential information, Asks to verify or confirm identity/account, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.9230  ema=0.9230  features=[impersonation_count] <<<< HIGH
+    [ 2] raw=0.9392  ema=0.9279  features=[action_count, financial_count, impersonation_count, has_verify_pattern, has_account_ref] <<<< HIGH
+    [ 3] raw=0.8254  ema=0.8971  features=[impersonation_count, dollar_sign] <<<< HIGH
+    [ 4] raw=0.9846  ema=0.9234  features=[urgency_count, impersonation_count] <<<< HIGH
+    [ 5] raw=0.9740  ema=0.9385  features=[financial_count] <<<< HIGH
+    [ 6] raw=0.7513  ema=0.8824  features=[impersonation_count] <<<< HIGH
+    [ 7] raw=0.3823  ema=0.7323  features=[impersonation_count] << MEDIUM
+    [ 8] raw=0.8407  ema=0.7649  features=[financial_count, has_account_ref, dollar_sign] <<<< HIGH
+    [ 9] raw=0.2858  ema=0.6211  features=[]
+    [10] raw=0.9127  ema=0.7086  features=[] <<<< HIGH
+    [11] raw=0.0352  ema=0.5066  features=[]
+    [12] raw=0.8661  ema=0.6144  features=[financial_count, impersonation_count, has_account_ref] <<<< HIGH
+    [13] raw=0.9411  ema=0.7124  features=[action_count, financial_count, has_verify_pattern] <<<< HIGH
+    [14] raw=0.9638  ema=0.7878  features=[action_count, financial_count, has_verify_pattern, has_account_ref] <<<< HIGH
+    [15] raw=0.9257  ema=0.8292  features=[financial_count, impersonation_count, has_account_ref] <<<< HIGH
+    [16] raw=0.9768  ema=0.8735  features=[financial_count, has_account_ref] <<<< HIGH
+    [17] raw=0.9941  ema=0.9096  features=[action_count, financial_count, has_account_ref] <<<< HIGH
+    [18] raw=0.9916  ema=0.9342  features=[financial_count, has_account_ref] <<<< HIGH
+    [19] raw=0.5500  ema=0.8190  features=[impersonation_count] <<<< HIGH
+    [20] raw=0.0990  ema=0.6030  features=[action_count]
+    [21] raw=0.1766  ema=0.4751  features=[]
+    [22] raw=0.9977  ema=0.6319  features=[financial_count, dollar_sign] <<<< HIGH
+    [23] raw=0.4057  ema=0.5640  features=[] << MEDIUM
+    [24] raw=0.9776  ema=0.6881  features=[impersonation_count] <<<< HIGH
+    [25] raw=0.7995  ema=0.7215  features=[financial_count, has_account_ref] <<<< HIGH
+
+
+--- Call 18: scam_10_legal_threat.txt ---
+  Type:       SCAM - Legal Threat / Debt Collection
+  Category:   Legal Threat / Intimidation Scam
+  Source:     800notes.com forum scam call center scripts, FTC consumer reports,...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.7407
+  Peak Score: 0.9935
+  Mean Score: 0.7934
+  Risk Level: high
+  Sentences:  19
+  Latency:    7.7 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, References financial accounts or transactions, Threatening language detected (arrest, suspension, etc.), Requests sensitive account or credential information, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.7607  ema=0.7607  features=[financial_count, has_account_ref] <<<< HIGH
+    [ 2] raw=0.5816  ema=0.7070  features=[] <<<< HIGH
+    [ 3] raw=0.8869  ema=0.7609  features=[] <<<< HIGH
+    [ 4] raw=0.5092  ema=0.6854  features=[] <<<< HIGH
+    [ 5] raw=0.9698  ema=0.7707  features=[] <<<< HIGH
+    [ 6] raw=0.9804  ema=0.8336  features=[] <<<< HIGH
+    [ 7] raw=0.8665  ema=0.8435  features=[impersonation_count] <<<< HIGH
+    [ 8] raw=0.8922  ema=0.8581  features=[] <<<< HIGH
+    [ 9] raw=0.9855  ema=0.8963  features=[dollar_sign] <<<< HIGH
+    [10] raw=0.9935  ema=0.9255  features=[financial_count, has_account_ref] <<<< HIGH
+    [11] raw=0.8465  ema=0.9018  features=[has_threat] <<<< HIGH
+    [12] raw=0.1256  ema=0.6689  features=[urgency_count]
+    [13] raw=0.9926  ema=0.7660  features=[urgency_count, financial_count, dollar_sign] <<<< HIGH
+    [14] raw=0.8387  ema=0.7878  features=[financial_count] <<<< HIGH
+    [15] raw=0.8975  ema=0.8207  features=[] <<<< HIGH
+    [16] raw=0.9642  ema=0.8638  features=[impersonation_count, has_threat] <<<< HIGH
+    [17] raw=0.7747  ema=0.8370  features=[] <<<< HIGH
+    [18] raw=0.3532  ema=0.6919  features=[] << MEDIUM
+    [19] raw=0.8545  ema=0.7407  features=[] <<<< HIGH
+
+
+--- Call 19: scam_11_student_loan.txt ---
+  Type:       SCAM - Student Loan Forgiveness
+  Category:   Student Loan Scam
+  Source:     FTC robocall scam examples (AI notification bot transcript),...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.6196
+  Peak Score: 0.9956
+  Mean Score: 0.7125
+  Risk Level: high
+  Sentences:  22
+  Latency:    9.3 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, Prompts user to perform a specific action, References financial accounts or transactions, Threatening language detected (arrest, suspension, etc.), Requests sensitive account or credential information, Asks to verify or confirm identity/account, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.0313  ema=0.0313  features=[]
+    [ 2] raw=0.2022  ema=0.0826  features=[]
+    [ 3] raw=0.7685  ema=0.2884  features=[] <<<< HIGH
+    [ 4] raw=0.9857  ema=0.4976  features=[urgency_count, impersonation_count] <<<< HIGH
+    [ 5] raw=0.9888  ema=0.6449  features=[impersonation_count, dollar_sign] <<<< HIGH
+    [ 6] raw=0.9382  ema=0.7329  features=[urgency_count, impersonation_count] <<<< HIGH
+    [ 7] raw=0.9536  ema=0.7991  features=[urgency_count] <<<< HIGH
+    [ 8] raw=0.0207  ema=0.5656  features=[]
+    [ 9] raw=0.7838  ema=0.6310  features=[impersonation_count] <<<< HIGH
+    [10] raw=0.9145  ema=0.7161  features=[impersonation_count] <<<< HIGH
+    [11] raw=0.9956  ema=0.8000  features=[urgency_count, impersonation_count, dollar_sign] <<<< HIGH
+    [12] raw=0.9646  ema=0.8494  features=[financial_count] <<<< HIGH
+    [13] raw=0.8009  ema=0.8348  features=[urgency_count, action_count, has_verify_pattern, has_threat] <<<< HIGH
+    [14] raw=0.8775  ema=0.8476  features=[action_count, has_verify_pattern, has_account_ref] <<<< HIGH
+    [15] raw=0.4620  ema=0.7319  features=[impersonation_count] << MEDIUM
+    [16] raw=0.9875  ema=0.8086  features=[urgency_count, impersonation_count, dollar_sign] <<<< HIGH
+    [17] raw=0.8727  ema=0.8278  features=[] <<<< HIGH
+    [18] raw=0.2977  ema=0.6688  features=[financial_count]
+    [19] raw=0.9684  ema=0.7587  features=[urgency_count, financial_count, has_account_ref] <<<< HIGH
+    [20] raw=0.9936  ema=0.8292  features=[urgency_count] <<<< HIGH
+    [21] raw=0.5182  ema=0.7359  features=[] <<<< HIGH
+    [22] raw=0.3483  ema=0.6196  features=[] << MEDIUM
+
+
+--- Call 20: scam_12_prize_lottery.txt ---
+  Type:       SCAM - Prize / Lottery / Sweepstakes
+  Category:   Prize Scam / Advance Fee Fraud
+  Source:     AARP Fraud Watch Network undercover recordings,...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.5371
+  Peak Score: 0.9977
+  Mean Score: 0.6817
+  Risk Level: high
+  Sentences:  20
+  Latency:    8.3 ms
+  Reasons:    Contains government/corporate impersonation language, Urgency language detected, Prompts user to perform a specific action, Prize or lottery claim detected, Asks to verify or confirm identity/account, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.1641  ema=0.1641  features=[has_prize]
+    [ 2] raw=0.9227  ema=0.3917  features=[has_prize] <<<< HIGH
+    [ 3] raw=0.9957  ema=0.5729  features=[has_prize, dollar_sign] <<<< HIGH
+    [ 4] raw=0.8233  ema=0.6480  features=[impersonation_count] <<<< HIGH
+    [ 5] raw=0.9977  ema=0.7529  features=[impersonation_count, dollar_sign] <<<< HIGH
+    [ 6] raw=0.0648  ema=0.5465  features=[has_prize]
+    [ 7] raw=0.8505  ema=0.6377  features=[] <<<< HIGH
+    [ 8] raw=0.9759  ema=0.7391  features=[impersonation_count, has_prize] <<<< HIGH
+    [ 9] raw=0.9919  ema=0.8150  features=[impersonation_count, dollar_sign] <<<< HIGH
+    [10] raw=0.9936  ema=0.8685  features=[urgency_count, dollar_sign] <<<< HIGH
+    [11] raw=0.6154  ema=0.7926  features=[] <<<< HIGH
+    [12] raw=0.5530  ema=0.7207  features=[has_prize] <<<< HIGH
+    [13] raw=0.9562  ema=0.7914  features=[] <<<< HIGH
+    [14] raw=0.2731  ema=0.6359  features=[]
+    [15] raw=0.0956  ema=0.4738  features=[]
+    [16] raw=0.8305  ema=0.5808  features=[has_prize] <<<< HIGH
+    [17] raw=0.9231  ema=0.6835  features=[] <<<< HIGH
+    [18] raw=0.6650  ema=0.6780  features=[action_count, impersonation_count, has_verify_pattern] <<<< HIGH
+    [19] raw=0.8616  ema=0.7331  features=[has_prize] <<<< HIGH
+    [20] raw=0.0800  ema=0.5371  features=[]
+
+
+--- Call 21: scam_13_cfpb_impersonator.txt ---
+  Type:       SCAM - CFPB Government Impersonation
+  Category:   Government Impersonation / Class Action Scam
+  Source:     CFPB "Beware of new CFPB imposter scams" blog post,...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.6690
+  Peak Score: 0.9922
+  Mean Score: 0.7920
+  Risk Level: high
+  Sentences:  17
+  Latency:    7.4 ms
+  Reasons:    Contains government/corporate impersonation language, Multiple urgency tactics detected, Prompts user to perform a specific action, References financial accounts or transactions, Requests sensitive account or credential information, Asks to verify or confirm identity/account, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.0155  ema=0.0155  features=[]
+    [ 2] raw=0.7505  ema=0.2360  features=[impersonation_count] <<<< HIGH
+    [ 3] raw=0.8080  ema=0.4076  features=[] <<<< HIGH
+    [ 4] raw=0.7033  ema=0.4963  features=[] <<<< HIGH
+    [ 5] raw=0.9922  ema=0.6451  features=[dollar_sign] <<<< HIGH
+    [ 6] raw=0.9910  ema=0.7489  features=[financial_count, dollar_sign] <<<< HIGH
+    [ 7] raw=0.8550  ema=0.7807  features=[] <<<< HIGH
+    [ 8] raw=0.9018  ema=0.8170  features=[urgency_count] <<<< HIGH
+    [ 9] raw=0.8967  ema=0.8409  features=[action_count, has_verify_pattern, has_account_ref] <<<< HIGH
+    [10] raw=0.9761  ema=0.8815  features=[impersonation_count] <<<< HIGH
+    [11] raw=0.9669  ema=0.9071  features=[dollar_sign] <<<< HIGH
+    [12] raw=0.9745  ema=0.9273  features=[impersonation_count] <<<< HIGH
+    [13] raw=0.9862  ema=0.9450  features=[] <<<< HIGH
+    [14] raw=0.5696  ema=0.8324  features=[financial_count] <<<< HIGH
+    [15] raw=0.9904  ema=0.8798  features=[dollar_sign] <<<< HIGH
+    [16] raw=0.9785  ema=0.9094  features=[urgency_count] <<<< HIGH
+    [17] raw=0.1082  ema=0.6690  features=[]
+
+
+--- Call 22: scam_14_credit_line.txt ---
+  Type:       SCAM - Guaranteed Credit Line
+  Category:   Advance Fee Credit Scam
+  Source:     FTC robocall scam examples (telemarketing credit scam),...
+  True Label: FRAUD
+  Verdict:    FRAUD
+  Correct:    YES
+  Final EMA:  0.9005
+  Peak Score: 0.9970
+  Mean Score: 0.6640
+  Risk Level: critical
+  Sentences:  18
+  Latency:    7.6 ms
+  Reasons:    Urgency language detected, References financial accounts or transactions, Requests sensitive account or credential information, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.0215  ema=0.0215  features=[financial_count]
+    [ 2] raw=0.1533  ema=0.0611  features=[]
+    [ 3] raw=0.9743  ema=0.3350  features=[financial_count, dollar_sign] <<<< HIGH
+    [ 4] raw=0.0364  ema=0.2454  features=[]
+    [ 5] raw=0.8694  ema=0.4326  features=[financial_count] <<<< HIGH
+    [ 6] raw=0.3457  ema=0.4066  features=[] << MEDIUM
+    [ 7] raw=0.4185  ema=0.4101  features=[] << MEDIUM
+    [ 8] raw=0.7862  ema=0.5230  features=[financial_count] <<<< HIGH
+    [ 9] raw=0.3668  ema=0.4761  features=[] << MEDIUM
+    [10] raw=0.9944  ema=0.6316  features=[financial_count, has_account_ref, dollar_sign] <<<< HIGH
+    [11] raw=0.9970  ema=0.7412  features=[financial_count, dollar_sign] <<<< HIGH
+    [12] raw=0.3544  ema=0.6252  features=[financial_count] << MEDIUM
+    [13] raw=0.9063  ema=0.7095  features=[] <<<< HIGH
+    [14] raw=0.9863  ema=0.7925  features=[urgency_count] <<<< HIGH
+    [15] raw=0.9116  ema=0.8283  features=[] <<<< HIGH
+    [16] raw=0.9373  ema=0.8610  features=[financial_count, has_account_ref] <<<< HIGH
+    [17] raw=0.9881  ema=0.8991  features=[financial_count, dollar_sign] <<<< HIGH
+    [18] raw=0.9037  ema=0.9005  features=[financial_count] <<<< HIGH
+
+
+--- Call 23: scam_15_investment.txt ---
+  Type:       SCAM - Investment Fraud / Boiler Room
+  Category:   Investment Scam
+  Source:     AARP Fraud Watch Network undercover recordings of investment scammers,...
+  True Label: FRAUD
+  Verdict:    LEGITIMATE
+  Correct:    *** NO ***
+  Final EMA:  0.4081
+  Peak Score: 0.9949
+  Mean Score: 0.4865
+  Risk Level: medium
+  Sentences:  23
+  Latency:    11.0 ms
+  Reasons:    Urgency language detected, References financial accounts or transactions, References a monetary amount
+  Score Progression:
+    [ 1] raw=0.0155  ema=0.0155  features=[]
+    [ 2] raw=0.3828  ema=0.1257  features=[] << MEDIUM
+    [ 3] raw=0.6542  ema=0.2842  features=[] <<<< HIGH
+    [ 4] raw=0.1281  ema=0.2374  features=[]
+    [ 5] raw=0.4777  ema=0.3095  features=[dollar_sign] << MEDIUM
+    [ 6] raw=0.9790  ema=0.5103  features=[dollar_sign] <<<< HIGH
+    [ 7] raw=0.4283  ema=0.4857  features=[] << MEDIUM
+    [ 8] raw=0.2448  ema=0.4135  features=[urgency_count]
+    [ 9] raw=0.0644  ema=0.3087  features=[]
+    [10] raw=0.7290  ema=0.4348  features=[] <<<< HIGH
+    [11] raw=0.9949  ema=0.6028  features=[dollar_sign] <<<< HIGH
+    [12] raw=0.6821  ema=0.6266  features=[] <<<< HIGH
+    [13] raw=0.7194  ema=0.6544  features=[] <<<< HIGH
+    [14] raw=0.0766  ema=0.4811  features=[]
+    [15] raw=0.0039  ema=0.3379  features=[]
+    [16] raw=0.2759  ema=0.3193  features=[]
+    [17] raw=0.5832  ema=0.3985  features=[] <<<< HIGH
+    [18] raw=0.9871  ema=0.5751  features=[dollar_sign] <<<< HIGH
+    [19] raw=0.8937  ema=0.6707  features=[financial_count] <<<< HIGH
+    [20] raw=0.9931  ema=0.7674  features=[dollar_sign] <<<< HIGH
+    [21] raw=0.7264  ema=0.7551  features=[] <<<< HIGH
+    [22] raw=0.0758  ema=0.5513  features=[]
+    [23] raw=0.0739  ema=0.4081  features=[]
+
+================================================================================
+  FEATURE ACTIVATION ANALYSIS
+================================================================================
+
+  Feature                     Scam Calls  Legit Calls  Discriminative?
+  ------------------------- ------------ ------------ ----------------
+  urgency_count               15 (100.0%)    3 ( 37.5%)            YES
+  action_count                 8 ( 53.3%)    1 ( 12.5%)            YES
+  financial_count             14 ( 93.3%)    2 ( 25.0%)            YES
+  impersonation_count         13 ( 86.7%)    0 (  0.0%)            YES
+  has_url                      0 (  0.0%)    0 (  0.0%)             NO
+  has_shortened_url            0 (  0.0%)    0 (  0.0%)             NO
+  has_verify_pattern           8 ( 53.3%)    1 ( 12.5%)            YES
+  has_threat                   7 ( 46.7%)    1 ( 12.5%)            YES
+  has_prize                    1 (  6.7%)    1 ( 12.5%)             NO
+  has_account_ref             10 ( 66.7%)    2 ( 25.0%)            YES
+  dollar_sign                 14 ( 93.3%)    5 ( 62.5%)            YES
+  has_phone_number             0 (  0.0%)    0 (  0.0%)             NO
+  exclamation_count            0 (  0.0%)    0 (  0.0%)             NO
+  caps_ratio                   2 ( 13.3%)    3 ( 37.5%)             NO
+
+================================================================================
+  MISCLASSIFICATION ANALYSIS
+================================================================================
+
+  2 call(s) misclassified:
+
+  FILE: scam_01_irs_tax.txt
+    True label: FRAUD
+    Verdict:    LEGITIMATE
+    Final EMA:  0.5000
+    Risk Level: medium
+    ANALYSIS: Scam call was MISSED. The heuristic scoring
+      was too conservative. Key scam indicators may not have
+      matched the keyword lists or the EMA smoothing diluted
+      high-scoring sentences with benign ones.
+    Features that DID fire: dollar_sign, financial_count, has_account_ref, has_threat, impersonation_count, urgency_count
+    Features that did NOT fire: action_count, caps_ratio, exclamation_count, has_phone_number, has_prize, has_shortened_url, has_url, has_verify_pattern
+
+  FILE: scam_15_investment.txt
+    True label: FRAUD
+    Verdict:    LEGITIMATE
+    Final EMA:  0.4081
+    Risk Level: medium
+    ANALYSIS: Scam call was MISSED. The heuristic scoring
+      was too conservative. Key scam indicators may not have
+      matched the keyword lists or the EMA smoothing diluted
+      high-scoring sentences with benign ones.
+    Features that DID fire: dollar_sign, financial_count, urgency_count
+    Features that did NOT fire: action_count, caps_ratio, exclamation_count, has_account_ref, has_phone_number, has_prize, has_shortened_url, has_threat, has_url, has_verify_pattern, impersonation_count
+
+================================================================================
+  HONEST ASSESSMENT OF PIPELINE PERFORMANCE
+================================================================================
+
+  STRENGTHS:
+  + High recall (86.7%) - most scam calls are detected
+  + High precision (100.0%) - few false alarms on legit calls
+  + Zero false positives - no legitimate calls wrongly flagged
+  + Threat detection feature fired on 6/15 scam calls
+  + Impersonation detection fired on 13/15 scam calls
+
+  WEAKNESSES:
+  - 2 scam call(s) MISSED (false negatives)
+    This is the most dangerous failure mode for a fraud detector.
+  - Average scam EMA: 0.6767 (want > 0.5)
+  - Average legit EMA: 0.1774 (want < 0.3)
+  - Score separation (scam avg - legit avg): 0.4993
+
+  EMA SMOOTHING IMPACT:
+  - scam_01_irs_tax.txt: Peak=0.9981 but EMA=0.5000. EMA smoothing DILUTED the signal.
+  - scam_15_investment.txt: Peak=0.9949 but EMA=0.4081. EMA smoothing DILUTED the signal.
+
+  RECOMMENDATIONS:
+  1. Fix model file naming (xgb_model.json -> call_fraud_xgb.json)
+     so the XGBoost/MLP classifiers actually load.
+  2. The heuristic _heuristic_text_score() caps each feature contribution
+     too aggressively. Consider raising the caps or using multiplicative
+     scoring for compounding indicators.
+  3. Add more impersonation keywords: 'badge', 'warrant', 'officer',
+     'department', 'investigation', 'court', 'judge', 'legal'.
+  4. Add payment-method scam keywords: 'gift card', 'prepaid', 'MoneyPak',
+     'wire transfer', 'Western Union', 'Bitcoin', 'Zelle'.
+  5. Consider a 'secrecy' feature for phrases like 'don't tell anyone',
+     'gag order', 'confidential', 'do not contact'.
+  6. The EMA alpha=0.3 may be too aggressive for long transcripts where
+     early benign sentences dilute later scam content.
+  7. Train on real scam transcripts like these for better generalization.
+
+================================================================================
+  END OF REPORT
+================================================================================
+
+================================================================================
+  MULTI-BACKEND COMPARISON
+================================================================================
+
+  Backend: heuristic
+    Accuracy:    8/23 (34.8%)
+    TP=0  FN=15  TN=8  FP=0
+    Precision=0.0%  Recall=0.0%  F1=0.0%
+    Avg scam EMA:  0.0640
+    Avg legit EMA: 0.0053
+
+    legit_01_doctor_appointment.txt           EMA=0.0147  verdict=LEGIT  [OK]  risk=safe
+    legit_02_customer_service.txt             EMA=0.0051  verdict=LEGIT  [OK]  risk=safe
+    legit_03_pharmacy_refill.txt              EMA=0.0005  verdict=LEGIT  [OK]  risk=safe
+    legit_04_airline_booking.txt              EMA=0.0000  verdict=LEGIT  [OK]  risk=safe
+    legit_05_bank_genuine.txt                 EMA=0.0202  verdict=LEGIT  [OK]  risk=safe
+    legit_06_pizza_delivery.txt               EMA=0.0002  verdict=LEGIT  [OK]  risk=safe
+    legit_07_job_interview.txt                EMA=0.0002  verdict=LEGIT  [OK]  risk=safe
+    legit_08_plumber_scheduling.txt           EMA=0.0016  verdict=LEGIT  [OK]  risk=safe
+    scam_01_irs_tax.txt                       EMA=0.0540  verdict=LEGIT  [MISS]  risk=safe
+    scam_02_tech_support.txt                  EMA=0.0866  verdict=LEGIT  [MISS]  risk=safe
+    scam_03_grandparent.txt                   EMA=0.0419  verdict=LEGIT  [MISS]  risk=safe
+    scam_04_social_security.txt               EMA=0.0900  verdict=LEGIT  [MISS]  risk=safe
+    scam_05_bank_fraud.txt                    EMA=0.0870  verdict=LEGIT  [MISS]  risk=safe
+    scam_06_auto_warranty.txt                 EMA=0.0608  verdict=LEGIT  [MISS]  risk=safe
+    scam_07_utility_shutoff.txt               EMA=0.0751  verdict=LEGIT  [MISS]  risk=safe
+    scam_08_medicare.txt                      EMA=0.0546  verdict=LEGIT  [MISS]  risk=safe
+    scam_09_amazon_impersonator.txt           EMA=0.0813  verdict=LEGIT  [MISS]  risk=safe
+    scam_10_legal_threat.txt                  EMA=0.0426  verdict=LEGIT  [MISS]  risk=safe
+    scam_11_student_loan.txt                  EMA=0.0670  verdict=LEGIT  [MISS]  risk=safe
+    scam_12_prize_lottery.txt                 EMA=0.0563  verdict=LEGIT  [MISS]  risk=safe
+    scam_13_cfpb_impersonator.txt             EMA=0.0677  verdict=LEGIT  [MISS]  risk=safe
+    scam_14_credit_line.txt                   EMA=0.0834  verdict=LEGIT  [MISS]  risk=safe
+    scam_15_investment.txt                    EMA=0.0119  verdict=LEGIT  [MISS]  risk=safe
+
+  Backend: xgboost
+    Accuracy:    21/23 (91.3%)
+    TP=13  FN=2  TN=8  FP=0
+    Precision=100.0%  Recall=86.7%  F1=92.9%
+    Avg scam EMA:  0.6767
+    Avg legit EMA: 0.1774
+
+    legit_01_doctor_appointment.txt           EMA=0.2026  verdict=LEGIT  [OK]  risk=low
+    legit_02_customer_service.txt             EMA=0.2156  verdict=LEGIT  [OK]  risk=low
+    legit_03_pharmacy_refill.txt              EMA=0.3100  verdict=LEGIT  [OK]  risk=medium
+    legit_04_airline_booking.txt              EMA=0.1132  verdict=LEGIT  [OK]  risk=safe
+    legit_05_bank_genuine.txt                 EMA=0.1885  verdict=LEGIT  [OK]  risk=low
+    legit_06_pizza_delivery.txt               EMA=0.1362  verdict=LEGIT  [OK]  risk=safe
+    legit_07_job_interview.txt                EMA=0.1106  verdict=LEGIT  [OK]  risk=safe
+    legit_08_plumber_scheduling.txt           EMA=0.1423  verdict=LEGIT  [OK]  risk=safe
+    scam_01_irs_tax.txt                       EMA=0.5000  verdict=LEGIT  [MISS]  risk=medium
+    scam_02_tech_support.txt                  EMA=0.7912  verdict=FRAUD  [OK]  risk=critical
+    scam_03_grandparent.txt                   EMA=0.8329  verdict=FRAUD  [OK]  risk=critical
+    scam_04_social_security.txt               EMA=0.9352  verdict=FRAUD  [OK]  risk=critical
+    scam_05_bank_fraud.txt                    EMA=0.7530  verdict=FRAUD  [OK]  risk=critical
+    scam_06_auto_warranty.txt                 EMA=0.5594  verdict=FRAUD  [OK]  risk=high
+    scam_07_utility_shutoff.txt               EMA=0.6203  verdict=FRAUD  [OK]  risk=high
+    scam_08_medicare.txt                      EMA=0.5616  verdict=FRAUD  [OK]  risk=high
+    scam_09_amazon_impersonator.txt           EMA=0.7215  verdict=FRAUD  [OK]  risk=high
+    scam_10_legal_threat.txt                  EMA=0.7407  verdict=FRAUD  [OK]  risk=high
+    scam_11_student_loan.txt                  EMA=0.6196  verdict=FRAUD  [OK]  risk=high
+    scam_12_prize_lottery.txt                 EMA=0.5371  verdict=FRAUD  [OK]  risk=high
+    scam_13_cfpb_impersonator.txt             EMA=0.6690  verdict=FRAUD  [OK]  risk=high
+    scam_14_credit_line.txt                   EMA=0.9005  verdict=FRAUD  [OK]  risk=critical
+    scam_15_investment.txt                    EMA=0.4081  verdict=LEGIT  [MISS]  risk=medium

@@ -1,0 +1,19 @@
+# Source: FTC robocall scam examples (telemarketing credit scam),
+#   FTC consumer alerts on advance fee credit scams
+# Type: SCAM - Guaranteed Credit Line
+# Category: Advance Fee Credit Scam
+# Label: FRAUD
+# Notes: Reconstructed from FTC's documented robocall transcript: "Hi, I see
+#   you're responding to our ad for a guaranteed line of credit."
+
+Hi, I see you are responding to our ad for a guaranteed line of credit. We believe that everyone deserves a loan. We have helped thousands of people with bad credit, no credit, and even people who have been through bankruptcy get approved for credit lines of up to $10,000.
+
+Our approval process is fast and easy. We do not check your credit score and there are no income requirements. You are already pre-approved based on the information we have on file.
+
+However, we do charge a small processing fee in order to get your application into the system. All I need is your bank's routing number. They are at the bottom of a check. And your account number so we can debit the $199 processing fee directly from your account.
+
+Once the fee is processed, your guaranteed credit line of $5,000 will be activated within 24 to 48 hours. You will receive your new credit card in the mail within 7 to 10 business days.
+
+This offer is only available today and we have limited spots remaining in this program. If you do not take advantage of this now, we cannot guarantee the same terms will be available in the future. Interest rates are rising and this promotional rate of 9.9% APR will not last.
+
+Can you grab a check or your bank statement so I can get those routing and account numbers? The sooner we get the fee processed, the sooner you will have access to your new $5,000 credit line. Remember, this is a guaranteed approval regardless of your credit history.

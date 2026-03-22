@@ -1,0 +1,15 @@
+# Source: Standard medical office appointment reminder patterns from
+#   Textline, SimpleTexting, and OhMD documentation
+# Type: LEGITIMATE - Doctor Appointment Reminder
+# Category: Healthcare / Appointment Reminder
+# Label: LEGITIMATE
+# Notes: Standard appointment reminder call following documented medical
+#   office communication templates.
+
+Hello, this is Sarah from Riverside Family Medicine calling for Patricia Johnson. This is a friendly reminder that you have an appointment scheduled with Dr. Michael Chen tomorrow, Thursday March 20th at 2:30 PM.
+
+The office is located at 450 Oak Street, Suite 210. Please arrive 15 minutes early to complete any updated paperwork. If you have any changes to your insurance information, please bring your new card with you.
+
+If you need to reschedule or cancel your appointment, please call our office at 555-0142 at your earliest convenience so we can offer that time slot to another patient.
+
+We look forward to seeing you tomorrow. Thank you and have a great day.

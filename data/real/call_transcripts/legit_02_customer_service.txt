@@ -1,0 +1,21 @@
+# Source: Zapier customer service script examples, HubSpot service scripts,
+#   RevChat customer service templates
+# Type: LEGITIMATE - Customer Service Call
+# Category: Retail Customer Service
+# Label: LEGITIMATE
+# Notes: Standard customer service interaction following documented
+#   call center best practices.
+
+Thank you for calling Best Electronics customer support. My name is Jennifer and I'll be happy to help you today. May I have your name please?
+
+Hi David, thank you for calling in. How can I help you today?
+
+I understand you received a laptop that arrived with a cracked screen. I'm really sorry to hear about that. That must be frustrating, especially when you're excited about a new purchase. Let me look into this right away for you.
+
+Can I have your order number please? It would have been in the confirmation email. Great, order number 847329. Let me pull that up.
+
+Okay, I can see your order here. You ordered the ProBook 15 laptop, placed on March 10th and delivered on March 15th. I'm going to process a return and replacement for you right away. You won't need to pay any shipping costs for this.
+
+What I'll do is send you a prepaid return shipping label to the email address on your account. Once you ship back the damaged unit, we'll send out a brand new replacement. Typically the replacement arrives within 3 to 5 business days after we receive the return.
+
+Is there anything else I can help you with today, David? Okay, great. Thank you for your patience with this. We appreciate your business and I hope you enjoy your new laptop when it arrives. Have a wonderful rest of your day.

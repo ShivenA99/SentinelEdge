@@ -1,0 +1,22 @@
+# Source: FTC consumer alert "Got a call about fraud activity on your bank account?" (2024),
+#   GTE Financial documented scam examples, City National Bank fraud alerts,
+#   AARP bank impersonation scam reports
+# Type: SCAM - Bank Fraud Department Impersonation
+# Category: Bank Fraud / Financial Scam
+# Label: FRAUD
+# Notes: Reconstructed from FTC 2024 consumer alerts and financial institution
+#   documented scam patterns. Reflects real Zelle reversal scam tactics.
+
+Hello, this is the fraud alert department at your bank. We are calling to notify you of suspicious activity on your checking account ending in 4892.
+
+Our fraud monitoring system has detected an unauthorized transaction. Someone attempted to make a wire transfer of $2,400 from your account to an overseas account. We have temporarily blocked this transaction but we need to verify your identity immediately to secure your account.
+
+For verification purposes, can you please confirm your full name, date of birth, and the last four digits of your Social Security number? I also need you to confirm the PIN associated with your debit card.
+
+Okay, thank you for confirming that. Now I can see that your account has been compromised. In addition to the wire transfer attempt, there appear to be three other pending transactions totaling $1,847 that we need to reverse.
+
+To reverse these unauthorized transactions, we need to process what is called a Zelle refund. What I need you to do is open your banking app right now and go to the Zelle section. I am going to send you a verification code via text message. When you receive it, please read it back to me so I can complete the reversal process.
+
+You should be receiving the code right now. Can you read me those six digits? Perfect. Now I need you to initiate a Zelle transfer to the following email address. This is our secure fraud recovery account. The amount should be $2,400 which will offset the unauthorized transaction and restore your balance.
+
+I understand this might seem unusual, but this is our standard procedure for fraud recovery. Your account security is our top priority. Please do not hang up or contact another number as that would reset the fraud reversal process and your funds could be permanently lost. Can you confirm you have completed the Zelle transfer?

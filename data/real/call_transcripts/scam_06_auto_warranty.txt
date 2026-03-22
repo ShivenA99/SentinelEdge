@@ -1,0 +1,22 @@
+# Source: FCC auto warranty scam guide, NPR Planet Money "About Your Extended Warranty",
+#   FTC robocall scam examples, news reports
+# Type: SCAM - Auto Warranty
+# Category: Auto Warranty Robocall Scam
+# Label: FRAUD
+# Notes: Reconstructed from FCC documented examples including the real voicemail
+#   "Hi there, this is Jessica calling in regards to your Volkswagen warranty."
+#   and NPR's documented script from the extended warranty robocall investigation.
+
+Hi. This is Susie calling with the vehicle service department. We have been trying to reach you concerning your car's extended auto warranty. You should have received something in the mail about your car's warranty. We sent you several notices in the mail that you have yet to extend your warranty past the factory cutoff. Since we have not gotten a response, this is a final courtesy call to renew your warranty before we close out your file permanently.
+
+Press one to be connected with a warranty specialist or press two to be removed from our calling list.
+
+Hello, thank you for holding. My name is Robert and I'm a senior warranty advisor. I'm looking at your vehicle file right now and I can see that your factory warranty expired last month. Without coverage, you would be fully responsible for any mechanical breakdowns or engine failures out of your own pocket.
+
+We've actually had several customers this week who had their transmission go out and they were looking at repair bills of $4,000 to $6,000. One gentleman had to pay $8,500 for an engine replacement because he let his warranty lapse.
+
+Now the good news is, I am able to extend your coverage today at a significant discount. Because you're a loyal customer, I'd like to congratulate you on qualifying for our $1,000 instant rebate plus a free maintenance and oil change package.
+
+Our platinum coverage plan normally runs $3,200 but with your rebate it would be just $2,200. That covers your engine, transmission, electrical system, and air conditioning for the next five years or 100,000 miles, whichever comes first.
+
+We can get you set up right now. I just need your vehicle identification number, your mileage, and a credit card or debit card to secure your plan today. This price is only guaranteed for the duration of this call, so I want to make sure we lock it in for you. What credit card would you like to use?

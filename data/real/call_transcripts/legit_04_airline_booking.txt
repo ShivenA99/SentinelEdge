@@ -1,0 +1,18 @@
+# Source: Standard airline customer service interaction patterns
+# Type: LEGITIMATE - Airline Booking Confirmation
+# Category: Travel / Airline
+# Label: LEGITIMATE
+# Notes: Standard airline customer service call for booking confirmation
+#   and itinerary details.
+
+Thank you for calling Delta Airlines reservations. My name is Marcus and I'd be happy to assist you. May I have your SkyMiles number or the confirmation code for your booking?
+
+Thank you, I've pulled up your reservation. I can see you have a round trip booking from Atlanta to San Francisco. Let me go over the details with you.
+
+Your outbound flight is Delta flight 1247 departing Atlanta Hartsfield-Jackson on April 5th at 10:15 AM arriving in San Francisco at 12:45 PM Pacific time. That's a nonstop flight with an estimated flight time of 4 hours and 30 minutes.
+
+Your return flight is Delta flight 982 departing San Francisco on April 12th at 3:00 PM Pacific time arriving in Atlanta at 10:30 PM Eastern time. That is also a nonstop flight.
+
+You're currently in a Main Cabin seat. For the outbound flight you're in seat 24C which is an aisle seat, and for the return you're in seat 18A which is a window seat.
+
+Is there anything you'd like to change about this booking? You can also check in online starting 24 hours before your flight through the Delta app or delta.com. Would you like me to add any checked bags to your reservation or upgrade your seating? No? Alright, you're all set then. Is there anything else I can help you with today? Have a wonderful trip, Marcus. Goodbye.

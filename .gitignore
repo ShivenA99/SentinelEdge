@@ -34,6 +34,12 @@ Thumbs.db
 node_modules/
 demo/frontend/dist/
 
+# Android
+android/.gradle/
+android/local.properties
+android/build/
+android/app/build/
+
 # Secrets & Keys - NEVER COMMIT THESE
 model_store/
 *.key

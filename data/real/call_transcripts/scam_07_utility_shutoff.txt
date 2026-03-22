@@ -1,0 +1,21 @@
+# Source: FTC "Scammers Pretend To Be Your Utility Company" consumer alert,
+#   Edison International scam reports, Minnesota AG utility scam publications,
+#   National Consumers League fraud.org utility imposter alert
+# Type: SCAM - Utility Company Impersonation
+# Category: Utility Shutoff Threat Scam
+# Label: FRAUD
+# Notes: Reconstructed from FTC and utility company documented scam patterns.
+#   Includes real voicemail pattern documented by Edison: "Hi, this is Kevin
+#   with Southern California Edison."
+
+Hi, this is Kevin with the billing department at your electric company. The reason I am calling is because I have a work order for your property. I should be arriving in 30 to 45 minutes to remove the electrical meter and disconnect your service.
+
+Our records show that your account is 90 days past due with an outstanding balance of $487.63. Multiple notices were sent to your address but we have not received payment. As a result, a disconnection order has been issued and my crew is scheduled to shut off your power within the next 30 minutes.
+
+Now, once the power is disconnected, there will be a reconnection fee of $350 on top of your outstanding balance. And due to the current high demand, it could take up to two weeks before we can send a technician out to restore your service. That means no electricity for up to two weeks.
+
+However, if you can make an immediate payment right now while I still have you on the phone, I can cancel the disconnection order and keep your service active. You would just need to pay the outstanding balance of $487.63 today.
+
+The quickest way to process this payment and stop the disconnection is through our expedited payment system. You would need to go to your nearest convenience store and purchase a prepaid debit card or a MoneyPak card for the amount owed. Then call me back with the card number and I can apply it to your account immediately.
+
+We cannot accept credit cards or checks over the phone for past due accounts because those take too long to process and the disconnection crew is already on their way. The only way to stop them right now is with the prepaid card payment. Can you get to a store in the next 20 minutes?

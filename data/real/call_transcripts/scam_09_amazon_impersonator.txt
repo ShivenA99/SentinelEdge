@@ -1,0 +1,21 @@
+# Source: FTC robocall scam examples, FTC consumer alerts on Amazon impersonation,
+#   Aura "Bank of America Scams" documentation (Amazon variant),
+#   consumer reports filed with FTC
+# Type: SCAM - Amazon Order Impersonation
+# Category: Business Impersonation Scam
+# Label: FRAUD
+# Notes: Reconstructed from FTC documented Amazon impersonation robocall patterns
+#   and consumer-reported scripts. FTC notes this is one of the most common
+#   business impersonation scams reported.
+
+Hello, this is an automated message from Amazon. We are calling to confirm a charge on your Amazon account. A purchase of $746.42 has been made for an Apple MacBook Pro. If you did not authorize this purchase, press one to speak with our fraud department immediately. Press two if you authorized this transaction.
+
+Thank you for contacting Amazon security services. My name is Michael and I'm with the Amazon fraud prevention team. I can see here that someone has placed an order on your account for a MacBook Pro totaling $746.42. It's being shipped to an address in Miami, Florida. This was clearly not authorized by you, correct?
+
+That's what I suspected. It appears that your Amazon account has been completely compromised. The hacker also has access to your payment information and we can see they've been making small test charges over the past few weeks to verify your credit card is active.
+
+To protect your account and get you a full refund, I'm going to need to verify your identity. Can you please tell me the email address associated with your Amazon account? And the credit card number that's saved on your account so I can identify which card needs to be flagged?
+
+Actually, the fastest way to secure your account and process your refund is to install a remote access application on your computer. This will allow our technical team to remove the hacker's access and restore your account security. Go to any web browser and type in support dot amazon dash help dot com. You'll see a download button for our secure remote tool.
+
+Once we're connected, we can also process your refund directly. However, due to a system limitation, refunds over $500 need to be processed through a gift card transfer. I'll walk you through the process once we're connected. This is Amazon's standard procedure for high-value fraud refunds. Please stay on the line while we secure your account.

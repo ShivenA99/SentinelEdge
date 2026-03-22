@@ -1,0 +1,17 @@
+# Source: Standard home service scheduling interaction
+# Type: LEGITIMATE - Plumber Service Call Scheduling
+# Category: Home Services
+# Label: LEGITIMATE
+# Notes: Normal home service scheduling call with no fraud indicators.
+
+Good morning, Anderson Plumbing, this is Mike. How can I help you?
+
+Leaky faucet in the kitchen, got it. How long has it been leaking? About a week, okay. Is it a constant drip or only when the handle is in a certain position? Constant drip, yeah that sounds like it could be a worn washer or cartridge, pretty common fix.
+
+Let me see what we have available. We could get someone out to you tomorrow afternoon between 1 and 3, or if you prefer morning we have an opening on Thursday between 9 and 11. Which works better for you?
+
+Thursday morning it is. Now our service call fee is $89 and that covers the first hour of labor plus the diagnostic. Parts would be additional depending on what we find, but for a standard faucet repair you're usually looking at $150 to $250 all in. We'll always give you the full quote before we do any work so there are no surprises.
+
+Can I get your name and address? Great, and a phone number where we can reach you? The technician will give you a call about 30 minutes before they arrive on Thursday so you know when to expect them.
+
+Is there anything else you need help with? No? Alright, we'll see you Thursday between 9 and 11. Have a good day.
