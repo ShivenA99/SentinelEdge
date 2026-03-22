@@ -279,12 +279,13 @@ export default function App() {
     { id: 'privacy', label: 'Privacy Demo', icon: <Lock className="w-4 h-4" /> },
     { id: 'federated', label: 'Federated Learning', icon: <GitBranch className="w-4 h-4" /> },
   ]
+  const isDetectionLoading = isCallActive && sentences.length === 0
 
   return (
     <div className="min-h-screen bg-dark-bg text-gray-100 font-sans">
       {/* Header */}
       <header className="border-b border-dark-border/50 bg-dark-card/50 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-[1440px] mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-3">
             <div className="relative">
               <Shield className="w-8 h-8 text-brand-teal" />
@@ -302,14 +303,14 @@ export default function App() {
           </div>
 
           {/* Tabs */}
-          <nav className="flex items-center gap-1">
+          <nav className="flex flex-wrap items-center gap-2">
             {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${
+                className={`control-button px-3 py-2 text-sm font-medium sm:px-4 ${
                   activeTab === tab.id
-                    ? 'bg-brand-teal/10 text-brand-teal'
+                    ? 'border-brand-teal/30 bg-brand-teal/10 text-brand-teal'
                     : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
                 }`}
               >
@@ -320,7 +321,7 @@ export default function App() {
           </nav>
 
           {/* Status indicator */}
-          <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center gap-2 text-xs lg:justify-end">
             <Activity className={`w-3.5 h-3.5 ${isConnected ? 'text-safe' : 'text-gray-500'}`} />
             <span className={isConnected ? 'text-safe' : 'text-gray-500'}>
               {isConnected ? 'Backend Connected' : 'Local Playback Mode'}
@@ -330,7 +331,7 @@ export default function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-[1440px] mx-auto px-6 py-6">
+      <main className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-6">
         {activeTab === 'detection' && (
           <div className="space-y-6">
             {/* Demo Controls */}
@@ -343,9 +344,9 @@ export default function App() {
             />
 
             {/* Main detection layout */}
-            <div className="grid grid-cols-12 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
               {/* Phone Simulator */}
-              <div className="col-span-4 flex justify-center">
+              <div className="flex justify-center lg:col-span-4 lg:justify-start">
                 <PhoneSimulator>
                   <CallScreen
                     callerName={currentCallId ? callerNames[currentCallId] ?? 'Unknown' : 'No Active Call'}
@@ -368,23 +369,57 @@ export default function App() {
               </div>
 
               {/* Right side panels */}
-              <div className="col-span-8 space-y-6">
+              <div className="space-y-6 lg:col-span-8">
                 {/* Score + Features row */}
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                   <div className="glass-card p-6 glow-teal">
-                    <ScoreGauge score={emaScore} label="Fraud Score (EMA)" />
+                    {isDetectionLoading ? (
+                      <div className="panel-skeleton">
+                        <div className="mx-auto h-48 w-48 rounded-full skeleton-block" />
+                        <div className="mx-auto h-4 w-32 skeleton-block" />
+                        <div className="mx-auto h-3 w-40 skeleton-block" />
+                      </div>
+                    ) : (
+                      <ScoreGauge score={emaScore} label="Fraud Score (EMA)" />
+                    )}
                   </div>
                   <div className="glass-card p-6">
-                    <FeatureBreakdown features={features} />
+                    {isDetectionLoading ? (
+                      <div className="panel-skeleton">
+                        {[0, 1, 2, 3].map(item => (
+                          <div key={item} className="panel-skeleton-card space-y-2">
+                            <div className="flex items-center justify-between gap-3">
+                              <div className="h-3 w-24 skeleton-block" />
+                              <div className="h-3 w-10 skeleton-block" />
+                            </div>
+                            <div className="h-2 w-full rounded-full skeleton-block" />
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <FeatureBreakdown features={features} />
+                    )}
                   </div>
                 </div>
 
                 {/* Transcript */}
                 <div className="glass-card p-6">
-                  <TranscriptPanel
-                    sentences={sentences}
-                    isStreaming={isCallActive}
-                  />
+                  {isDetectionLoading ? (
+                    <div className="panel-skeleton">
+                      {[0, 1, 2].map(item => (
+                        <div key={item} className="panel-skeleton-card space-y-3">
+                          <div className="h-3 w-20 skeleton-block" />
+                          <div className="h-3 w-full skeleton-block" />
+                          <div className="h-3 w-5/6 skeleton-block" />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <TranscriptPanel
+                      sentences={sentences}
+                      isStreaming={isCallActive}
+                    />
+                  )}
                 </div>
               </div>
             </div>

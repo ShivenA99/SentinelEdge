@@ -150,8 +150,6 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
         }))
       : fallbackEntries
 
-  const hasNoData = displayEntries.length === 0 && !isCallActive
-
   // Replay: cycle through fallback examples one by one
   const startReplay = useCallback(() => {
     if (isReplaying) return
@@ -184,8 +182,8 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
   return (
     <div className="space-y-6">
       {/* Intro banner */}
-      <div className="glass-card p-6 glow-teal">
-        <div className="flex items-start gap-4">
+      <div className="glass-card p-5 sm:p-6 glow-teal">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
           <div className="w-12 h-12 rounded-xl bg-brand-teal/10 flex items-center justify-center flex-shrink-0">
             <Lock className="w-6 h-6 text-brand-teal" />
           </div>
@@ -197,7 +195,7 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
               to reconstruct your conversations or personal information.
             </p>
           </div>
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex flex-wrap items-center gap-3 lg:flex-shrink-0">
             {/* Connection status */}
             <div className="flex items-center gap-1.5 text-xs">
               {wsConnected ? (
@@ -217,10 +215,10 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
               onClick={startReplay}
               disabled={isReplaying || isCallActive}
               className={`
-                flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all
+                control-button px-3 py-1.5 text-xs font-medium
                 ${isReplaying || isCallActive
-                  ? 'bg-gray-700/30 text-gray-600 cursor-not-allowed'
-                  : 'bg-brand-teal/10 text-brand-teal border border-brand-teal/20 hover:bg-brand-teal/20 active:scale-[0.97]'
+                  ? ''
+                  : 'border-brand-teal/20 bg-brand-teal/10 text-brand-teal hover:bg-brand-teal/20'
                 }
               `}
             >
@@ -232,7 +230,7 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
       </div>
 
       {/* Side by side panels with noise wall */}
-      <div className="grid grid-cols-[1fr_auto_1fr] gap-0">
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1fr_auto_1fr] xl:gap-0">
         {/* Device panel */}
         <div className="glass-card border-brand-teal/30 overflow-hidden">
           {/* Header */}
@@ -373,7 +371,7 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
                       <p className="text-xs text-gray-600 font-medium">
                         Gradient Update #{i + 1}
                       </p>
-                      <span className="text-[9px] px-1.5 py-0.5 bg-gray-700/30 text-gray-500 rounded-full">
+                        <span className="text-[9px] px-1.5 py-0.5 bg-gray-700/30 text-gray-500 rounded-full">
                         DP-SGD
                       </span>
                     </div>
@@ -412,9 +410,9 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
       </div>
 
       {/* Bottom explanation */}
-      <div className="glass-card p-6">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-3 flex-shrink-0">
+      <div className="glass-card p-5 sm:p-6">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-6">
+          <div className="flex items-center gap-3 overflow-x-auto pb-1 lg:flex-shrink-0">
             <div className="w-10 h-10 rounded-full bg-brand-teal/10 flex items-center justify-center">
               <Smartphone className="w-5 h-5 text-brand-teal" />
             </div>

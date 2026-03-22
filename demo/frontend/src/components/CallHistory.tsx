@@ -109,7 +109,7 @@ export default function CallHistory({ entries }: CallHistoryProps) {
       {/* Collapsible header */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between px-6 py-4 hover:bg-white/[0.02] transition-colors"
+        className="w-full flex items-center justify-between px-4 py-4 hover:bg-white/[0.02] transition-colors sm:px-6"
       >
         <div className="flex items-center gap-2.5">
           <Clock className="w-4 h-4 text-brand-teal" />
@@ -144,7 +144,7 @@ export default function CallHistory({ entries }: CallHistoryProps) {
                   {/* Row */}
                   <button
                     onClick={() => setSelectedId(selectedId === entry.id ? null : entry.id)}
-                    className="w-full flex items-center gap-4 px-6 py-3.5 hover:bg-white/[0.02] transition-colors text-left"
+                    className="w-full flex flex-col items-start gap-3 px-4 py-3.5 text-left hover:bg-white/[0.02] transition-colors sm:px-6 lg:flex-row lg:items-center lg:gap-4"
                   >
                     {/* Call type icon */}
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${getCallIconColor(entry.callType)}`}>
@@ -162,7 +162,7 @@ export default function CallHistory({ entries }: CallHistoryProps) {
                     </div>
 
                     {/* Duration */}
-                    <div className="flex items-center gap-1.5 text-xs text-gray-400 flex-shrink-0">
+                    <div className="flex items-center gap-1.5 text-xs text-gray-400 lg:flex-shrink-0">
                       <Clock className="w-3 h-3" />
                       <span className="font-mono tabular-nums">{formatDuration(entry.duration)}</span>
                     </div>
@@ -175,7 +175,7 @@ export default function CallHistory({ entries }: CallHistoryProps) {
                     </div>
 
                     {/* Outcome badge */}
-                    <div className="flex-shrink-0">
+                    <div>
                       <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${getOutcomeStyle(entry.outcome).bg} ${getOutcomeStyle(entry.outcome).text}`}>
                         {entry.outcome}
                       </span>
@@ -191,10 +191,10 @@ export default function CallHistory({ entries }: CallHistoryProps) {
 
                   {/* Expanded detail */}
                   {selectedId === entry.id && (
-                    <div className="px-6 pb-4 animate-fade-in">
-                      <div className="ml-12 bg-dark-bg/50 rounded-xl p-4 border border-dark-border/20 space-y-3">
+                    <div className="px-4 pb-4 animate-fade-in sm:px-6">
+                      <div className="rounded-xl border border-dark-border/20 bg-dark-bg/50 p-4 space-y-3 lg:ml-12">
                         {/* Summary row */}
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                           <div>
                             <p className="text-[10px] text-gray-600 uppercase tracking-wider mb-1">Total Sentences</p>
                             <p className="text-sm font-bold text-gray-200 tabular-nums">{entry.totalSentences}</p>

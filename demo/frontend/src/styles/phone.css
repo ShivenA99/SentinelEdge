@@ -11,6 +11,29 @@
   transition: transform 0.3s ease;
 }
 
+.phone-screen-shake {
+  animation: phone-screen-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes phone-screen-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  18% {
+    transform: translate3d(-1.5px, 0, 0);
+  }
+  36% {
+    transform: translate3d(1.25px, 0, 0);
+  }
+  54% {
+    transform: translate3d(-1px, 0.4px, 0);
+  }
+  72% {
+    transform: translate3d(0.8px, -0.4px, 0);
+  }
+}
+
 /* ===== Pulse Animation for Critical Alerts ===== */
 
 @keyframes pulse-border {
@@ -46,12 +69,82 @@
   animation: typewriter-cursor 0.8s ease-in-out infinite;
   color: #0d9488;
   font-weight: bold;
+  margin-left: 1px;
+}
+
+.transcript-keyword {
+  font-weight: 700;
+  border-radius: 0.35rem;
+  padding: 0 0.12rem;
+}
+
+.transcript-keyword-urgent {
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.transcript-keyword-payment {
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.12);
+}
+
+.transcript-keyword-credential {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.transcript-keyword-threat {
+  color: #ef4444;
+  background: rgba(127, 29, 29, 0.24);
+}
+
+.transcript-keyword-action {
+  color: #2dd4bf;
+  background: rgba(13, 148, 136, 0.12);
+}
+
+.transcript-score-badge-pulse {
+  animation: transcript-badge-pulse 1.25s ease-in-out infinite;
+  box-shadow: 0 0 0 rgba(249, 115, 22, 0);
+}
+
+@keyframes transcript-badge-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 18px 0 rgba(249, 115, 22, 0.18);
+  }
 }
 
 /* ===== Slide Down for Alert Overlay ===== */
 
 .alert-slide-enter {
   animation: alert-slide 0.4s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+.alert-overlay {
+  animation: alert-overlay-fade 420ms ease-out both;
+}
+
+.alert-overlay-critical {
+  animation: alert-overlay-fade 420ms ease-out both;
+}
+
+.alert-overlay-panel {
+  transform-origin: top center;
+  animation: alert-overlay-spring 620ms cubic-bezier(0.18, 0.9, 0.22, 1.16) both;
+}
+
+.alert-banner {
+  animation: alert-banner-spring 560ms cubic-bezier(0.22, 0.88, 0.28, 1.14) both;
+}
+
+.alert-banner-card {
+  transform-origin: top center;
 }
 
 @keyframes alert-slide {
@@ -68,16 +161,151 @@
   }
 }
 
+@keyframes alert-overlay-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes alert-overlay-spring {
+  0% {
+    transform: translateY(-30px) scale(0.97);
+    opacity: 0;
+  }
+  55% {
+    transform: translateY(8px) scale(1.01);
+    opacity: 1;
+  }
+  78% {
+    transform: translateY(-3px) scale(0.998);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes alert-banner-spring {
+  0% {
+    transform: translateY(-22px) scale(0.96);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(4px) scale(1.01);
+    opacity: 1;
+  }
+  82% {
+    transform: translateY(-2px) scale(0.998);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
 /* ===== Smooth Gauge Transitions ===== */
 
 .gauge-arc {
-  transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    stroke 0.3s ease;
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    stroke 0.45s ease,
+    filter 0.45s ease;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--gauge-color) 40%, transparent));
 }
 
 .gauge-needle {
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center center;
+}
+
+.score-gauge-shell {
+  isolation: isolate;
+}
+
+.score-gauge-svg {
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--gauge-color) 28%, transparent));
+  transition: filter 0.45s ease;
+}
+
+.score-gauge-glow {
+  background:
+    radial-gradient(circle at center, color-mix(in srgb, var(--gauge-color) 22%, transparent) 0%, transparent 68%);
+  filter: blur(8px);
+  opacity: 0.95;
+  transition: background 0.45s ease, opacity 0.45s ease, transform 0.7s ease;
+}
+
+.score-gauge-center {
+  transition: color 0.45s ease, transform 0.35s ease, filter 0.45s ease;
+}
+
+.score-gauge-threshold-pulse .score-gauge-glow {
+  animation: score-gauge-threshold-glow 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.score-gauge-threshold-pulse .score-gauge-center {
+  animation: score-gauge-center-pop 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.score-gauge-burst {
+  overflow: visible;
+}
+
+.score-gauge-particle {
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  margin-top: -3px;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), var(--burst-color) 58%, transparent 72%);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--burst-color) 60%, transparent);
+  opacity: 0;
+  transform: rotate(var(--particle-angle)) translateY(0) scale(0.4);
+  animation: score-gauge-particle-burst 860ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+@keyframes score-gauge-threshold-glow {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.55;
+  }
+  55% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+}
+
+@keyframes score-gauge-center-pop {
+  0% {
+    transform: scale(0.96);
+  }
+  55% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes score-gauge-particle-burst {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--particle-angle)) translateY(0) scale(0.4);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--particle-angle)) translateY(calc(-1 * var(--particle-distance))) scale(0.95);
+  }
 }
 
 /* ===== Score Bar Animations ===== */
@@ -165,6 +393,71 @@
 
 .feature-bar-container:hover .feature-bar {
   filter: brightness(1.2);
+}
+
+.feature-bar-container {
+  animation: feature-bar-slide-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.feature-track {
+  background:
+    linear-gradient(90deg, var(--feature-track), rgba(15, 23, 42, 0.26));
+  transition: background 0.35s ease;
+}
+
+.feature-bar {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--feature-color) 80%, white 8%) 0%, var(--feature-color) 55%, color-mix(in srgb, var(--feature-color) 75%, black 6%) 100%);
+  box-shadow: 0 0 18px var(--feature-glow);
+  transform-origin: left center;
+  animation: feature-bar-fill 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: width 0.75s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s ease, box-shadow 0.4s ease, filter 0.25s ease;
+}
+
+.feature-tooltip {
+  opacity: 0;
+  transform: translate(-50%, 8px) scale(0.98);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.feature-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(2, 6, 23, 0.95);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.feature-tooltip-trigger:hover .feature-tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+@keyframes feature-bar-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes feature-bar-fill {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }
 
 /* ===== Ring Pulse for Avatar ===== */

@@ -13,6 +13,33 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  button {
+    transition:
+      transform 180ms ease,
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease,
+      box-shadow 180ms ease,
+      opacity 180ms ease;
+  }
+
+  button:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  button:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  button:focus-visible {
+    outline: 2px solid rgba(20, 184, 166, 0.5);
+    outline-offset: 2px;
+  }
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -34,6 +61,45 @@
 @layer components {
   .glass-card {
     @apply bg-dark-card/80 backdrop-blur-xl border border-dark-border/50 rounded-2xl;
+  }
+
+  .control-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-dark-border/50 bg-dark-card text-gray-300 shadow-sm shadow-black/10;
+  }
+
+  .control-button:hover:not(:disabled) {
+    @apply border-brand-teal/30 bg-brand-teal/10 text-brand-teal;
+    box-shadow: 0 10px 25px rgba(13, 148, 136, 0.08);
+  }
+
+  .control-button:disabled {
+    @apply bg-dark-card/70 text-gray-600 border-dark-border/40 opacity-50;
+  }
+
+  .skeleton-block {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: linear-gradient(90deg, rgba(51, 65, 85, 0.55) 0%, rgba(71, 85, 105, 0.75) 50%, rgba(51, 65, 85, 0.55) 100%);
+    background-size: 200% 100%;
+    animation: skeleton-wave 1.6s ease-in-out infinite;
+  }
+
+  .panel-skeleton {
+    @apply space-y-3;
+  }
+
+  .panel-skeleton-card {
+    @apply rounded-2xl border border-dark-border/30 bg-dark-bg/30 p-4;
+  }
+
+  @keyframes skeleton-wave {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
   }
 
   .glow-teal {

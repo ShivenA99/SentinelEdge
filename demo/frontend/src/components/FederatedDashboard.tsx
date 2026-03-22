@@ -327,7 +327,7 @@ export default function FederatedDashboard() {
       )}
 
       {/* Header with action */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-brand-teal/10 flex items-center justify-center">
             <GitBranch className="w-5 h-5 text-brand-teal" />
@@ -350,10 +350,10 @@ export default function FederatedDashboard() {
           onClick={runSimulationRound}
           disabled={isSimulating}
           className={`
-            flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
+            control-button px-4 py-2 text-sm font-medium
             ${isSimulating
-              ? 'bg-brand-teal/20 text-brand-teal/50 cursor-not-allowed'
-              : 'bg-brand-teal text-white hover:bg-brand-teal-light active:scale-[0.98] shadow-lg shadow-brand-teal/20'
+              ? 'bg-brand-teal/20 text-brand-teal/50 border-brand-teal/20'
+              : 'border-brand-teal bg-brand-teal text-white hover:bg-brand-teal-light hover:text-white shadow-lg shadow-brand-teal/20'
             }
           `}
         >
@@ -367,7 +367,7 @@ export default function FederatedDashboard() {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
         {stats.map((stat) => (
           <div key={stat.label} className="glass-card p-4">
             <div className="flex items-center gap-2 mb-2">
@@ -382,7 +382,7 @@ export default function FederatedDashboard() {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         {/* Accuracy & F1 over rounds */}
         <div className="glass-card p-6">
           <h3 className="text-sm font-semibold text-gray-200 mb-4 flex items-center gap-2">
@@ -492,7 +492,7 @@ export default function FederatedDashboard() {
           <Users className="w-4 h-4 text-brand-teal" />
           Per-Device Sample Contributions
         </h3>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={deviceData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" horizontal={false} />
@@ -564,7 +564,7 @@ export default function FederatedDashboard() {
       {/* FL Process explanation */}
       <div className="glass-card p-6">
         <h3 className="text-sm font-semibold text-gray-200 mb-4">How Federated Learning Works</h3>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
             { step: '1', title: 'Local Training', desc: 'Each device trains on its own call data', icon: <Smartphone className="w-5 h-5" />, color: 'text-brand-teal' },
             { step: '2', title: 'Add DP Noise', desc: 'Differential privacy noise added to gradients', icon: <Lock className="w-5 h-5" />, color: 'text-safe' },
