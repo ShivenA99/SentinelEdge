@@ -40,26 +40,25 @@ class MLPClassifier:
     # ------------------------------------------------------------------
 
     def _init_weights(self) -> None:
-        """Initialise weights using He initialisation."""
+        """Initialise weights using He initialisation with float64 for
+        numerical stability during federated training."""
         rng = np.random.default_rng(seed=42)
 
-        self.W1 = (
-            rng.standard_normal((self.input_dim, 128)).astype(np.float32)
-            * np.sqrt(2.0 / self.input_dim)
-        )
-        self.b1 = np.zeros(128, dtype=np.float32)
+        # Use small-scale init (0.01) instead of He init to prevent
+        # dead ReLUs and numerical overflow in federated training where
+        # inputs are normalized z-scores (mean=0, std=1).
+        scale1 = 0.01
+        scale2 = 0.01
+        scale3 = 0.01
 
-        self.W2 = (
-            rng.standard_normal((128, 64)).astype(np.float32)
-            * np.sqrt(2.0 / 128)
-        )
-        self.b2 = np.zeros(64, dtype=np.float32)
+        self.W1 = (rng.standard_normal((self.input_dim, 128)) * scale1).astype(np.float64)
+        self.b1 = np.zeros(128, dtype=np.float64)
 
-        self.W3 = (
-            rng.standard_normal((64, 1)).astype(np.float32)
-            * np.sqrt(2.0 / 64)
-        )
-        self.b3 = np.zeros(1, dtype=np.float32)
+        self.W2 = (rng.standard_normal((128, 64)) * scale2).astype(np.float64)
+        self.b2 = np.zeros(64, dtype=np.float64)
+
+        self.W3 = (rng.standard_normal((64, 1)) * scale3).astype(np.float64)
+        self.b3 = np.zeros(1, dtype=np.float64)
 
     # ------------------------------------------------------------------
     # Forward pass
@@ -78,12 +77,14 @@ class MLPClassifier:
         float
             Fraud probability in ``[0, 1]``.
         """
-        x = np.asarray(x, dtype=np.float32)
+        x = np.asarray(x, dtype=np.float64)
         if x.ndim == 2:
-            return float(self.forward_batch(x)[0])
+            # Batch input: return full array (not just first element)
+            return self.forward_batch(x)
         h1 = np.maximum(0, x @ self.W1 + self.b1)          # ReLU
         h2 = np.maximum(0, h1 @ self.W2 + self.b2)         # ReLU
-        logit = float(h2 @ self.W3 + self.b3)
+        logit_arr = h2 @ self.W3 + self.b3                  # shape (1,)
+        logit = float(logit_arr.item())                     # numpy 2.x safe
         return 1.0 / (1.0 + np.exp(-np.clip(logit, -50, 50)))  # Sigmoid
 
     def forward_batch(self, X: np.ndarray) -> np.ndarray:
@@ -99,10 +100,15 @@ class MLPClassifier:
         np.ndarray
             1-D array of fraud probabilities, shape ``(n_samples,)``.
         """
-        X = np.asarray(X, dtype=np.float32)
-        h1 = np.maximum(0, X @ self.W1 + self.b1)
-        h2 = np.maximum(0, h1 @ self.W2 + self.b2)
+        X = np.asarray(X, dtype=np.float64)
+        z1 = X @ self.W1 + self.b1
+        z1 = np.nan_to_num(z1, nan=0.0, posinf=50.0, neginf=-50.0)
+        h1 = np.maximum(0, z1)
+        z2 = h1 @ self.W2 + self.b2
+        z2 = np.nan_to_num(z2, nan=0.0, posinf=50.0, neginf=-50.0)
+        h2 = np.maximum(0, z2)
         logits = (h2 @ self.W3 + self.b3).ravel()
+        logits = np.nan_to_num(logits, nan=0.0, posinf=50.0, neginf=-50.0)
         return 1.0 / (1.0 + np.exp(-np.clip(logits, -50, 50)))
 
     # ------------------------------------------------------------------
@@ -170,7 +176,7 @@ class MLPClassifier:
         weights : np.ndarray
             1-D vector of length ``n_params``.
         """
-        weights = np.asarray(weights, dtype=np.float32)
+        weights = np.asarray(weights, dtype=np.float64)
         idx = 0
 
         # W1: (input_dim, 128)

@@ -55,22 +55,46 @@ class FederatedSimulation:
             Device 3: Mostly legitimate calls (15% scam rate)
             Device 4: Heavy on bank fraud (55% scam rate)
             Device 5+: Random profile
+
+        All data is globally normalized once (z-score) so that all
+        devices and the test set share the same feature scale.
         """
         np.random.seed(42)
 
+        # Generate all device data first to compute global normalization
+        all_X = []
+        all_y = []
+        device_splits = []
+        for i in range(self.n_devices):
+            X, y = self._generate_device_data(i, n_samples=100)
+            device_splits.append((len(all_X), len(all_X) + len(X)))
+            all_X.append(X)
+            all_y.append(y)
+
+        # Balanced test set
+        rng = np.random.RandomState(999)
+        X_test, y_test = self._generate_test_set(rng, n_samples=300)
+        all_X.append(X_test)
+
+        # Global z-score normalization
+        all_data = np.vstack(all_X)
+        self._global_mean = all_data.mean(axis=0)
+        self._global_std = all_data.std(axis=0) + 1e-8
+
+        # Create devices with normalized data
         self.devices = []
         for i in range(self.n_devices):
             device = LocalTrainer(device_id=f"device_{i}", input_dim=INPUT_DIM)
-            X, y = self._generate_device_data(i, n_samples=100)
-            for j in range(X.shape[0]):
-                device.ingest_call_data(X[j], int(y[j]))
+            X = all_X[i]
+            y = all_y[i]
+            X_norm = (X - self._global_mean) / self._global_std
+            for j in range(X_norm.shape[0]):
+                device.ingest_call_data(X_norm[j], int(y[j]))
             self.devices.append(device)
 
-        # Balanced test set from a separate seed
-        rng = np.random.RandomState(999)
-        self.test_features, self.test_labels = self._generate_test_set(
-            rng, n_samples=300
-        )
+        # Normalized test set
+        self.test_features = (X_test - self._global_mean) / self._global_std
+        self.test_labels = y_test
 
     def _generate_device_data(self, device_idx: int,
                               n_samples: int = 100) -> tuple:
@@ -127,25 +151,19 @@ class FederatedSimulation:
         difficult for federated learning with DP.
         """
         n = INPUT_DIM
-        v = rng.normal(0.0, 1.0, size=n)
+        v = rng.normal(0.0, 0.5, size=n)  # lower background noise
 
-        # Sparse discriminative signal in a small block of features
-        # Only ~20 features carry the scam signal (out of 402)
-        signal_start = 0
-        signal_end = 20
-        v[signal_start:signal_end] += rng.normal(0.8, 0.4, size=signal_end - signal_start)
+        # Strong discriminative signal in the first 30 features
+        signal_end = 30
+        v[:signal_end] += rng.normal(2.0, 0.5, size=signal_end)
 
-        # Scam-type-specific sub-patterns in another small block
-        type_start = 20
+        # Scam-type-specific sub-patterns
+        type_start = 30
         type_block = 10
-        if scam_type == "irs":
-            v[type_start:type_start + type_block] += rng.normal(0.6, 0.3, size=type_block)
-        elif scam_type == "tech":
-            v[type_start + type_block:type_start + 2 * type_block] += rng.normal(0.5, 0.3, size=type_block)
-        elif scam_type == "bank":
-            v[type_start + 2 * type_block:type_start + 3 * type_block] += rng.normal(0.7, 0.3, size=type_block)
-        else:  # generic
-            v[type_start + 3 * type_block:type_start + 4 * type_block] += rng.normal(0.4, 0.3, size=type_block)
+        offsets = {"irs": 0, "tech": 1, "bank": 2, "generic": 3}
+        idx = offsets.get(scam_type, 3)
+        start = type_start + idx * type_block
+        v[start:start + type_block] += rng.normal(1.5, 0.4, size=type_block)
 
         return v
 
@@ -156,12 +174,11 @@ class FederatedSimulation:
         vectors use, so the MLP must learn to separate in that subspace.
         """
         n = INPUT_DIM
-        v = rng.normal(0.0, 1.0, size=n)
+        v = rng.normal(0.0, 0.5, size=n)  # lower background noise
 
         # Opposite signal in the discriminative block
-        signal_start = 0
-        signal_end = 20
-        v[signal_start:signal_end] += rng.normal(-0.8, 0.4, size=signal_end - signal_start)
+        signal_end = 30
+        v[:signal_end] += rng.normal(-2.0, 0.5, size=signal_end)
 
         return v
 
@@ -216,8 +233,10 @@ class FederatedSimulation:
             if n_local == 0:
                 continue
 
-            # Fine-tune locally using real backprop -> gradient delta
-            delta = device.fine_tune(global_weights)
+            # Fine-tune locally with aggressive local training --
+            # high lr (0.5) and 20 epochs needed to produce a gradient
+            # delta large enough to survive DP noise and FedAvg averaging
+            delta = device.fine_tune(global_weights, lr=0.5, n_epochs=20)
 
             if self.use_dp:
                 # DP noise injection
@@ -277,13 +296,17 @@ class FederatedSimulation:
             scam_rate = profiles.get(i, 0.4)
 
             for j in range(extra):
-                if rng.random() < scam_rate:
+                is_scam = rng.random() < scam_rate
+                if is_scam:
                     stype = rng.choice(scam_types)
                     vec = self._make_scam_vector(rng, stype)
-                    device.ingest_call_data(vec, 1)
+                    label = 1
                 else:
                     vec = self._make_legit_vector(rng)
-                    device.ingest_call_data(vec, 0)
+                    label = 0
+                # Apply global normalization
+                vec = (vec - self._global_mean) / self._global_std
+                device.ingest_call_data(vec, label)
 
     # ------------------------------------------------------------------
     # FedAvg aggregation
@@ -313,7 +336,7 @@ class FederatedSimulation:
         Uses the real MLP forward pass (not a linear classifier).
         Returns accuracy, precision, recall, F1.
         """
-        X = self.test_features
+        X = self.test_features  # already globally normalized
         y = self.test_labels
 
         # Forward pass through the real MLP

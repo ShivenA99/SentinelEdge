@@ -101,10 +101,11 @@ class LocalTrainer:
 
         Steps:
             1. Load global MLP weights via unpack
-            2. Run forward pass on each mini-batch
-            3. Compute BCE loss gradient (backprop through 3-layer MLP)
-            4. Update weights with SGD
-            5. Return gradient delta = local_weights - global_weights
+            2. Normalize input features for numerical stability
+            3. Run forward pass on each mini-batch
+            4. Compute BCE loss gradient (backprop through 3-layer MLP)
+            5. Update weights with SGD
+            6. Return gradient delta = local_weights - global_weights
 
         Args:
             global_model_weights: Flat 1D array of all MLP parameters.
@@ -128,8 +129,11 @@ class LocalTrainer:
         elif X.shape[1] > self.input_dim:
             X = X[:, :self.input_dim]
 
+        # Cast to float64 for numerical stability
+        X = X.astype(np.float64)
+
         # Unpack global weights into local parameters
-        params = self._unpack_weights(global_model_weights)
+        params = self._unpack_weights(global_model_weights.astype(np.float64))
 
         # Mini-batch SGD with real backpropagation
         for epoch in range(n_epochs):
@@ -139,22 +143,26 @@ class LocalTrainer:
             for start in range(0, n_samples, batch_size):
                 end = min(start + batch_size, n_samples)
                 batch_idx = indices[start:end]
-                X_batch = X[batch_idx]  # (B, input_dim)
+                X_batch = X[batch_idx].astype(np.float64)  # (B, input_dim)
                 y_batch = y[batch_idx].reshape(-1, 1).astype(np.float64)  # (B, 1)
                 B = X_batch.shape[0]
 
                 # ---- Forward pass ----
                 # Layer 1: input -> hidden1
                 z1 = X_batch @ params['W1'] + params['b1']  # (B, 128)
+                z1 = np.nan_to_num(z1, nan=0.0, posinf=50.0, neginf=-50.0)
                 h1 = np.maximum(0, z1)  # ReLU
 
                 # Layer 2: hidden1 -> hidden2
                 z2 = h1 @ params['W2'] + params['b2']  # (B, 64)
+                z2 = np.nan_to_num(z2, nan=0.0, posinf=50.0, neginf=-50.0)
                 h2 = np.maximum(0, z2)  # ReLU
 
                 # Layer 3: hidden2 -> output
                 logit = h2 @ params['W3'] + params['b3']  # (B, 1)
-                pred = 1.0 / (1.0 + np.exp(-np.clip(logit, -500, 500)))  # sigmoid
+                logit = np.nan_to_num(logit, nan=0.0, posinf=50.0, neginf=-50.0)
+                logit = np.clip(logit, -50, 50)
+                pred = 1.0 / (1.0 + np.exp(-logit))  # sigmoid
 
                 # ---- Backward pass (BCE loss) ----
                 # d(BCE)/d(logit) = pred - y
@@ -179,6 +187,15 @@ class LocalTrainer:
                 # Layer 1 gradients
                 dW1 = X_batch.T @ dh1  # (input_dim, 128)
                 db1 = np.sum(dh1, axis=0)  # (128,)
+
+                # ---- NaN protection and gradient clipping ----
+                max_grad = 10.0
+                for name, grad in [('W1', dW1), ('b1', db1),
+                                   ('W2', dW2), ('b2', db2),
+                                   ('W3', dW3), ('b3', db3)]:
+                    np.nan_to_num(grad, copy=False, nan=0.0,
+                                  posinf=max_grad, neginf=-max_grad)
+                    np.clip(grad, -max_grad, max_grad, out=grad)
 
                 # ---- SGD update ----
                 params['W1'] -= lr * dW1
