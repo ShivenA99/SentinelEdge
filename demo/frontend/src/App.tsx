@@ -11,6 +11,7 @@ import FederatedDashboard from './components/FederatedDashboard'
 import CallHistory from './components/CallHistory'
 import type { CallHistoryEntry } from './components/CallHistory'
 import { useWebSocket } from './hooks/useWebSocket'
+import Onboarding from "./components/Onboarding";
 
 // -------- Sample call scripts --------
 interface ScriptLine {
@@ -92,6 +93,12 @@ interface AudioDevice {
 }
 
 export default function App() {
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+    const finishOnboarding = () => {
+      localStorage.setItem("seenOnboarding", "true");
+      setShowOnboarding(false);
+    };
   const [activeTab, setActiveTab] = useState<Tab>('detection')
   const [isCallActive, setIsCallActive] = useState(false)
   const [isMicActive, setIsMicActive] = useState(true)
@@ -446,6 +453,10 @@ export default function App() {
     { id: 'federated', label: 'Federated Learning', icon: <GitBranch className="w-4 h-4" /> },
   ]
   const isDetectionLoading = isCallActive && sentences.length === 0
+
+  if (showOnboarding) {
+    return <Onboarding onFinish={finishOnboarding} />;
+  }
 
   return (
     <div className="min-h-screen bg-dark-bg text-gray-100 font-sans">
