@@ -11,6 +11,7 @@ import FederatedDashboard from './components/FederatedDashboard'
 import CallHistory from './components/CallHistory'
 import type { CallHistoryEntry } from './components/CallHistory'
 import { useWebSocket } from './hooks/useWebSocket'
+import PrivacyDashboard from './components/PrivacyDashboard'
 
 // -------- Sample call scripts --------
 interface ScriptLine {
@@ -82,7 +83,7 @@ function getAlertLevel(score: number): AlertLevel {
   return 'critical'
 }
 
-type Tab = 'detection' | 'privacy' | 'federated'
+type Tab = 'detection' | 'privacy' | 'federated' | 'privacy-dashboard'
 
 interface AudioDevice {
   index: number
@@ -113,11 +114,7 @@ export default function App() {
   const durationRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const speakCallerLine = useCallback((text: string) => {
-    if (!('speechSynthesis' in window)) {
-      return
-    }
-
-    // Keep caller speech readable and avoid queued overlap.
+    if (!('speechSynthesis' in window)) return
     window.speechSynthesis.cancel()
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.rate = 0.95
@@ -125,17 +122,12 @@ export default function App() {
     window.speechSynthesis.speak(utterance)
   }, [])
 
-  // WebSocket hook for live backend connection
   const wsUrl = currentCallId
     ? (() => {
         const params = new URLSearchParams()
         const isScriptedCall = currentCallId !== 'live_mic'
-        if (isScriptedCall || isMicActive) {
-          params.set('interactive', '1')
-        }
-        if (selectedInputDevice) {
-          params.set('input_device', selectedInputDevice)
-        }
+        if (isScriptedCall || isMicActive) params.set('interactive', '1')
+        if (selectedInputDevice) params.set('input_device', selectedInputDevice)
         const qs = params.toString()
         return `ws://localhost:8000/ws/call/${currentCallId}${qs ? `?${qs}` : ''}`
       })()
@@ -144,50 +136,27 @@ export default function App() {
   const { connect, disconnect, send, isConnected } = useWebSocket({
     url: wsUrl,
     onMessage: (data) => {
-      if (data.type === 'call_start') {
-        setIsBackendDriven(true)
-        return
-      }
+      if (data.type === 'call_start') { setIsBackendDriven(true); return }
 
       if (data.type === 'sentence') {
         const speaker = data.speaker === 'you' ? 'You' : 'Scammer'
         const isUser = data.speaker === 'you'
-        const displayScore = isUser
-          ? (data.raw_score ?? 0)
-          : (data.ema_score ?? data.raw_score ?? 0)
-        const newSentence = {
-          text: `[${speaker}] ${data.text}`,
-          score: displayScore,
-          index: data.index ?? 0,
-        }
-        setSentences(prev => [...prev, newSentence])
+        const displayScore = isUser ? (data.raw_score ?? 0) : (data.ema_score ?? data.raw_score ?? 0)
+        setSentences(prev => [...prev, { text: `[${speaker}] ${data.text}`, score: displayScore, index: data.index ?? 0 }])
         if (!isUser) {
           setCurrentScore(data.raw_score ?? 0)
           setEmaScore(data.ema_score ?? data.raw_score ?? 0)
           if (data.features) setFeatures(data.features)
         }
-        setPrivacySentences(prev => [
-          ...prev,
-          {
-            text: data.text,
-            score: displayScore,
-            features: data.features ?? {},
-          },
-        ])
-
-        // In scripted call mode, play the caller sentence aloud.
-        if (data.speaker !== 'you' && currentCallId !== 'live_mic') {
-          speakCallerLine(data.text)
-        }
+        setPrivacySentences(prev => [...prev, { text: data.text, score: displayScore, features: data.features ?? {} }])
+        if (data.speaker !== 'you' && currentCallId !== 'live_mic') speakCallerLine(data.text)
         return
       }
 
       if (data.type === 'fraud_detected') {
         setFraudSignalReceived(true)
         setAlertDismissed(false)
-        if (typeof data.ema_score === 'number') {
-          setEmaScore(data.ema_score)
-        }
+        if (typeof data.ema_score === 'number') setEmaScore(data.ema_score)
         if (Array.isArray(data.reasons) && data.reasons.length > 0) {
           const mapped: Record<string, number> = {}
           data.reasons.forEach((reason: string, idx: number) => {
@@ -199,79 +168,37 @@ export default function App() {
       }
 
       if (data.type === 'waiting_for_reply') {
-        setSentences(prev => [
-          ...prev,
-          {
-            text: `[System] Your turn: speak now (window ${data.timeout_seconds ?? 15}s)`,
-            score: 0,
-            index: prev.length,
-          },
-        ])
+        setSentences(prev => [...prev, { text: `[System] Your turn: speak now (window ${data.timeout_seconds ?? 15}s)`, score: 0, index: prev.length }])
         return
       }
-
       if (data.type === 'user_timeout') {
-        setSentences(prev => [
-          ...prev,
-          {
-            text: '[System] No reply detected, continuing call flow.',
-            score: 0,
-            index: prev.length,
-          },
-        ])
+        setSentences(prev => [...prev, { text: '[System] No reply detected, continuing call flow.', score: 0, index: prev.length }])
         return
       }
-
       if (data.type === 'user_echo_detected') {
-        setSentences(prev => [
-          ...prev,
-          {
-            text: `[System] ${data.message}`,
-            score: 0,
-            index: prev.length,
-          },
-        ])
+        setSentences(prev => [...prev, { text: `[System] ${data.message}`, score: 0, index: prev.length }])
         return
       }
-
       if (data.type === 'call_end' || data.type === 'call_blocked') {
         setIsCallActive(false)
         setCurrentCallId(null)
         setFraudSignalReceived(false)
-        if (durationRef.current) {
-          clearInterval(durationRef.current)
-          durationRef.current = null
-        }
-        if ('speechSynthesis' in window) {
-          window.speechSynthesis.cancel()
-        }
+        if (durationRef.current) { clearInterval(durationRef.current); durationRef.current = null }
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel()
         return
       }
-
       if (data.type === 'error') {
         console.error('Backend error:', data.message)
-        setSentences(prev => [
-          ...prev,
-          {
-            text: `[System] ${data.message}`,
-            score: 0,
-            index: prev.length,
-          },
-        ])
+        setSentences(prev => [...prev, { text: `[System] ${data.message}`, score: 0, index: prev.length }])
       }
     },
     onOpen: () => console.log('WebSocket connected'),
-    onClose: () => {
-      console.log('WebSocket disconnected')
-      setIsBackendDriven(false)
-    },
+    onClose: () => { console.log('WebSocket disconnected'); setIsBackendDriven(false) },
     autoConnect: false,
   })
 
   const startCall = useCallback((callId: string) => {
     if (!SAMPLE_CALLS[callId]) return
-
-    // Reset state
     setSentences([])
     setCurrentScore(0)
     setEmaScore(0)
@@ -284,14 +211,8 @@ export default function App() {
     setPrivacySentences([])
     setGradientVectors([])
     setIsBackendDriven(false)
-
-    // Start duration timer
-    if (durationRef.current) {
-      clearInterval(durationRef.current)
-    }
-    durationRef.current = setInterval(() => {
-      setCallDuration(prev => prev + 1)
-    }, 1000)
+    if (durationRef.current) clearInterval(durationRef.current)
+    durationRef.current = setInterval(() => setCallDuration(prev => prev + 1), 1000)
   }, [])
 
   useEffect(() => {
@@ -301,14 +222,9 @@ export default function App() {
         const data = await resp.json()
         const devices: AudioDevice[] = Array.isArray(data.devices) ? data.devices : []
         setAudioDevices(devices)
-        if (devices.length > 0) {
-          setSelectedInputDevice(String(devices[0].index))
-        }
-      } catch {
-        setAudioDevices([])
-      }
+        if (devices.length > 0) setSelectedInputDevice(String(devices[0].index))
+      } catch { setAudioDevices([]) }
     }
-
     void loadAudioDevices()
   }, [])
 
@@ -316,20 +232,13 @@ export default function App() {
 
   useEffect(() => {
     if (!isCallActive || !currentCallId) return
-
-    // Try WebSocket first
     connect()
-
-    // After a short delay, check if backend connected.
-    // If not, run local playback with built-in scripts.
     const fallbackTimer = setTimeout(() => {
       if (!isBackendDriven && currentCallId) {
         const call = SAMPLE_CALLS[currentCallId]
         if (!call) return
-
         let ema = 0
         const alpha = 0.3
-
         call.lines.forEach((line, i) => {
           const timer = setTimeout(() => {
             ema = i === 0 ? line.score : alpha * line.score + (1 - alpha) * ema
@@ -344,7 +253,6 @@ export default function App() {
         })
       }
     }, 2000)
-
     return () => {
       clearTimeout(fallbackTimer)
       localPlaybackRef.current.forEach(t => clearTimeout(t))
@@ -352,29 +260,19 @@ export default function App() {
     }
   }, [isCallActive, currentCallId, connect, isBackendDriven])
 
-  // Record a completed call into history
   const recordCallHistory = useCallback((outcome: 'Blocked' | 'Dismissed' | 'Completed') => {
     if (!currentCallId) return
     const call = SAMPLE_CALLS[currentCallId]
     if (!call) return
-
-    // Gather top features from all sentences seen so far
     const featureCounts: Record<string, number> = {}
     privacySentences.forEach(s => {
       Object.entries(s.features).forEach(([k, v]) => {
-        if (v > 0.3) {
-          featureCounts[k] = Math.max(featureCounts[k] ?? 0, v)
-        }
+        if (v > 0.3) featureCounts[k] = Math.max(featureCounts[k] ?? 0, v)
       })
     })
-    const topFeatures = Object.entries(featureCounts)
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, 5)
-      .map(([k]) => k)
-
+    const topFeatures = Object.entries(featureCounts).sort(([, a], [, b]) => b - a).slice(0, 5).map(([k]) => k)
     const peakScore = sentences.reduce((max, s) => Math.max(max, s.score), 0)
-
-    const entry: CallHistoryEntry = {
+    setCallHistory(prev => [{
       id: `${currentCallId}_${Date.now()}`,
       callType: currentCallId,
       callLabel: call.description,
@@ -385,46 +283,31 @@ export default function App() {
       timestamp: Date.now(),
       totalSentences: sentences.length,
       topFeatures,
-    }
-    setCallHistory(prev => [entry, ...prev])
+    }, ...prev])
   }, [currentCallId, callDuration, emaScore, sentences, privacySentences])
 
   const endCall = useCallback(() => {
     recordCallHistory('Completed')
     setIsCallActive(false)
     setCurrentCallId(null)
-    if (durationRef.current) {
-      clearInterval(durationRef.current)
-      durationRef.current = null
-    }
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel()
-    }
+    if (durationRef.current) { clearInterval(durationRef.current); durationRef.current = null }
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel()
     disconnect()
   }, [disconnect, recordCallHistory])
 
-  const blockCaller = useCallback(() => {
-    send({ action: 'block' })
-    endCall()
-  }, [endCall, send])
+  const blockCaller = useCallback(() => { send({ action: 'block' }); endCall() }, [endCall, send])
+  const dismissAlert = useCallback(() => { send({ action: 'dismiss' }); setAlertDismissed(true) }, [send])
 
-  const dismissAlert = useCallback(() => {
-    send({ action: 'dismiss' })
-    setAlertDismissed(true)
-  }, [send])
-
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (durationRef.current) clearInterval(durationRef.current)
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel()
-      }
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel()
     }
   }, [])
 
   const alertLevel = getAlertLevel(emaScore)
   const effectiveAlertLevel = alertDismissed || !fraudSignalReceived ? 'safe' : alertLevel
+
   const callerNames: Record<string, string> = {
     live_mic: 'Live Microphone',
     irs_scam: 'Officer James Wilson',
@@ -444,7 +327,9 @@ export default function App() {
     { id: 'detection', label: 'Live Detection', icon: <Radio className="w-4 h-4" /> },
     { id: 'privacy', label: 'Privacy Demo', icon: <Lock className="w-4 h-4" /> },
     { id: 'federated', label: 'Federated Learning', icon: <GitBranch className="w-4 h-4" /> },
+    { id: 'privacy-dashboard', label: 'Privacy', icon: <Shield className="w-4 h-4" /> },
   ]
+
   const isDetectionLoading = isCallActive && sentences.length === 0
 
   return (
@@ -467,8 +352,6 @@ export default function App() {
               </p>
             </div>
           </div>
-
-          {/* Tabs */}
           <nav className="flex flex-wrap items-center gap-2">
             {tabs.map(tab => (
               <button
@@ -485,8 +368,6 @@ export default function App() {
               </button>
             ))}
           </nav>
-
-          {/* Status indicator */}
           <div className="flex items-center gap-2 text-xs lg:justify-end">
             <Activity className={`w-3.5 h-3.5 ${isConnected ? 'text-safe' : 'text-gray-500'}`} />
             <span className={isConnected ? 'text-safe' : 'text-gray-500'}>
@@ -498,9 +379,9 @@ export default function App() {
 
       {/* Main Content */}
       <main className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-6">
+
         {activeTab === 'detection' && (
           <div className="space-y-6">
-            {/* Demo Controls */}
             <DemoControls
               onSelectCall={startCall}
               onToggleMic={() => setIsMicActive(!isMicActive)}
@@ -511,10 +392,7 @@ export default function App() {
               micDevices={audioDevices.map(d => ({ value: String(d.index), label: `${d.index}: ${d.name}` }))}
               availableCalls={AVAILABLE_CALLS}
             />
-
-            {/* Main detection layout */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-              {/* Phone Simulator */}
               <div className="flex justify-center lg:col-span-4 lg:justify-start">
                 <PhoneSimulator>
                   <CallScreen
@@ -536,10 +414,7 @@ export default function App() {
                   />
                 </PhoneSimulator>
               </div>
-
-              {/* Right side panels */}
               <div className="space-y-6 lg:col-span-8">
-                {/* Score + Features row */}
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                   <div className="glass-card p-6 glow-teal">
                     {isDetectionLoading ? (
@@ -570,8 +445,6 @@ export default function App() {
                     )}
                   </div>
                 </div>
-
-                {/* Transcript */}
                 <div className="glass-card p-6">
                   {isDetectionLoading ? (
                     <div className="panel-skeleton">
@@ -584,16 +457,11 @@ export default function App() {
                       ))}
                     </div>
                   ) : (
-                    <TranscriptPanel
-                      sentences={sentences}
-                      isStreaming={isCallActive}
-                    />
+                    <TranscriptPanel sentences={sentences} isStreaming={isCallActive} />
                   )}
                 </div>
               </div>
             </div>
-
-            {/* Call History - collapsible section below main content */}
             <CallHistory entries={callHistory} />
           </div>
         )}
@@ -609,6 +477,20 @@ export default function App() {
         {activeTab === 'federated' && (
           <FederatedDashboard />
         )}
+
+        {activeTab === 'privacy-dashboard' && (
+          <PrivacyDashboard
+            callsAnalyzed={sentences.length}
+            scamsBlocked={sentences.filter(s => s.score > 0.75).length}
+            lastGradientVector={gradientVectors[gradientVectors.length - 1]}
+            lastTranscriptSnippet={
+              sentences[sentences.length - 1]?.text
+                ? `"${sentences[sentences.length - 1].text}"`
+                : undefined
+            }
+          />
+        )}
+
       </main>
     </div>
   )
