@@ -129,8 +129,7 @@ export default function App() {
   const wsUrl = currentCallId
     ? (() => {
         const params = new URLSearchParams()
-        const isScriptedCall = currentCallId !== 'live_mic'
-        if (isScriptedCall || isMicActive) {
+        if (isMicActive) {
           params.set('interactive', '1')
         }
         if (selectedInputDevice) {
