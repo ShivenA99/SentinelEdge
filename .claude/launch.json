@@ -3,20 +3,20 @@
   "configurations": [
     {
       "name": "demo-backend",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["demo/backend/main.py"],
+      "runtimeExecutable": "/opt/homebrew/bin/python3",
+      "runtimeArgs": ["-m", "uvicorn", "demo.backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--loop", "asyncio"],
       "port": 8000
     },
     {
       "name": "demo-frontend",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "demo/frontend"],
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": ["-c", "export PATH=/opt/homebrew/bin:$PATH && cd demo/frontend && npm run dev"],
       "port": 5173
     },
     {
       "name": "hub-server",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "uvicorn", "hub.server:app", "--host", "0.0.0.0", "--port", "8080"],
+      "runtimeExecutable": "/opt/homebrew/bin/python3",
+      "runtimeArgs": ["-m", "uvicorn", "hub.server:app", "--host", "0.0.0.0", "--port", "8080", "--loop", "asyncio"],
       "port": 8080
     }
   ]

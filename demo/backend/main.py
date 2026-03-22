@@ -114,16 +114,7 @@ async def health_check():
 
 @app.websocket("/ws/call/{call_id}")
 async def call_detection(websocket: WebSocket, call_id: str):
-    """WebSocket endpoint for real-time call fraud detection.
-
-    Streams transcript sentences one at a time, runs fraud detection,
-    and sends back results including:
-    - transcript chunks (with typewriter delay)
-    - per-sentence fraud scores
-    - EMA smoothed score
-    - feature breakdown
-    - alert decisions
-    """
+    """WebSocket endpoint for real-time call fraud detection."""
     await websocket.accept()
     active_connections.append(websocket)
 
@@ -134,7 +125,6 @@ async def call_detection(websocket: WebSocket, call_id: str):
 
         call_info = SAMPLE_CALLS[call_id]
 
-        # Send call start event
         await websocket.send_json(
             {
                 "type": "call_start",
@@ -145,11 +135,9 @@ async def call_detection(websocket: WebSocket, call_id: str):
             }
         )
 
-        # Load transcript sentences
         transcript_path = os.path.join(os.path.dirname(__file__), call_info["file"])
         sentences = load_transcript(transcript_path)
 
-        # Import detection pipeline components
         from sentinel_edge.features.handcrafted import extract_handcrafted_features
         from sentinel_edge.features.feature_pipeline import FeaturePipeline
         from sentinel_edge.classifier.xgb_classifier import FraudClassifier
@@ -159,7 +147,6 @@ async def call_detection(websocket: WebSocket, call_id: str):
         accumulator = ScoreAccumulator(alpha=0.3)
         alert_engine = AlertEngine()
 
-        # Load real XGBoost model if available, else fall back to heuristic
         _model_path = os.path.join(_PROJECT_ROOT, "models", "call_fraud_xgb.json")
         _tfidf_path = os.path.join(_PROJECT_ROOT, "models", "tfidf_call_vectorizer.pkl")
         _use_real_model = os.path.exists(_model_path) and os.path.exists(_tfidf_path)
@@ -173,13 +160,10 @@ async def call_detection(websocket: WebSocket, call_id: str):
         call_start_time = time.time()
 
         for i, sentence in enumerate(sentences):
-            # Simulate real-time delay (1-3 seconds per sentence)
             await asyncio.sleep(1.5 + np.random.random() * 1.5)
 
-            # Extract features from this sentence
             features = extract_handcrafted_features(sentence)
 
-            # Compute fraud score using real XGBoost model or heuristic fallback
             if _use_real_model:
                 t0 = time.perf_counter()
                 feature_vec = _pipeline.extract(sentence)
@@ -189,15 +173,10 @@ async def call_detection(websocket: WebSocket, call_id: str):
                 fraud_score = compute_heuristic_score(features)
                 _inference_ms = np.random.uniform(5, 15)
 
-            # Update EMA
             ema_score = accumulator.update(fraud_score)
-
-            # Get alert decision
             alert = alert_engine.evaluate(ema_score, features)
-
             elapsed = time.time() - call_start_time
 
-            # Send sentence result
             await websocket.send_json(
                 {
                     "type": "sentence",
@@ -220,7 +199,6 @@ async def call_detection(websocket: WebSocket, call_id: str):
                 }
             )
 
-            # Non-blocking check for client messages (e.g. "block" or "dismiss")
             try:
                 msg = await asyncio.wait_for(
                     websocket.receive_text(), timeout=0.01
@@ -232,14 +210,12 @@ async def call_detection(websocket: WebSocket, call_id: str):
                     )
                     return
                 elif data.get("action") == "dismiss":
-                    # Client dismissed alert; continue streaming
                     pass
             except asyncio.TimeoutError:
                 pass
             except json.JSONDecodeError:
                 pass
 
-        # Call ended naturally
         await websocket.send_json(
             {
                 "type": "call_end",
@@ -255,7 +231,6 @@ async def call_detection(websocket: WebSocket, call_id: str):
     except WebSocketDisconnect:
         pass
     except Exception as exc:
-        # Attempt to notify client of server-side errors
         try:
             await websocket.send_json(
                 {"type": "error", "message": str(exc), "timestamp": time.time()}
@@ -271,26 +246,17 @@ async def call_detection(websocket: WebSocket, call_id: str):
 # WebSocket: live microphone fraud detection
 # ---------------------------------------------------------------------------
 
-# Duration of audio to accumulate before transcribing (seconds)
 _LIVE_MIC_BUFFER_DURATION = 5.0
 
 
 @app.websocket("/ws/call/live")
 async def live_mic_detection(websocket: WebSocket):
-    """WebSocket endpoint for live microphone fraud detection.
-
-    Captures audio from the system microphone, transcribes it with Whisper,
-    runs the fraud-detection pipeline on each sentence, and streams results
-    to the frontend using the same message format as pre-recorded calls.
-    """
+    """WebSocket endpoint for live microphone fraud detection."""
     await websocket.accept()
     active_connections.append(websocket)
 
     mic = None
     try:
-        # ------------------------------------------------------------------
-        # Check dependencies
-        # ------------------------------------------------------------------
         try:
             from demo.backend.live_mic import LiveMicCapture
         except ImportError as e:
@@ -311,13 +277,9 @@ async def live_mic_detection(websocket: WebSocket):
             })
             return
 
-        # ------------------------------------------------------------------
-        # Initialise mic capture and Whisper transcriber
-        # ------------------------------------------------------------------
         mic = LiveMicCapture(sample_rate=16000)
         transcriber = Transcriber(model_name="tiny.en")
 
-        # Whisper model may need to download on first use -- notify client
         if not transcriber.is_loaded:
             await websocket.send_json({
                 "type": "status",
@@ -338,9 +300,6 @@ async def live_mic_detection(websocket: WebSocket):
             })
             return
 
-        # ------------------------------------------------------------------
-        # Import detection pipeline
-        # ------------------------------------------------------------------
         from sentinel_edge.features.handcrafted import extract_handcrafted_features
         from sentinel_edge.features.feature_pipeline import FeaturePipeline
         from sentinel_edge.classifier.xgb_classifier import FraudClassifier as XGBFraudClassifier
@@ -350,7 +309,6 @@ async def live_mic_detection(websocket: WebSocket):
         accumulator = ScoreAccumulator(alpha=0.3)
         alert_engine = AlertEngine()
 
-        # Load real XGBoost model if available, else fall back to heuristic
         _model_path = os.path.join(_PROJECT_ROOT, "models", "call_fraud_xgb.json")
         _tfidf_path = os.path.join(_PROJECT_ROOT, "models", "tfidf_call_vectorizer.pkl")
         _use_real_model = os.path.exists(_model_path) and os.path.exists(_tfidf_path)
@@ -361,9 +319,6 @@ async def live_mic_detection(websocket: WebSocket):
             _classifier = None
             _pipeline = None
 
-        # ------------------------------------------------------------------
-        # Start mic capture and send call_start event
-        # ------------------------------------------------------------------
         try:
             mic.start()
         except ImportError as e:
@@ -389,16 +344,12 @@ async def live_mic_detection(websocket: WebSocket):
             "timestamp": time.time(),
         })
 
-        # ------------------------------------------------------------------
-        # Main capture -> transcribe -> classify loop
-        # ------------------------------------------------------------------
         call_start_time = time.time()
         sentence_index = 0
         audio_buffer: list[np.ndarray] = []
         buffered_seconds = 0.0
 
         while True:
-            # Non-blocking check for client stop / block / disconnect
             try:
                 msg = await asyncio.wait_for(
                     websocket.receive_text(), timeout=0.05
@@ -416,7 +367,6 @@ async def live_mic_detection(websocket: WebSocket):
             except json.JSONDecodeError:
                 pass
 
-            # Grab available audio chunks from the mic
             chunk = await asyncio.get_event_loop().run_in_executor(
                 None, mic.get_chunk, 0.1
             )
@@ -424,13 +374,11 @@ async def live_mic_detection(websocket: WebSocket):
                 audio_buffer.append(chunk)
                 buffered_seconds += len(chunk) / mic.sample_rate
 
-            # Once we have enough audio, transcribe and classify
             if buffered_seconds >= _LIVE_MIC_BUFFER_DURATION and audio_buffer:
                 audio_segment = np.concatenate(audio_buffer)
                 audio_buffer.clear()
                 buffered_seconds = 0.0
 
-                # Transcribe in a thread so we don't block the event loop
                 transcript = await asyncio.get_event_loop().run_in_executor(
                     None, transcriber.transcribe, audio_segment, 16000
                 )
@@ -438,7 +386,6 @@ async def live_mic_detection(websocket: WebSocket):
                 if not transcript.strip():
                     continue
 
-                # Split transcript into sentences (crude split on punctuation)
                 sentences = _split_sentences(transcript)
 
                 for sentence in sentences:
@@ -482,7 +429,6 @@ async def live_mic_detection(websocket: WebSocket):
                     })
                     sentence_index += 1
 
-        # Call ended (client sent stop/block or disconnected)
         await websocket.send_json({
             "type": "call_end",
             "final_score": round(accumulator.current_score, 4),
@@ -505,7 +451,6 @@ async def live_mic_detection(websocket: WebSocket):
         except Exception:
             pass
     finally:
-        # Always clean up microphone resources
         if mic is not None and mic.is_running:
             mic.stop()
         if websocket in active_connections:
@@ -513,12 +458,7 @@ async def live_mic_detection(websocket: WebSocket):
 
 
 def _split_sentences(text: str) -> list[str]:
-    """Split transcribed text into individual sentences.
-
-    Uses a simple regex to split on sentence-ending punctuation while
-    keeping the punctuation attached.  Falls back to returning the
-    entire text as a single sentence if no split points are found.
-    """
+    """Split transcribed text into individual sentences."""
     parts = re.split(r'(?<=[.!?])\s+', text.strip())
     return [p for p in parts if p.strip()]
 
@@ -530,10 +470,7 @@ def _split_sentences(text: str) -> list[str]:
 
 @app.websocket("/ws/privacy-demo")
 async def privacy_demo(websocket: WebSocket):
-    """Show what the hub sees vs what stays on device.
-
-    Side-by-side: actual transcript vs DP-noised gradient vector.
-    """
+    """Show what the hub sees vs what stays on device."""
     await websocket.accept()
 
     try:
@@ -556,10 +493,7 @@ async def privacy_demo(websocket: WebSocket):
             features = extract_handcrafted_features(sentence)
             feature_vector = np.array(list(features.values()), dtype=np.float64)
 
-            # Simulate gradient delta (what would be sent to hub in federated learning)
             gradient = np.random.randn(len(feature_vector)) * 0.01
-
-            # Clip then noise (mirrors real federated training)
             clipped = dp.clip_gradient(gradient)
             noised_gradient = dp.add_noise(clipped, n_local_samples=n_local_samples)
             sensitivity = 1.0 / n_local_samples
@@ -682,12 +616,7 @@ def get_fallback_transcript(file_path: str) -> list[str]:
 
 
 def compute_heuristic_score(features: dict[str, float]) -> float:
-    """Compute a heuristic fraud score from handcrafted features.
-
-    This simulates what XGBoost would output, for demo purposes when
-    the trained model isn't available yet.  The weights are hand-tuned
-    to give realistic scores on the sample transcripts.
-    """
+    """Compute a heuristic fraud score from handcrafted features."""
     score = 0.0
     weights = {
         "urgency_count": 0.08,
@@ -712,10 +641,7 @@ def compute_heuristic_score(features: dict[str, float]) -> float:
             value = 1.0 if value else 0.0
         score += value * weight
 
-    # Clamp to [0, 1]
     score = max(0.0, min(1.0, score))
-
-    # Add small noise for realism
     score += np.random.normal(0, 0.02)
     score = max(0.0, min(1.0, score))
 
