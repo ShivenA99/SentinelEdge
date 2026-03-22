@@ -22,7 +22,7 @@ export default function FraudAlert({
       icon: <ShieldX className="w-10 h-10 text-white drop-shadow-lg" />,
       title: 'FRAUD DETECTED',
       subtitle: 'This call exhibits strong fraud indicators',
-      containerClass: 'animate-slide-down animate-pulse-alert',
+      containerClass: 'alert-overlay alert-overlay-critical',
       badgeClass: 'bg-white/20 text-white',
     },
     high: {
@@ -31,7 +31,7 @@ export default function FraudAlert({
       icon: <AlertTriangle className="w-10 h-10 text-white drop-shadow-lg" />,
       title: 'HIGH RISK CALL',
       subtitle: 'Suspicious patterns detected',
-      containerClass: 'animate-slide-down',
+      containerClass: 'alert-overlay',
       badgeClass: 'bg-white/20 text-white',
     },
     medium: {
@@ -40,7 +40,7 @@ export default function FraudAlert({
       icon: <Info className="w-6 h-6 text-warning" />,
       title: 'Caution',
       subtitle: 'Some suspicious indicators present',
-      containerClass: 'animate-slide-down',
+      containerClass: 'alert-banner',
       badgeClass: 'bg-warning/20 text-warning',
     },
   }
@@ -49,10 +49,9 @@ export default function FraudAlert({
   const percentage = Math.round(score * 100)
 
   if (riskLevel === 'medium') {
-    // Compact banner for medium risk
     return (
       <div className={`mx-3 mt-2 ${config.containerClass}`}>
-        <div className={`${config.bg} backdrop-blur-xl rounded-xl border ${config.border} p-3`}>
+        <div className={`${config.bg} alert-banner-card backdrop-blur-xl rounded-xl border ${config.border} p-3 shadow-[0_18px_45px_rgba(15,23,42,0.4)]`}>
           <div className="flex items-center gap-3">
             {config.icon}
             <div className="flex-1">
@@ -80,7 +79,7 @@ export default function FraudAlert({
   // Full overlay for high/critical
   return (
     <div className={`w-full h-full ${config.containerClass}`}>
-      <div className={`w-full h-full ${config.bg} backdrop-blur-xl border-y ${config.border} flex flex-col items-center justify-center px-6`}>
+      <div className={`alert-overlay-panel w-full h-full ${config.bg} backdrop-blur-xl border-y ${config.border} flex flex-col items-center justify-center px-6`}>
         {/* Risk icon */}
         <div className="relative mb-4">
           <div className={`w-20 h-20 rounded-full ${

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Phone,
   PhoneOff,
@@ -6,10 +6,11 @@ import {
   MicOff,
   Volume2,
   Grid3X3,
-  UserCircle,
+  UserCircle2,
   Wifi,
   Battery,
   Signal,
+  Camera,
 } from 'lucide-react'
 import FraudAlert from './FraudAlert'
 
@@ -51,24 +52,43 @@ export default function CallScreen({
 }: CallScreenProps) {
   const [isMuted, setIsMuted] = useState(false)
   const [isSpeaker, setIsSpeaker] = useState(false)
+  const [isScreenShaking, setIsScreenShaking] = useState(false)
 
   const showAlert = isActive && (alertLevel === 'high' || alertLevel === 'critical' || alertLevel === 'medium')
+  const callerInitials = callerName
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(part => part[0]?.toUpperCase())
+    .join('')
+
+  useEffect(() => {
+    if (!showAlert) return
+
+    setIsScreenShaking(true)
+    const timeout = window.setTimeout(() => {
+      setIsScreenShaking(false)
+    }, 480)
+
+    return () => window.clearTimeout(timeout)
+  }, [showAlert, alertLevel])
 
   return (
-    <div className="w-full h-full flex flex-col bg-gradient-to-b from-dark-bg via-dark-card to-dark-bg">
+    <div className={`w-full h-full flex flex-col bg-gradient-to-b from-dark-bg via-dark-card to-dark-bg ${isScreenShaking ? 'phone-screen-shake' : ''}`}>
       {/* Status bar */}
-      <div className="flex items-center justify-between px-6 pt-10 pb-1 text-[10px] text-gray-400">
-        <span className="font-medium">{getCurrentTime()}</span>
-        <div className="flex items-center gap-1.5">
-          <Signal className="w-3 h-3" />
-          <Wifi className="w-3 h-3" />
-          <Battery className="w-3 h-3" />
+      <div className="relative z-30 flex items-center justify-between px-7 pt-4 pb-2 text-[11px] text-white/85">
+        <span className="min-w-[52px] font-semibold tracking-[0.01em]">{getCurrentTime()}</span>
+        <div className="w-[126px]" />
+        <div className="flex min-w-[56px] items-center justify-end gap-1.5">
+          <Signal className="h-3.5 w-3.5 stroke-[2.2]" />
+          <Wifi className="h-3.5 w-3.5 stroke-[2.2]" />
+          <Battery className="h-3.5 w-3.5 stroke-[2.2]" />
         </div>
       </div>
 
       {/* Fraud Alert Overlay */}
       {showAlert && (
-        <div className="absolute inset-0 z-20 pt-10">
+        <div className="absolute inset-0 z-20 pt-[42px]">
           <FraudAlert
             riskLevel={alertLevel as 'medium' | 'high' | 'critical'}
             score={fraudScore}
@@ -85,17 +105,25 @@ export default function CallScreen({
           <>
             {/* Caller avatar */}
             <div className="relative mb-4">
-              <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
-                alertLevel === 'critical' ? 'bg-alert/20 ring-2 ring-alert animate-pulse-alert' :
-                alertLevel === 'high' ? 'bg-warning/20 ring-2 ring-warning' :
-                'bg-brand-teal/20 ring-2 ring-brand-teal/50'
+              <div className={`relative w-[92px] h-[92px] rounded-full flex items-center justify-center overflow-hidden shadow-[0_20px_45px_rgba(15,23,42,0.38)] ${
+                alertLevel === 'critical' ? 'ring-2 ring-alert/80 animate-pulse-alert' :
+                alertLevel === 'high' ? 'ring-2 ring-warning/80' :
+                'ring-2 ring-brand-teal/50'
               }`}>
-                <UserCircle className={`w-12 h-12 ${
-                  alertLevel === 'critical' ? 'text-alert' :
-                  alertLevel === 'high' ? 'text-warning' :
-                  'text-brand-teal'
-                }`} />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_28%,rgba(255,255,255,0.28),transparent_28%),linear-gradient(160deg,#8892a6_0%,#646f84_45%,#3b4456_100%)]" />
+                <div className="absolute inset-x-5 bottom-0 h-[44px] rounded-t-[28px] bg-white/18 blur-[1px]" />
+                <div className="absolute left-1/2 top-[18px] h-[26px] w-[26px] -translate-x-1/2 rounded-full bg-white/28" />
+                <div className="absolute left-1/2 top-[38px] h-[34px] w-[54px] -translate-x-1/2 rounded-t-[26px] bg-white/22" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/25" />
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/28 px-2 py-0.5 backdrop-blur-sm">
+                  <span className="text-[10px] font-semibold tracking-[0.2em] text-white/88">{callerInitials || 'CP'}</span>
+                </div>
               </div>
+
+              <div className="absolute -top-1 -right-1 rounded-full border border-white/10 bg-black/45 p-1.5 shadow-lg backdrop-blur-md">
+                <Camera className="h-3.5 w-3.5 text-white/75" />
+              </div>
+
               {/* SentinelEdge protection badge */}
               <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-dark-card border-2 border-brand-teal flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-brand-teal" />
@@ -180,7 +208,7 @@ export default function CallScreen({
 
             <button className="flex flex-col items-center gap-1">
               <div className="w-11 h-11 rounded-full bg-dark-surface/80 flex items-center justify-center text-white">
-                <UserCircle className="w-5 h-5" />
+                <UserCircle2 className="w-5 h-5" />
               </div>
               <span className="text-[9px] text-gray-400">contacts</span>
             </button>

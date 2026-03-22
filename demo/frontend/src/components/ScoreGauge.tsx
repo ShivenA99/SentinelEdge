@@ -1,23 +1,57 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { ShieldCheck, ShieldAlert, ShieldX } from 'lucide-react'
 
 interface ScoreGaugeProps {
-  score: number  // 0.0 to 1.0
+  score: number
   label?: string
 }
 
-function getGaugeColor(score: number): string {
-  if (score < 0.3) return '#10B981'   // safe green
-  if (score < 0.5) return '#F59E0B'   // warning amber
-  if (score < 0.75) return '#F97316'  // orange
-  return '#EF4444'                     // alert red
+interface ParticleBurst {
+  id: number
+  color: string
 }
 
-function getGaugeGlow(score: number): string {
-  if (score < 0.3) return 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.4))'
-  if (score < 0.5) return 'drop-shadow(0 0 8px rgba(245, 158, 11, 0.4))'
-  if (score < 0.75) return 'drop-shadow(0 0 8px rgba(249, 115, 22, 0.4))'
-  return 'drop-shadow(0 0 12px rgba(239, 68, 68, 0.5))'
+const THRESHOLDS = [0.3, 0.5, 0.75]
+const GRADIENT_STOPS = [
+  { score: 0, color: '#10B981' },
+  { score: 0.3, color: '#EAB308' },
+  { score: 0.5, color: '#F59E0B' },
+  { score: 0.75, color: '#F97316' },
+  { score: 1, color: '#EF4444' },
+]
+
+function hexToRgb(hex: string) {
+  const normalized = hex.replace('#', '')
+  const value = Number.parseInt(normalized, 16)
+  return {
+    r: (value >> 16) & 255,
+    g: (value >> 8) & 255,
+    b: value & 255,
+  }
+}
+
+function interpolateColor(score: number): string {
+  const safeScore = Math.max(0, Math.min(1, score))
+
+  for (let index = 1; index < GRADIENT_STOPS.length; index += 1) {
+    const start = GRADIENT_STOPS[index - 1]
+    const end = GRADIENT_STOPS[index]
+
+    if (safeScore <= end.score) {
+      const range = end.score - start.score || 1
+      const progress = (safeScore - start.score) / range
+      const startRgb = hexToRgb(start.color)
+      const endRgb = hexToRgb(end.color)
+
+      const r = Math.round(startRgb.r + (endRgb.r - startRgb.r) * progress)
+      const g = Math.round(startRgb.g + (endRgb.g - startRgb.g) * progress)
+      const b = Math.round(startRgb.b + (endRgb.b - startRgb.b) * progress)
+
+      return `rgb(${r}, ${g}, ${b})`
+    }
+  }
+
+  return GRADIENT_STOPS[GRADIENT_STOPS.length - 1].color
 }
 
 function getLevelText(score: number): string {
@@ -35,69 +69,125 @@ function getLevelIcon(score: number) {
 }
 
 export default function ScoreGauge({ score, label = 'Fraud Score' }: ScoreGaugeProps) {
-  const [animatedScore, setAnimatedScore] = useState(0)
+  const clampedScore = Math.max(0, Math.min(1, score))
+  const previousScoreRef = useRef(clampedScore)
+  const burstIdRef = useRef(0)
+  const [bursts, setBursts] = useState<ParticleBurst[]>([])
+  const [isThresholdPulseActive, setIsThresholdPulseActive] = useState(false)
 
-  // Smooth animation towards target score
-  useEffect(() => {
-    const duration = 600
-    const startScore = animatedScore
-    const startTime = performance.now()
+  const percentage = Math.round(clampedScore * 100)
+  const color = useMemo(() => interpolateColor(clampedScore), [clampedScore])
 
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3)
-      const newScore = startScore + (score - startScore) * eased
-      setAnimatedScore(newScore)
-
-      if (progress < 1) {
-        requestAnimationFrame(animate)
-      }
-    }
-
-    requestAnimationFrame(animate)
-  }, [score])
-
-  const percentage = Math.round(animatedScore * 100)
-  const color = getGaugeColor(animatedScore)
-  const glow = getGaugeGlow(animatedScore)
-
-  // SVG arc calculations
   const size = 200
   const strokeWidth = 12
   const radius = (size - strokeWidth) / 2
-  const circumference = Math.PI * radius // Semicircle
-  const offset = circumference - (animatedScore * circumference)
-
-  // Arc path for semicircle (bottom half open)
+  const circumference = Math.PI * radius
+  const offset = circumference - clampedScore * circumference
   const centerX = size / 2
   const centerY = size / 2
 
+  useEffect(() => {
+    const previousScore = previousScoreRef.current
+    const crossedThreshold = THRESHOLDS.some(
+      threshold =>
+        (previousScore < threshold && clampedScore >= threshold) ||
+        (previousScore > threshold && clampedScore <= threshold)
+    )
+
+    previousScoreRef.current = clampedScore
+
+    if (!crossedThreshold) return
+
+    const burst = {
+      id: burstIdRef.current,
+      color,
+    }
+    burstIdRef.current += 1
+
+    setBursts(current => [...current, burst])
+    setIsThresholdPulseActive(true)
+
+    const pulseTimeout = window.setTimeout(() => {
+      setIsThresholdPulseActive(false)
+    }, 700)
+
+    const cleanupTimeout = window.setTimeout(() => {
+      setBursts(current => current.filter(item => item.id !== burst.id))
+    }, 1300)
+
+    return () => {
+      window.clearTimeout(pulseTimeout)
+      window.clearTimeout(cleanupTimeout)
+    }
+  }, [clampedScore, color])
+
   return (
     <div className="flex flex-col items-center">
-      <div className="relative" style={{ width: size, height: size }}>
+      <div
+        className={`score-gauge-shell relative ${isThresholdPulseActive ? 'score-gauge-threshold-pulse' : ''}`}
+        style={
+          {
+            width: size,
+            height: size,
+            '--gauge-color': color,
+          } as CSSProperties
+        }
+      >
+        <div className="score-gauge-glow absolute inset-[24px] rounded-full" />
+
+        {bursts.map(burst => (
+          <div
+            key={burst.id}
+            className="score-gauge-burst pointer-events-none absolute inset-0"
+            style={{ '--burst-color': burst.color } as CSSProperties}
+            aria-hidden="true"
+          >
+            {Array.from({ length: 10 }).map((_, index) => {
+              const angle = (360 / 10) * index
+              const distance = 36 + (index % 3) * 10
+              const delay = `${index * 35}ms`
+              return (
+                <span
+                  key={index}
+                  className="score-gauge-particle absolute left-1/2 top-1/2"
+                  style={
+                    {
+                      '--particle-angle': `${angle}deg`,
+                      '--particle-distance': `${distance}px`,
+                      animationDelay: delay,
+                    } as CSSProperties
+                  }
+                />
+              )
+            })}
+          </div>
+        ))}
+
         <svg
           width={size}
           height={size}
           viewBox={`0 0 ${size} ${size}`}
-          className="transform -rotate-90"
-          style={{ filter: glow }}
+          className="score-gauge-svg transform -rotate-90"
         >
-          {/* Background track */}
+          <defs>
+            <linearGradient id="scoreGaugeTrack" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#0f172a" />
+              <stop offset="100%" stopColor="#1e293b" />
+            </linearGradient>
+          </defs>
+
           <circle
             cx={centerX}
             cy={centerY}
             r={radius}
             fill="none"
-            stroke="#1E293B"
+            stroke="url(#scoreGaugeTrack)"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={`${circumference} ${circumference * 2}`}
             transform={`rotate(90, ${centerX}, ${centerY})`}
           />
 
-          {/* Score arc */}
           <circle
             cx={centerX}
             cy={centerY}
@@ -109,11 +199,10 @@ export default function ScoreGauge({ score, label = 'Fraud Score' }: ScoreGaugeP
             strokeDasharray={`${circumference} ${circumference * 2}`}
             strokeDashoffset={offset}
             transform={`rotate(90, ${centerX}, ${centerY})`}
-            className="transition-all duration-300"
+            className="gauge-arc"
           />
 
-          {/* Tick marks */}
-          {[0, 0.25, 0.5, 0.75, 1].map((tick) => {
+          {[0, 0.25, 0.5, 0.75, 1].map(tick => {
             const angle = (tick * 180 - 90) * (Math.PI / 180)
             const outerR = radius + strokeWidth / 2 + 4
             const innerR = radius + strokeWidth / 2 + 10
@@ -124,7 +213,10 @@ export default function ScoreGauge({ score, label = 'Fraud Score' }: ScoreGaugeP
             return (
               <line
                 key={tick}
-                x1={x1} y1={y1} x2={x2} y2={y2}
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
                 stroke="#475569"
                 strokeWidth={1.5}
                 strokeLinecap="round"
@@ -134,40 +226,31 @@ export default function ScoreGauge({ score, label = 'Fraud Score' }: ScoreGaugeP
           })}
         </svg>
 
-        {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div style={{ color }} className="mb-1">
-            {getLevelIcon(animatedScore)}
+          <div className="mb-1 score-gauge-center" style={{ color }}>
+            {getLevelIcon(clampedScore)}
           </div>
-          <span
-            className="text-4xl font-bold tabular-nums tracking-tight"
-            style={{ color }}
-          >
+          <span className="score-gauge-center text-4xl font-bold tabular-nums tracking-tight" style={{ color }}>
             {percentage}
             <span className="text-lg font-normal text-gray-500">%</span>
           </span>
-          <span
-            className="text-xs font-semibold mt-0.5 tracking-wide uppercase"
-            style={{ color }}
-          >
-            {getLevelText(animatedScore)}
+          <span className="score-gauge-center mt-0.5 text-xs font-semibold uppercase tracking-wide" style={{ color }}>
+            {getLevelText(clampedScore)}
           </span>
         </div>
       </div>
 
-      {/* Label */}
       <p className="text-xs text-gray-500 font-medium mt-2">{label}</p>
 
-      {/* Mini color legend */}
-      <div className="flex items-center gap-3 mt-3">
+      <div className="mt-3 flex items-center gap-3">
         {[
           { label: 'Safe', color: '#10B981' },
-          { label: 'Warning', color: '#F59E0B' },
+          { label: 'Warning', color: '#EAB308' },
           { label: 'High', color: '#F97316' },
           { label: 'Critical', color: '#EF4444' },
         ].map(item => (
           <div key={item.label} className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
+            <div className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
             <span className="text-[9px] text-gray-500">{item.label}</span>
           </div>
         ))}
