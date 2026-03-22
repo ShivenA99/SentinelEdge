@@ -152,6 +152,7 @@ export default function App() {
       }
 
       if (data.type === 'sentence') {
+        backendDeliveredRef.current = true
         const speaker = data.speaker === 'you' ? 'You' : 'Scammer'
         const isUser = data.speaker === 'you'
         const displayScore = isUser
@@ -316,17 +317,20 @@ export default function App() {
   }, [])
 
   const localPlaybackRef = useRef<ReturnType<typeof setTimeout>[]>([])
+  const backendDeliveredRef = useRef(false)
 
   useEffect(() => {
     if (!isCallActive || !currentCallId) return
 
+    backendDeliveredRef.current = false
+
     // Try WebSocket first
     connect()
 
-    // After a short delay, check if backend connected.
+    // After 3 seconds, check if backend actually delivered any sentences.
     // If not, run local playback with built-in scripts.
     const fallbackTimer = setTimeout(() => {
-      if (!isBackendDriven && currentCallId) {
+      if (!backendDeliveredRef.current && currentCallId) {
         const call = SAMPLE_CALLS[currentCallId]
         if (!call) return
 
@@ -346,14 +350,14 @@ export default function App() {
           localPlaybackRef.current.push(timer)
         })
       }
-    }, 2000)
+    }, 3000)
 
     return () => {
       clearTimeout(fallbackTimer)
       localPlaybackRef.current.forEach(t => clearTimeout(t))
       localPlaybackRef.current = []
     }
-  }, [isCallActive, currentCallId, connect, isBackendDriven])
+  }, [isCallActive, currentCallId, connect])
 
   // Record a completed call into history
   const recordCallHistory = useCallback((outcome: 'Blocked' | 'Dismissed' | 'Completed') => {
