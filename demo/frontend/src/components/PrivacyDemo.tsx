@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Lock, Smartphone, Server, ArrowRight, Eye, EyeOff, ShieldCheck, RotateCcw, WifiOff, Wifi } from 'lucide-react'
 
 // -------- Fallback example data --------
 const FALLBACK_EXAMPLES = [
@@ -18,7 +17,7 @@ interface PrivacyDemoProps {
   sentences: Array<{
     text: string
     score: number
-    features: Record<string, number>
+    features: Record<string, number | undefined>
   }>
   gradientVectors: number[][]
   isCallActive: boolean
@@ -27,26 +26,17 @@ interface PrivacyDemoProps {
 interface DisplayEntry {
   text: string
   score: number
-  features: Record<string, number>
+  features: Record<string, number | undefined>
   gradient: number[]
   sigma: number
   epsilon: number
 }
 
-//
-// 🔥 FIX: sanitize features
-//
-function cleanFeatures(features: Record<string, any>): Record<string, number> {
-  const cleaned: Record<string, number> = {}
-
-  Object.entries(features || {}).forEach(([key, value]) => {
-    cleaned[key] = typeof value === "number" ? value : 0
-  })
-
-  return cleaned
-}
-
-export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }: PrivacyDemoProps) {
+export default function PrivacyDemo({
+  sentences,
+  gradientVectors,
+  isCallActive,
+}: PrivacyDemoProps) {
   const [wsConnected, setWsConnected] = useState(false)
   const [wsEntries, setWsEntries] = useState<DisplayEntry[]>([])
   const [fallbackEntries, setFallbackEntries] = useState<DisplayEntry[]>([])
@@ -56,7 +46,7 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
   const replayTimerRef = useRef<any>(null)
   const isMountedRef = useRef(true)
 
-  // WebSocket
+  // -------- WebSocket --------
   useEffect(() => {
     isMountedRef.current = true
     let ws: WebSocket | null = null
@@ -77,19 +67,18 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
           const entry: DisplayEntry = {
             text: data.text ?? data.transcript ?? '',
             score: data.fraud_score ?? data.score ?? 0,
-            features: cleanFeatures(data.features),
+            features: data.features ?? {}, // ✅ allow undefined values
             gradient: data.gradient ?? [],
             sigma: data.sigma ?? 0.5,
             epsilon: data.epsilon ?? 1.0,
           }
 
-          setWsEntries(prev => [...prev, entry])
+          setWsEntries((prev) => [...prev, entry])
         } catch {}
       }
 
       ws.onerror = () => setWsConnected(false)
       ws.onclose = () => setWsConnected(false)
-
     } catch {
       setWsConnected(false)
     }
@@ -100,26 +89,27 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
     }
   }, [])
 
-  // Data selection
+  // -------- Data selection --------
   const useWebSocketData = wsConnected && wsEntries.length > 0
   const usePropData = !useWebSocketData && sentences.length > 0
 
   const displayEntries: DisplayEntry[] = useWebSocketData
     ? wsEntries
     : usePropData
-      ? sentences.map((s, i) => ({
-          text: s.text,
-          score: s.score,
-          features: cleanFeatures(s.features), // 🔥 FIX HERE
-          gradient: gradientVectors[i] ?? Array(12).fill(0),
-          sigma: 0.5,
-          epsilon: 1.0,
-        }))
-      : fallbackEntries
+    ? sentences.map((s, i) => ({
+        text: s.text,
+        score: s.score,
+        features: s.features, // ✅ allow undefined
+        gradient: gradientVectors[i] ?? Array(12).fill(0),
+        sigma: 0.5,
+        epsilon: 1.0,
+      }))
+    : fallbackEntries
 
-  // Replay
+  // -------- Replay --------
   const startReplay = useCallback(() => {
     if (isReplaying) return
+
     setIsReplaying(true)
     setFallbackEntries([])
 
@@ -131,19 +121,16 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
         return
       }
 
-      const example = {
-        ...FALLBACK_EXAMPLES[index],
-        features: cleanFeatures(FALLBACK_EXAMPLES[index].features),
-      }
-
-      setFallbackEntries(prev => [...prev, example])
+      setFallbackEntries((prev) => [...prev, FALLBACK_EXAMPLES[index]])
       index++
+
       replayTimerRef.current = setTimeout(playNext, 1500)
     }
 
     replayTimerRef.current = setTimeout(playNext, 500)
   }, [isReplaying])
 
+  // -------- UI --------
   return (
     <div className="p-6 text-white">
       <div className="mb-4 flex justify-between">
@@ -167,9 +154,12 @@ export default function PrivacyDemo({ sentences, gradientVectors, isCallActive }
 
           <div className="mt-2 flex gap-2 flex-wrap">
             {Object.entries(entry.features)
-              .filter(([, v]) => v > 0.3)
+              .filter(([, v]) => (v ?? 0) > 0.3) // ✅ SAFE FIX
               .map(([k]) => (
-                <span key={k} className="text-xs bg-teal-700 px-2 py-1 rounded">
+                <span
+                  key={k}
+                  className="text-xs bg-teal-700 px-2 py-1 rounded"
+                >
                   {k}
                 </span>
               ))}
