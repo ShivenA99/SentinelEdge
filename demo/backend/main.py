@@ -992,9 +992,9 @@ async def live_mic_detection(websocket: WebSocket):
     try:
         try:
             try:
-        from live_mic import LiveMicCapture
-    except ImportError:
-        from demo.backend.live_mic import LiveMicCapture
+                from live_mic import LiveMicCapture
+            except ImportError:
+                from demo.backend.live_mic import LiveMicCapture
         except ImportError as e:
             await websocket.send_json({
                 "type": "error",
