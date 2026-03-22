@@ -140,6 +140,8 @@ The only data that ever leaves the device is a small gradient update (~20KB) pro
 
 SentinelEdge is a **prototype and proof-of-concept demo**. It demonstrates the full pipeline from audio capture through federated learning, but it has not been deployed to production or tested on real phone networks.
 
+The Android UI prototype now lives under `android/` and is intentionally separate from the web demo in `demo/frontend`.
+
 Key limitations:
 
 - The training data is synthetic (LLM-generated scam transcripts), not real-world call recordings.

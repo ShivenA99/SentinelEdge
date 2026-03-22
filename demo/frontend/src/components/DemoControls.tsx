@@ -3,8 +3,11 @@ import { Play, Mic, MicOff, AlertTriangle, Phone, Shield } from 'lucide-react'
 interface DemoControlsProps {
   onSelectCall: (callId: string) => void
   onToggleMic: () => void
+  onSelectMicDevice: (deviceValue: string) => void
   isCallActive: boolean
   isMicActive: boolean
+  selectedMicDevice: string
+  micDevices: Array<{ value: string; label: string }>
   availableCalls: Array<{ id: string; description: string }>
 }
 
@@ -30,8 +33,11 @@ const callIcons: Record<string, { icon: React.ReactNode; color: string }> = {
 export default function DemoControls({
   onSelectCall,
   onToggleMic,
+  onSelectMicDevice,
   isCallActive,
   isMicActive,
+  selectedMicDevice,
+  micDevices,
   availableCalls,
 }: DemoControlsProps) {
   return (
@@ -74,27 +80,56 @@ export default function DemoControls({
         {/* Right: mic toggle */}
         <div className="flex items-center gap-3">
           <div className="h-6 w-px bg-dark-border/30" />
-          <button
-            onClick={onToggleMic}
-            disabled={isCallActive}
-            className={`
-              flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium
-              transition-all duration-200 border
-              ${isMicActive
-                ? 'bg-brand-teal/10 text-brand-teal border-brand-teal/30'
-                : isCallActive
-                  ? 'opacity-40 cursor-not-allowed bg-dark-card text-gray-600 border-dark-border/50'
-                  : 'bg-dark-card text-gray-300 border-dark-border/50 hover:bg-brand-teal/10 hover:text-brand-teal hover:border-brand-teal/30'
-              }
-            `}
-          >
-            {isMicActive ? (
-              <Mic className="w-3.5 h-3.5" />
-            ) : (
-              <MicOff className="w-3.5 h-3.5" />
+          <div className="flex flex-col items-end gap-1">
+            <button
+              onClick={onToggleMic}
+              disabled={isCallActive}
+              className={`
+                flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium
+                transition-all duration-200 border
+                ${isMicActive
+                  ? 'bg-brand-teal/10 text-brand-teal border-brand-teal/30'
+                  : isCallActive
+                    ? 'opacity-40 cursor-not-allowed bg-dark-card text-gray-600 border-dark-border/50'
+                    : 'bg-dark-card text-gray-300 border-dark-border/50 hover:bg-brand-teal/10 hover:text-brand-teal hover:border-brand-teal/30'
+                }
+              `}
+            >
+              {isMicActive ? (
+                <Mic className="w-3.5 h-3.5" />
+              ) : (
+                <MicOff className="w-3.5 h-3.5" />
+              )}
+              Live Mic
+            </button>
+
+            {!isCallActive && (
+              <>
+                <span className={`text-[10px] ${isMicActive ? 'text-brand-teal/80' : 'text-gray-500'}`}>
+                  {isMicActive
+                    ? 'Mic is on for your side of role-play'
+                    : 'Scripted caller mode: backend plays sample scam call lines'}
+                </span>
+
+                <select
+                  value={selectedMicDevice}
+                  onChange={(e) => onSelectMicDevice(e.target.value)}
+                  className="px-2 py-1 text-[10px] bg-dark-card text-gray-300 border border-dark-border/50 rounded-md min-w-[260px]"
+                  disabled={isCallActive || micDevices.length === 0}
+                >
+                  {micDevices.length === 0 ? (
+                    <option value="">No input devices found</option>
+                  ) : (
+                    micDevices.map((device) => (
+                      <option key={device.value} value={device.value}>
+                        {device.label}
+                      </option>
+                    ))
+                  )}
+                </select>
+              </>
             )}
-            Live Mic
-          </button>
+          </div>
 
           {/* Status indicator */}
           {isCallActive && (

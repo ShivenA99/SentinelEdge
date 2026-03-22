@@ -83,10 +83,17 @@ function getAlertLevel(score: number): AlertLevel {
 
 type Tab = 'detection' | 'privacy' | 'federated'
 
+interface AudioDevice {
+  index: number
+  name: string
+  max_input_channels: number
+  default_samplerate: number
+}
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('detection')
   const [isCallActive, setIsCallActive] = useState(false)
-  const [isMicActive, setIsMicActive] = useState(false)
+  const [isMicActive, setIsMicActive] = useState(true)
   const [callDuration, setCallDuration] = useState(0)
   const [currentCallId, setCurrentCallId] = useState<string | null>(null)
   const [sentences, setSentences] = useState<Array<{ text: string; score: number; index: number }>>([])
@@ -94,51 +101,173 @@ export default function App() {
   const [emaScore, setEmaScore] = useState(0)
   const [features, setFeatures] = useState<Record<string, number>>({})
   const [alertDismissed, setAlertDismissed] = useState(false)
+  const [fraudSignalReceived, setFraudSignalReceived] = useState(false)
   const [privacySentences, setPrivacySentences] = useState<Array<{ text: string; score: number; features: Record<string, number> }>>([])
   const [gradientVectors, setGradientVectors] = useState<number[][]>([])
+  const [isBackendDriven, setIsBackendDriven] = useState(false)
+  const [audioDevices, setAudioDevices] = useState<AudioDevice[]>([])
+  const [selectedInputDevice, setSelectedInputDevice] = useState<string>('')
 
   const durationRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const playbackRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const lineIndexRef = useRef(0)
+
+  const speakCallerLine = useCallback((text: string) => {
+    if (!('speechSynthesis' in window)) {
+      return
+    }
+
+    // Keep caller speech readable and avoid queued overlap.
+    window.speechSynthesis.cancel()
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.rate = 0.95
+    utterance.pitch = 0.95
+    window.speechSynthesis.speak(utterance)
+  }, [])
 
   // WebSocket hook for live backend connection
-  const { connect, disconnect, isConnected } = useWebSocket({
-    url: currentCallId ? `ws://localhost:8000/ws/call/${currentCallId}` : '',
+  const wsUrl = currentCallId
+    ? (() => {
+        const params = new URLSearchParams()
+        const isScriptedCall = currentCallId !== 'live_mic'
+        if (isScriptedCall || isMicActive) {
+          params.set('interactive', '1')
+        }
+        if (selectedInputDevice) {
+          params.set('input_device', selectedInputDevice)
+        }
+        const qs = params.toString()
+        return `ws://localhost:8000/ws/call/${currentCallId}${qs ? `?${qs}` : ''}`
+      })()
+    : ''
+
+  const { connect, disconnect, send, isConnected } = useWebSocket({
+    url: wsUrl,
     onMessage: (data) => {
-      if (data.type === 'transcript') {
+      if (data.type === 'call_start') {
+        setIsBackendDriven(true)
+        return
+      }
+
+      if (data.type === 'sentence') {
+        const speaker = data.speaker === 'you' ? 'You' : 'Scammer'
+        const isUser = data.speaker === 'you'
+        const displayScore = isUser
+          ? (data.raw_score ?? 0)
+          : (data.ema_score ?? data.raw_score ?? 0)
         const newSentence = {
-          text: data.text,
-          score: data.fraud_score,
-          index: sentences.length,
+          text: `[${speaker}] ${data.text}`,
+          score: displayScore,
+          index: data.index ?? 0,
         }
         setSentences(prev => [...prev, newSentence])
-        setCurrentScore(data.fraud_score)
-        setEmaScore(data.ema_score ?? data.fraud_score)
-        if (data.features) setFeatures(data.features)
+        if (!isUser) {
+          setCurrentScore(data.raw_score ?? 0)
+          setEmaScore(data.ema_score ?? data.raw_score ?? 0)
+          if (data.features) setFeatures(data.features)
+        }
+        setPrivacySentences(prev => [
+          ...prev,
+          {
+            text: data.text,
+            score: displayScore,
+            features: data.features ?? {},
+          },
+        ])
+
+        // In scripted call mode, play the caller sentence aloud.
+        if (data.speaker !== 'you' && currentCallId !== 'live_mic') {
+          speakCallerLine(data.text)
+        }
+        return
+      }
+
+      if (data.type === 'fraud_detected') {
+        setFraudSignalReceived(true)
+        setAlertDismissed(false)
+        if (typeof data.ema_score === 'number') {
+          setEmaScore(data.ema_score)
+        }
+        if (Array.isArray(data.reasons) && data.reasons.length > 0) {
+          const mapped: Record<string, number> = {}
+          data.reasons.forEach((reason: string, idx: number) => {
+            mapped[`reason_${idx + 1}_${reason.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`] = 1
+          })
+          setFeatures(mapped)
+        }
+        return
+      }
+
+      if (data.type === 'waiting_for_reply') {
+        setSentences(prev => [
+          ...prev,
+          {
+            text: `[System] Your turn: speak now (window ${data.timeout_seconds ?? 15}s)`,
+            score: 0,
+            index: prev.length,
+          },
+        ])
+        return
+      }
+
+      if (data.type === 'user_timeout') {
+        setSentences(prev => [
+          ...prev,
+          {
+            text: '[System] No reply detected, continuing call flow.',
+            score: 0,
+            index: prev.length,
+          },
+        ])
+        return
+      }
+
+      if (data.type === 'user_echo_detected') {
+        setSentences(prev => [
+          ...prev,
+          {
+            text: `[System] ${data.message}`,
+            score: 0,
+            index: prev.length,
+          },
+        ])
+        return
+      }
+
+      if (data.type === 'call_end' || data.type === 'call_blocked') {
+        setIsCallActive(false)
+        setCurrentCallId(null)
+        setFraudSignalReceived(false)
+        if (durationRef.current) {
+          clearInterval(durationRef.current)
+          durationRef.current = null
+        }
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel()
+        }
+        return
+      }
+
+      if (data.type === 'error') {
+        console.error('Backend error:', data.message)
+        setSentences(prev => [
+          ...prev,
+          {
+            text: `[System] ${data.message}`,
+            score: 0,
+            index: prev.length,
+          },
+        ])
       }
     },
     onOpen: () => console.log('WebSocket connected'),
-    onClose: () => console.log('WebSocket disconnected'),
+    onClose: () => {
+      console.log('WebSocket disconnected')
+      setIsBackendDriven(false)
+    },
     autoConnect: false,
   })
 
-  // EMA computation for local playback
-  const computeEma = useCallback((newScore: number, prevEma: number, alpha = 0.3) => {
-    return alpha * newScore + (1 - alpha) * prevEma
-  }, [])
-
-  // Generate fake gradient vector for privacy demo
-  const generateGradientVector = useCallback(() => {
-    const size = 12
-    return Array.from({ length: size }, () => {
-      const val = (Math.random() - 0.5) * 0.01
-      return Number(val.toFixed(6))
-    })
-  }, [])
-
   const startCall = useCallback((callId: string) => {
-    const call = SAMPLE_CALLS[callId]
-    if (!call) return
+    if (!SAMPLE_CALLS[callId]) return
 
     // Reset state
     setSentences([])
@@ -146,83 +275,91 @@ export default function App() {
     setEmaScore(0)
     setFeatures({})
     setAlertDismissed(false)
+    setFraudSignalReceived(false)
     setCallDuration(0)
     setCurrentCallId(callId)
     setIsCallActive(true)
-    lineIndexRef.current = 0
     setPrivacySentences([])
     setGradientVectors([])
-
-    // Try connecting to backend WebSocket
-    try {
-      connect()
-    } catch {
-      // Fallback: local playback mode
-    }
+    setIsBackendDriven(false)
 
     // Start duration timer
+    if (durationRef.current) {
+      clearInterval(durationRef.current)
+    }
     durationRef.current = setInterval(() => {
       setCallDuration(prev => prev + 1)
     }, 1000)
+  }, [])
 
-    // Play lines with realistic timing (local mode)
-    let runningEma = 0
-    const playLine = (index: number) => {
-      if (index >= call.lines.length) return
-
-      const line = call.lines[index]
-      runningEma = 0.3 * line.score + 0.7 * runningEma
-
-      setSentences(prev => [...prev, { text: line.text, score: line.score, index }])
-      setCurrentScore(line.score)
-      setEmaScore(runningEma)
-      setFeatures(line.features)
-      setPrivacySentences(prev => [...prev, { text: line.text, score: line.score, features: line.features }])
-      setGradientVectors(prev => [...prev, generateGradientVector()])
-
-      lineIndexRef.current = index + 1
-
-      // Next line after 2.5-4 seconds (variable for realism)
-      const delay = 2500 + Math.random() * 1500
-      playbackRef.current = setTimeout(() => playLine(index + 1), delay)
+  useEffect(() => {
+    const loadAudioDevices = async () => {
+      try {
+        const resp = await fetch('http://localhost:8000/api/audio-devices')
+        const data = await resp.json()
+        const devices: AudioDevice[] = Array.isArray(data.devices) ? data.devices : []
+        setAudioDevices(devices)
+        if (devices.length > 0) {
+          setSelectedInputDevice(String(devices[0].index))
+        }
+      } catch {
+        setAudioDevices([])
+      }
     }
 
-    // Start first line after 1 second
-    playbackRef.current = setTimeout(() => playLine(0), 1000)
-  }, [connect, generateGradientVector])
+    void loadAudioDevices()
+  }, [])
+
+  useEffect(() => {
+    if (isCallActive && currentCallId) {
+      connect()
+    }
+  }, [isCallActive, currentCallId, connect])
 
   const endCall = useCallback(() => {
     setIsCallActive(false)
     setCurrentCallId(null)
-    if (durationRef.current) clearInterval(durationRef.current)
-    if (playbackRef.current) clearTimeout(playbackRef.current)
+    if (durationRef.current) {
+      clearInterval(durationRef.current)
+      durationRef.current = null
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel()
+    }
     disconnect()
   }, [disconnect])
 
   const blockCaller = useCallback(() => {
+    send({ action: 'block' })
     endCall()
-  }, [endCall])
+  }, [endCall, send])
 
   const dismissAlert = useCallback(() => {
+    send({ action: 'dismiss' })
     setAlertDismissed(true)
-  }, [])
+  }, [send])
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (durationRef.current) clearInterval(durationRef.current)
-      if (playbackRef.current) clearTimeout(playbackRef.current)
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel()
+      }
     }
   }, [])
 
   const alertLevel = getAlertLevel(emaScore)
+  const effectiveAlertLevel = alertDismissed || !fraudSignalReceived ? 'safe' : alertLevel
   const callerNames: Record<string, string> = {
+    live_mic: 'Live Microphone',
     irs_scam: 'Officer James Wilson',
     tech_support: 'Mike - Microsoft',
     bank_fraud: 'First National Bank',
     legitimate: "Dr. Thompson's Office",
   }
   const callerNumbers: Record<string, string> = {
+    live_mic: 'On-device audio stream',
     irs_scam: '+1 (202) 555-0147',
     tech_support: '+1 (800) 555-0199',
     bank_fraud: '+1 (312) 555-0183',
@@ -278,7 +415,7 @@ export default function App() {
           <div className="flex items-center gap-2 text-xs">
             <Activity className={`w-3.5 h-3.5 ${isConnected ? 'text-safe' : 'text-gray-500'}`} />
             <span className={isConnected ? 'text-safe' : 'text-gray-500'}>
-              {isConnected ? 'Backend Connected' : 'Local Playback Mode'}
+              {isConnected ? 'Backend Connected' : isBackendDriven ? 'Reconnecting...' : 'Backend Disconnected'}
             </span>
           </div>
         </div>
@@ -292,8 +429,11 @@ export default function App() {
             <DemoControls
               onSelectCall={startCall}
               onToggleMic={() => setIsMicActive(!isMicActive)}
+              onSelectMicDevice={setSelectedInputDevice}
               isCallActive={isCallActive}
               isMicActive={isMicActive}
+              selectedMicDevice={selectedInputDevice}
+              micDevices={audioDevices.map(d => ({ value: String(d.index), label: `${d.index}: ${d.name}` }))}
               availableCalls={AVAILABLE_CALLS}
             />
 
@@ -310,7 +450,7 @@ export default function App() {
                     onEndCall={endCall}
                     onBlock={blockCaller}
                     onDismissAlert={dismissAlert}
-                    alertLevel={alertDismissed ? 'safe' : alertLevel}
+                    alertLevel={effectiveAlertLevel}
                     alertReasons={
                       Object.entries(features)
                         .filter(([, v]) => v > 0.5)

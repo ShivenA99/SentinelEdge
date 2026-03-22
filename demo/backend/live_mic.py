@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import queue
 import threading
+import time
 from typing import Optional
 
 import numpy as np
@@ -36,15 +37,18 @@ class LiveMicCapture:
         sample_rate: int = 16_000,
         chunk_size: int = 1024,
         channels: int = 1,
+        input_device: str | int | None = None,
     ) -> None:
         self.sample_rate = sample_rate
         self.chunk_size = chunk_size
         self.channels = channels
+        self.input_device = input_device
         self.audio_queue: queue.Queue[np.ndarray] = queue.Queue()
         self._running = False
         self._thread: Optional[threading.Thread] = None
         self._stream = None
         self._pyaudio_instance = None
+        self._backend: str | None = None
 
     # ------------------------------------------------------------------
     # Public API
@@ -53,10 +57,12 @@ class LiveMicCapture:
     def start(self) -> None:
         """Start capturing audio in a background thread.
 
+        Uses PyAudio when available, otherwise falls back to sounddevice.
+
         Raises
         ------
         ImportError
-            If PyAudio is not installed.
+            If neither PyAudio nor sounddevice is installed.
         RuntimeError
             If the capture is already running.
         """
@@ -65,11 +71,16 @@ class LiveMicCapture:
 
         try:
             import pyaudio  # noqa: F401
+            self._backend = "pyaudio"
         except ImportError:
-            raise ImportError(
-                "PyAudio is required for live microphone capture. "
-                "Install it with: pip install pyaudio"
-            )
+            try:
+                import sounddevice  # noqa: F401
+                self._backend = "sounddevice"
+            except ImportError as exc:
+                raise ImportError(
+                    "Live microphone capture requires PyAudio or sounddevice. "
+                    "Install one with: pip install pyaudio  OR  pip install sounddevice"
+                ) from exc
 
         self._running = True
         self._thread = threading.Thread(
@@ -102,6 +113,14 @@ class LiveMicCapture:
         except queue.Empty:
             return None
 
+    def drain_queue(self) -> None:
+        """Drop any buffered audio chunks currently waiting in the queue."""
+        while True:
+            try:
+                self.audio_queue.get_nowait()
+            except queue.Empty:
+                break
+
     @property
     def is_running(self) -> bool:
         """Whether the capture loop is active."""
@@ -114,10 +133,14 @@ class LiveMicCapture:
     def _capture_loop(self) -> None:
         """Background thread that reads from the microphone.
 
-        Opens a PyAudio input stream, reads chunks of raw audio data,
-        converts them to float32, and puts them on the queue for the
-        main application to consume.
+        Opens an input stream (PyAudio or sounddevice), reads chunks,
+        and puts float32 audio on the queue for the main application
+        to consume.
         """
+        if self._backend == "sounddevice":
+            self._capture_loop_sounddevice()
+            return
+
         import pyaudio
 
         pa = pyaudio.PyAudio()
@@ -130,6 +153,7 @@ class LiveMicCapture:
                 rate=self.sample_rate,
                 input=True,
                 frames_per_buffer=self.chunk_size,
+                input_device_index=(self.input_device if isinstance(self.input_device, int) else None),
             )
             self._stream = stream
 
@@ -160,3 +184,29 @@ class LiveMicCapture:
 
             pa.terminate()
             self._pyaudio_instance = None
+
+    def _capture_loop_sounddevice(self) -> None:
+        """Capture loop implemented with sounddevice InputStream."""
+        import sounddevice as sd
+
+        def _callback(indata, frames, _time_info, status):
+            if status:
+                return
+            # sounddevice already provides float32 in [-1, 1] when dtype=float32
+            audio = np.asarray(indata[:, 0], dtype=np.float32).copy()
+            self.audio_queue.put(audio)
+
+        try:
+            with sd.InputStream(
+                samplerate=self.sample_rate,
+                channels=self.channels,
+                dtype="float32",
+                blocksize=self.chunk_size,
+                device=self.input_device,
+                callback=_callback,
+            ) as stream:
+                self._stream = stream
+                while self._running:
+                    time.sleep(0.05)
+        finally:
+            self._stream = None

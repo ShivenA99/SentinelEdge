@@ -5,11 +5,21 @@ import json
 import time
 import os
 import sys
+import re
+import urllib.request
+import urllib.error
 import numpy as np
 from pathlib import Path
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+
+# Load environment variables from .env file if present
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # python-dotenv not installed, use system env vars only
 
 # Add project root to path so sentinel_edge package is importable
 _PROJECT_ROOT = str(Path(__file__).resolve().parent.parent.parent)
@@ -17,6 +27,203 @@ if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
 app = FastAPI(title="SentinelEdge Demo", version="0.1.0")
+
+INTERACTIVE_REPLY_TIMEOUT_SECONDS = 15.0
+MIN_SCAMMER_TURNS_FOR_ALERT = 3
+MIN_USER_REPLIES_FOR_ALERT = 2
+MIN_CALL_SECONDS_FOR_ALERT = 20.0
+REPLY_LISTEN_START_DELAY_SECONDS = 0.25
+VOICE_ACTIVITY_RMS_THRESHOLD = 0.0015
+MIN_VOICED_SECONDS_FOR_TRANSCRIBE = 0.3
+END_OF_UTTERANCE_SILENCE_SECONDS = 0.8
+MAX_UTTERANCE_SECONDS = 7.0
+ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
+ANTHROPIC_API_VERSION = "2023-06-01"
+
+
+def _read_anthropic_api_key_from_env() -> str | None:
+    """Read optional Anthropic key from env without hardcoding secrets."""
+    key = os.getenv("SENTINEL_ANTHROPIC_API_KEY") or os.getenv("ANTHROPIC_API_KEY")
+    if key is None:
+        return None
+    key = key.strip()
+    return key if key else None
+
+
+def _extract_anthropic_text(response_json: dict) -> str | None:
+    """Extract first text block from Anthropic messages response."""
+    content = response_json.get("content")
+    if not isinstance(content, list):
+        return None
+
+    for block in content:
+        if isinstance(block, dict) and block.get("type") == "text":
+            text = block.get("text")
+            if isinstance(text, str) and text.strip():
+                return text.strip()
+    return None
+
+
+def _candidate_anthropic_models(configured_model: str) -> list[str]:
+    """Return ordered, de-duplicated Anthropic model candidates."""
+    candidates = [
+        configured_model,
+        "claude-sonnet-4-5-latest",
+        "claude-sonnet-4-0",
+        "claude-3-7-sonnet-latest",
+        "claude-3-5-haiku-latest",
+    ]
+
+    seen: set[str] = set()
+    ordered: list[str] = []
+    for model in candidates:
+        if model and model not in seen:
+            seen.add(model)
+            ordered.append(model)
+    return ordered
+
+
+def _personalize_scammer_line_sync(
+    *,
+    base_sentence: str,
+    call_description: str,
+    recent_user_replies: list[str],
+    recent_scammer_lines: list[str],
+) -> str | None:
+    """Call Anthropic API and return one personalized scammer sentence."""
+    api_key = _read_anthropic_api_key_from_env()
+    if api_key is None:
+        print("[Claude] API key not found in env; personalization disabled.")
+        return None
+
+    # Redact key for logging (show only last 8 chars)
+    key_display = f"...{api_key[-8:]}" if len(api_key) > 8 else "***"
+    print(f"[Claude] API key loaded: {key_display}")
+    
+    configured_model = os.getenv("SENTINEL_ANTHROPIC_MODEL", "claude-sonnet-4-5-latest")
+    model_candidates = _candidate_anthropic_models(configured_model)
+    print(f"[Claude] Attempting personalization with model candidates: {model_candidates}")
+    user_context = " | ".join(recent_user_replies[-3:])
+    scammer_context = " | ".join(recent_scammer_lines[-2:])
+
+    system_prompt = (
+        "You are generating a scam call simulation sentence for cybersecurity training. "
+        "Return exactly one sentence, under 35 words, plain text only. "
+        "Keep it plausible for a phone scam and adapt to the victim reply context. "
+        "Do not include markdown, bullet points, labels, or safety disclaimers."
+    )
+
+    user_prompt = (
+        f"Call scenario: {call_description}. "
+        f"Script baseline sentence: {base_sentence} "
+        f"Recent scammer lines: {scammer_context or 'none'} "
+        f"Recent victim replies: {user_context or 'none'}"
+    )
+
+    payload = {
+        "model": model_candidates[0],
+        "max_tokens": 80,
+        "temperature": 0.7,
+        "system": system_prompt,
+        "messages": [{"role": "user", "content": user_prompt}],
+    }
+
+    headers = {
+        "x-api-key": api_key,
+        "anthropic-version": ANTHROPIC_API_VERSION,
+        "content-type": "application/json",
+    }
+
+    for model in model_candidates:
+        payload["model"] = model
+        body = json.dumps(payload).encode("utf-8")
+        request = urllib.request.Request(
+            ANTHROPIC_API_URL,
+            data=body,
+            headers=headers,
+            method="POST",
+        )
+
+        try:
+            print(f"[Claude] API request to {ANTHROPIC_API_URL} using model: {model}")
+            with urllib.request.urlopen(request, timeout=8) as response:
+                response_json = json.loads(response.read().decode("utf-8"))
+
+            text = _extract_anthropic_text(response_json)
+            if text is None:
+                print(f"[Claude] Model {model} returned empty text block.")
+                continue
+
+            personalized = " ".join(text.split())
+            print(f"[Claude] Personalized sentence ({model}): {personalized[:80]}...")
+            return personalized
+        except urllib.error.HTTPError as e:
+            error_body = e.read().decode("utf-8") if e.fp else ""
+            print(f"[Claude] HTTP Error {e.code} on model {model}: {e.reason}")
+            print(f"[Claude] Response body: {error_body[:200]}")
+
+            is_model_not_found = (
+                e.code == 404
+                and "not_found_error" in error_body
+                and "model:" in error_body
+            )
+            if is_model_not_found:
+                print(f"[Claude] Model not found: {model}. Trying next fallback.")
+                continue
+            return None
+        except urllib.error.URLError as e:
+            print(f"[Claude] URL Error on model {model}: {e.reason}")
+            return None
+        except (TimeoutError, json.JSONDecodeError) as e:
+            print(f"[Claude] Request error on model {model}: {e}")
+            return None
+
+    print("[Claude] No usable Anthropic model found; personalization disabled for this turn.")
+    return None
+
+
+async def _personalize_scammer_line(
+    *,
+    base_sentence: str,
+    call_description: str,
+    recent_user_replies: list[str],
+    recent_scammer_lines: list[str],
+) -> str | None:
+    """Async wrapper for sentence personalization."""
+    return await asyncio.to_thread(
+        _personalize_scammer_line_sync,
+        base_sentence=base_sentence,
+        call_description=call_description,
+        recent_user_replies=recent_user_replies,
+        recent_scammer_lines=recent_scammer_lines,
+    )
+
+
+def _read_input_device_from_env() -> str | int | None:
+    """Read optional microphone input device from SENTINEL_INPUT_DEVICE.
+
+    Supports either an integer device index or a device name string.
+    """
+    value = os.getenv("SENTINEL_INPUT_DEVICE")
+    if value is None or not value.strip():
+        return None
+
+    value = value.strip()
+    if value.isdigit():
+        return int(value)
+    return value
+
+
+def _parse_input_device_query(value: str | None) -> str | int | None:
+    """Parse optional input device from websocket query parameter."""
+    if value is None:
+        return None
+    value = value.strip()
+    if not value:
+        return None
+    if value.isdigit():
+        return int(value)
+    return value
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,6 +240,12 @@ active_connections: list[WebSocket] = []
 # ---------------------------------------------------------------------------
 
 SAMPLE_CALLS = {
+    "live_mic": {
+        "file": None,
+        "caller": "Live microphone",
+        "caller_name": "Local Device Input",
+        "description": "Real-time microphone detection",
+    },
     "irs_scam": {
         "file": "sample_calls/irs_scam.txt",
         "caller": "+1 (800) 555-0199",
@@ -76,6 +289,28 @@ async def health_check():
     return {"status": "ok", "active_connections": len(active_connections)}
 
 
+@app.get("/api/audio-devices")
+async def list_audio_devices():
+    """List available input audio devices (when sounddevice is installed)."""
+    try:
+        import sounddevice as sd
+
+        devices = []
+        for idx, dev in enumerate(sd.query_devices()):
+            if dev.get("max_input_channels", 0) > 0:
+                devices.append(
+                    {
+                        "index": idx,
+                        "name": dev.get("name", "unknown"),
+                        "max_input_channels": int(dev.get("max_input_channels", 0)),
+                        "default_samplerate": float(dev.get("default_samplerate", 0.0)),
+                    }
+                )
+        return {"devices": devices}
+    except Exception as exc:
+        return {"devices": [], "error": str(exc)}
+
+
 # ---------------------------------------------------------------------------
 # WebSocket: real-time call fraud detection
 # ---------------------------------------------------------------------------
@@ -114,9 +349,26 @@ async def call_detection(websocket: WebSocket, call_id: str):
             }
         )
 
+        input_device = _parse_input_device_query(
+            websocket.query_params.get("input_device")
+        )
+
+        if call_id == "live_mic":
+            await run_live_mic_detection(websocket, input_device=input_device)
+            return
+
         # Load transcript sentences
         transcript_path = os.path.join(os.path.dirname(__file__), call_info["file"])
         sentences = load_transcript(transcript_path)
+
+        interactive = websocket.query_params.get("interactive") == "1"
+        if interactive:
+            await run_interactive_scripted_call(
+                websocket,
+                sentences,
+                input_device=input_device,
+            )
+            return
 
         # Import detection pipeline components
         from sentinel_edge.features.handcrafted import extract_handcrafted_features
@@ -151,6 +403,7 @@ async def call_detection(websocket: WebSocket, call_id: str):
             await websocket.send_json(
                 {
                     "type": "sentence",
+                    "speaker": "scammer",
                     "index": i,
                     "text": sentence,
                     "raw_score": round(fraud_score, 4),
@@ -215,6 +468,478 @@ async def call_detection(websocket: WebSocket, call_id: str):
     finally:
         if websocket in active_connections:
             active_connections.remove(websocket)
+
+
+async def run_interactive_scripted_call(
+    websocket: WebSocket,
+    scripted_sentences: list[str],
+    input_device: str | int | None = None,
+) -> None:
+    """Turn-based scripted call: scammer line, wait for user reply, repeat."""
+    from live_mic import LiveMicCapture
+    from sentinel_edge.audio.transcriber import Transcriber
+    from sentinel_edge.engine import SentinelEngine
+
+    engine = SentinelEngine(models_dir=os.path.join(_PROJECT_ROOT, "models"))
+    engine.reset_call_state()
+    mic = LiveMicCapture(
+        sample_rate=16_000,
+        chunk_size=2048,
+        channels=1,
+        input_device=(input_device if input_device is not None else _read_input_device_from_env()),
+    )
+    whisper_model = os.getenv("SENTINEL_WHISPER_MODEL", "base.en")
+    transcriber = Transcriber(model_name=whisper_model)
+
+    call_start_time = time.time()
+    turn_index = 0
+    scammer_turn_count = 0
+    user_reply_count = 0
+    fraud_alert_sent = False
+    user_replies: list[str] = []
+    scammer_history: list[str] = []
+    last_scammer_sentence = ""
+
+    try:
+        mic.start()
+
+        for scam_sentence in scripted_sentences:
+            await asyncio.sleep(1.0)
+
+            line_to_send = scam_sentence
+            if user_replies:
+                print(f"[Main] Attempting personalization (user has {len(user_replies)} replies)")
+                personalized = await _personalize_scammer_line(
+                    base_sentence=scam_sentence,
+                    call_description="Interactive scam call simulation",
+                    recent_user_replies=user_replies,
+                    recent_scammer_lines=scammer_history,
+                )
+                if personalized:
+                    line_to_send = personalized
+            else:
+                print(f"[Main] No user replies yet; skipping personalization")
+
+            t0 = time.perf_counter()
+            fraud_score, features = engine.analyze_sentence(line_to_send)
+            ema_score = engine.accumulator.update(fraud_score)
+            alert = engine.alert_engine.evaluate(ema_score, features)
+            inference_ms = (time.perf_counter() - t0) * 1000.0
+
+            await websocket.send_json(
+                {
+                    "type": "sentence",
+                    "speaker": "scammer",
+                    "index": turn_index,
+                    "text": line_to_send,
+                    "raw_score": round(fraud_score, 4),
+                    "ema_score": round(ema_score, 4),
+                    "features": {
+                        k: round(v, 4) if isinstance(v, float) else int(v)
+                        for k, v in features.items()
+                    },
+                    "alert": {
+                        "should_alert": alert.should_alert,
+                        "risk_level": alert.risk_level.value,
+                        "reasons": alert.reasons,
+                    },
+                    "elapsed_seconds": round(time.time() - call_start_time, 1),
+                    "inference_ms": round(inference_ms, 2),
+                    "timestamp": time.time(),
+                }
+            )
+            turn_index += 1
+            scammer_turn_count += 1
+            last_scammer_sentence = line_to_send
+            scammer_history.append(line_to_send)
+
+            elapsed_seconds = time.time() - call_start_time
+            if (
+                not fraud_alert_sent
+                and alert.should_alert
+                and scammer_turn_count >= MIN_SCAMMER_TURNS_FOR_ALERT
+                and user_reply_count >= MIN_USER_REPLIES_FOR_ALERT
+                and elapsed_seconds >= MIN_CALL_SECONDS_FOR_ALERT
+            ):
+                fraud_alert_sent = True
+                await websocket.send_json(
+                    {
+                        "type": "fraud_detected",
+                        "message": "High scam risk detected. Hang up now.",
+                        "risk_level": alert.risk_level.value,
+                        "ema_score": round(ema_score, 4),
+                        "reasons": alert.reasons,
+                        "timestamp": time.time(),
+                    }
+                )
+
+            await websocket.send_json(
+                {
+                    "type": "waiting_for_reply",
+                    "timeout_seconds": int(INTERACTIVE_REPLY_TIMEOUT_SECONDS),
+                    "timestamp": time.time(),
+                }
+            )
+
+            # Ensure only fresh user turn audio is considered.
+            mic.drain_queue()
+
+            user_sentence, heard_audio = await _capture_user_sentence(
+                websocket=websocket,
+                mic=mic,
+                transcriber=transcriber,
+                timeout_seconds=INTERACTIVE_REPLY_TIMEOUT_SECONDS,
+                listen_start_delay_seconds=REPLY_LISTEN_START_DELAY_SECONDS,
+                voice_activity_rms_threshold=VOICE_ACTIVITY_RMS_THRESHOLD,
+                min_voiced_seconds_for_transcribe=MIN_VOICED_SECONDS_FOR_TRANSCRIBE,
+            )
+
+            if not heard_audio:
+                await websocket.send_json(
+                    {
+                        "type": "error",
+                        "message": (
+                            "No microphone audio detected during reply window. "
+                            "Check OS microphone permission and input device selection."
+                        ),
+                        "timestamp": time.time(),
+                    }
+                )
+                continue
+
+            if user_sentence is None:
+                await websocket.send_json(
+                    {
+                        "type": "user_timeout",
+                        "message": "No reply detected, continuing call.",
+                        "timestamp": time.time(),
+                    }
+                )
+                continue
+
+            if _looks_like_echo(user_sentence, last_scammer_sentence):
+                await websocket.send_json(
+                    {
+                        "type": "user_echo_detected",
+                        "message": "Detected speaker echo. Use headphones or lower volume and repeat.",
+                        "timestamp": time.time(),
+                    }
+                )
+                continue
+
+            # Score user reply for display only. Do not mix into scammer EMA.
+            user_score, user_features = engine.analyze_sentence(user_sentence)
+            user_replies.append(user_sentence)
+            user_reply_count += 1
+            await websocket.send_json(
+                {
+                    "type": "sentence",
+                    "speaker": "you",
+                    "index": turn_index,
+                    "text": user_sentence,
+                    "raw_score": round(user_score, 4),
+                    "ema_score": round(engine.accumulator.current_score, 4),
+                    "features": {
+                        k: round(v, 4) if isinstance(v, float) else int(v)
+                        for k, v in user_features.items()
+                    },
+                    "alert": {
+                        "should_alert": False,
+                        "risk_level": "safe",
+                        "reasons": [],
+                    },
+                    "elapsed_seconds": round(time.time() - call_start_time, 1),
+                    "inference_ms": 0.0,
+                    "timestamp": time.time(),
+                }
+            )
+            turn_index += 1
+
+            # Allow client action such as manual block/hangup.
+            try:
+                msg = await asyncio.wait_for(websocket.receive_text(), timeout=0.01)
+                data = json.loads(msg)
+                if data.get("action") == "block":
+                    await websocket.send_json(
+                        {"type": "call_blocked", "timestamp": time.time()}
+                    )
+                    break
+            except asyncio.TimeoutError:
+                pass
+            except json.JSONDecodeError:
+                pass
+
+        await websocket.send_json(
+            {
+                "type": "call_end",
+                "final_score": round(engine.accumulator.current_score, 4),
+                "peak_score": round(engine.accumulator.peak_score, 4),
+                "mean_score": round(engine.accumulator.mean_score, 4),
+                "total_sentences": turn_index,
+                "duration_seconds": round(time.time() - call_start_time, 1),
+                "timestamp": time.time(),
+            }
+        )
+    finally:
+        mic.stop()
+
+
+async def _capture_user_sentence(
+    websocket: WebSocket,
+    mic,
+    transcriber,
+    timeout_seconds: float,
+    listen_start_delay_seconds: float,
+    voice_activity_rms_threshold: float,
+    min_voiced_seconds_for_transcribe: float,
+) -> tuple[str | None, bool]:
+    """Capture microphone input and return one completed user sentence."""
+    from sentinel_edge.audio.sentence_splitter import SentenceSplitter
+
+    splitter = SentenceSplitter()
+    utterance_chunks: list[np.ndarray] = []
+    utterance_samples = 0
+    min_samples = int(16_000 * min_voiced_seconds_for_transcribe)
+    max_samples = int(16_000 * MAX_UTTERANCE_SECONDS)
+    deadline = time.time() + timeout_seconds
+    listen_start = time.time() + listen_start_delay_seconds
+    heard_audio = False
+    speech_started = False
+    silence_run_seconds = 0.0
+
+    while time.time() < deadline:
+        # Handle immediate client actions while waiting for reply.
+        try:
+            msg = await asyncio.wait_for(websocket.receive_text(), timeout=0.01)
+            data = json.loads(msg)
+            if data.get("action") == "block":
+                return None, heard_audio
+        except asyncio.TimeoutError:
+            pass
+        except json.JSONDecodeError:
+            pass
+
+        chunk = mic.get_chunk(timeout=0.2)
+        if chunk is None:
+            await asyncio.sleep(0.01)
+            continue
+
+        if time.time() < listen_start:
+            # Avoid immediately picking up system TTS bleed-through.
+            continue
+
+        heard_audio = True
+
+        rms = float(np.sqrt(np.mean(np.square(chunk))))
+        chunk_seconds = len(chunk) / 16_000.0
+
+        if rms < voice_activity_rms_threshold:
+            if speech_started:
+                # Keep trailing silence so Whisper captures final words naturally.
+                utterance_chunks.append(chunk)
+                utterance_samples += len(chunk)
+                silence_run_seconds += chunk_seconds
+                if (
+                    utterance_samples >= min_samples
+                    and silence_run_seconds >= END_OF_UTTERANCE_SILENCE_SECONDS
+                ):
+                    break
+            continue
+
+        speech_started = True
+        silence_run_seconds = 0.0
+        utterance_chunks.append(chunk)
+        utterance_samples += len(chunk)
+        if utterance_samples >= max_samples:
+            break
+
+    if utterance_chunks and utterance_samples >= min_samples:
+        audio = np.concatenate(utterance_chunks)
+        transcript = transcriber.transcribe(audio, sample_rate=16_000).strip()
+        if transcript:
+            sentences = splitter.feed(transcript)
+            if sentences:
+                return sentences[0], heard_audio
+
+            # Whisper can return partial text without sentence punctuation.
+            if len(transcript.split()) >= 1:
+                return transcript, heard_audio
+
+    # Fallback: if we heard audio but speech never crossed VAD, try a short best-effort
+    # transcription on what we did capture to handle very quiet microphones.
+    if utterance_chunks and heard_audio:
+        audio = np.concatenate(utterance_chunks)
+        transcript = transcriber.transcribe(audio, sample_rate=16_000).strip()
+        if transcript:
+            return transcript, heard_audio
+
+    leftover = splitter.flush()
+    if leftover:
+        return leftover, heard_audio
+    return None, heard_audio
+
+
+def _looks_like_echo(user_sentence: str, scam_sentence: str) -> bool:
+    """Heuristic guard: detect if user transcript likely matches scammer TTS echo."""
+    def _normalize(text: str) -> list[str]:
+        cleaned = re.sub(r"[^a-z0-9\s]", " ", text.lower())
+        tokens = [t for t in cleaned.split() if len(t) > 2]
+        return tokens
+
+    user_tokens = _normalize(user_sentence)
+    scam_tokens = _normalize(scam_sentence)
+
+    if not user_tokens or not scam_tokens:
+        return False
+
+    user_set = set(user_tokens)
+    scam_set = set(scam_tokens)
+    overlap = len(user_set & scam_set)
+    ratio = overlap / max(len(user_set), 1)
+
+    # Require substantial overlap to reduce false positives on short user replies.
+    return overlap >= 4 and ratio >= 0.85
+
+
+async def run_live_mic_detection(
+    websocket: WebSocket,
+    input_device: str | int | None = None,
+) -> None:
+    """Run live microphone -> transcription -> model scoring pipeline."""
+    from live_mic import LiveMicCapture
+    from sentinel_edge.audio.sentence_splitter import SentenceSplitter
+    from sentinel_edge.audio.transcriber import Transcriber
+    from sentinel_edge.engine import SentinelEngine
+
+    mic = LiveMicCapture(
+        sample_rate=16_000,
+        chunk_size=2048,
+        channels=1,
+        input_device=(input_device if input_device is not None else _read_input_device_from_env()),
+    )
+    splitter = SentenceSplitter()
+    whisper_model = os.getenv("SENTINEL_WHISPER_MODEL", "base.en")
+    transcriber = Transcriber(model_name=whisper_model)
+    engine = SentinelEngine(models_dir=os.path.join(_PROJECT_ROOT, "models"))
+    engine.reset_call_state()
+
+    call_start_time = time.time()
+    sentence_index = 0
+    chunk_accumulator: list[np.ndarray] = []
+    accumulated_samples = 0
+    # Transcribe roughly every 2 seconds for stable Whisper context.
+    target_samples = 16_000 * 2
+
+    try:
+        mic.start()
+
+        while True:
+            # Non-blocking action handling from client.
+            try:
+                msg = await asyncio.wait_for(websocket.receive_text(), timeout=0.01)
+                data = json.loads(msg)
+                if data.get("action") == "block":
+                    await websocket.send_json(
+                        {"type": "call_blocked", "timestamp": time.time()}
+                    )
+                    break
+            except asyncio.TimeoutError:
+                pass
+            except json.JSONDecodeError:
+                pass
+
+            chunk = mic.get_chunk(timeout=0.2)
+            if chunk is None:
+                await asyncio.sleep(0.01)
+                continue
+
+            chunk_accumulator.append(chunk)
+            accumulated_samples += len(chunk)
+
+            if accumulated_samples < target_samples:
+                continue
+
+            audio = np.concatenate(chunk_accumulator)
+            chunk_accumulator = []
+            accumulated_samples = 0
+
+            transcript = transcriber.transcribe(audio, sample_rate=16_000).strip()
+            if not transcript:
+                continue
+
+            for sentence in splitter.feed(transcript):
+                t0 = time.perf_counter()
+                fraud_score, features = engine.analyze_sentence(sentence)
+                ema_score = engine.accumulator.update(fraud_score)
+                alert = engine.alert_engine.evaluate(ema_score, features)
+                inference_ms = (time.perf_counter() - t0) * 1000.0
+
+                await websocket.send_json(
+                    {
+                        "type": "sentence",
+                        "index": sentence_index,
+                        "text": sentence,
+                        "raw_score": round(fraud_score, 4),
+                        "ema_score": round(ema_score, 4),
+                        "features": {
+                            k: round(v, 4) if isinstance(v, float) else int(v)
+                            for k, v in features.items()
+                        },
+                        "alert": {
+                            "should_alert": alert.should_alert,
+                            "risk_level": alert.risk_level.value,
+                            "reasons": alert.reasons,
+                        },
+                        "elapsed_seconds": round(time.time() - call_start_time, 1),
+                        "inference_ms": round(inference_ms, 2),
+                        "timestamp": time.time(),
+                    }
+                )
+                sentence_index += 1
+
+        leftover = splitter.flush()
+        if leftover:
+            t0 = time.perf_counter()
+            fraud_score, features = engine.analyze_sentence(leftover)
+            ema_score = engine.accumulator.update(fraud_score)
+            alert = engine.alert_engine.evaluate(ema_score, features)
+            inference_ms = (time.perf_counter() - t0) * 1000.0
+            await websocket.send_json(
+                {
+                    "type": "sentence",
+                    "index": sentence_index,
+                    "text": leftover,
+                    "raw_score": round(fraud_score, 4),
+                    "ema_score": round(ema_score, 4),
+                    "features": {
+                        k: round(v, 4) if isinstance(v, float) else int(v)
+                        for k, v in features.items()
+                    },
+                    "alert": {
+                        "should_alert": alert.should_alert,
+                        "risk_level": alert.risk_level.value,
+                        "reasons": alert.reasons,
+                    },
+                    "elapsed_seconds": round(time.time() - call_start_time, 1),
+                    "inference_ms": round(inference_ms, 2),
+                    "timestamp": time.time(),
+                }
+            )
+            sentence_index += 1
+
+        await websocket.send_json(
+            {
+                "type": "call_end",
+                "final_score": round(engine.accumulator.current_score, 4),
+                "peak_score": round(engine.accumulator.peak_score, 4),
+                "mean_score": round(engine.accumulator.mean_score, 4),
+                "total_sentences": sentence_index,
+                "duration_seconds": round(time.time() - call_start_time, 1),
+                "timestamp": time.time(),
+            }
+        )
+    finally:
+        mic.stop()
 
 
 # ---------------------------------------------------------------------------
