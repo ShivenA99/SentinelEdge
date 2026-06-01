@@ -46,6 +46,9 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--sources", nargs="+", default=["repo_real"])
     ap.add_argument("--with-neural", action="store_true")
+    ap.add_argument("--legacy-neural", action="store_true",
+                    help="Use the bundled run_baselines_neural.py path "
+                         "instead of train_distilbert.py + eval_distilbert.py.")
     ap.add_argument(
         "--skip-stages", default="",
         help="Comma-separated list of stage names to skip "
@@ -105,11 +108,27 @@ def main() -> int:
         timings["adversarial"] = dt
 
     if args.with_neural and "neural" not in skip:
-        rc, dt = _run([
-            _PY, "experiments/run_baselines_neural.py",
-            "--eval-sources", *args.sources,
-        ], "neural")
-        timings["neural"] = dt
+        # Modern path: dedicated train + eval scripts. Falls back to
+        # the older bundled run_baselines_neural.py if --legacy-neural.
+        if args.legacy_neural:
+            rc, dt = _run([
+                _PY, "experiments/run_baselines_neural.py",
+                "--eval-sources", *args.sources,
+            ], "neural")
+            timings["neural"] = dt
+        else:
+            # Train if no checkpoint
+            ckpt = _PROJECT_ROOT / "models" / "distilbert_scam" / "config.json"
+            if not ckpt.exists():
+                rc, dt = _run([_PY, "experiments/train_distilbert.py"], "neural:train")
+                timings["neural_train"] = dt
+            else:
+                print("[neural] DistilBERT checkpoint exists, skipping train")
+            rc, dt = _run([
+                _PY, "experiments/eval_distilbert.py",
+                "--eval-sources", *args.sources,
+            ], "neural:eval")
+            timings["neural_eval"] = dt
 
     if "figures" not in skip:
         rc, dt = _run([_PY, "experiments/make_figures.py"], "figures")

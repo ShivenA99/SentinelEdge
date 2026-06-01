@@ -108,9 +108,24 @@ def fig_pareto(latency: dict, baselines: dict, outdir: Path) -> None:
         ax.scatter(lat_ms, f1, s=44, color=colour, edgecolor="black",
                    linewidth=0.5, zorder=3, label=label)
 
-    # If neural baselines are present, plot them
+    # If neural baselines are present, plot them. Prefer the dedicated
+    # `distilbert.json` (from eval_distilbert.py) which has measured
+    # latency; fall back to `baselines_neural.json` (legacy) which
+    # doesn't have latency and gets a nominal x-coordinate.
+    distilbert_path = _PROJECT_ROOT / "results" / "distilbert.json"
+    if distilbert_path.exists():
+        d = json.loads(distilbert_path.read_text())
+        q = d.get("quality", {})
+        lat = d.get("latency", {})
+        if "per_call_streaming" in q and "p50_ms" in lat:
+            f1 = q["per_call_streaming"]["f1"]
+            lat_ms = lat["p50_ms"]
+            ax.scatter(lat_ms, f1, s=44, color=_PALETTE["distilbert"],
+                       edgecolor="black", linewidth=0.5, marker="^",
+                       zorder=3, label="DistilBERT (fine-tuned)")
+
     neural_path = _PROJECT_ROOT / "results" / "baselines_neural.json"
-    if neural_path.exists():
+    if neural_path.exists() and not distilbert_path.exists():
         ndata = json.loads(neural_path.read_text()).get("results", {})
         for key, label, colour in [
             ("distilbert_finetuned", "DistilBERT (fine-tuned)", _PALETTE["distilbert"]),
@@ -118,8 +133,7 @@ def fig_pareto(latency: dict, baselines: dict, outdir: Path) -> None:
         ]:
             if key in ndata and "per_call_streaming" in ndata[key]:
                 f1 = ndata[key]["per_call_streaming"]["f1"]
-                # we don't have measured latency here; place at nominal
-                # x = 50ms for DistilBERT, 500ms for cloud LLM
+                # No measured latency in legacy path -- place at nominal x
                 lat_ms = 50.0 if "distilbert" in key else 500.0
                 ax.scatter(lat_ms, f1, s=44, color=colour, edgecolor="black",
                            linewidth=0.5, marker="^", zorder=3, label=label)
