@@ -86,15 +86,15 @@ def fig_pareto(latency: dict, baselines: dict, outdir: Path) -> None:
 
     # Mapping from baseline key -> latency key
     pair = [
-        ("trained_xgb",          "xgb_tfidf_518d",        "XGBoost + TF-IDF (ours)", _PALETTE["xgb"]),
-        ("tfidf_handcrafted_lr", None,                    "LR (TF-IDF + hand-crafted)", _PALETTE["combined_lr"]),
-        ("tfidf_lr",             "logreg_tfidf_500d",     "LR (TF-IDF only)",        _PALETTE["tfidf_lr"]),
-        ("handcrafted_lr",       "logreg_handcrafted_18d","LR (18 hand-crafted only)", _PALETTE["hand_lr"]),
-        ("handcrafted_svm",      None,                    "SVM (18 hand-crafted only)", _PALETTE["hand_svm"]),
+        ("trained_xgb",          "xgb_tfidf_518d",        "XGBoost + TF-IDF", _PALETTE["xgb"], "o", 44),
+        ("tfidf_handcrafted_lr", None,                    "LR (TF-IDF + hand-crafted)", _PALETTE["combined_lr"], "o", 44),
+        ("tfidf_lr",             "logreg_tfidf_500d",     "LR (TF-IDF only)", _PALETTE["tfidf_lr"], "o", 44),
+        ("handcrafted_lr",       "logreg_handcrafted_18d","LR (18 hand-crafted, ours)", _PALETTE["hand_lr"], "*", 110),
+        ("handcrafted_svm",      None,                    "SVM (18 hand-crafted only)", _PALETTE["hand_svm"], "o", 44),
     ]
 
     fig, ax = plt.subplots(figsize=(3.4, 2.2))
-    for bl_key, lat_key, label, colour in pair:
+    for bl_key, lat_key, label, colour, marker, size in pair:
         if bl_key not in bl:
             continue
         f1 = bl[bl_key]["per_call_streaming"]["f1"]
@@ -105,8 +105,8 @@ def fig_pareto(latency: dict, baselines: dict, outdir: Path) -> None:
             lat_ms = float("nan")
         if np.isnan(lat_ms):
             continue
-        ax.scatter(lat_ms, f1, s=44, color=colour, edgecolor="black",
-                   linewidth=0.5, zorder=3, label=label)
+        ax.scatter(lat_ms, f1, s=size, color=colour, edgecolor="black",
+                   linewidth=0.6, marker=marker, zorder=4, label=label)
 
     # If neural baselines are present, plot them. Prefer the dedicated
     # `distilbert.json` (from eval_distilbert.py) which has measured

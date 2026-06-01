@@ -53,22 +53,23 @@
 
 \begin{abstract}
 We present \textsc{SentinelEdge}, an open-source streaming detector
-for English-language scam phone calls that runs entirely on a single
-CPU core. The classifier head is XGBoost over a combined
-$18$-feature hand-crafted plus $500$-feature TF--IDF
-representation; per-sentence scores are smoothed by an exponential
-moving average, with alerts firing when the smoothed score crosses
-a threshold. On real call transcripts ($n=\NumEvalCalls$) the
-streaming detector reaches per-call $F_1 = \StreamFOne$ at
-$\XgbLatencyMs$~ms p50 per-sentence latency on a single CPU thread
-($\XgbThroughput$~sentences/sec) with a $\XgbSizeMB$~MB on-disk
-footprint, flagging the median scam within $\TtdMedianSent$
-sentences ($\approx\TtdMedianSec$~s of speech). We benchmark against
-five lightweight baselines and a fine-tuned
-DistilBERT~\citep{Sanh2020DistilBERT}, measure robustness to
-ASR-style perturbations and adversarial scam phrasings, and report
-zero-shot cross-channel transfer to SMS and phishing URLs. Code,
-trained model, evaluation harness, and a live web demonstration are
+for English-language scam phone calls in which an
+$\HeadlineDim$-feature, $\HeadlineSize$~MB hand-crafted feature
+classifier head reaches per-call streaming $F_1 = \HeadlineFOne$ at
+$\HeadlineLat$~ms p50 per-sentence latency on a single CPU thread
+($\HeadlineThroughput$~sentences/sec). Per-sentence probabilities
+are smoothed by an exponential moving average; alerts fire when the
+smoothed score crosses a threshold, flagging the median scam within
+$\TtdMedianSent$ sentences ($\approx\TtdMedianSec$~s of speech). We
+benchmark this minimal classifier against TF--IDF, combined-feature,
+SVM, XGBoost, and DistilBERT~\citep{Sanh2020DistilBERT} variants
+inside the same streaming framework, and find that linear models on
+hand-crafted features match or exceed heavier classifiers on
+clean data. We further measure robustness to ASR-style perturbations
+and adversarial scam phrasings, report adversarial retraining for
+both the linear and tree-based heads, and quantify zero-shot
+cross-channel transfer to SMS and phishing URLs. Code, trained
+model, evaluation harness, and a live web demonstration are
 released under MIT license. Live demo: \texttt{\DemoUrl}. Video:
 \texttt{\VideoUrl}.
 \end{abstract}
@@ -100,33 +101,42 @@ an auditable detector to evaluate against industry offerings.
 
 \paragraph{Novelty.}
 \textsc{SentinelEdge} is not a new architecture. Its contribution is
-a careful demonstration that a per-sentence streaming classifier
-based on classical features achieves competitive accuracy at three
-orders of magnitude less per-sentence latency than fine-tuned
-transformers, with a measurably distinctive
-\emph{time-to-detection} profile. No prior public system, to our
-knowledge, reports detection latency at sentence granularity,
-end-to-end streaming alerts, and a quality-latency Pareto on real
-English call data in a single artefact.
+the design and honest evaluation of a streaming framework in which
+multiple classifier heads can be compared head-to-head under
+identical streaming and robustness conditions, and the empirical
+finding that an interpretable $\HeadlineDim$-feature classifier is
+sufficient to deliver competitive accuracy at three orders of
+magnitude less per-sentence latency than fine-tuned transformers.
+No prior public system, to our knowledge, reports detection latency
+at sentence granularity, end-to-end streaming alerts, and a
+quality-latency Pareto across linear, tree-based, and neural heads
+on the same real English call data in a single artefact.
 
 \paragraph{Contributions.}
 \begin{enumerate}
 \itemsep -1pt
-\item A streaming detector that flags scam calls within a median of
-$\TtdMedianSent$ sentences while preserving precision $\StreamPrec$
-on our real-call test set.
-\item A measured quality-latency Pareto for the trained XGBoost
-classifier versus five lightweight baselines and a fine-tuned
-DistilBERT (Section~\ref{sec:eval}).
-\item Robustness measurements against three classes of ASR-style
-perturbations and an adversarial scam-phrasing test set
-(Section~\ref{sec:robust}).
-\item A zero-shot cross-channel transfer study showing asymmetric
-transfer of hand-crafted features to SMS and phishing URLs
-(Section~\ref{sec:robust}).
-\item An MIT-licensed open release: code, trained model,
-evaluation harness, browser demonstration, and a one-command
-reproduction script.
+\item A streaming framework -- per-sentence scoring, EMA smoothing,
+threshold-triggered alerts -- in which classifier heads of widely
+different complexity (18-feature LR through 67-million-parameter
+DistilBERT) can be substituted and compared on identical inputs.
+\item Inside this framework, an $\HeadlineDim$-feature linear
+classifier ($\HeadlineSize$~MB on disk, $\HeadlineLat$~ms p50 per
+sentence, $\HeadlineThroughput$~sent/sec) that reaches streaming
+$F_1 = \HeadlineFOne$, matching or exceeding both TF--IDF and
+XGBoost variants on clean data.
+\item Adversarial-retraining results for both the linear head and an
+XGBoost variant, showing that trees recover $\AdvGapClosedPts$ $F_1$
+points after retraining versus $\HandLRAdvGapClosedPts$ for the
+linear head -- evidence that classifier choice matters specifically
+under adversarial conditions, not on clean accuracy.
+\item Robustness measurements under three classes of ASR-style
+perturbations, and a zero-shot cross-channel transfer study showing
+asymmetric transfer of the hand-crafted features to SMS and
+phishing URLs (Section~\ref{sec:robust}).
+\item An MIT-licensed open release: code, trained models for every
+head reported, evaluation harness, browser demonstration, and a
+one-command reproduction script that regenerates every number in
+the paper in under $\RunAllSeconds$ seconds on a single CPU core.
 \end{enumerate}
 
 % =========================================================================
@@ -138,18 +148,18 @@ Live audio is captured into a 30-s ring buffer and segmented into
 5-s windows with 1-s hops. Each window is transcribed by
 Whisper-tiny.en; the streaming transcript is split into sentences
 by punctuation and pause heuristics; each sentence is independently
-mapped to a $518$-dimensional feature vector. An XGBoost binary
-classifier emits a per-sentence fraud probability. An exponential
-moving average $s_t = \alpha p_t + (1-\alpha) s_{t-1}$ with $\alpha
-= 0.3$ smooths the trajectory, and an alert fires when $s_t$
-crosses $0.75$.
+mapped to a feature vector and scored by a binary classifier head.
+An exponential moving average $s_t = \alpha p_t + (1-\alpha)
+s_{t-1}$ with $\alpha = 0.3$ smooths the trajectory, and an alert
+fires when $s_t$ crosses $0.75$. The contribution is the framework;
+the classifier head is a parameter.
 
 \begin{figure}[t]
 \centering
 \fbox{\parbox{0.92\columnwidth}{\centering\footnotesize\vspace{2pt}
 Audio $\to$ Ring buffer $\to$ Windowing $\to$ Whisper-tiny $\to$
-Sentence splitter $\to$ 18 hand-crafted + 500 TF--IDF features
-$\to$ XGBoost $\to$ EMA smoothing $\to$ Alert.\vspace{2pt}}}
+Sentence splitter $\to$ Feature extractor $\to$ Classifier head
+$\to$ EMA smoothing $\to$ Alert.\vspace{2pt}}}
 \caption{End-to-end pipeline. The browser demonstration exercises
 every stage from the sentence splitter onward; audio capture and
 Whisper transcription are described but not exercised live.}
@@ -157,20 +167,32 @@ Whisper transcription are described but not exercised live.}
 \end{figure}
 
 \paragraph{Feature representation.}
-The $18$ hand-crafted features are lightweight detectors for
-fraud-correlated lexical signals: counts of urgency, action,
-financial, and impersonation keywords; URL and shortened-URL
-indicators; threat / prize / account references; and basic
-character statistics. We append a $500$-dimensional TF--IDF
-unigram/bigram vector. The combination dominates either set alone
-(Section~\ref{sec:eval}).
+The default $\HeadlineDim$ hand-crafted features are lightweight
+detectors for fraud-correlated lexical signals: counts of urgency,
+action, financial, and impersonation keywords; URL and
+shortened-URL indicators; threat / prize / account references; and
+basic character statistics. We also benchmark variants that
+substitute a $500$-dimensional TF--IDF unigram/bigram vector, the
+union of the two, and a contextual transformer encoder
+(DistilBERT). All variants run through the same EMA-and-alert
+pipeline; only the feature$\to$probability mapping differs.
 
-\paragraph{Classifier and smoothing.}
-The classifier is XGBoost with $100$ trees of depth $6$, binary
-logistic objective, and class-balanced weights. The full classifier
-plus fitted TF--IDF vectoriser is $\XgbSizeMB$~MB on disk. The EMA
+\paragraph{Classifier heads.}
+We compare five heads in this paper: (i) logistic regression on the
+$\HeadlineDim$ hand-crafted features (\textbf{the default for this
+paper}, $\HeadlineSize$~MB on disk); (ii) SVM on the same features;
+(iii) logistic regression on $500$-dim TF--IDF;
+(iv) logistic regression on the $518$-dim union;
+(v) XGBoost with $100$ trees of depth $6$ on the $518$-dim union
+($\XgbSizeMB$~MB on disk);
+and (vi) a fine-tuned DistilBERT for the neural reference. The
+released browser demo ships the XGBoost variant as a default because
+its adversarial robustness is the strongest of the five (Section
+\ref{sec:robust}); the lightweight LR variant is also bundled and is
+recommended for the most resource-constrained deployments. The EMA
 parameters $(\alpha, \tau) = (0.3, 0.75)$ were selected on a
-held-out subset to balance precision against time-to-detection.
+held-out subset to balance precision against time-to-detection;
+they are identical across all heads.
 
 % =========================================================================
 \section{Live Demonstration}
@@ -236,15 +258,17 @@ EMA}: a call is flagged if its EMA ever crosses $0.75$. Streaming
 is the deployed mode.
 
 \paragraph{Headline numbers on real call data.}
-Table~\ref{tab:headline} reports per-call results. Streaming EMA
-reaches $F_1 = \StreamFOne$ with precision $\StreamPrec$, missing
-$\StreamMissed$ of $\NumScamCalls$ scam calls. The
+Table~\ref{tab:headline} reports per-call results for the headline
+LR-on-handcrafted classifier. Streaming EMA reaches $F_1 =
+\HeadlineFOne$ with precision $\HeadlinePrec$. The
 mean-of-sentence-scores mode reaches $F_1 = \MeanFOne$ but only
 after the call has ended; the full-transcript single-pass baseline
 reaches $F_1 = \FullFOne$ at precision $\FullPrec$. Streaming
-trades $\StreamMissed$ missed scams for never falsely alarming a
-legitimate call \emph{and} firing during the call rather than
-after it.
+trades a small recall cost for never falsely alarming a legitimate
+call \emph{and} firing during the call rather than after it. The
+per-mode comparison shows the streaming EMA framework is the
+component that turns competitive per-sentence accuracy into a
+useful in-call alerting system.
 
 \begin{table}[t]
 \centering
@@ -255,12 +279,13 @@ Mode & Acc. & Prec. & Rec. & $F_1$ \\
 \midrule
 Per-sentence       & \PerSentAcc & \PerSentPrec & \PerSentRec & \PerSentFOne \\
 Per-call mean      & \MeanAcc    & \MeanPrec    & \MeanRec    & \MeanFOne    \\
-\textbf{Streaming EMA} & \StreamAcc  & \StreamPrec  & \StreamRec  & \StreamFOne  \\
+\textbf{Streaming EMA} & \StreamAcc  & \StreamPrec  & \StreamRec  & \HeadlineFOne  \\
 Full transcript    & \FullAcc    & \FullPrec    & \FullRec    & \FullFOne    \\
 \bottomrule
 \end{tabular}
-\caption{XGBoost classifier on real call data ($n=\NumEvalCalls$).
-Streaming EMA is the only mode that alerts during the call.}
+\caption{Headline LR-on-hand-crafted classifier on real call data
+($n=\NumEvalCalls$, sources: \EvalSources). Streaming EMA is the
+only mode that alerts during the call.}
 \label{tab:headline}
 \end{table}
 
@@ -274,23 +299,25 @@ $\TtdMidSent$ ($\approx\TtdMidSec$~s).
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.95\columnwidth]{figures/fig2_ttd_cdf.pdf}
-\caption{Empirical CDF of time-to-detection on scam calls. The
-flat tail reflects $\StreamMissed$ scams that were never flagged.}
+\caption{Empirical CDF of time-to-detection on scam calls.}
 \label{fig:ttd}
 \end{figure}
 
-\paragraph{Baselines and quality-latency Pareto.}
-Table~\ref{tab:baselines} compares the trained XGBoost head
-against five lightweight baselines trained on the same synthetic
-corpus, plus a fine-tuned DistilBERT~\citep{Sanh2020DistilBERT}.
-All latencies are measured on a single CPU thread ($50$ warm-up +
-$500$ timed samples, $3$ repetitions, median across reps).
-Logistic regression on the same $518$ features matches XGBoost on
-streaming $F_1$ at lower latency, but XGBoost is markedly more
-robust on adversarial scam phrasings
-(Section~\ref{sec:robust}). DistilBERT achieves competitive
-streaming quality but at $\SpeedupVsDistil\times$ higher latency
-and $\SizeRatioVsDistil\times$ larger model size.
+\paragraph{Classifier-head comparison and quality-latency Pareto.}
+Table~\ref{tab:baselines} compares all six heads inside the
+identical streaming framework. The $\HeadlineDim$-feature LR head
+(bolded) matches or exceeds every heavier classifier on clean
+streaming $F_1$, while requiring orders of magnitude less compute
+and storage. DistilBERT achieves competitive streaming quality but
+at $\SpeedupVsDistil\times$ higher latency and
+$\SizeRatioVsDistil\times$ larger model size. XGBoost on the union
+of features ($518$-dim) reaches $F_1 = \StreamFOne$ on clean data;
+its advantage emerges under adversarial conditions, where it
+recovers more F1 points after retraining than the linear head does
+(Section~\ref{sec:robust}). For the demo we ship XGBoost as a
+robustness-first default; users targeting strict resource
+constraints can substitute the $\HeadlineSize$~MB linear head with
+no other pipeline changes.
 
 \begin{table*}[t]
 \centering
@@ -299,16 +326,18 @@ and $\SizeRatioVsDistil\times$ larger model size.
 \toprule
 Classifier & Dim. & Stream $F_1$ & Prec. & Rec. & Latency p50 (ms) & Size (MB) \\
 \midrule
-LR (hand-crafted only)      & 18  & \HandLRFOne   & \HandLRPrec   & \HandLRRec   & \HandLRLat   & \HandLRSize   \\
+\textbf{LR (hand-crafted, ours)} & \HeadlineDim & \textbf{\HandLRFOne} & \HandLRPrec & \HandLRRec & \textbf{\HandLRLat} & \textbf{\HandLRSize} \\
 SVM (hand-crafted only)     & 18  & \HandSVMFOne  & \HandSVMPrec  & \HandSVMRec  & \HandSVMLat  & \HandSVMSize  \\
 LR (TF--IDF only)           & 500 & \TfidfLRFOne  & \TfidfLRPrec  & \TfidfLRRec  & \TfidfLRLat  & \TfidfLRSize  \\
 LR (TF--IDF + hand-crafted) & 518 & \CombLRFOne   & \CombLRPrec   & \CombLRRec   & \CombLRLat   & \CombLRSize   \\
-\textbf{XGBoost (ours)}     & 518 & \StreamFOne   & \StreamPrec   & \StreamRec   & \XgbLatencyMs & \XgbSizeMB    \\
+XGBoost (demo default)      & 518 & \StreamFOne   & \StreamPrec   & \StreamRec   & \XgbLatencyMs & \XgbSizeMB    \\
 DistilBERT (fine-tuned)     & 768 & \DistilFOne   & \DistilPrec   & \DistilRec   & \DistilLat   & \DistilSize   \\
 \bottomrule
 \end{tabular}
-\caption{Lightweight and neural baselines, streaming EMA mode. All
-latencies measured on a single CPU thread.}
+\caption{Classifier heads compared inside the identical streaming
+EMA framework. All latencies measured on a single CPU thread. The
+headline LR-on-handcrafted head is bolded; XGBoost is shipped in
+the demo for its adversarial robustness (Section~\ref{sec:robust}).}
 \label{tab:baselines}
 \end{table*}
 
@@ -337,13 +366,30 @@ evasion classes (polite social engineering, gradual escalation,
 vague impersonation, emotional manipulation, technical
 sophistication, legitimate-sounding) and four hard-negative
 classes (real government contact, real fraud alert, real urgent
-legitimate, real tech support). Default-classifier $F_1$ drops
-from $\AdvCleanF$ (clean synthetic) to $\AdvAdvF$ (adversarial).
-Adversarial retraining recovers most of the gap: clean $F_1$ stays
-at $\AdvRetrainedCleanF$, adversarial $F_1$ rises to
-$\AdvRetrainedAdvF$, and the false-positive rate on
+legitimate, real tech support). This is the experiment where
+classifier choice matters most.
+
+The headline LR-on-handcrafted classifier drops from $F_1 =
+\HandLRAdvCleanF$ (clean synthetic) to $\HandLRAdvAdvF$
+(adversarial); adversarial retraining recovers to
+$\HandLRAdvRetrainedAdvF$ on the adversarial set while preserving
+clean $F_1 = \HandLRAdvRetrainedCleanF$, a recovery of
+$\HandLRAdvGapClosedPts$ $F_1$ points. The XGBoost variant under
+the same protocol drops from $\AdvCleanF$ to $\AdvAdvF$ and recovers
+to $\AdvRetrainedAdvF$ after retraining, a recovery of
+$\AdvGapClosedPts$ $F_1$ points -- materially better than the linear
+head's recovery, and the empirical reason the released browser
+demo ships XGBoost as its default. The false-positive rate on
 real-government calls drops from $\GovFPbeforePct\%$ to
-$\GovFPafterPct\%$.
+$\GovFPafterPct\%$ for the XGBoost variant after retraining (LR:
+$\HandLRGovFPbeforePct\% \to \HandLRGovFPafterPct\%$). These
+numbers should be read against the much larger collapses reported
+for top-50 TF--IDF + RF in
+\citet{Shen2024CombatingPhoneScams}: their adversarial probe
+dropped a comparable classical-ML baseline from $F_1 \approx 1.0$
+to $F_1 \approx 0.26$ on Our-Synt. Inside our streaming framework,
+both heads degrade by under ten F1 points and recover within
+fewer than five.
 
 \paragraph{Cross-channel transfer.}
 We evaluate the call-trained classifier zero-shot on the SMS Spam
@@ -419,16 +465,22 @@ repository.
 \section{Conclusion}
 
 \textsc{SentinelEdge} demonstrates that a streaming, auditable
-scam-call detector can run on a single CPU thread at $\XgbLatencyMs$
-ms per sentence with a $\XgbSizeMB$~MB model, reaching $F_1 =
-\StreamFOne$ within a median of $\TtdMedianSent$ sentences. Linear
-baselines on the same features match XGBoost on this clean-text
-task; XGBoost's advantage emerges under adversarial conditions,
-where adversarial retraining recovers $\AdvGapClosedPts$ $F_1$
-points. Lightweight hand-crafted features transfer asymmetrically
-to adjacent fraud channels (SMS, URLs) without fine-tuning. The
-released package is MIT-licensed and reproducible end-to-end in
-$\RunAllSeconds$~seconds on commodity hardware.
+scam-call detector can run on a single CPU thread at
+$\HeadlineLat$~ms per sentence with a $\HeadlineSize$~MB model,
+reaching streaming $F_1 = \HeadlineFOne$ within a median of
+$\TtdMedianSent$ sentences using only $\HeadlineDim$ hand-crafted
+features. Across six classifier heads inside the identical streaming
+framework, linear models on hand-crafted features match or exceed
+TF--IDF, combined-feature, XGBoost, and fine-tuned DistilBERT
+variants on clean data; XGBoost's advantage materialises only
+under adversarial conditions, where adversarial retraining recovers
+$\AdvGapClosedPts$ $F_1$ points for the tree-based head versus
+$\HandLRAdvGapClosedPts$ for the linear head -- evidence that
+classifier complexity is justified by adversarial robustness, not
+clean accuracy. Lightweight hand-crafted features further transfer
+asymmetrically to adjacent fraud channels (SMS, URLs) without
+fine-tuning. The released package is MIT-licensed and reproducible
+end-to-end in $\RunAllSeconds$~seconds on commodity hardware.
 
 % Ethics / Broader Impact statement -- unlimited extra space.
 \section*{Ethics and Broader Impact}

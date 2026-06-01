@@ -5,9 +5,9 @@
       "sms",
       "urls"
     ],
-    "model": "/home/claude/SE/models/call_fraud_xgb.json",
-    "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
-    "out": "/home/claude/SE/results/cross_channel.json"
+    "model": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/models/call_fraud_xgb.json",
+    "tfidf": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/models/tfidf_call_vectorizer.pkl",
+    "out": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/results/cross_channel.json"
   },
   "results": {
     "calls": {
@@ -45,7 +45,7 @@
         846,
         1165
       ],
-      "scoring_sec": 6.339579520000029
+      "scoring_sec": 2.548888166900724
     },
     "sms": {
       "label": "SMS Spam Collection",
@@ -56,8 +56,8 @@
       "precision": 0.2676844783715013,
       "recall": 0.7041499330655957,
       "f1": 0.387905604719764,
-      "score_mean_pos": 0.6258580029494512,
-      "score_mean_neg": 0.35353930548982593,
+      "score_mean_pos": 0.6258580030292432,
+      "score_mean_neg": 0.3535393054790213,
       "auroc": 0.7760766150022367,
       "auprc": 0.32252477051785616,
       "score_hist": [
@@ -82,7 +82,7 @@
         159,
         59
       ],
-      "scoring_sec": 6.301093997999942
+      "scoring_sec": 2.661930625094101
     },
     "urls": {
       "label": "Phishing URLs",
@@ -119,7 +119,7 @@
         1,
         1
       ],
-      "scoring_sec": 3.9255956690000176
+      "scoring_sec": 1.6955034579150379
     }
   }
 }

@@ -1,0 +1,204 @@
+{
+  "config": {
+    "clean_train_csv": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/data/processed/call_fraud_train.csv",
+    "clean_test_csv": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/data/processed/call_fraud_test.csv",
+    "adv_csv": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/data/raw/synthetic_transcripts/adversarial_calls.csv",
+    "adv_test_fraction": 0.3,
+    "seed": 42,
+    "out": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/results/adversarial_lr.json"
+  },
+  "results": {
+    "default": {
+      "clean": {
+        "n": 5639,
+        "n_pos": 2864,
+        "accuracy": 0.7652065969143466,
+        "precision": 0.8377192982456141,
+        "recall": 0.6668994413407822,
+        "f1": 0.7426127527216174,
+        "auroc": 0.8246151039307463,
+        "auprc": 0.8602614822911046
+      },
+      "adversarial": {
+        "n": 1662,
+        "n_pos": 1158,
+        "accuracy": 0.4602888086642599,
+        "precision": 0.7200674536256324,
+        "recall": 0.3687392055267703,
+        "f1": 0.48772130211307824,
+        "auroc": 0.4949848534693094,
+        "auprc": 0.7004301467813341
+      },
+      "adv_scam_by_category": {
+        "emotional_manipulation": {
+          "n": 139,
+          "n_pos": 139,
+          "mean_score": 0.3364541619711558,
+          "frac_above_0.5": 0.17266187050359713,
+          "frac_above_0.75": 0.04316546762589928
+        },
+        "gradual_escalation": {
+          "n": 324,
+          "n_pos": 324,
+          "mean_score": 0.3296383543347049,
+          "frac_above_0.5": 0.15123456790123457,
+          "frac_above_0.75": 0.06172839506172839
+        },
+        "legitimate_sounding_scam": {
+          "n": 130,
+          "n_pos": 130,
+          "mean_score": 0.741836237799678,
+          "frac_above_0.5": 0.8538461538461538,
+          "frac_above_0.75": 0.5461538461538461
+        },
+        "polite_social_engineering": {
+          "n": 192,
+          "n_pos": 192,
+          "mean_score": 0.42011723027894776,
+          "frac_above_0.5": 0.19270833333333334,
+          "frac_above_0.75": 0.09375
+        },
+        "technical_sophistication": {
+          "n": 201,
+          "n_pos": 201,
+          "mean_score": 0.5582750855251345,
+          "frac_above_0.5": 0.6915422885572139,
+          "frac_above_0.75": 0.11940298507462686
+        },
+        "vague_impersonation": {
+          "n": 172,
+          "n_pos": 172,
+          "mean_score": 0.511236750588328,
+          "frac_above_0.5": 0.38953488372093026,
+          "frac_above_0.75": 0.2558139534883721
+        }
+      },
+      "adv_legit_by_category": {
+        "real_fraud_alert": {
+          "n": 121,
+          "n_pos": 0,
+          "mean_score": 0.5055782990358207,
+          "frac_above_0.5": 0.36363636363636365,
+          "frac_above_0.75": 0.24793388429752067
+        },
+        "real_government_contact": {
+          "n": 127,
+          "n_pos": 0,
+          "mean_score": 0.5499429353053363,
+          "frac_above_0.5": 0.5590551181102362,
+          "frac_above_0.75": 0.2677165354330709
+        },
+        "real_tech_support": {
+          "n": 123,
+          "n_pos": 0,
+          "mean_score": 0.4326064349496042,
+          "frac_above_0.5": 0.2032520325203252,
+          "frac_above_0.75": 0.032520325203252036
+        },
+        "real_urgent_legitimate": {
+          "n": 133,
+          "n_pos": 0,
+          "mean_score": 0.3435267168459046,
+          "frac_above_0.5": 0.19548872180451127,
+          "frac_above_0.75": 0.06766917293233082
+        }
+      }
+    },
+    "adv_retrained": {
+      "clean": {
+        "n": 5639,
+        "n_pos": 2864,
+        "accuracy": 0.7646745876928533,
+        "precision": 0.8383971818582122,
+        "recall": 0.664804469273743,
+        "f1": 0.7415774099318403,
+        "auroc": 0.8244954451658362,
+        "auprc": 0.8600337985413345
+      },
+      "adversarial": {
+        "n": 1662,
+        "n_pos": 1158,
+        "accuracy": 0.5096269554753309,
+        "precision": 0.7320703653585927,
+        "recall": 0.46718480138169255,
+        "f1": 0.5703742751713231,
+        "auroc": 0.5322215025906736,
+        "auprc": 0.7202064622786717
+      },
+      "adv_scam_by_category": {
+        "emotional_manipulation": {
+          "n": 139,
+          "n_pos": 139,
+          "mean_score": 0.42437197039716745,
+          "frac_above_0.5": 0.2302158273381295,
+          "frac_above_0.75": 0.050359712230215826
+        },
+        "gradual_escalation": {
+          "n": 324,
+          "n_pos": 324,
+          "mean_score": 0.4250994321653929,
+          "frac_above_0.5": 0.2006172839506173,
+          "frac_above_0.75": 0.05246913580246913
+        },
+        "legitimate_sounding_scam": {
+          "n": 130,
+          "n_pos": 130,
+          "mean_score": 0.7702567981207502,
+          "frac_above_0.5": 0.8846153846153846,
+          "frac_above_0.75": 0.6461538461538462
+        },
+        "polite_social_engineering": {
+          "n": 192,
+          "n_pos": 192,
+          "mean_score": 0.5040816708810553,
+          "frac_above_0.5": 0.3645833333333333,
+          "frac_above_0.75": 0.109375
+        },
+        "technical_sophistication": {
+          "n": 201,
+          "n_pos": 201,
+          "mean_score": 0.650556387202996,
+          "frac_above_0.5": 0.8606965174129353,
+          "frac_above_0.75": 0.18407960199004975
+        },
+        "vague_impersonation": {
+          "n": 172,
+          "n_pos": 172,
+          "mean_score": 0.5640503033975037,
+          "frac_above_0.5": 0.5,
+          "frac_above_0.75": 0.2616279069767442
+        }
+      },
+      "adv_legit_by_category": {
+        "real_fraud_alert": {
+          "n": 121,
+          "n_pos": 0,
+          "mean_score": 0.5527103267651695,
+          "frac_above_0.5": 0.371900826446281,
+          "frac_above_0.75": 0.24793388429752067
+        },
+        "real_government_contact": {
+          "n": 127,
+          "n_pos": 0,
+          "mean_score": 0.5896385958501211,
+          "frac_above_0.5": 0.5905511811023622,
+          "frac_above_0.75": 0.25196850393700787
+        },
+        "real_tech_support": {
+          "n": 123,
+          "n_pos": 0,
+          "mean_score": 0.504592458079957,
+          "frac_above_0.5": 0.3983739837398374,
+          "frac_above_0.75": 0.056910569105691054
+        },
+        "real_urgent_legitimate": {
+          "n": 133,
+          "n_pos": 0,
+          "mean_score": 0.4112558909303555,
+          "frac_above_0.5": 0.21804511278195488,
+          "frac_above_0.75": 0.06766917293233082
+        }
+      }
+    }
+  }
+}

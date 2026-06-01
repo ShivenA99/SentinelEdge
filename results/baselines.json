@@ -19,7 +19,7 @@
   },
   "results": {
     "handcrafted_lr": {
-      "train_sec": 1.4686151251662523,
+      "train_sec": 1.4324392499402165,
       "per_sentence": {
         "n": 28405,
         "n_pos": 13131,
@@ -76,7 +76,7 @@
       }
     },
     "tfidf_lr": {
-      "train_sec": 0.17662554187700152,
+      "train_sec": 0.1761697919573635,
       "per_sentence": {
         "n": 28405,
         "n_pos": 13131,
@@ -133,7 +133,7 @@
       }
     },
     "tfidf_handcrafted_lr": {
-      "train_sec": 1.95851945807226,
+      "train_sec": 1.9557599581312388,
       "per_sentence": {
         "n": 28405,
         "n_pos": 13131,
@@ -190,7 +190,7 @@
       }
     },
     "handcrafted_svm": {
-      "train_sec": 1.2321909579914063,
+      "train_sec": 1.3236135828774422,
       "per_sentence": {
         "n": 28405,
         "n_pos": 13131,
@@ -247,7 +247,7 @@
       }
     },
     "trained_xgb": {
-      "train_sec": 0.06802087486721575,
+      "train_sec": 0.051574917044490576,
       "per_sentence": {
         "n": 28405,
         "n_pos": 13131,

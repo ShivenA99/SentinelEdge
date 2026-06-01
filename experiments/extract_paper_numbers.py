@@ -63,7 +63,7 @@ _DEFAULT_MACROS: dict[str, str] = {
     # --- latency / size ---
     "XgbLatencyMs":   "TBD", "XgbThroughput": "TBD",
     "XgbSizeMB":      "TBD",
-    "HandLRLat":  "TBD", "HandLRSize":  "TBD",
+    "HandLRLat":  "TBD", "HandLRSize":  "TBD", "HandLRThroughput": "TBD",
     "HandSVMLat": "TBD", "HandSVMSize": "TBD",
     "TfidfLRLat": "TBD", "TfidfLRSize": "TBD",
     "CombLRLat":  "TBD", "CombLRSize":  "TBD",
@@ -81,7 +81,7 @@ _DEFAULT_MACROS: dict[str, str] = {
     "AsrSwapHi":    "TBD",
     "AsrDelHi":     "TBD",
     "AsrCharHi":    "TBD",
-    # --- adversarial ---
+    # --- adversarial (XGBoost; comparison row in Framing B) ---
     "AdvNumSents":         "TBD",
     "AdvCleanF":           "TBD",
     "AdvAdvF":             "TBD",
@@ -90,6 +90,23 @@ _DEFAULT_MACROS: dict[str, str] = {
     "AdvGapClosedPts":     "TBD",
     "GovFPbeforePct":      "TBD",
     "GovFPafterPct":       "TBD",
+    # --- adversarial (LR-on-handcrafted; headline classifier in Framing B) ---
+    "HandLRAdvCleanF":           "TBD",
+    "HandLRAdvAdvF":             "TBD",
+    "HandLRAdvRetrainedCleanF":  "TBD",
+    "HandLRAdvRetrainedAdvF":    "TBD",
+    "HandLRAdvGapClosedPts":     "TBD",
+    "HandLRGovFPbeforePct":      "TBD",
+    "HandLRGovFPafterPct":       "TBD",
+    # --- headline classifier aliases (Framing B: LR-on-handcrafted) ---
+    "HeadlineName":    "LR (18 hand-crafted features)",
+    "HeadlineDim":     "18",
+    "HeadlineFOne":    "TBD",
+    "HeadlinePrec":    "TBD",
+    "HeadlineRec":     "TBD",
+    "HeadlineLat":     "TBD",
+    "HeadlineSize":    "TBD",
+    "HeadlineThroughput": "TBD",
     # --- cross-channel ---
     "CallsInDomainF":     "TBD", "CallsInDomainP":     "TBD",
     "CallsInDomainR":     "TBD", "CallsInDomainAuroc": "TBD",
@@ -219,8 +236,9 @@ def from_latency(data: dict, m: dict) -> None:
             m["XgbThroughput"] = fmt_int(r.get("throughput_sent_per_sec"))
             m["XgbSizeMB"]     = fmt(r.get("disk_size_mb"), 2)
         elif "logreg_handcrafted" in name:
-            m["HandLRLat"]  = fmt(r.get("p50_ms"), 2)
-            m["HandLRSize"] = fmt(r.get("disk_size_mb"), 3)
+            m["HandLRLat"]        = fmt(r.get("p50_ms"), 2)
+            m["HandLRSize"]       = fmt(r.get("disk_size_mb"), 3)
+            m["HandLRThroughput"] = fmt_int(r.get("throughput_sent_per_sec"))
         elif "logreg_tfidf" in name and "hand" not in name:
             m["TfidfLRLat"]  = fmt(r.get("p50_ms"), 2)
             m["TfidfLRSize"] = fmt(r.get("disk_size_mb"), 3)
@@ -322,6 +340,60 @@ def from_adversarial(data: dict, m: dict) -> None:
         pass
 
 
+def from_adversarial_lr(data: dict, m: dict) -> None:
+    """adversarial_lr.json -> default vs retrained clean+adv F1 for LR.
+
+    Mirrors ``from_adversarial`` exactly; populates the ``HandLR*``
+    adversarial macros used by the Framing-B headline narrative.
+    """
+    results = data.get("results", {})
+    default = results.get("default", {})
+    retrained = results.get("adv_retrained", {})
+    if default:
+        m["HandLRAdvCleanF"] = fmt(default.get("clean", {}).get("f1"))
+        m["HandLRAdvAdvF"]   = fmt(default.get("adversarial", {}).get("f1"))
+        gov = default.get("adv_legit_by_category", {}).get(
+            "real_government_contact", {})
+        if gov:
+            m["HandLRGovFPbeforePct"] = fmt(gov.get("frac_above_0.5", 0) * 100, 1)
+    if retrained:
+        m["HandLRAdvRetrainedCleanF"] = fmt(retrained.get("clean", {}).get("f1"))
+        m["HandLRAdvRetrainedAdvF"]   = fmt(retrained.get("adversarial", {}).get("f1"))
+        gov = retrained.get("adv_legit_by_category", {}).get(
+            "real_government_contact", {})
+        if gov:
+            m["HandLRGovFPafterPct"] = fmt(gov.get("frac_above_0.5", 0) * 100, 1)
+    try:
+        gap = (float(m["HandLRAdvRetrainedAdvF"]) - float(m["HandLRAdvAdvF"])) * 100
+        m["HandLRAdvGapClosedPts"] = fmt(gap, 1)
+    except (KeyError, ValueError, TypeError):
+        pass
+
+
+def _populate_headline_aliases(m: dict) -> None:
+    """Framing B: alias the LR-on-handcrafted quality/latency macros
+    to the ``Headline*`` names used in the abstract and Section 2.
+
+    Called after every other extractor so it sees the final values.
+    """
+    if m.get("HandLRFOne", "TBD") != "TBD":
+        m["HeadlineFOne"] = m["HandLRFOne"]
+    if m.get("HandLRPrec", "TBD") != "TBD":
+        m["HeadlinePrec"] = m["HandLRPrec"]
+    if m.get("HandLRRec", "TBD") != "TBD":
+        m["HeadlineRec"] = m["HandLRRec"]
+    if m.get("HandLRLat", "TBD") != "TBD":
+        m["HeadlineLat"] = m["HandLRLat"]
+    if m.get("HandLRSize", "TBD") != "TBD":
+        m["HeadlineSize"] = m["HandLRSize"]
+    if m.get("HandLRThroughput", "TBD") != "TBD":
+        m["HeadlineThroughput"] = m["HandLRThroughput"]
+    # Throughput: derive from latency if not separately recorded.
+    # latency.json carries throughput per-row; if from_latency populated
+    # m["HandLRThroughput"] (which it doesn't by default), use that;
+    # otherwise leave TBD and the extractor will report it.
+
+
 def from_cross_channel(data: dict, m: dict) -> None:
     """cross_channel.json -> F1/P/R/AUROC per channel."""
     res = data.get("results", {})
@@ -377,6 +449,7 @@ def main() -> int:
         ("distilbert.json",       from_distilbert),
         ("asr_robustness.json",   from_asr),
         ("adversarial.json",      from_adversarial),
+        ("adversarial_lr.json",   from_adversarial_lr),
         ("cross_channel.json",    from_cross_channel),
         ("paper_tables.json",     from_paper_tables),
     ]
@@ -405,6 +478,10 @@ def main() -> int:
     m["DemoUrl"]  = args.demo_url
     m["VideoUrl"] = args.video_url
     m["RepoUrl"]  = args.repo_url
+
+    # Framing B: alias HandLR* values into Headline* macros so the
+    # paper's abstract / Section 2 / Conclusion compile correctly.
+    _populate_headline_aliases(m)
 
     # Emit
     out_path = Path(args.out)
