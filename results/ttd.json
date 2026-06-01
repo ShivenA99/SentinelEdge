@@ -1,0 +1,354 @@
+{
+  "config": {
+    "sources": [
+      "repo_real"
+    ],
+    "model": "/home/claude/SE/models/call_fraud_xgb.json",
+    "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
+    "ema_alpha": 0.3,
+    "ema_threshold": 0.75,
+    "seconds_per_sentence": 4.0,
+    "first_ns": [
+      1,
+      3,
+      5,
+      10,
+      20
+    ],
+    "out": "/home/claude/SE/results/ttd.json"
+  },
+  "ttd_aggregate": {
+    "n_scam_calls": 15,
+    "n_detected": 13,
+    "n_missed": 2,
+    "recall_streaming": 0.8666666666666667,
+    "ttd_idx_p25": 0.0,
+    "ttd_idx_median": 8.0,
+    "ttd_idx_mean": 6.0,
+    "ttd_idx_p75": 10.0,
+    "ttd_idx_p90": 11.600000000000001,
+    "ttd_sec_p25": 4.0,
+    "ttd_sec_median": 36.0,
+    "ttd_sec_mean": 28.0,
+    "ttd_sec_p75": 44.0,
+    "ttd_sec_p90": 50.400000000000006,
+    "ttd_idx_sorted": [
+      0,
+      0,
+      0,
+      0,
+      3,
+      6,
+      8,
+      8,
+      9,
+      10,
+      10,
+      12,
+      12
+    ]
+  },
+  "streaming_vs_full": {
+    "streaming_ema": {
+      "accuracy": 0.9130434782608695,
+      "precision": 1.0,
+      "recall": 0.8666666666666667,
+      "f1": 0.9285714285714286,
+      "auroc": 1.0
+    },
+    "full_transcript": {
+      "accuracy": 0.7391304347826086,
+      "precision": 0.7142857142857143,
+      "recall": 1.0,
+      "f1": 0.8333333333333334,
+      "auroc": 0.9666666666666667
+    }
+  },
+  "first_n": {
+    "1": {
+      "accuracy": 0.5217391304347826,
+      "precision": 1.0,
+      "recall": 0.26666666666666666,
+      "f1": 0.42105263157894735
+    },
+    "3": {
+      "accuracy": 0.5217391304347826,
+      "precision": 1.0,
+      "recall": 0.26666666666666666,
+      "f1": 0.42105263157894735
+    },
+    "5": {
+      "accuracy": 0.5652173913043478,
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5
+    },
+    "10": {
+      "accuracy": 0.7391304347826086,
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75
+    },
+    "20": {
+      "accuracy": 0.9130434782608695,
+      "precision": 1.0,
+      "recall": 0.8666666666666667,
+      "f1": 0.9285714285714286
+    }
+  },
+  "per_call_traces": [
+    {
+      "call_id": "legit_01_doctor_appointment",
+      "label": 0,
+      "source": "repo_real",
+      "category": "doctor_appointment",
+      "n_sentences": 9,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.44417598843574524,
+      "final_ema": 0.2723458373259225
+    },
+    {
+      "call_id": "legit_02_customer_service",
+      "label": 0,
+      "source": "repo_real",
+      "category": "customer_service",
+      "n_sentences": 25,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.5844132267417526,
+      "final_ema": 0.30241055399131717
+    },
+    {
+      "call_id": "legit_03_pharmacy_refill",
+      "label": 0,
+      "source": "repo_real",
+      "category": "pharmacy_refill",
+      "n_sentences": 11,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.5204649721956253,
+      "final_ema": 0.3641593634100798
+    },
+    {
+      "call_id": "legit_04_airline_booking",
+      "label": 0,
+      "source": "repo_real",
+      "category": "airline_booking",
+      "n_sentences": 20,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.519172841310501,
+      "final_ema": 0.12638197816164573
+    },
+    {
+      "call_id": "legit_05_bank_genuine",
+      "label": 0,
+      "source": "repo_real",
+      "category": "bank_genuine",
+      "n_sentences": 26,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.6329466580123608,
+      "final_ema": 0.25083395050185925
+    },
+    {
+      "call_id": "legit_06_pizza_delivery",
+      "label": 0,
+      "source": "repo_real",
+      "category": "pizza_delivery",
+      "n_sentences": 20,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.381793803756711,
+      "final_ema": 0.22457380898530285
+    },
+    {
+      "call_id": "legit_07_job_interview",
+      "label": 0,
+      "source": "repo_real",
+      "category": "job_interview",
+      "n_sentences": 28,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.47657791824272355,
+      "final_ema": 0.24741964326137877
+    },
+    {
+      "call_id": "legit_08_plumber_scheduling",
+      "label": 0,
+      "source": "repo_real",
+      "category": "plumber_scheduling",
+      "n_sentences": 21,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.49499953700732013,
+      "final_ema": 0.16772472347756714
+    },
+    {
+      "call_id": "scam_01_irs_tax",
+      "label": 1,
+      "source": "repo_real",
+      "category": "irs_tax",
+      "n_sentences": 24,
+      "ttd_idx": 10,
+      "ttd_sec": 44.0,
+      "peak_ema": 0.8929706612386056,
+      "final_ema": 0.5228148670867747
+    },
+    {
+      "call_id": "scam_02_tech_support",
+      "label": 1,
+      "source": "repo_real",
+      "category": "tech_support",
+      "n_sentences": 30,
+      "ttd_idx": 0,
+      "ttd_sec": 4.0,
+      "peak_ema": 0.8906398415565491,
+      "final_ema": 0.7259017543965807
+    },
+    {
+      "call_id": "scam_03_grandparent",
+      "label": 1,
+      "source": "repo_real",
+      "category": "grandparent",
+      "n_sentences": 25,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.715535213651556,
+      "final_ema": 0.6544159282584491
+    },
+    {
+      "call_id": "scam_04_social_security",
+      "label": 1,
+      "source": "repo_real",
+      "category": "social_security",
+      "n_sentences": 20,
+      "ttd_idx": 0,
+      "ttd_sec": 4.0,
+      "peak_ema": 0.9162188291549682,
+      "final_ema": 0.908471105028418
+    },
+    {
+      "call_id": "scam_05_bank_fraud",
+      "label": 1,
+      "source": "repo_real",
+      "category": "bank_fraud",
+      "n_sentences": 24,
+      "ttd_idx": 0,
+      "ttd_sec": 4.0,
+      "peak_ema": 0.9448175778925418,
+      "final_ema": 0.7096360734674627
+    },
+    {
+      "call_id": "scam_06_auto_warranty",
+      "label": 1,
+      "source": "repo_real",
+      "category": "auto_warranty",
+      "n_sentences": 21,
+      "ttd_idx": 12,
+      "ttd_sec": 52.0,
+      "peak_ema": 0.7885568357253857,
+      "final_ema": 0.6669478812557145
+    },
+    {
+      "call_id": "scam_07_utility_shutoff",
+      "label": 1,
+      "source": "repo_real",
+      "category": "utility_shutoff",
+      "n_sentences": 17,
+      "ttd_idx": 0,
+      "ttd_sec": 4.0,
+      "peak_ema": 0.8524823784828186,
+      "final_ema": 0.6176299675487494
+    },
+    {
+      "call_id": "scam_08_medicare",
+      "label": 1,
+      "source": "repo_real",
+      "category": "medicare",
+      "n_sentences": 19,
+      "ttd_idx": null,
+      "ttd_sec": null,
+      "peak_ema": 0.7387322565316201,
+      "final_ema": 0.5425040671622287
+    },
+    {
+      "call_id": "scam_09_amazon_impersonator",
+      "label": 1,
+      "source": "repo_real",
+      "category": "amazon_impersonator",
+      "n_sentences": 25,
+      "ttd_idx": 3,
+      "ttd_sec": 16.0,
+      "peak_ema": 0.8830354359666253,
+      "final_ema": 0.6661797747908107
+    },
+    {
+      "call_id": "scam_10_legal_threat",
+      "label": 1,
+      "source": "repo_real",
+      "category": "legal_threat",
+      "n_sentences": 19,
+      "ttd_idx": 8,
+      "ttd_sec": 36.0,
+      "peak_ema": 0.8569662121041265,
+      "final_ema": 0.643538660198095
+    },
+    {
+      "call_id": "scam_11_student_loan",
+      "label": 1,
+      "source": "repo_real",
+      "category": "student_loan",
+      "n_sentences": 21,
+      "ttd_idx": 10,
+      "ttd_sec": 44.0,
+      "peak_ema": 0.8325691517463392,
+      "final_ema": 0.5297188798145843
+    },
+    {
+      "call_id": "scam_12_prize_lottery",
+      "label": 1,
+      "source": "repo_real",
+      "category": "prize_lottery",
+      "n_sentences": 20,
+      "ttd_idx": 8,
+      "ttd_sec": 36.0,
+      "peak_ema": 0.8488604254391232,
+      "final_ema": 0.4705633414661888
+    },
+    {
+      "call_id": "scam_13_cfpb_impersonator",
+      "label": 1,
+      "source": "repo_real",
+      "category": "cfpb_impersonator",
+      "n_sentences": 17,
+      "ttd_idx": 6,
+      "ttd_sec": 28.0,
+      "peak_ema": 0.9210969480598763,
+      "final_ema": 0.6673580597719772
+    },
+    {
+      "call_id": "scam_14_credit_line",
+      "label": 1,
+      "source": "repo_real",
+      "category": "credit_line",
+      "n_sentences": 18,
+      "ttd_idx": 9,
+      "ttd_sec": 40.0,
+      "peak_ema": 0.9042398554026891,
+      "final_ema": 0.9002784227686986
+    },
+    {
+      "call_id": "scam_15_investment",
+      "label": 1,
+      "source": "repo_real",
+      "category": "investment",
+      "n_sentences": 23,
+      "ttd_idx": 12,
+      "ttd_sec": 52.0,
+      "peak_ema": 0.7677960220446669,
+      "final_ema": 0.3967605513755542
+    }
+  ]
+}

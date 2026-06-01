@@ -1,0 +1,55 @@
+{
+  "config": {
+    "candidates": [
+      "xgb_tfidf",
+      "logreg_tfidf",
+      "logreg_handcrafted"
+    ],
+    "model": "/home/claude/SE/models/call_fraud_xgb.json",
+    "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
+    "distilbert_model": "distilbert-base-uncased",
+    "local_only": false,
+    "n_warm": 50,
+    "n_time": 500,
+    "reps": 3,
+    "out": "/home/claude/SE/results/latency.json"
+  },
+  "results": [
+    {
+      "model": "xgb_tfidf_518d",
+      "disk_size_mb": 0.24561023712158203,
+      "rss_increase_mb": 28.11328125,
+      "p50_ms": 1.1270780000245395,
+      "p95_ms": 1.3277610000272944,
+      "p99_ms": 1.4882370000464107,
+      "throughput_sent_per_sec": 874.7212121354667,
+      "reps": 3,
+      "n_time": 500,
+      "n_warm": 50
+    },
+    {
+      "model": "logreg_tfidf_500d",
+      "disk_size_mb": 0.022573471069335938,
+      "rss_increase_mb": 12.16015625,
+      "p50_ms": 0.4366459999687322,
+      "p95_ms": 0.5245990000162237,
+      "p99_ms": 0.5654870000171286,
+      "throughput_sent_per_sec": 2238.7906561533187,
+      "reps": 3,
+      "n_time": 500,
+      "n_warm": 50
+    },
+    {
+      "model": "logreg_handcrafted_18d",
+      "disk_size_mb": 0.0008106231689453125,
+      "rss_increase_mb": 0.0,
+      "p50_ms": 0.2933979999966141,
+      "p95_ms": 0.42578699998330194,
+      "p99_ms": 0.49324200000455676,
+      "throughput_sent_per_sec": 3303.7549474398934,
+      "reps": 3,
+      "n_time": 500,
+      "n_warm": 50
+    }
+  ]
+}

@@ -1,0 +1,1353 @@
+{
+  "timings_sec": {
+    "evaluation": 4.2531766430000175,
+    "ttd": 3.0535569230000306,
+    "latency": 11.17684772399997,
+    "baselines": 26.278803038000035,
+    "asr": 21.587954987000046,
+    "adversarial": 27.585291969999957,
+    "cross_channel": 18.162641237000003,
+    "figures": 2.2072502979999626
+  },
+  "sources": [
+    "repo_real"
+  ],
+  "eval_xgb": {
+    "config": {
+      "sources": [
+        "repo_real"
+      ],
+      "model": "/home/claude/SE/models/call_fraud_xgb.json",
+      "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
+      "ema_alpha": 0.3,
+      "ema_threshold": 0.75
+    },
+    "per_sentence": {
+      "n": 483,
+      "n_pos": 323,
+      "n_neg": 160,
+      "threshold": 0.5,
+      "accuracy": 0.7412008281573499,
+      "precision": 0.8639705882352942,
+      "recall": 0.7275541795665634,
+      "f1": 0.7899159663865546,
+      "auroc": 0.8010932662538699,
+      "auprc": 0.8833446524350143,
+      "confusion": {
+        "tn": 123,
+        "fp": 37,
+        "fn": 88,
+        "tp": 235
+      }
+    },
+    "per_call_mean": {
+      "n": 23,
+      "n_pos": 15,
+      "n_neg": 8,
+      "threshold": 0.5,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auroc": 1.0,
+      "auprc": 1.0,
+      "confusion": {
+        "tn": 8,
+        "fp": 0,
+        "fn": 0,
+        "tp": 15
+      }
+    },
+    "per_call_streaming": {
+      "n": 23,
+      "n_pos": 15,
+      "n_neg": 8,
+      "threshold": 0.75,
+      "accuracy": 0.9130434782608695,
+      "precision": 1.0,
+      "recall": 0.8666666666666667,
+      "f1": 0.9285714285714286,
+      "auroc": 1.0,
+      "auprc": 1.0,
+      "confusion": {
+        "tn": 8,
+        "fp": 0,
+        "fn": 2,
+        "tp": 13
+      }
+    },
+    "per_source_streaming": {
+      "repo_real": {
+        "n": 23,
+        "n_pos": 15,
+        "n_neg": 8,
+        "threshold": 0.75,
+        "accuracy": 0.9130434782608695,
+        "precision": 1.0,
+        "recall": 0.8666666666666667,
+        "f1": 0.9285714285714286,
+        "auroc": 1.0,
+        "auprc": 1.0,
+        "confusion": {
+          "tn": 8,
+          "fp": 0,
+          "fn": 2,
+          "tp": 13
+        },
+        "n_calls": 23
+      }
+    },
+    "elapsed_sec": 2.3109812980000015
+  },
+  "ttd": {
+    "config": {
+      "sources": [
+        "repo_real"
+      ],
+      "model": "/home/claude/SE/models/call_fraud_xgb.json",
+      "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
+      "ema_alpha": 0.3,
+      "ema_threshold": 0.75,
+      "seconds_per_sentence": 4.0,
+      "first_ns": [
+        1,
+        3,
+        5,
+        10,
+        20
+      ],
+      "out": "/home/claude/SE/results/ttd.json"
+    },
+    "ttd_aggregate": {
+      "n_scam_calls": 15,
+      "n_detected": 13,
+      "n_missed": 2,
+      "recall_streaming": 0.8666666666666667,
+      "ttd_idx_p25": 0.0,
+      "ttd_idx_median": 8.0,
+      "ttd_idx_mean": 6.0,
+      "ttd_idx_p75": 10.0,
+      "ttd_idx_p90": 11.600000000000001,
+      "ttd_sec_p25": 4.0,
+      "ttd_sec_median": 36.0,
+      "ttd_sec_mean": 28.0,
+      "ttd_sec_p75": 44.0,
+      "ttd_sec_p90": 50.400000000000006,
+      "ttd_idx_sorted": [
+        0,
+        0,
+        0,
+        0,
+        3,
+        6,
+        8,
+        8,
+        9,
+        10,
+        10,
+        12,
+        12
+      ]
+    },
+    "streaming_vs_full": {
+      "streaming_ema": {
+        "accuracy": 0.9130434782608695,
+        "precision": 1.0,
+        "recall": 0.8666666666666667,
+        "f1": 0.9285714285714286,
+        "auroc": 1.0
+      },
+      "full_transcript": {
+        "accuracy": 0.7391304347826086,
+        "precision": 0.7142857142857143,
+        "recall": 1.0,
+        "f1": 0.8333333333333334,
+        "auroc": 0.9666666666666667
+      }
+    },
+    "first_n": {
+      "1": {
+        "accuracy": 0.5217391304347826,
+        "precision": 1.0,
+        "recall": 0.26666666666666666,
+        "f1": 0.42105263157894735
+      },
+      "3": {
+        "accuracy": 0.5217391304347826,
+        "precision": 1.0,
+        "recall": 0.26666666666666666,
+        "f1": 0.42105263157894735
+      },
+      "5": {
+        "accuracy": 0.5652173913043478,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5
+      },
+      "10": {
+        "accuracy": 0.7391304347826086,
+        "precision": 1.0,
+        "recall": 0.6,
+        "f1": 0.75
+      },
+      "20": {
+        "accuracy": 0.9130434782608695,
+        "precision": 1.0,
+        "recall": 0.8666666666666667,
+        "f1": 0.9285714285714286
+      }
+    },
+    "per_call_traces": [
+      {
+        "call_id": "legit_01_doctor_appointment",
+        "label": 0,
+        "source": "repo_real",
+        "category": "doctor_appointment",
+        "n_sentences": 9,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.44417598843574524,
+        "final_ema": 0.2723458373259225
+      },
+      {
+        "call_id": "legit_02_customer_service",
+        "label": 0,
+        "source": "repo_real",
+        "category": "customer_service",
+        "n_sentences": 25,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.5844132267417526,
+        "final_ema": 0.30241055399131717
+      },
+      {
+        "call_id": "legit_03_pharmacy_refill",
+        "label": 0,
+        "source": "repo_real",
+        "category": "pharmacy_refill",
+        "n_sentences": 11,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.5204649721956253,
+        "final_ema": 0.3641593634100798
+      },
+      {
+        "call_id": "legit_04_airline_booking",
+        "label": 0,
+        "source": "repo_real",
+        "category": "airline_booking",
+        "n_sentences": 20,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.519172841310501,
+        "final_ema": 0.12638197816164573
+      },
+      {
+        "call_id": "legit_05_bank_genuine",
+        "label": 0,
+        "source": "repo_real",
+        "category": "bank_genuine",
+        "n_sentences": 26,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.6329466580123608,
+        "final_ema": 0.25083395050185925
+      },
+      {
+        "call_id": "legit_06_pizza_delivery",
+        "label": 0,
+        "source": "repo_real",
+        "category": "pizza_delivery",
+        "n_sentences": 20,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.381793803756711,
+        "final_ema": 0.22457380898530285
+      },
+      {
+        "call_id": "legit_07_job_interview",
+        "label": 0,
+        "source": "repo_real",
+        "category": "job_interview",
+        "n_sentences": 28,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.47657791824272355,
+        "final_ema": 0.24741964326137877
+      },
+      {
+        "call_id": "legit_08_plumber_scheduling",
+        "label": 0,
+        "source": "repo_real",
+        "category": "plumber_scheduling",
+        "n_sentences": 21,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.49499953700732013,
+        "final_ema": 0.16772472347756714
+      },
+      {
+        "call_id": "scam_01_irs_tax",
+        "label": 1,
+        "source": "repo_real",
+        "category": "irs_tax",
+        "n_sentences": 24,
+        "ttd_idx": 10,
+        "ttd_sec": 44.0,
+        "peak_ema": 0.8929706612386056,
+        "final_ema": 0.5228148670867747
+      },
+      {
+        "call_id": "scam_02_tech_support",
+        "label": 1,
+        "source": "repo_real",
+        "category": "tech_support",
+        "n_sentences": 30,
+        "ttd_idx": 0,
+        "ttd_sec": 4.0,
+        "peak_ema": 0.8906398415565491,
+        "final_ema": 0.7259017543965807
+      },
+      {
+        "call_id": "scam_03_grandparent",
+        "label": 1,
+        "source": "repo_real",
+        "category": "grandparent",
+        "n_sentences": 25,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.715535213651556,
+        "final_ema": 0.6544159282584491
+      },
+      {
+        "call_id": "scam_04_social_security",
+        "label": 1,
+        "source": "repo_real",
+        "category": "social_security",
+        "n_sentences": 20,
+        "ttd_idx": 0,
+        "ttd_sec": 4.0,
+        "peak_ema": 0.9162188291549682,
+        "final_ema": 0.908471105028418
+      },
+      {
+        "call_id": "scam_05_bank_fraud",
+        "label": 1,
+        "source": "repo_real",
+        "category": "bank_fraud",
+        "n_sentences": 24,
+        "ttd_idx": 0,
+        "ttd_sec": 4.0,
+        "peak_ema": 0.9448175778925418,
+        "final_ema": 0.7096360734674627
+      },
+      {
+        "call_id": "scam_06_auto_warranty",
+        "label": 1,
+        "source": "repo_real",
+        "category": "auto_warranty",
+        "n_sentences": 21,
+        "ttd_idx": 12,
+        "ttd_sec": 52.0,
+        "peak_ema": 0.7885568357253857,
+        "final_ema": 0.6669478812557145
+      },
+      {
+        "call_id": "scam_07_utility_shutoff",
+        "label": 1,
+        "source": "repo_real",
+        "category": "utility_shutoff",
+        "n_sentences": 17,
+        "ttd_idx": 0,
+        "ttd_sec": 4.0,
+        "peak_ema": 0.8524823784828186,
+        "final_ema": 0.6176299675487494
+      },
+      {
+        "call_id": "scam_08_medicare",
+        "label": 1,
+        "source": "repo_real",
+        "category": "medicare",
+        "n_sentences": 19,
+        "ttd_idx": null,
+        "ttd_sec": null,
+        "peak_ema": 0.7387322565316201,
+        "final_ema": 0.5425040671622287
+      },
+      {
+        "call_id": "scam_09_amazon_impersonator",
+        "label": 1,
+        "source": "repo_real",
+        "category": "amazon_impersonator",
+        "n_sentences": 25,
+        "ttd_idx": 3,
+        "ttd_sec": 16.0,
+        "peak_ema": 0.8830354359666253,
+        "final_ema": 0.6661797747908107
+      },
+      {
+        "call_id": "scam_10_legal_threat",
+        "label": 1,
+        "source": "repo_real",
+        "category": "legal_threat",
+        "n_sentences": 19,
+        "ttd_idx": 8,
+        "ttd_sec": 36.0,
+        "peak_ema": 0.8569662121041265,
+        "final_ema": 0.643538660198095
+      },
+      {
+        "call_id": "scam_11_student_loan",
+        "label": 1,
+        "source": "repo_real",
+        "category": "student_loan",
+        "n_sentences": 21,
+        "ttd_idx": 10,
+        "ttd_sec": 44.0,
+        "peak_ema": 0.8325691517463392,
+        "final_ema": 0.5297188798145843
+      },
+      {
+        "call_id": "scam_12_prize_lottery",
+        "label": 1,
+        "source": "repo_real",
+        "category": "prize_lottery",
+        "n_sentences": 20,
+        "ttd_idx": 8,
+        "ttd_sec": 36.0,
+        "peak_ema": 0.8488604254391232,
+        "final_ema": 0.4705633414661888
+      },
+      {
+        "call_id": "scam_13_cfpb_impersonator",
+        "label": 1,
+        "source": "repo_real",
+        "category": "cfpb_impersonator",
+        "n_sentences": 17,
+        "ttd_idx": 6,
+        "ttd_sec": 28.0,
+        "peak_ema": 0.9210969480598763,
+        "final_ema": 0.6673580597719772
+      },
+      {
+        "call_id": "scam_14_credit_line",
+        "label": 1,
+        "source": "repo_real",
+        "category": "credit_line",
+        "n_sentences": 18,
+        "ttd_idx": 9,
+        "ttd_sec": 40.0,
+        "peak_ema": 0.9042398554026891,
+        "final_ema": 0.9002784227686986
+      },
+      {
+        "call_id": "scam_15_investment",
+        "label": 1,
+        "source": "repo_real",
+        "category": "investment",
+        "n_sentences": 23,
+        "ttd_idx": 12,
+        "ttd_sec": 52.0,
+        "peak_ema": 0.7677960220446669,
+        "final_ema": 0.3967605513755542
+      }
+    ]
+  },
+  "latency": {
+    "config": {
+      "candidates": [
+        "xgb_tfidf",
+        "logreg_tfidf",
+        "logreg_handcrafted"
+      ],
+      "model": "/home/claude/SE/models/call_fraud_xgb.json",
+      "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
+      "distilbert_model": "distilbert-base-uncased",
+      "local_only": false,
+      "n_warm": 50,
+      "n_time": 500,
+      "reps": 3,
+      "out": "/home/claude/SE/results/latency.json"
+    },
+    "results": [
+      {
+        "model": "xgb_tfidf_518d",
+        "disk_size_mb": 0.24561023712158203,
+        "rss_increase_mb": 28.11328125,
+        "p50_ms": 1.1270780000245395,
+        "p95_ms": 1.3277610000272944,
+        "p99_ms": 1.4882370000464107,
+        "throughput_sent_per_sec": 874.7212121354667,
+        "reps": 3,
+        "n_time": 500,
+        "n_warm": 50
+      },
+      {
+        "model": "logreg_tfidf_500d",
+        "disk_size_mb": 0.022573471069335938,
+        "rss_increase_mb": 12.16015625,
+        "p50_ms": 0.4366459999687322,
+        "p95_ms": 0.5245990000162237,
+        "p99_ms": 0.5654870000171286,
+        "throughput_sent_per_sec": 2238.7906561533187,
+        "reps": 3,
+        "n_time": 500,
+        "n_warm": 50
+      },
+      {
+        "model": "logreg_handcrafted_18d",
+        "disk_size_mb": 0.0008106231689453125,
+        "rss_increase_mb": 0.0,
+        "p50_ms": 0.2933979999966141,
+        "p95_ms": 0.42578699998330194,
+        "p99_ms": 0.49324200000455676,
+        "throughput_sent_per_sec": 3303.7549474398934,
+        "reps": 3,
+        "n_time": 500,
+        "n_warm": 50
+      }
+    ]
+  },
+  "baselines": {
+    "config": {
+      "baselines": [
+        "handcrafted_lr",
+        "tfidf_lr",
+        "tfidf_handcrafted_lr",
+        "handcrafted_svm",
+        "trained_xgb"
+      ],
+      "eval_sources": [
+        "repo_real"
+      ],
+      "ema_alpha": 0.3,
+      "ema_threshold": 0.75,
+      "out": "/home/claude/SE/results/baselines.json"
+    },
+    "results": {
+      "handcrafted_lr": {
+        "train_sec": 5.315933943999994,
+        "per_sentence": {
+          "n": 483,
+          "n_pos": 323,
+          "n_neg": 160,
+          "threshold": 0.5,
+          "accuracy": 0.6708074534161491,
+          "precision": 0.8867924528301887,
+          "recall": 0.5820433436532507,
+          "f1": 0.702803738317757,
+          "auroc": 0.7547794117647058,
+          "auprc": 0.8622102151199538,
+          "confusion": {
+            "tn": 136,
+            "fp": 24,
+            "fn": 135,
+            "tp": 188
+          }
+        },
+        "per_call_mean": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.5,
+          "accuracy": 0.8695652173913043,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8888888888888888,
+          "auroc": 1.0,
+          "auprc": 1.0,
+          "confusion": {
+            "tn": 8,
+            "fp": 0,
+            "fn": 3,
+            "tp": 12
+          }
+        },
+        "per_call_streaming": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.75,
+          "accuracy": 0.8260869565217391,
+          "precision": 1.0,
+          "recall": 0.7333333333333333,
+          "f1": 0.8461538461538461,
+          "auroc": 0.975,
+          "auprc": 0.9877124183006536,
+          "confusion": {
+            "tn": 8,
+            "fp": 0,
+            "fn": 4,
+            "tp": 11
+          }
+        }
+      },
+      "tfidf_lr": {
+        "train_sec": 0.4926956019999693,
+        "per_sentence": {
+          "n": 483,
+          "n_pos": 323,
+          "n_neg": 160,
+          "threshold": 0.5,
+          "accuracy": 0.7681159420289855,
+          "precision": 0.8576271186440678,
+          "recall": 0.7832817337461301,
+          "f1": 0.8187702265372169,
+          "auroc": 0.8484616873065016,
+          "auprc": 0.9235157184563041,
+          "confusion": {
+            "tn": 118,
+            "fp": 42,
+            "fn": 70,
+            "tp": 253
+          }
+        },
+        "per_call_mean": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "auroc": 1.0,
+          "auprc": 1.0,
+          "confusion": {
+            "tn": 8,
+            "fp": 0,
+            "fn": 0,
+            "tp": 15
+          }
+        },
+        "per_call_streaming": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.75,
+          "accuracy": 0.9565217391304348,
+          "precision": 0.9375,
+          "recall": 1.0,
+          "f1": 0.967741935483871,
+          "auroc": 1.0,
+          "auprc": 1.0,
+          "confusion": {
+            "tn": 7,
+            "fp": 1,
+            "fn": 0,
+            "tp": 15
+          }
+        }
+      },
+      "tfidf_handcrafted_lr": {
+        "train_sec": 6.7002241339999955,
+        "per_sentence": {
+          "n": 483,
+          "n_pos": 323,
+          "n_neg": 160,
+          "threshold": 0.5,
+          "accuracy": 0.7494824016563147,
+          "precision": 0.904,
+          "recall": 0.6996904024767802,
+          "f1": 0.7888307155322862,
+          "auroc": 0.8334945820433437,
+          "auprc": 0.9132452979411013,
+          "confusion": {
+            "tn": 136,
+            "fp": 24,
+            "fn": 97,
+            "tp": 226
+          }
+        },
+        "per_call_mean": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.5,
+          "accuracy": 0.9565217391304348,
+          "precision": 1.0,
+          "recall": 0.9333333333333333,
+          "f1": 0.9655172413793104,
+          "auroc": 1.0,
+          "auprc": 1.0,
+          "confusion": {
+            "tn": 8,
+            "fp": 0,
+            "fn": 1,
+            "tp": 14
+          }
+        },
+        "per_call_streaming": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.75,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "auroc": 1.0,
+          "auprc": 1.0,
+          "confusion": {
+            "tn": 8,
+            "fp": 0,
+            "fn": 0,
+            "tp": 15
+          }
+        }
+      },
+      "handcrafted_svm": {
+        "train_sec": 4.317747010000005,
+        "per_sentence": {
+          "n": 483,
+          "n_pos": 323,
+          "n_neg": 160,
+          "threshold": 0.5,
+          "accuracy": 0.6749482401656315,
+          "precision": 0.8878504672897196,
+          "recall": 0.5882352941176471,
+          "f1": 0.707635009310987,
+          "auroc": 0.7530766253869969,
+          "auprc": 0.8636938045789593,
+          "confusion": {
+            "tn": 136,
+            "fp": 24,
+            "fn": 133,
+            "tp": 190
+          }
+        },
+        "per_call_mean": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.5,
+          "accuracy": 0.8695652173913043,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8888888888888888,
+          "auroc": 1.0,
+          "auprc": 1.0,
+          "confusion": {
+            "tn": 8,
+            "fp": 0,
+            "fn": 3,
+            "tp": 12
+          }
+        },
+        "per_call_streaming": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.75,
+          "accuracy": 0.8260869565217391,
+          "precision": 1.0,
+          "recall": 0.7333333333333333,
+          "f1": 0.8461538461538461,
+          "auroc": 0.9833333333333334,
+          "auprc": 0.9913888888888889,
+          "confusion": {
+            "tn": 8,
+            "fp": 0,
+            "fn": 4,
+            "tp": 11
+          }
+        }
+      },
+      "trained_xgb": {
+        "train_sec": 0.032934913000019606,
+        "per_sentence": {
+          "n": 483,
+          "n_pos": 323,
+          "n_neg": 160,
+          "threshold": 0.5,
+          "accuracy": 0.7412008281573499,
+          "precision": 0.8639705882352942,
+          "recall": 0.7275541795665634,
+          "f1": 0.7899159663865546,
+          "auroc": 0.8010932662538699,
+          "auprc": 0.8833446524350143,
+          "confusion": {
+            "tn": 123,
+            "fp": 37,
+            "fn": 88,
+            "tp": 235
+          }
+        },
+        "per_call_mean": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.5,
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "auroc": 1.0,
+          "auprc": 1.0,
+          "confusion": {
+            "tn": 8,
+            "fp": 0,
+            "fn": 0,
+            "tp": 15
+          }
+        },
+        "per_call_streaming": {
+          "n": 23,
+          "n_pos": 15,
+          "n_neg": 8,
+          "threshold": 0.75,
+          "accuracy": 0.9130434782608695,
+          "precision": 1.0,
+          "recall": 0.8666666666666667,
+          "f1": 0.9285714285714286,
+          "auroc": 1.0,
+          "auprc": 1.0,
+          "confusion": {
+            "tn": 8,
+            "fp": 0,
+            "fn": 2,
+            "tp": 13
+          }
+        }
+      }
+    }
+  },
+  "asr_robustness": {
+    "config": {
+      "sources": [
+        "repo_real"
+      ],
+      "model": "/home/claude/SE/models/call_fraud_xgb.json",
+      "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
+      "perturbations": [
+        "word_swap",
+        "word_delete",
+        "char_noise"
+      ],
+      "rates": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.3,
+        0.5
+      ],
+      "seed": 42,
+      "ema_alpha": 0.3,
+      "ema_threshold": 0.75,
+      "out": "/home/claude/SE/results/asr_robustness.json"
+    },
+    "table": [
+      {
+        "perturbation": "word_swap",
+        "rate": 0.0,
+        "stream_f1": 0.9285714285714286,
+        "stream_precision": 1.0,
+        "stream_recall": 0.8666666666666667,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7899159663865546,
+        "sent_auroc": 0.8010932662538699
+      },
+      {
+        "perturbation": "word_swap",
+        "rate": 0.05,
+        "stream_f1": 0.9655172413793104,
+        "stream_precision": 1.0,
+        "stream_recall": 0.9333333333333333,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7871621621621622,
+        "sent_auroc": 0.7964880030959753
+      },
+      {
+        "perturbation": "word_swap",
+        "rate": 0.1,
+        "stream_f1": 0.9655172413793104,
+        "stream_precision": 1.0,
+        "stream_recall": 0.9333333333333333,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7864406779661017,
+        "sent_auroc": 0.795984907120743
+      },
+      {
+        "perturbation": "word_swap",
+        "rate": 0.2,
+        "stream_f1": 0.9285714285714286,
+        "stream_precision": 1.0,
+        "stream_recall": 0.8666666666666667,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7824620573355818,
+        "sent_auroc": 0.7939628482972136
+      },
+      {
+        "perturbation": "word_swap",
+        "rate": 0.3,
+        "stream_f1": 0.9655172413793104,
+        "stream_precision": 1.0,
+        "stream_recall": 0.9333333333333333,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7681895093062606,
+        "sent_auroc": 0.7795085139318886
+      },
+      {
+        "perturbation": "word_swap",
+        "rate": 0.5,
+        "stream_f1": 0.9285714285714286,
+        "stream_precision": 1.0,
+        "stream_recall": 0.8666666666666667,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7529812606473595,
+        "sent_auroc": 0.7624709752321981
+      },
+      {
+        "perturbation": "word_delete",
+        "rate": 0.0,
+        "stream_f1": 0.9285714285714286,
+        "stream_precision": 1.0,
+        "stream_recall": 0.8666666666666667,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7899159663865546,
+        "sent_auroc": 0.8010932662538699
+      },
+      {
+        "perturbation": "word_delete",
+        "rate": 0.05,
+        "stream_f1": 0.9285714285714286,
+        "stream_precision": 1.0,
+        "stream_recall": 0.8666666666666667,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7789115646258503,
+        "sent_auroc": 0.7937983746130031
+      },
+      {
+        "perturbation": "word_delete",
+        "rate": 0.1,
+        "stream_f1": 0.9285714285714286,
+        "stream_precision": 1.0,
+        "stream_recall": 0.8666666666666667,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7612456747404844,
+        "sent_auroc": 0.7889802631578946
+      },
+      {
+        "perturbation": "word_delete",
+        "rate": 0.2,
+        "stream_f1": 0.8,
+        "stream_precision": 1.0,
+        "stream_recall": 0.6666666666666666,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7340425531914894,
+        "sent_auroc": 0.7612229102167183
+      },
+      {
+        "perturbation": "word_delete",
+        "rate": 0.3,
+        "stream_f1": 0.6363636363636364,
+        "stream_precision": 1.0,
+        "stream_recall": 0.4666666666666667,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.6948529411764706,
+        "sent_auroc": 0.7612519349845202
+      },
+      {
+        "perturbation": "word_delete",
+        "rate": 0.5,
+        "stream_f1": 0.5,
+        "stream_precision": 1.0,
+        "stream_recall": 0.3333333333333333,
+        "stream_auroc": 0.9833333333333334,
+        "sent_f1": 0.62,
+        "sent_auroc": 0.7086880804953559
+      },
+      {
+        "perturbation": "char_noise",
+        "rate": 0.0,
+        "stream_f1": 0.9285714285714286,
+        "stream_precision": 1.0,
+        "stream_recall": 0.8666666666666667,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7899159663865546,
+        "sent_auroc": 0.8010932662538699
+      },
+      {
+        "perturbation": "char_noise",
+        "rate": 0.05,
+        "stream_f1": 1.0,
+        "stream_precision": 1.0,
+        "stream_recall": 1.0,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7684391080617495,
+        "sent_auroc": 0.7773993808049535
+      },
+      {
+        "perturbation": "char_noise",
+        "rate": 0.1,
+        "stream_f1": 0.9655172413793104,
+        "stream_precision": 1.0,
+        "stream_recall": 0.9333333333333333,
+        "stream_auroc": 1.0,
+        "sent_f1": 0.7663865546218488,
+        "sent_auroc": 0.7684404024767801
+      },
+      {
+        "perturbation": "char_noise",
+        "rate": 0.2,
+        "stream_f1": 0.8888888888888888,
+        "stream_precision": 1.0,
+        "stream_recall": 0.8,
+        "stream_auroc": 0.9916666666666667,
+        "sent_f1": 0.6920289855072463,
+        "sent_auroc": 0.7242550309597523
+      },
+      {
+        "perturbation": "char_noise",
+        "rate": 0.3,
+        "stream_f1": 0.6363636363636364,
+        "stream_precision": 1.0,
+        "stream_recall": 0.4666666666666667,
+        "stream_auroc": 0.9416666666666667,
+        "sent_f1": 0.632768361581921,
+        "sent_auroc": 0.6854779411764707
+      },
+      {
+        "perturbation": "char_noise",
+        "rate": 0.5,
+        "stream_f1": 0.23529411764705882,
+        "stream_precision": 1.0,
+        "stream_recall": 0.13333333333333333,
+        "stream_auroc": 0.9083333333333333,
+        "sent_f1": 0.6228893058161351,
+        "sent_auroc": 0.6681308049535605
+      }
+    ]
+  },
+  "adversarial": {
+    "config": {
+      "classifiers": [
+        "default",
+        "adv_retrained"
+      ],
+      "clean_csv": "/home/claude/SE/data/processed/call_fraud_test.csv",
+      "adv_csv": "/home/claude/SE/data/raw/synthetic_transcripts/adversarial_calls.csv",
+      "out": "/home/claude/SE/results/adversarial.json"
+    },
+    "results": {
+      "default": {
+        "clean": {
+          "n": 5639,
+          "n_pos": 2864,
+          "accuracy": 0.9953892534137259,
+          "precision": 0.9916839916839917,
+          "recall": 0.9993016759776536,
+          "f1": 0.9954782608695653,
+          "auroc": 0.9999655241834013,
+          "auprc": 0.9999673603524319
+        },
+        "adversarial": {
+          "n": 5537,
+          "n_pos": 3896,
+          "accuracy": 0.8921798808018783,
+          "precision": 0.9483555313944007,
+          "recall": 0.8955338809034907,
+          "f1": 0.9211881188118812,
+          "auroc": 0.968065028961406,
+          "auprc": 0.9853785520723867
+        },
+        "adv_scam_by_category": {
+          "technical_sophistication": {
+            "n": 690,
+            "n_pos": 690,
+            "mean_score": 0.815775507947673,
+            "frac_above_0.5": 0.9956521739130435,
+            "frac_above_0.75": 0.7405797101449275
+          },
+          "emotional_manipulation": {
+            "n": 486,
+            "n_pos": 486,
+            "mean_score": 0.7295684553836108,
+            "frac_above_0.5": 0.9053497942386831,
+            "frac_above_0.75": 0.46296296296296297
+          },
+          "vague_impersonation": {
+            "n": 626,
+            "n_pos": 626,
+            "mean_score": 0.728211977040044,
+            "frac_above_0.5": 0.8642172523961661,
+            "frac_above_0.75": 0.5543130990415336
+          },
+          "gradual_escalation": {
+            "n": 1009,
+            "n_pos": 1009,
+            "mean_score": 0.7273104380450707,
+            "frac_above_0.5": 0.8840436075322101,
+            "frac_above_0.75": 0.4767096134786918
+          },
+          "polite_social_engineering": {
+            "n": 632,
+            "n_pos": 632,
+            "mean_score": 0.7232646527169626,
+            "frac_above_0.5": 0.8180379746835443,
+            "frac_above_0.75": 0.5284810126582279
+          },
+          "legitimate_sounding_scam": {
+            "n": 453,
+            "n_pos": 453,
+            "mean_score": 0.8471829868836644,
+            "frac_above_0.5": 0.9094922737306843,
+            "frac_above_0.75": 0.7924944812362031
+          }
+        },
+        "adv_legit_by_category": {
+          "real_government_contact": {
+            "n": 417,
+            "n_pos": 0,
+            "mean_score": 0.3024735288332692,
+            "frac_above_0.5": 0.1750599520383693,
+            "frac_above_0.75": 0.019184652278177457
+          },
+          "real_fraud_alert": {
+            "n": 420,
+            "n_pos": 0,
+            "mean_score": 0.3433039199206091,
+            "frac_above_0.5": 0.14047619047619048,
+            "frac_above_0.75": 0.02857142857142857
+          },
+          "real_urgent_legitimate": {
+            "n": 382,
+            "n_pos": 0,
+            "mean_score": 0.2522002917699789,
+            "frac_above_0.5": 0.10209424083769633,
+            "frac_above_0.75": 0.01832460732984293
+          },
+          "real_tech_support": {
+            "n": 422,
+            "n_pos": 0,
+            "mean_score": 0.2788558194140122,
+            "frac_above_0.5": 0.045023696682464455,
+            "frac_above_0.75": 0.0
+          }
+        }
+      },
+      "adv_retrained": {
+        "clean": {
+          "n": 5639,
+          "n_pos": 2864,
+          "accuracy": 0.9891824791629722,
+          "precision": 0.9821121431028552,
+          "recall": 0.9968575418994413,
+          "f1": 0.9894299081614971,
+          "auroc": 0.9972816951029242,
+          "auprc": 0.9970544865085174
+        },
+        "adversarial": {
+          "n": 5537,
+          "n_pos": 3896,
+          "accuracy": 0.9638793570525556,
+          "precision": 0.9855491329479769,
+          "recall": 0.962782340862423,
+          "f1": 0.9740327187743443,
+          "auroc": 0.995091607886712,
+          "auprc": 0.9979449121341388
+        },
+        "adv_scam_by_category": {
+          "technical_sophistication": {
+            "n": 690,
+            "n_pos": 690,
+            "mean_score": 0.8086881048869395,
+            "frac_above_0.5": 0.9898550724637681,
+            "frac_above_0.75": 0.6652173913043479
+          },
+          "emotional_manipulation": {
+            "n": 486,
+            "n_pos": 486,
+            "mean_score": 0.75263031256297,
+            "frac_above_0.5": 0.9465020576131687,
+            "frac_above_0.75": 0.5823045267489712
+          },
+          "vague_impersonation": {
+            "n": 626,
+            "n_pos": 626,
+            "mean_score": 0.7719506836546877,
+            "frac_above_0.5": 0.963258785942492,
+            "frac_above_0.75": 0.6613418530351438
+          },
+          "gradual_escalation": {
+            "n": 1009,
+            "n_pos": 1009,
+            "mean_score": 0.7791175205773712,
+            "frac_above_0.5": 0.9663032705649157,
+            "frac_above_0.75": 0.6075322101090188
+          },
+          "polite_social_engineering": {
+            "n": 632,
+            "n_pos": 632,
+            "mean_score": 0.7612645592116103,
+            "frac_above_0.5": 0.9572784810126582,
+            "frac_above_0.75": 0.5253164556962026
+          },
+          "legitimate_sounding_scam": {
+            "n": 453,
+            "n_pos": 453,
+            "mean_score": 0.851748621226936,
+            "frac_above_0.5": 0.9381898454746137,
+            "frac_above_0.75": 0.7792494481236203
+          }
+        },
+        "adv_legit_by_category": {
+          "real_government_contact": {
+            "n": 417,
+            "n_pos": 0,
+            "mean_score": 0.2504963728753354,
+            "frac_above_0.5": 0.05995203836930456,
+            "frac_above_0.75": 0.0
+          },
+          "real_fraud_alert": {
+            "n": 420,
+            "n_pos": 0,
+            "mean_score": 0.28789129517972467,
+            "frac_above_0.5": 0.04047619047619048,
+            "frac_above_0.75": 0.0
+          },
+          "real_urgent_legitimate": {
+            "n": 382,
+            "n_pos": 0,
+            "mean_score": 0.21663658380391398,
+            "frac_above_0.5": 0.02356020942408377,
+            "frac_above_0.75": 0.0
+          },
+          "real_tech_support": {
+            "n": 422,
+            "n_pos": 0,
+            "mean_score": 0.2422371192071675,
+            "frac_above_0.5": 0.009478672985781991,
+            "frac_above_0.75": 0.0
+          }
+        }
+      }
+    }
+  },
+  "cross_channel": {
+    "config": {
+      "channels": [
+        "calls",
+        "sms",
+        "urls"
+      ],
+      "model": "/home/claude/SE/models/call_fraud_xgb.json",
+      "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
+      "out": "/home/claude/SE/results/cross_channel.json"
+    },
+    "results": {
+      "calls": {
+        "label": "In-domain reference (synthetic call test)",
+        "n": 5639,
+        "n_pos": 2864,
+        "n_neg": 2775,
+        "accuracy": 0.9953892534137259,
+        "precision": 0.9916839916839917,
+        "recall": 0.9993016759776536,
+        "f1": 0.9954782608695653,
+        "score_mean_pos": 0.9149960888622526,
+        "score_mean_neg": 0.16336143079641702,
+        "auroc": 0.9999655241834013,
+        "auprc": 0.9999673603524319,
+        "score_hist": [
+          518,
+          286,
+          508,
+          613,
+          376,
+          248,
+          65,
+          65,
+          39,
+          35,
+          17,
+          16,
+          4,
+          25,
+          142,
+          103,
+          140,
+          428,
+          846,
+          1165
+        ],
+        "scoring_sec": 6.339579520000029
+      },
+      "sms": {
+        "label": "SMS Spam Collection",
+        "n": 5574,
+        "n_pos": 747,
+        "n_neg": 4827,
+        "accuracy": 0.7021887334050951,
+        "precision": 0.2676844783715013,
+        "recall": 0.7041499330655957,
+        "f1": 0.387905604719764,
+        "score_mean_pos": 0.6258580029494512,
+        "score_mean_neg": 0.35353930548982593,
+        "auroc": 0.7760766150022367,
+        "auprc": 0.32252477051785616,
+        "score_hist": [
+          724,
+          541,
+          216,
+          294,
+          307,
+          314,
+          322,
+          307,
+          305,
+          279,
+          263,
+          263,
+          239,
+          220,
+          211,
+          184,
+          204,
+          163,
+          159,
+          59
+        ],
+        "scoring_sec": 6.301093997999942
+      },
+      "urls": {
+        "label": "Phishing URLs",
+        "n": 4000,
+        "n_pos": 2000,
+        "n_neg": 2000,
+        "accuracy": 0.684,
+        "precision": 0.9972972972972973,
+        "recall": 0.369,
+        "f1": 0.5386861313868613,
+        "score_mean_pos": 0.3689376981575042,
+        "score_mean_neg": 0.22271808359771966,
+        "auroc": 0.6234148749999999,
+        "auprc": 0.735170974505443,
+        "score_hist": [
+          397,
+          117,
+          8,
+          3,
+          2380,
+          36,
+          19,
+          111,
+          16,
+          173,
+          64,
+          264,
+          58,
+          40,
+          38,
+          264,
+          7,
+          3,
+          1,
+          1
+        ],
+        "scoring_sec": 3.9255956690000176
+      }
+    }
+  }
+}

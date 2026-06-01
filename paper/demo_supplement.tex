@@ -1,0 +1,148 @@
+% SentinelEdge -- EMNLP 2026 System Demonstrations
+% Demo session description (1-page supplement)
+%
+% This document is intended as a companion to the main paper. It is
+% NOT part of the main paper's page count. EMNLP demos publish only
+% the main paper; this supplement is for the demo session organizers
+% and reviewers who want to evaluate what the live demonstration will
+% look like.
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{microtype}
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{titling}
+\usepackage[hidelinks]{hyperref}
+\setlength{\droptitle}{-3em}
+
+\title{\textbf{SentinelEdge: Live Demonstration Description}\\
+{\large EMNLP 2026 System Demonstrations -- supplement}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-3em}
+
+\paragraph{What visitors will see.}
+The demo is a single browser window (Figure~\ref{fig:layout}) connected
+to a local backend by WebSocket. Visitors are offered a panel of nine
+pre-loaded call transcripts (six scam categories: IRS impersonation,
+tech support, bank fraud, Amazon refund, crypto investment, prize
+notification, plus the grandparent and utility-shutoff scams; three
+legitimate calls: doctor appointment, pharmacy refill, airline
+rebooking). They may also paste an arbitrary transcript and replay
+it. When a call is started, the backend streams the transcript one
+sentence at a time with realistic $1.5$--$3$ second pauses, scoring
+each sentence through the trained model in the live code path. The UI
+renders, in real time:
+
+\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt]
+\item \textbf{Phone-call UI} -- a phone simulator showing the
+incoming call, the caller's claimed identity, and the streaming
+transcript as it accumulates.
+\item \textbf{Risk gauge} -- an animated dial showing the current EMA
+score against the four threshold zones (safe, low, medium, high,
+critical). When the EMA crosses $0.75$, a red alert overlay appears
+with an explanation.
+\item \textbf{Feature breakdown} -- a list of which of the $18$
+handcrafted features fired on the most recent sentence. For example,
+on the sentence ``\textit{This is an arrest warrant from the IRS}'' the
+panel highlights \texttt{impersonation\_count = 1},
+\texttt{has\_threat = 1}, and \texttt{urgency\_count = 0}.
+\item \textbf{Alert explanation} -- human-readable reasons generated
+by the alert engine, e.g. \textit{``urgency language detected;
+impersonation pattern: \texttt{irs}''}.
+\item \textbf{Latency display} -- the measured wall-clock latency of
+the most recent sentence's classification, taken from
+\texttt{time.perf\_counter()} around the actual
+\texttt{predict\_proba} call.
+\end{itemize}
+
+\paragraph{What runs locally.}
+The entire system runs on the demo laptop. The backend is a single
+Python process (\texttt{demo/backend/main.py}) running on
+\texttt{localhost:8000}. The frontend is a Vite-built React app
+served from \texttt{localhost:5173}. No network calls leave the
+machine during a demonstration. A console panel below the main UI
+exposes the in-process logs so visitors can verify this claim by
+inspection.
+
+\paragraph{Hardware and setup.}
+The demo runs comfortably on any modern laptop with at least 4 GB of
+free RAM and Python 3.10+. We will bring our own laptop (MacBook Pro,
+M-series) and a backup. Setup takes under five minutes: install
+dependencies, run the training pipeline once
+(\texttt{python training/generate\_synthetic\_data.py \&\& python
+training/prepare\_datasets.py \&\& python training/fit\_tfidf.py \&\&
+python training/train\_call\_classifier.py}), then start the backend
+and frontend. The repo ships an idempotent script
+(\texttt{deploy\_server.py}) that performs the full setup in one
+command. A poster summarizing the architecture, the headline numbers
+from the main paper, and a printed QR code linking to the
+reproducibility scripts will accompany the demo.
+
+\paragraph{Interactive elements.}
+Visitors can: (i) pick any of the pre-loaded calls and watch the EMA
+trajectory build sentence-by-sentence; (ii) interrupt a call mid-stream
+via a ``block'' button to see the alert pipeline tear down; (iii)
+paste arbitrary transcripts (e.g., examples brought from their own
+research) and watch the model classify them in real time; (iv) toggle
+between the default and adversarially-retrained classifier checkpoint
+to see the differing scores on \textit{polite-social-engineering}
+examples. A short walk-through demonstration (under three minutes per
+visitor) covers all four interactions.
+
+\paragraph{What the demo deliberately does not claim.}
+The Whisper transcription stage, the live microphone capture, the
+Android \texttt{CallScreeningService} integration, and the federated
+learning loop are described in the main paper but \emph{not} exercised
+during the live demonstration. The demo's input is text only. This
+matches Section~7 of the main paper and is signposted on the demo
+poster so that visitors know exactly which parts of the pipeline they
+are seeing live.
+
+\paragraph{Failure modes and contingencies.}
+The demo has been tested in three failure modes: (i) backend crash
+(frontend displays a reconnect prompt and the visitor can restart);
+(ii) missing model artefacts (the patched backend now refuses to start
+with a clear error message rather than silently falling back to a
+heuristic scorer); (iii) WebSocket disconnect (the frontend buffers UI
+state for $10$ seconds before clearing). The full pipeline can also
+be exercised offline from the command line via the reproducibility
+scripts, so if the live demo cannot start, we can fall back to a
+recorded walkthrough.
+
+\begin{figure}[ht]
+\centering
+\fbox{\parbox{0.92\textwidth}{\centering\footnotesize\vspace{4pt}
+\textbf{[ DEMO SCREEN LAYOUT -- TO BE REPLACED WITH SCREENSHOT ]}\\[6pt]
+{\renewcommand{\arraystretch}{1.0}
+\begin{tabular}{c@{\quad}c}
+\textit{Phone simulator + live transcript} & \textit{Risk gauge + alert overlay} \\[2pt]
+\textit{Feature breakdown panel} & \textit{Alert reasons + latency display} \\
+\end{tabular}}\vspace{4pt}
+}}
+\caption{Browser layout of the live demonstration. Left: streaming
+transcript inside a phone-call UI. Right: real-time risk gauge,
+feature breakdown, alert reasons, and per-sentence inference
+latency. Replace this placeholder with a real screenshot at
+camera-ready.}
+\label{fig:layout}
+\end{figure}
+
+\paragraph{Reproducibility from the demo.}
+A QR code on the demo poster links to a public anonymized repository
+containing the trained models, evaluation harness, and a one-command
+reproducibility script (\texttt{python experiments/run\_all.py}). A
+visitor who copies the repository can reproduce every number in the
+main paper, including the time-to-detection CDF, the latency Pareto,
+and the ASR-robustness curves, on a single CPU core in roughly ten
+minutes.
+
+\end{document}

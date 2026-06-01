@@ -393,8 +393,106 @@ def load_wu2024(root: Path | None = None) -> list[CallRecord]:
 
 
 # ---------------------------------------------------------------------------
-# Loader 6: YouTube scam-baiter self-collected corpus
+# Loader 5b: BothBosu (Gumphusiri 2024) HuggingFace datasets
 # ---------------------------------------------------------------------------
+
+import re as _re_bb
+_TURN_PATTERN_BB = _re_bb.compile(
+    r"(caller|receiver)\s*:\s*(.+?)(?=\s+(?:caller|receiver)\s*:|$)",
+    flags=_re_bb.DOTALL | _re_bb.IGNORECASE,
+)
+
+
+def _parse_bothbosu_dialogue(dialogue: str, caller_only: bool = False) -> list[str]:
+    if not dialogue or not isinstance(dialogue, str):
+        return []
+    turns = _TURN_PATTERN_BB.findall(dialogue)
+    if not turns:
+        return _split_sentences(dialogue)
+    sentences: list[str] = []
+    for speaker, utterance in turns:
+        if caller_only and speaker.lower() != "caller":
+            continue
+        sentences.extend(_split_sentences(utterance.strip()))
+    return sentences
+
+
+def load_bothbosu(
+    root: Path | None = None,
+    subsets: list[str] | None = None,
+    splits: list[str] | None = None,
+    caller_only: bool = False,
+) -> list[CallRecord]:
+    """Load the BothBosu / Gumphusiri 2024 multi-turn scam dialogues.
+
+    These are the publicly available SC/SD/MASC analogues that Shen et al.
+    (2024) cite. Apache 2.0 license. Download via the snippet in
+    EXPERIMENTS_TO_RUN.md, which places CSVs under
+    ``data/external/bothbosu/``.
+
+    Default behaviour evaluates on the *test* split of all four subsets
+    and scores both speakers' utterances (matching the Gumphusiri /
+    Shen et al. evaluation setup).
+    """
+    if root is None:
+        root = _PROJECT_ROOT / "data" / "external" / "bothbosu"
+    if subsets is None:
+        subsets = [
+            "scam_dialogue",
+            "multi_agent_scam_conversation",
+            "single_agent_scam_conversations",
+            "Scammer_Conversation",
+        ]
+    if splits is None:
+        splits = ["test"]
+
+    import pandas as pd
+    records: list[CallRecord] = []
+    for subset in subsets:
+        for split in splits:
+            csv_path = root / f"{subset}_{split}.csv"
+            if not csv_path.exists():
+                alt = root / f"{subset}.csv"
+                if alt.exists():
+                    csv_path = alt
+                else:
+                    continue
+            df = pd.read_csv(csv_path)
+            cols = {c.lower(): c for c in df.columns}
+            text_col = (cols.get("dialogue") or cols.get("text")
+                        or cols.get("conversation") or df.columns[0])
+            label_col = (cols.get("label") or cols.get("is_scam")
+                         or cols.get("class") or df.columns[-1])
+            type_col = cols.get("type") or cols.get("category")
+            id_col = cols.get("id") or cols.get("call_id")
+
+            for i, row in df.iterrows():
+                raw_label = str(row[label_col]).strip().lower()
+                if raw_label in {"1", "scam", "fraud", "true", "yes"}:
+                    y = 1
+                elif raw_label in {"0", "non-scam", "non_scam", "legit",
+                                   "not_scam", "false", "no", "ham"}:
+                    y = 0
+                else:
+                    try:
+                        y = int(float(raw_label))
+                    except (ValueError, TypeError):
+                        continue
+
+                dialogue = str(row[text_col])
+                sentences = _parse_bothbosu_dialogue(dialogue, caller_only=caller_only)
+                if not sentences:
+                    continue
+
+                records.append(CallRecord(
+                    call_id=str(row[id_col]) if id_col else f"bb_{subset}_{split}_{i}",
+                    label=y,
+                    category=str(row[type_col]) if type_col else ("scam" if y else "legit"),
+                    source=f"bothbosu_{subset}",
+                    sentences=sentences,
+                ))
+    return records
+
 
 def load_youtube_baiters(root: Path | None = None) -> list[CallRecord]:
     """Load the YouTube scam-baiter corpus built per SCAMBAITER_PROTOCOL.md.
@@ -467,6 +565,7 @@ def load_all_call_records() -> dict[str, list[CallRecord]]:
         "repo_real": load_repo_real(),
         "better30": load_better30(),
         "wu2024_corpus": load_wu2024(),
+        "bothbosu": load_bothbosu(),
         "youtube_baiters": load_youtube_baiters(),
         # Cross-lingual / not part of headline eval:
         "teleantifraud_28k": load_teleantifraud(),
