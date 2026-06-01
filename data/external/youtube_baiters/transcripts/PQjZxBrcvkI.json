@@ -1,0 +1,1070 @@
+{
+  "text": "Do you want to? What do you see on the screen at the moment? I describe carefully the pop-up that her company has bought from advertisers. They're always of a similar format and designed to encourage people to call the number that they see. This will be the 12th call that Amy will receive tonight. What we got regarding about your computer, it is infected by the virus, and because of the virus, which is just fire, because of that, all your information, which is written there, those information is being withdrawn from you. That's all we got. So as usual, Amy wants to get remote access to the infected PC. Amy or Jerry talks me through downloading some software which will give her remote access. Software is called fast support and this is used by very many scammy organizations because it doesn't usually reveal the IP address of the person at the far end. However, I have my own methods and her details are on the screen. Do you see? I'm moving the mouse? Oh, yes. Yes, it's moving. It's very good. Okay, okay. So with this, we are successfully connected under the Microsoft 7 Secure Server. Now that she has her access, she runs the second part of the scam to convince me that there really is a problem on this virtual computer. Okay. Was there may know how old it is laptop? They ask certain standard questions which are all part of a script. She will claim that my laptop isn't under its warranty anymore and if I need help, I'm going to have to pay for it. When is the last time your service is the laptop? If she was competent technician, she would look at the specs of this machine and see that it definitely doesn't need any service. Was there a, I want to show you this. Please look at the screen, look on the screen. Yes, yes, I'm looking out. She draws on the screen to help me. Yeah, that work access protections, which is off right here. This will always be off in any standard Windows 7 setup unless you're part of a corporate network. So at this point, I just want to know, do you have any kind of antivirus? Of course, I've got antivirus setup and it's clean and it's up to date. There's nothing wrong with this computer whatsoever. Oh, that's okay. That's okay, let me check that out. I continue to play done with there to see what you say about my antivirus. Okay, I don't know. PC status protector, but it is off, as you can see, when the internal protection network access protection is off, which means whatever antivirus or a protection or security, whatever you have inside this laptop, they are all off. So she's lied about this. There is a firewall running. The antivirus is running and there's absolutely nothing wrong with the computer. So I will be going ahead and do the dynasties scanner for your connections, all right? Okay, yes. She does the normal scammer favorite of opening up the command prompt. Typing the tree command and finally typing something on the command line, which looks convincing, all of which she does while trying to distract me. Well, all right, magazine, articles and kind of when the tree command completes, she types out that I had a firewall damage a virus find and an IP compromise. She also runs net stop command and all this does is show her own connection and some connections from closed web pages. Because they are the foreign hackers, which means they are not from state but outside from your state. This is the reason why you are getting our error message regarding about your IP history, regarding about your information have been stolen from you. The third part of the scam is where she hands it for the call to one of her colleagues. He will try and collect the money. I think there's someone behind the line, are you disher? Hello, yes. Oh, who am I talking tonight? Okay. Okay, you are talking to James, my name is James. So, James real name is Santosh Verma. Santosh continues the scam by trying to get me to type in my email address into the W3C validator. Of course, this is bind to fail. It validates HTML, not email addresses. When you when we check your email is already infected, there's some unusual critical error and warning message. Those are good questions. So warning, warning, bad value, error, error, so can you see that? This means that your email is already infected. So, and lastly, for good measure, he throws up event fear to see the normal errors and warnings. These are the general files. These are the unusual critical error and warning message. If this warning is increased, like in a couple days, it may be crashed all your device. So, Santosh puts a price list in front of me and gets me to fill out some details. They're all fake, of course. I can pay them by check or by card on my elect for card. Okay, no problem. Just when it's card number, so for acquisition. So, when is it expired at? No, right. Okay, hold on. I'll just get my card here. Even though it will be fake, I don't want to type out my credit card number directly on the notepad. I'd rather see the URL and the website that he's going to use to collect the payment. Just like to check out a few details about your first of all. So, can I call you back? So, right away, if you are a fake, or you are a fake, don't worry that. I will open the link or open the form. You can see the bio shop. No one will see, okay? Just allow me to buy mine. Okay, well, that might be better. It worked. He didn't want me to research his full number, and now he's happy to open up his online form. Now, I can see the URL that he's going to use for the payment. He pissed this website address into my browser. It's from a file that I later find on their desktop. Can you see that? Do you see that? First of all, I look at the mouse. This is secure. So, once again, I fill out some fake details and live PCX where it's 24.7.tech's website. Of course, the payment feels. Okay, you got it. Santos tries a few more times to try and get valid details from me, but eventually gives up. The scamming organization thought that they've disconnected from my computer, but I have a few tricks up my sleeve. I'm not going to go into the details of how I did this, but I managed to get a connection back again to the scammers PCs without them realizing. So, this is our scammer, Amy's desktop. As you can see, I've just left the session, but this is what the rest of the desktop looks like. Let's take a little tour of her desktop. First of all, this is the go-to assist expert client. This is what she uses to remotely connect to people's PCs. She has a browser. I'm going to go through what's setting on the browser in just a moment. She also has an instant messenger client called Spark. This is what she uses to communicate with her colleagues and good karma IT. Here we have a folder with a phone number which she will put on her victim's desktop. It helps to make the victim feel that they're actually getting some service for their money. Next, we have a payment link, and there's a different URL depending on whether you're paying by check or by card. She also takes notes using electronic sticky notes and her old favorite note pad. Bizarrely, she also seems to be a fan of the invincible's movie. Maybe she thinks she's invincible herself. I spent the rest of the time observing exactly how these scammers operate and gathering a bit of information on both their victims and some of their employees. On her browser, she runs something called NGUCC or Next Generation Unified Contact Center. She uses this to control the in-bind calls and to register what sort of phone call it is. You can also see the soft phone at the bottom right of this web page. Another tab she will keep open is that them.com so that she can check to see if there's any details on the in-bind phone number. She uses this to check whether it's a prank or a scam-bit or calling. Another tab that she keeps open is bindb.com. She can use this to check the first six digits of her credit card to make sure that it's been issued by a valid bank. This and her other links are in the description below. But the biggest goldmine of all was the Company Internal Notice Board. This gave me a wealth of information. It confirmed the name of the Company Good Karma Information Technology, but it also revealed how much this company was making each month. Here you can see the figure. Over $250,000 each month, that's $3 million each year. That was from the total of 587 successful calls making the average a figure of over $400 per scam. It also revealed which of their employees were earning the most. I've had to blur out the names here because of YouTube's policies, but if you want to see the actual names, there's a link in the description below. Our friend Amy, real name Jerry, ranked 33 of well over 50 employees here. She's on course to earn over $4,000 this month. How does that compare to your salary? On another part of Good Karma's intranet, we could see the taxi cab list. It gives the details of exactly who was working on what shift and on what day in this case in June 2018. I mentioned the Sparks Instant Messenger client. Here's an example of some of the messages that I saw Amy pushing to one of her colleagues, Santosh Verma. This is the full name, address, and credit card details of one of their victims. I later called this person whose first name was Tamika, to see did she indeed see one of these fake pop-ups and ended up paying money. This is what she said to me when I called her. Today I contacted Windows without my computer. Right, by any chance was it because you saw like a warning message or something on your computer. I had got some kind of virus or something on my computer and it had lost me out completely. Yeah, okay, that's why. But my computer, why I said it was messing up my laptop or whatever, and whatever, when I called, it was heavy, whatever went on. It solved my problem because I couldn't even get on the internet at first. So Tamika represents exactly the sort of victim that these guys are after, someone who doesn't even realize that they have been scammed. Did they call themselves, do you know? I'm the comic, I'm the comic. Oh, okay, right, I haven't heard that name. So this confirms what I already knew. The company go by the name of several different aliases, including Omnichronic Premium Live Support, live PC experts 24.7.tech, and merchservex.com, but they never use the real company name of Good Karma Information Technology. I followed up the call with an email to Tamika, but I'm not really sure if she actually believed me. So who exactly are Good Karma Infotech? Well, according to the website and this website I suspect may not be wrong for too much longer, they have two branches, one an order, and one in Gurgo one were most of the scamming happens. They seem to be on a recruiting drive, and this is one of their adverts. As our advert says, they offer huge incentives. There's a free cab ride to work, there's free mails, I'm all for doing this. A voice process for technical or seal support executives, but we know exactly what that means. There aren't many pictures of the inside of the call center, but here's one or two I did find on the internet. There's a fairly limited set of information which can be found online against this company, but it seems to be find it in the 16th of March 2015, and the names of the company directors seem to be Prasant Kumar Anandita Singh. There's more details of these in the description below. As always, I attempt to report these crimes to the Indian Cyber Police. This time I've left a link to the tweet that I've made to the Cyber Police, in the hope that you see some sort of response to it. I'm not going to hold my breath. If you like my work, please consider clicking that Patreon link below. It will help me produce more videos in the future, and as they do take time, I can't promise that I'll bid these will be weekly, but I will try my best to do at least one or two a month. I'm there on Twitter as well at Jim Browning 11. Please do hit that like button if you enjoy these videos, and do subscribe if you haven't done so already. Thank you again.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 3.6,
+      "text": "Do you want to? What do you see on the screen at the moment?"
+    },
+    {
+      "start": 3.6,
+      "end": 8.96,
+      "text": "I describe carefully the pop-up that her company has bought from advertisers."
+    },
+    {
+      "start": 8.96,
+      "end": 14.16,
+      "text": "They're always of a similar format and designed to encourage people to call the number that they see."
+    },
+    {
+      "start": 14.16,
+      "end": 17.84,
+      "text": "This will be the 12th call that Amy will receive tonight."
+    },
+    {
+      "start": 17.84,
+      "end": 22.88,
+      "text": "What we got regarding about your computer, it is infected by the virus,"
+    },
+    {
+      "start": 22.88,
+      "end": 28.64,
+      "text": "and because of the virus, which is just fire, because of that, all your information,"
+    },
+    {
+      "start": 28.64,
+      "end": 33.12,
+      "text": "which is written there, those information is being withdrawn from you."
+    },
+    {
+      "start": 33.12,
+      "end": 34.48,
+      "text": "That's all we got."
+    },
+    {
+      "start": 34.48,
+      "end": 39.04,
+      "text": "So as usual, Amy wants to get remote access to the infected PC."
+    },
+    {
+      "start": 40.88,
+      "end": 45.68,
+      "text": "Amy or Jerry talks me through downloading some software which will give her remote access."
+    },
+    {
+      "start": 46.32,
+      "end": 51.52,
+      "text": "Software is called fast support and this is used by very many scammy organizations"
+    },
+    {
+      "start": 51.52,
+      "end": 55.68,
+      "text": "because it doesn't usually reveal the IP address of the person at the far end."
+    },
+    {
+      "start": 56.56,
+      "end": 59.92,
+      "text": "However, I have my own methods and her details are on the screen."
+    },
+    {
+      "start": 61.12,
+      "end": 62.8,
+      "text": "Do you see? I'm moving the mouse?"
+    },
+    {
+      "start": 62.8,
+      "end": 63.6,
+      "text": "Oh, yes."
+    },
+    {
+      "start": 63.6,
+      "end": 64.48,
+      "text": "Yes, it's moving."
+    },
+    {
+      "start": 64.48,
+      "end": 65.2,
+      "text": "It's very good."
+    },
+    {
+      "start": 66.48,
+      "end": 67.44,
+      "text": "Okay, okay."
+    },
+    {
+      "start": 67.44,
+      "end": 73.2,
+      "text": "So with this, we are successfully connected under the Microsoft 7 Secure Server."
+    },
+    {
+      "start": 73.2,
+      "end": 76.72,
+      "text": "Now that she has her access, she runs the second part of the scam"
+    },
+    {
+      "start": 76.72,
+      "end": 80.64,
+      "text": "to convince me that there really is a problem on this virtual computer."
+    },
+    {
+      "start": 81.28,
+      "end": 82.24,
+      "text": "Okay."
+    },
+    {
+      "start": 82.24,
+      "end": 85.6,
+      "text": "Was there may know how old it is laptop?"
+    },
+    {
+      "start": 85.6,
+      "end": 89.44,
+      "text": "They ask certain standard questions which are all part of a script."
+    },
+    {
+      "start": 89.44,
+      "end": 93.28,
+      "text": "She will claim that my laptop isn't under its warranty anymore"
+    },
+    {
+      "start": 93.28,
+      "end": 95.84,
+      "text": "and if I need help, I'm going to have to pay for it."
+    },
+    {
+      "start": 95.84,
+      "end": 98.8,
+      "text": "When is the last time your service is the laptop?"
+    },
+    {
+      "start": 99.44,
+      "end": 103.76,
+      "text": "If she was competent technician, she would look at the specs of this machine"
+    },
+    {
+      "start": 103.76,
+      "end": 106.56,
+      "text": "and see that it definitely doesn't need any service."
+    },
+    {
+      "start": 107.52,
+      "end": 110.4,
+      "text": "Was there a, I want to show you this."
+    },
+    {
+      "start": 110.4,
+      "end": 112.8,
+      "text": "Please look at the screen, look on the screen."
+    },
+    {
+      "start": 113.44,
+      "end": 115.84,
+      "text": "Yes, yes, I'm looking out."
+    },
+    {
+      "start": 115.84,
+      "end": 117.6,
+      "text": "She draws on the screen to help me."
+    },
+    {
+      "start": 117.6,
+      "end": 121.84,
+      "text": "Yeah, that work access protections, which is off right here."
+    },
+    {
+      "start": 121.84,
+      "end": 125.84,
+      "text": "This will always be off in any standard Windows 7 setup"
+    },
+    {
+      "start": 125.84,
+      "end": 127.84,
+      "text": "unless you're part of a corporate network."
+    },
+    {
+      "start": 128.96,
+      "end": 133.2,
+      "text": "So at this point, I just want to know, do you have any kind of antivirus?"
+    },
+    {
+      "start": 133.84,
+      "end": 137.76,
+      "text": "Of course, I've got antivirus setup and it's clean and it's up to date."
+    },
+    {
+      "start": 137.76,
+      "end": 140.4,
+      "text": "There's nothing wrong with this computer whatsoever."
+    },
+    {
+      "start": 140.4,
+      "end": 141.44,
+      "text": "Oh, that's okay."
+    },
+    {
+      "start": 143.44,
+      "end": 144.96,
+      "text": "That's okay, let me check that out."
+    },
+    {
+      "start": 145.52,
+      "end": 149.44,
+      "text": "I continue to play done with there to see what you say about my antivirus."
+    },
+    {
+      "start": 150.4,
+      "end": 152.08,
+      "text": "Okay, I don't know."
+    },
+    {
+      "start": 152.08,
+      "end": 161.52,
+      "text": "PC status protector, but it is off, as you can see, when the internal protection network access"
+    },
+    {
+      "start": 161.52,
+      "end": 167.84,
+      "text": "protection is off, which means whatever antivirus or a protection or security,"
+    },
+    {
+      "start": 167.84,
+      "end": 172.48,
+      "text": "whatever you have inside this laptop, they are all off."
+    },
+    {
+      "start": 173.04,
+      "end": 174.56,
+      "text": "So she's lied about this."
+    },
+    {
+      "start": 174.56,
+      "end": 175.84,
+      "text": "There is a firewall running."
+    },
+    {
+      "start": 175.84,
+      "end": 179.84,
+      "text": "The antivirus is running and there's absolutely nothing wrong with the computer."
+    },
+    {
+      "start": 180.4,
+      "end": 185.04,
+      "text": "So I will be going ahead and do the dynasties scanner for your connections, all right?"
+    },
+    {
+      "start": 186.0,
+      "end": 187.04,
+      "text": "Okay, yes."
+    },
+    {
+      "start": 187.68,
+      "end": 191.12,
+      "text": "She does the normal scammer favorite of opening up the command prompt."
+    },
+    {
+      "start": 191.6,
+      "end": 195.6,
+      "text": "Typing the tree command and finally typing something on the command line,"
+    },
+    {
+      "start": 195.6,
+      "end": 200.4,
+      "text": "which looks convincing, all of which she does while trying to distract me."
+    },
+    {
+      "start": 200.4,
+      "end": 205.6,
+      "text": "Well, all right, magazine, articles and kind of when the tree command completes,"
+    },
+    {
+      "start": 205.6,
+      "end": 210.4,
+      "text": "she types out that I had a firewall damage a virus find and an IP compromise."
+    },
+    {
+      "start": 211.04,
+      "end": 217.04,
+      "text": "She also runs net stop command and all this does is show her own connection and some connections"
+    },
+    {
+      "start": 217.04,
+      "end": 218.56,
+      "text": "from closed web pages."
+    },
+    {
+      "start": 219.52,
+      "end": 226.88,
+      "text": "Because they are the foreign hackers, which means they are not from state but outside from your state."
+    },
+    {
+      "start": 228.08,
+      "end": 235.12,
+      "text": "This is the reason why you are getting our error message regarding about your IP history,"
+    },
+    {
+      "start": 235.12,
+      "end": 238.4,
+      "text": "regarding about your information have been stolen from you."
+    },
+    {
+      "start": 238.4,
+      "end": 242.48,
+      "text": "The third part of the scam is where she hands it for the call to one of her colleagues."
+    },
+    {
+      "start": 242.48,
+      "end": 243.92,
+      "text": "He will try and collect the money."
+    },
+    {
+      "start": 244.24,
+      "end": 246.8,
+      "text": "I think there's someone behind the line, are you disher?"
+    },
+    {
+      "start": 247.52,
+      "end": 248.56,
+      "text": "Hello, yes."
+    },
+    {
+      "start": 248.56,
+      "end": 250.08,
+      "text": "Oh, who am I talking tonight?"
+    },
+    {
+      "start": 250.08,
+      "end": 250.88,
+      "text": "Okay."
+    },
+    {
+      "start": 252.08,
+      "end": 254.96,
+      "text": "Okay, you are talking to James, my name is James."
+    },
+    {
+      "start": 254.96,
+      "end": 258.88,
+      "text": "So, James real name is Santosh Verma."
+    },
+    {
+      "start": 258.88,
+      "end": 263.76,
+      "text": "Santosh continues the scam by trying to get me to type in my email address"
+    },
+    {
+      "start": 263.76,
+      "end": 266.16,
+      "text": "into the W3C validator."
+    },
+    {
+      "start": 266.16,
+      "end": 267.84,
+      "text": "Of course, this is bind to fail."
+    },
+    {
+      "start": 267.84,
+      "end": 270.72,
+      "text": "It validates HTML, not email addresses."
+    },
+    {
+      "start": 271.36,
+      "end": 277.36,
+      "text": "When you when we check your email is already infected, there's some unusual critical error"
+    },
+    {
+      "start": 277.36,
+      "end": 278.24,
+      "text": "and warning message."
+    },
+    {
+      "start": 279.92,
+      "end": 281.6,
+      "text": "Those are good questions."
+    },
+    {
+      "start": 281.6,
+      "end": 288.48,
+      "text": "So warning, warning, bad value, error, error, so can you see that?"
+    },
+    {
+      "start": 289.04,
+      "end": 293.04,
+      "text": "This means that your email is already infected."
+    },
+    {
+      "start": 293.04,
+      "end": 298.56,
+      "text": "So, and lastly, for good measure, he throws up event fear to see the normal errors and warnings."
+    },
+    {
+      "start": 299.36,
+      "end": 300.88,
+      "text": "These are the general files."
+    },
+    {
+      "start": 300.88,
+      "end": 304.48,
+      "text": "These are the unusual critical error and warning message."
+    },
+    {
+      "start": 305.04,
+      "end": 312.08,
+      "text": "If this warning is increased, like in a couple days, it may be crashed all your device."
+    },
+    {
+      "start": 312.8,
+      "end": 317.68,
+      "text": "So, Santosh puts a price list in front of me and gets me to fill out some details."
+    },
+    {
+      "start": 317.68,
+      "end": 318.88,
+      "text": "They're all fake, of course."
+    },
+    {
+      "start": 319.44,
+      "end": 323.44,
+      "text": "I can pay them by check or by card on my elect for card."
+    },
+    {
+      "start": 324.16,
+      "end": 326.16,
+      "text": "Okay, no problem."
+    },
+    {
+      "start": 326.24,
+      "end": 329.12,
+      "text": "Just when it's card number, so for acquisition."
+    },
+    {
+      "start": 329.92,
+      "end": 331.52,
+      "text": "So, when is it expired at?"
+    },
+    {
+      "start": 332.4,
+      "end": 334.48,
+      "text": "No, right."
+    },
+    {
+      "start": 334.48,
+      "end": 335.36,
+      "text": "Okay, hold on."
+    },
+    {
+      "start": 335.36,
+      "end": 337.2,
+      "text": "I'll just get my card here."
+    },
+    {
+      "start": 337.2,
+      "end": 340.8,
+      "text": "Even though it will be fake, I don't want to type out my credit card number"
+    },
+    {
+      "start": 340.8,
+      "end": 342.56,
+      "text": "directly on the notepad."
+    },
+    {
+      "start": 342.56,
+      "end": 348.08,
+      "text": "I'd rather see the URL and the website that he's going to use to collect the payment."
+    },
+    {
+      "start": 348.08,
+      "end": 351.76,
+      "text": "Just like to check out a few details about your first of all."
+    },
+    {
+      "start": 351.76,
+      "end": 353.6,
+      "text": "So, can I call you back?"
+    },
+    {
+      "start": 354.32,
+      "end": 358.72,
+      "text": "So, right away, if you are a fake, or you are a fake, don't worry that."
+    },
+    {
+      "start": 358.72,
+      "end": 361.28,
+      "text": "I will open the link or open the form."
+    },
+    {
+      "start": 361.28,
+      "end": 362.88,
+      "text": "You can see the bio shop."
+    },
+    {
+      "start": 362.88,
+      "end": 364.08,
+      "text": "No one will see, okay?"
+    },
+    {
+      "start": 364.08,
+      "end": 365.2,
+      "text": "Just allow me to buy mine."
+    },
+    {
+      "start": 365.2,
+      "end": 367.36,
+      "text": "Okay, well, that might be better."
+    },
+    {
+      "start": 367.84,
+      "end": 368.56,
+      "text": "It worked."
+    },
+    {
+      "start": 368.56,
+      "end": 371.04,
+      "text": "He didn't want me to research his full number,"
+    },
+    {
+      "start": 371.04,
+      "end": 374.08,
+      "text": "and now he's happy to open up his online form."
+    },
+    {
+      "start": 374.08,
+      "end": 377.2,
+      "text": "Now, I can see the URL that he's going to use for the payment."
+    },
+    {
+      "start": 378.16,
+      "end": 381.28,
+      "text": "He pissed this website address into my browser."
+    },
+    {
+      "start": 381.92,
+      "end": 384.8,
+      "text": "It's from a file that I later find on their desktop."
+    },
+    {
+      "start": 384.8,
+      "end": 385.44,
+      "text": "Can you see that?"
+    },
+    {
+      "start": 386.0,
+      "end": 386.88,
+      "text": "Do you see that?"
+    },
+    {
+      "start": 386.88,
+      "end": 388.56,
+      "text": "First of all, I look at the mouse."
+    },
+    {
+      "start": 388.56,
+      "end": 389.36,
+      "text": "This is secure."
+    },
+    {
+      "start": 390.0,
+      "end": 392.8,
+      "text": "So, once again, I fill out some fake details"
+    },
+    {
+      "start": 392.8,
+      "end": 396.96,
+      "text": "and live PCX where it's 24.7.tech's website."
+    },
+    {
+      "start": 397.52,
+      "end": 399.44,
+      "text": "Of course, the payment feels."
+    },
+    {
+      "start": 401.44,
+      "end": 402.24,
+      "text": "Okay, you got it."
+    },
+    {
+      "start": 404.86,
+      "end": 408.7,
+      "text": "Santos tries a few more times to try and get valid details from me,"
+    },
+    {
+      "start": 408.7,
+      "end": 409.9,
+      "text": "but eventually gives up."
+    },
+    {
+      "start": 410.54,
+      "end": 415.02,
+      "text": "The scamming organization thought that they've disconnected from my computer,"
+    },
+    {
+      "start": 415.02,
+      "end": 417.18,
+      "text": "but I have a few tricks up my sleeve."
+    },
+    {
+      "start": 417.18,
+      "end": 420.22,
+      "text": "I'm not going to go into the details of how I did this,"
+    },
+    {
+      "start": 420.22,
+      "end": 424.3,
+      "text": "but I managed to get a connection back again to the scammers PCs"
+    },
+    {
+      "start": 424.3,
+      "end": 425.5,
+      "text": "without them realizing."
+    },
+    {
+      "start": 426.7,
+      "end": 429.26,
+      "text": "So, this is our scammer, Amy's desktop."
+    },
+    {
+      "start": 429.26,
+      "end": 431.82,
+      "text": "As you can see, I've just left the session,"
+    },
+    {
+      "start": 431.82,
+      "end": 434.14,
+      "text": "but this is what the rest of the desktop looks like."
+    },
+    {
+      "start": 434.7,
+      "end": 437.34,
+      "text": "Let's take a little tour of her desktop."
+    },
+    {
+      "start": 437.34,
+      "end": 441.66,
+      "text": "First of all, this is the go-to assist expert client."
+    },
+    {
+      "start": 441.66,
+      "end": 445.34,
+      "text": "This is what she uses to remotely connect to people's PCs."
+    },
+    {
+      "start": 446.3,
+      "end": 447.34,
+      "text": "She has a browser."
+    },
+    {
+      "start": 447.34,
+      "end": 450.14,
+      "text": "I'm going to go through what's setting on the browser in just a moment."
+    },
+    {
+      "start": 450.94,
+      "end": 454.86,
+      "text": "She also has an instant messenger client called Spark."
+    },
+    {
+      "start": 454.86,
+      "end": 459.26,
+      "text": "This is what she uses to communicate with her colleagues and good karma IT."
+    },
+    {
+      "start": 459.26,
+      "end": 463.66,
+      "text": "Here we have a folder with a phone number which she will put on her victim's desktop."
+    },
+    {
+      "start": 463.66,
+      "end": 467.34,
+      "text": "It helps to make the victim feel that they're actually getting some service for their money."
+    },
+    {
+      "start": 468.14,
+      "end": 469.98,
+      "text": "Next, we have a payment link,"
+    },
+    {
+      "start": 469.98,
+      "end": 474.14,
+      "text": "and there's a different URL depending on whether you're paying by check or by card."
+    },
+    {
+      "start": 475.1,
+      "end": 480.46,
+      "text": "She also takes notes using electronic sticky notes and her old favorite note pad."
+    },
+    {
+      "start": 481.18,
+      "end": 484.94,
+      "text": "Bizarrely, she also seems to be a fan of the invincible's movie."
+    },
+    {
+      "start": 484.94,
+      "end": 487.02,
+      "text": "Maybe she thinks she's invincible herself."
+    },
+    {
+      "start": 487.82,
+      "end": 492.3,
+      "text": "I spent the rest of the time observing exactly how these scammers operate"
+    },
+    {
+      "start": 492.3,
+      "end": 496.86,
+      "text": "and gathering a bit of information on both their victims and some of their employees."
+    },
+    {
+      "start": 497.74,
+      "end": 504.78,
+      "text": "On her browser, she runs something called NGUCC or Next Generation Unified Contact Center."
+    },
+    {
+      "start": 504.78,
+      "end": 510.22,
+      "text": "She uses this to control the in-bind calls and to register what sort of phone call it is."
+    },
+    {
+      "start": 511.18,
+      "end": 515.02,
+      "text": "You can also see the soft phone at the bottom right of this web page."
+    },
+    {
+      "start": 515.9,
+      "end": 519.34,
+      "text": "Another tab she will keep open is that them.com"
+    },
+    {
+      "start": 519.34,
+      "end": 523.9,
+      "text": "so that she can check to see if there's any details on the in-bind phone number."
+    },
+    {
+      "start": 523.9,
+      "end": 528.06,
+      "text": "She uses this to check whether it's a prank or a scam-bit or calling."
+    },
+    {
+      "start": 528.06,
+      "end": 531.42,
+      "text": "Another tab that she keeps open is bindb.com."
+    },
+    {
+      "start": 531.42,
+      "end": 537.74,
+      "text": "She can use this to check the first six digits of her credit card to make sure that it's been issued by a valid bank."
+    },
+    {
+      "start": 537.74,
+      "end": 539.98,
+      "text": "This and her other links are in the description below."
+    },
+    {
+      "start": 540.7,
+      "end": 545.18,
+      "text": "But the biggest goldmine of all was the Company Internal Notice Board."
+    },
+    {
+      "start": 545.18,
+      "end": 547.18,
+      "text": "This gave me a wealth of information."
+    },
+    {
+      "start": 548.14,
+      "end": 552.7,
+      "text": "It confirmed the name of the Company Good Karma Information Technology,"
+    },
+    {
+      "start": 552.7,
+      "end": 556.46,
+      "text": "but it also revealed how much this company was making each month."
+    },
+    {
+      "start": 557.1,
+      "end": 558.38,
+      "text": "Here you can see the figure."
+    },
+    {
+      "start": 559.02,
+      "end": 565.34,
+      "text": "Over $250,000 each month, that's $3 million each year."
+    },
+    {
+      "start": 565.42,
+      "end": 570.78,
+      "text": "That was from the total of 587 successful calls making the average"
+    },
+    {
+      "start": 570.78,
+      "end": 573.98,
+      "text": "a figure of over $400 per scam."
+    },
+    {
+      "start": 574.54,
+      "end": 578.06,
+      "text": "It also revealed which of their employees were earning the most."
+    },
+    {
+      "start": 578.62,
+      "end": 582.38,
+      "text": "I've had to blur out the names here because of YouTube's policies,"
+    },
+    {
+      "start": 582.38,
+      "end": 586.3,
+      "text": "but if you want to see the actual names, there's a link in the description below."
+    },
+    {
+      "start": 587.02,
+      "end": 592.86,
+      "text": "Our friend Amy, real name Jerry, ranked 33 of well over 50 employees here."
+    },
+    {
+      "start": 593.66,
+      "end": 597.26,
+      "text": "She's on course to earn over $4,000 this month."
+    },
+    {
+      "start": 597.26,
+      "end": 599.34,
+      "text": "How does that compare to your salary?"
+    },
+    {
+      "start": 599.34,
+      "end": 604.3,
+      "text": "On another part of Good Karma's intranet, we could see the taxi cab list."
+    },
+    {
+      "start": 605.02,
+      "end": 610.78,
+      "text": "It gives the details of exactly who was working on what shift and on what day in this case"
+    },
+    {
+      "start": 610.78,
+      "end": 612.22,
+      "text": "in June 2018."
+    },
+    {
+      "start": 612.7,
+      "end": 615.66,
+      "text": "I mentioned the Sparks Instant Messenger client."
+    },
+    {
+      "start": 615.66,
+      "end": 620.7,
+      "text": "Here's an example of some of the messages that I saw Amy pushing to one of her colleagues,"
+    },
+    {
+      "start": 620.7,
+      "end": 622.06,
+      "text": "Santosh Verma."
+    },
+    {
+      "start": 622.06,
+      "end": 627.9,
+      "text": "This is the full name, address, and credit card details of one of their victims."
+    },
+    {
+      "start": 627.9,
+      "end": 630.94,
+      "text": "I later called this person whose first name was Tamika,"
+    },
+    {
+      "start": 630.94,
+      "end": 635.58,
+      "text": "to see did she indeed see one of these fake pop-ups and ended up paying money."
+    },
+    {
+      "start": 636.3,
+      "end": 638.78,
+      "text": "This is what she said to me when I called her."
+    },
+    {
+      "start": 638.78,
+      "end": 642.38,
+      "text": "Today I contacted Windows without my computer."
+    },
+    {
+      "start": 642.38,
+      "end": 649.26,
+      "text": "Right, by any chance was it because you saw like a warning message or something on your computer."
+    },
+    {
+      "start": 651.42,
+      "end": 657.34,
+      "text": "I had got some kind of virus or something on my computer and it had lost me out completely."
+    },
+    {
+      "start": 658.06,
+      "end": 659.66,
+      "text": "Yeah, okay, that's why."
+    },
+    {
+      "start": 660.78,
+      "end": 668.14,
+      "text": "But my computer, why I said it was messing up my laptop or whatever, and whatever, when I called,"
+    },
+    {
+      "start": 668.14,
+      "end": 671.66,
+      "text": "it was heavy, whatever went on."
+    },
+    {
+      "start": 671.66,
+      "end": 676.94,
+      "text": "It solved my problem because I couldn't even get on the internet at first."
+    },
+    {
+      "start": 677.42,
+      "end": 682.06,
+      "text": "So Tamika represents exactly the sort of victim that these guys are after,"
+    },
+    {
+      "start": 682.06,
+      "end": 684.94,
+      "text": "someone who doesn't even realize that they have been scammed."
+    },
+    {
+      "start": 685.66,
+      "end": 687.42,
+      "text": "Did they call themselves, do you know?"
+    },
+    {
+      "start": 690.46,
+      "end": 693.42,
+      "text": "I'm the comic, I'm the comic."
+    },
+    {
+      "start": 694.14,
+      "end": 696.46,
+      "text": "Oh, okay, right, I haven't heard that name."
+    },
+    {
+      "start": 696.46,
+      "end": 698.86,
+      "text": "So this confirms what I already knew."
+    },
+    {
+      "start": 698.86,
+      "end": 701.9,
+      "text": "The company go by the name of several different aliases,"
+    },
+    {
+      "start": 701.9,
+      "end": 709.74,
+      "text": "including Omnichronic Premium Live Support, live PC experts 24.7.tech, and merchservex.com,"
+    },
+    {
+      "start": 709.74,
+      "end": 714.62,
+      "text": "but they never use the real company name of Good Karma Information Technology."
+    },
+    {
+      "start": 714.62,
+      "end": 720.14,
+      "text": "I followed up the call with an email to Tamika, but I'm not really sure if she actually believed me."
+    },
+    {
+      "start": 720.14,
+      "end": 722.7,
+      "text": "So who exactly are Good Karma Infotech?"
+    },
+    {
+      "start": 723.18,
+      "end": 729.1,
+      "text": "Well, according to the website and this website I suspect may not be wrong for too much longer,"
+    },
+    {
+      "start": 729.1,
+      "end": 734.94,
+      "text": "they have two branches, one an order, and one in Gurgo one were most of the scamming happens."
+    },
+    {
+      "start": 734.94,
+      "end": 739.1,
+      "text": "They seem to be on a recruiting drive, and this is one of their adverts."
+    },
+    {
+      "start": 739.1,
+      "end": 741.82,
+      "text": "As our advert says, they offer huge incentives."
+    },
+    {
+      "start": 742.38,
+      "end": 747.5,
+      "text": "There's a free cab ride to work, there's free mails, I'm all for doing this."
+    },
+    {
+      "start": 747.5,
+      "end": 753.98,
+      "text": "A voice process for technical or seal support executives, but we know exactly what that means."
+    },
+    {
+      "start": 754.06,
+      "end": 758.78,
+      "text": "There aren't many pictures of the inside of the call center, but here's one or two I did find"
+    },
+    {
+      "start": 758.78,
+      "end": 764.3,
+      "text": "on the internet. There's a fairly limited set of information which can be found online against"
+    },
+    {
+      "start": 764.3,
+      "end": 770.54,
+      "text": "this company, but it seems to be find it in the 16th of March 2015, and the names of the company"
+    },
+    {
+      "start": 770.54,
+      "end": 777.18,
+      "text": "directors seem to be Prasant Kumar Anandita Singh. There's more details of these in the description"
+    },
+    {
+      "start": 777.18,
+      "end": 783.1,
+      "text": "below. As always, I attempt to report these crimes to the Indian Cyber Police."
+    },
+    {
+      "start": 783.1,
+      "end": 787.58,
+      "text": "This time I've left a link to the tweet that I've made to the Cyber Police,"
+    },
+    {
+      "start": 787.58,
+      "end": 792.06,
+      "text": "in the hope that you see some sort of response to it. I'm not going to hold my breath."
+    },
+    {
+      "start": 792.06,
+      "end": 796.54,
+      "text": "If you like my work, please consider clicking that Patreon link below. It will help me"
+    },
+    {
+      "start": 796.54,
+      "end": 800.78,
+      "text": "produce more videos in the future, and as they do take time, I can't promise that I'll"
+    },
+    {
+      "start": 800.78,
+      "end": 804.7,
+      "text": "bid these will be weekly, but I will try my best to do at least one or two a month."
+    },
+    {
+      "start": 805.42,
+      "end": 810.54,
+      "text": "I'm there on Twitter as well at Jim Browning 11. Please do hit that like button if you enjoy"
+    },
+    {
+      "start": 810.54,
+      "end": 821.9,
+      "text": "these videos, and do subscribe if you haven't done so already. Thank you again."
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "PQjZxBrcvkI",
+  "youtube_url": "https://www.youtube.com/watch?v=PQjZxBrcvkI",
+  "clip_range_sec": [
+    30.0,
+    868.0
+  ],
+  "category": "call_center",
+  "transcribe_elapsed_sec": 32.47058458416723
+}

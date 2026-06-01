@@ -59,12 +59,50 @@
 }
 
 @layer components {
+  .app-shell {
+    background:
+      radial-gradient(circle at 18% 0%, rgba(20, 184, 166, 0.16), transparent 28rem),
+      radial-gradient(circle at 90% 14%, rgba(59, 130, 246, 0.12), transparent 24rem),
+      linear-gradient(180deg, #020617 0%, #0f172a 42%, #111827 100%);
+  }
+
+  .hero-panel {
+    position: relative;
+  }
+
+  .hero-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(20, 184, 166, 0.09), transparent 32%),
+      radial-gradient(circle at 88% 20%, rgba(14, 165, 233, 0.14), transparent 20rem);
+  }
+
+  .hero-panel > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .metric-tile {
+    @apply rounded-xl border border-white/10 bg-white/5 p-3 shadow-sm shadow-black/10;
+  }
+
+  .ops-card {
+    @apply flex items-center justify-between rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3 text-xs;
+  }
+
+  .ops-card strong {
+    @apply text-lg font-semibold tabular-nums;
+  }
+
   .glass-card {
-    @apply bg-dark-card/80 backdrop-blur-xl border border-dark-border/50 rounded-2xl;
+    @apply bg-slate-900/75 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl shadow-black/10;
   }
 
   .control-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-dark-border/50 bg-dark-card text-gray-300 shadow-sm shadow-black/10;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-slate-950/40 text-gray-300 shadow-sm shadow-black/10;
   }
 
   .control-button:hover:not(:disabled) {

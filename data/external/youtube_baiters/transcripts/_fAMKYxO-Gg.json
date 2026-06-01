@@ -1,0 +1,180 @@
+{
+  "text": "10. Press 3. To speak with a customer service representative, press 4. If you have selected to speak with a customer service representative, please wait while we connect your call. Hi, thank you for calling TNC Bank. My name is Jalene, how many is this heat today? Good morning, Jalene. Good morning. I'm calling because I noticed in an authorization transaction, so my debit card statement, I believe my card would have been compromised. Oh, that's not good. Well, thank you for reporting this to us immediately, so we could take action as early as now. First, only to verify your account for security purposes. Could you please provide me with your full name and account number? Sure. My name is Sarah Adams, and my account number is 1-0-3-1-1-9-3-3. Thank you, Sarah. Now, to assist your further only to ask a couple of security questions. Can you please provide your date of birth and the last four digits of your social security number? My date of birth is 1-8-9-8-9-8 and the last four digits of my social security number at 9-3-9-5. Thank you for verifying your accounts here. Let me go ahead and block your current debit card for security reasons, and order a new one to be sent to your registered address in three to five business days. Additionally, I'll initiate the fraud investigation for the unauthorized transactions. Okay, thank you so much. You're welcome. Well, I've got a refund for the unauthorized charges. Absolutely, Sarah. Once the fraud investigation is completed and if the transactions are confirmed as an authorized, we will process a refund to your account for those charges. That's how we leave. I have a question about my recent savings account statement. The there's an unclear fee listed in an option what it's for. I'm sorry for any confusion, Sarah. Let me take a look at your savings account statement and explain that fee to you. Could you please provide me with the transaction date and the amount of the fee? The fee was charged on July 20th and it's $4.10. Thank you, Sarah. Let me check that for you. It looks like the fee is related to an overdraft charge for a transaction that exceeded your account balance. If you'd like, I can explain how our overdraft production works to prevent such charges in the future. Certainly. Our overdraft production service allows you to link your savings account to your checking account. If there is not enough money in your checking account to cover a transaction, we'll automatically transfer the required amount from your savings account to cover the transaction does avoiding overdraft fees. That sounds perfect. I like to set that up to avoid future charges. I'll take note of it, Sarah. I'll help you with that once we've resolved to issue with your debit card. Now, is there anything else that I could produce this to you with? No, that's all for now. Thank you for your help, Julie. You're welcome, Sarah. If you have any other questions in the future, please don't hesitate to call us back.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 5.76,
+      "text": "10. Press 3. To speak with a customer service representative, press 4."
+    },
+    {
+      "start": 8.11,
+      "end": 13.39,
+      "text": "If you have selected to speak with a customer service representative, please wait"
+    },
+    {
+      "start": 13.39,
+      "end": 24.61,
+      "text": "while we connect your call. Hi, thank you for calling TNC Bank. My name is Jalene,"
+    },
+    {
+      "start": 24.61,
+      "end": 33.1,
+      "text": "how many is this heat today? Good morning, Jalene. Good morning. I'm calling because I"
+    },
+    {
+      "start": 33.1,
+      "end": 38.46,
+      "text": "noticed in an authorization transaction, so my debit card statement, I believe my card"
+    },
+    {
+      "start": 38.46,
+      "end": 43.5,
+      "text": "would have been compromised. Oh, that's not good. Well, thank you for reporting this to"
+    },
+    {
+      "start": 43.5,
+      "end": 49.58,
+      "text": "us immediately, so we could take action as early as now. First, only to verify your account for"
+    },
+    {
+      "start": 49.58,
+      "end": 55.18,
+      "text": "security purposes. Could you please provide me with your full name and account number? Sure."
+    },
+    {
+      "start": 55.18,
+      "end": 65.1,
+      "text": "My name is Sarah Adams, and my account number is 1-0-3-1-1-9-3-3. Thank you, Sarah. Now,"
+    },
+    {
+      "start": 65.1,
+      "end": 70.14,
+      "text": "to assist your further only to ask a couple of security questions. Can you please provide your"
+    },
+    {
+      "start": 70.14,
+      "end": 77.42,
+      "text": "date of birth and the last four digits of your social security number? My date of birth is 1-8-9-8-9-8"
+    },
+    {
+      "start": 78.14,
+      "end": 85.74,
+      "text": "and the last four digits of my social security number at 9-3-9-5. Thank you for verifying your"
+    },
+    {
+      "start": 85.74,
+      "end": 90.94,
+      "text": "accounts here. Let me go ahead and block your current debit card for security reasons,"
+    },
+    {
+      "start": 90.94,
+      "end": 96.22,
+      "text": "and order a new one to be sent to your registered address in three to five business days."
+    },
+    {
+      "start": 96.22,
+      "end": 101.02,
+      "text": "Additionally, I'll initiate the fraud investigation for the unauthorized transactions."
+    },
+    {
+      "start": 101.02,
+      "end": 107.9,
+      "text": "Okay, thank you so much. You're welcome. Well, I've got a refund for the unauthorized charges."
+    },
+    {
+      "start": 108.54,
+      "end": 114.22,
+      "text": "Absolutely, Sarah. Once the fraud investigation is completed and if the transactions are confirmed"
+    },
+    {
+      "start": 114.22,
+      "end": 118.3,
+      "text": "as an authorized, we will process a refund to your account for those charges."
+    },
+    {
+      "start": 120.61,
+      "end": 127.22,
+      "text": "That's how we leave. I have a question about my recent savings account statement."
+    },
+    {
+      "start": 127.78,
+      "end": 133.86,
+      "text": "The there's an unclear fee listed in an option what it's for."
+    },
+    {
+      "start": 134.82,
+      "end": 140.1,
+      "text": "I'm sorry for any confusion, Sarah. Let me take a look at your savings account statement and"
+    },
+    {
+      "start": 140.1,
+      "end": 144.58,
+      "text": "explain that fee to you. Could you please provide me with the transaction date and the amount of"
+    },
+    {
+      "start": 144.58,
+      "end": 158.32,
+      "text": "the fee? The fee was charged on July 20th and it's $4.10. Thank you, Sarah. Let me check that for you."
+    },
+    {
+      "start": 160.16,
+      "end": 166.48,
+      "text": "It looks like the fee is related to an overdraft charge for a transaction that exceeded your"
+    },
+    {
+      "start": 166.48,
+      "end": 172.0,
+      "text": "account balance. If you'd like, I can explain how our overdraft production works to prevent"
+    },
+    {
+      "start": 172.0,
+      "end": 180.32,
+      "text": "such charges in the future. Certainly. Our overdraft production service allows you to link"
+    },
+    {
+      "start": 180.32,
+      "end": 185.36,
+      "text": "your savings account to your checking account. If there is not enough money in your checking account"
+    },
+    {
+      "start": 185.36,
+      "end": 190.64,
+      "text": "to cover a transaction, we'll automatically transfer the required amount from your savings"
+    },
+    {
+      "start": 190.64,
+      "end": 197.76,
+      "text": "account to cover the transaction does avoiding overdraft fees. That sounds perfect. I like to"
+    },
+    {
+      "start": 197.76,
+      "end": 202.8,
+      "text": "set that up to avoid future charges. I'll take note of it, Sarah. I'll help you with that"
+    },
+    {
+      "start": 202.8,
+      "end": 206.88,
+      "text": "once we've resolved to issue with your debit card. Now, is there anything else that I could"
+    },
+    {
+      "start": 206.88,
+      "end": 214.08,
+      "text": "produce this to you with? No, that's all for now. Thank you for your help, Julie. You're welcome, Sarah."
+    },
+    {
+      "start": 214.08,
+      "end": 222.0,
+      "text": "If you have any other questions in the future, please don't hesitate to call us back."
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "_fAMKYxO-Gg",
+  "youtube_url": "https://www.youtube.com/watch?v=_fAMKYxO-Gg",
+  "clip_range_sec": [
+    20.0,
+    238.0
+  ],
+  "category": "banking",
+  "transcribe_elapsed_sec": 7.562103457981721
+}

@@ -1,4 +1,4 @@
-import { Play, Mic, MicOff, AlertTriangle, Phone, Shield } from 'lucide-react'
+import { Play, Mic, MicOff, AlertTriangle, Phone, Shield, Radio, SlidersHorizontal } from 'lucide-react'
 
 interface DemoControlsProps {
   onSelectCall: (callId: string) => void
@@ -41,17 +41,38 @@ export default function DemoControls({
   availableCalls,
 }: DemoControlsProps) {
   return (
-    <div className="glass-card p-4 sm:p-5">
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+    <div className="glass-card overflow-hidden p-0">
+      <div className="border-b border-white/10 bg-slate-950/40 px-4 py-3 sm:px-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="grid h-9 w-9 place-items-center rounded-lg border border-brand-teal/25 bg-brand-teal/10">
+              <SlidersHorizontal className="h-4 w-4 text-brand-teal-light" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white">Scenario Console</h3>
+              <p className="text-xs text-slate-500">Launch a call, enable live microphone role-play, and inspect model signals.</p>
+            </div>
+          </div>
+
+          {isCallActive && (
+            <div className="inline-flex items-center gap-2 rounded-full border border-safe/20 bg-safe/10 px-3 py-1.5">
+              <Radio className="h-3.5 w-3.5 animate-pulse text-safe" />
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-safe">Call Active</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row xl:items-start xl:justify-between">
         {/* Left: sample calls */}
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-          <div className="flex items-center gap-2 mr-2">
+        <div className="flex flex-1 flex-col gap-3">
+          <div className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-brand-teal" />
             <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
               Sample Calls
             </span>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
             {availableCalls.map((call) => {
               const config = callIcons[call.id] || {
                 icon: <Play className="w-3.5 h-3.5" />,
@@ -63,12 +84,19 @@ export default function DemoControls({
                   onClick={() => onSelectCall(call.id)}
                   disabled={isCallActive}
                   className={`
-                    control-button px-3 py-2 text-xs font-medium
+                    control-button min-h-[58px] justify-start px-3 py-3 text-left text-xs font-medium
                     ${isCallActive ? '' : config.color}
                   `}
                 >
-                  <Play className="w-3 h-3" />
-                  {call.description}
+                  <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-lg bg-white/5 text-slate-300">
+                    {config.icon}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate text-slate-200">{call.description}</span>
+                    <span className="mt-0.5 block text-[10px] font-normal text-slate-500">
+                      {call.id === 'legitimate' ? 'Benign baseline' : 'Risk pattern replay'}
+                    </span>
+                  </span>
                 </button>
               )
             })}
@@ -76,9 +104,9 @@ export default function DemoControls({
         </div>
 
         {/* Right: mic toggle */}
-        <div className="flex items-center gap-3">
-          <div className="h-6 w-px bg-dark-border/30" />
-          <div className="flex flex-col items-end gap-1">
+        <div className="flex min-w-0 flex-col gap-3 rounded-xl border border-white/10 bg-slate-950/30 p-3 xl:w-[330px]">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">Input Mode</span>
             <button
               onClick={onToggleMic}
               disabled={isCallActive}
@@ -100,10 +128,11 @@ export default function DemoControls({
               )}
               Live Mic
             </button>
+          </div>
 
             {!isCallActive && (
               <>
-                <span className={`text-[10px] ${isMicActive ? 'text-brand-teal/80' : 'text-gray-500'}`}>
+                <span className={`text-[11px] leading-4 ${isMicActive ? 'text-brand-teal/80' : 'text-gray-500'}`}>
                   {isMicActive
                     ? 'Mic is on for your side of role-play'
                     : 'Scripted caller mode: backend plays sample scam call lines'}
@@ -127,15 +156,6 @@ export default function DemoControls({
                 </select>
               </>
             )}
-          </div>
-
-          {/* Status indicator */}
-          {isCallActive && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-safe/10 border border-safe/20">
-              <div className="w-1.5 h-1.5 rounded-full bg-safe animate-pulse" />
-              <span className="text-[10px] text-safe font-medium">Call Active</span>
-            </div>
-          )}
         </div>
       </div>
     </div>

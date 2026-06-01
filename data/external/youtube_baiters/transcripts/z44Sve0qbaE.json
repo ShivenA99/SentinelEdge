@@ -1,0 +1,205 @@
+{
+  "text": "Learn? Master No. English. How to book an appointment with a doctor or GP by phone? Good morning. Clearway Health Center. This is James speaking. How can I help you today? Hi James. I was hoping to book an appointment with a GP. Sometime this week if possible. Of course. I can help you with that. Can I start by taking your full name and date of birth, please? Sure. My name's Sarah Sean. That's S-A-R-A-H-S-H-A-N. And my date of birth is the 18th of March 1991. Thank you Sarah. Let me just pull up your records. Okay, got you here. Have you been to our clinic before? Yes, a few times. I think I saw Dr. Patel last time. Great. Thanks for confirming. And can I ask what the appointment is regarding? Just so that I can note it down for the GP. Yeah, I've been having this sort of tightness in my chest on and off for the past few days. It's not severe or anything, but it's a bit uncomfortable and I figured I should get it checked out. That definitely sounds like something we should have a GP look into. Is it worse when you're active or when you're resting? Mostly when I'm walking quickly or going upstairs. It settles when I rest. Okay, thank you for letting me know. Since it's related to chest discomfort, I'd recommend trying to get seen sooner rather than later. Would you be able to come in tomorrow? Yeah, I can make time tomorrow. What times are available? Let's see. We've got a 10.30am with Dr. Patel or 3.15pm with Dr. Chan. Either one work for you? I'd prefer morning if possible, so 10.30 would Dr. Patel sounds good. Perfect. I'll book that in for you now. Just a quick note. If your symptoms get worse before the appointment, like if you feel short of breath or the pain gets severe, please don't wait. Go to accident and emergency if it's urgent or call 111 for advice. Okay, thank you. I will. Hopefully it's nothing serious, but better safe than sorry. Right? Exactly. It's always better to get these things looked at early. Is there anything else I can help you with today? Any prescriptions or other concerns? No, that's everything. Thank you so much for your help, James. You're very welcome, Sarah. We'll see you tomorrow at 10.30 with Dr. Patel. Just arrive five to ten minutes early to check in at reception. We'll do. Thanks again. Take care. You too. Bye for now. Bye bye.",
+  "segments": [
+    {
+      "start": 0.34,
+      "end": 3.34,
+      "text": "Learn? Master No. English."
+    },
+    {
+      "start": 3.34,
+      "end": 11.34,
+      "text": "How to book an appointment with a doctor or GP by phone?"
+    },
+    {
+      "start": 11.34,
+      "end": 22.05,
+      "text": "Good morning. Clearway Health Center."
+    },
+    {
+      "start": 22.05,
+      "end": 25.05,
+      "text": "This is James speaking. How can I help you today?"
+    },
+    {
+      "start": 25.05,
+      "end": 31.65,
+      "text": "Hi James. I was hoping to book an appointment with a GP."
+    },
+    {
+      "start": 31.65,
+      "end": 34.65,
+      "text": "Sometime this week if possible."
+    },
+    {
+      "start": 34.65,
+      "end": 37.65,
+      "text": "Of course. I can help you with that."
+    },
+    {
+      "start": 37.65,
+      "end": 41.65,
+      "text": "Can I start by taking your full name and date of birth, please?"
+    },
+    {
+      "start": 41.65,
+      "end": 53.31,
+      "text": "Sure. My name's Sarah Sean. That's S-A-R-A-H-S-H-A-N."
+    },
+    {
+      "start": 53.31,
+      "end": 59.94,
+      "text": "And my date of birth is the 18th of March 1991."
+    },
+    {
+      "start": 59.94,
+      "end": 62.94,
+      "text": "Thank you Sarah. Let me just pull up your records."
+    },
+    {
+      "start": 62.94,
+      "end": 71.21,
+      "text": "Okay, got you here. Have you been to our clinic before?"
+    },
+    {
+      "start": 71.21,
+      "end": 79.35,
+      "text": "Yes, a few times. I think I saw Dr. Patel last time."
+    },
+    {
+      "start": 79.35,
+      "end": 84.35,
+      "text": "Great. Thanks for confirming. And can I ask what the appointment is regarding?"
+    },
+    {
+      "start": 84.35,
+      "end": 87.35,
+      "text": "Just so that I can note it down for the GP."
+    },
+    {
+      "start": 87.35,
+      "end": 94.95,
+      "text": "Yeah, I've been having this sort of tightness in my chest on and off for the past few days."
+    },
+    {
+      "start": 94.95,
+      "end": 101.95,
+      "text": "It's not severe or anything, but it's a bit uncomfortable and I figured I should get it checked out."
+    },
+    {
+      "start": 101.95,
+      "end": 108.99,
+      "text": "That definitely sounds like something we should have a GP look into."
+    },
+    {
+      "start": 108.99,
+      "end": 111.99,
+      "text": "Is it worse when you're active or when you're resting?"
+    },
+    {
+      "start": 111.99,
+      "end": 118.91,
+      "text": "Mostly when I'm walking quickly or going upstairs. It settles when I rest."
+    },
+    {
+      "start": 118.91,
+      "end": 124.44,
+      "text": "Okay, thank you for letting me know."
+    },
+    {
+      "start": 124.44,
+      "end": 130.44,
+      "text": "Since it's related to chest discomfort, I'd recommend trying to get seen sooner rather than later."
+    },
+    {
+      "start": 130.44,
+      "end": 132.44,
+      "text": "Would you be able to come in tomorrow?"
+    },
+    {
+      "start": 132.44,
+      "end": 137.44,
+      "text": "Yeah, I can make time tomorrow. What times are available?"
+    },
+    {
+      "start": 137.44,
+      "end": 143.44,
+      "text": "Let's see. We've got a 10.30am with Dr. Patel or 3.15pm with Dr. Chan."
+    },
+    {
+      "start": 143.44,
+      "end": 145.44,
+      "text": "Either one work for you?"
+    },
+    {
+      "start": 145.44,
+      "end": 152.78,
+      "text": "I'd prefer morning if possible, so 10.30 would Dr. Patel sounds good."
+    },
+    {
+      "start": 152.78,
+      "end": 157.78,
+      "text": "Perfect. I'll book that in for you now. Just a quick note."
+    },
+    {
+      "start": 157.78,
+      "end": 164.78,
+      "text": "If your symptoms get worse before the appointment, like if you feel short of breath or the pain gets severe, please don't wait."
+    },
+    {
+      "start": 164.78,
+      "end": 169.78,
+      "text": "Go to accident and emergency if it's urgent or call 111 for advice."
+    },
+    {
+      "start": 169.78,
+      "end": 175.78,
+      "text": "Okay, thank you. I will. Hopefully it's nothing serious, but better safe than sorry."
+    },
+    {
+      "start": 175.78,
+      "end": 181.78,
+      "text": "Right? Exactly. It's always better to get these things looked at early."
+    },
+    {
+      "start": 181.78,
+      "end": 186.78,
+      "text": "Is there anything else I can help you with today? Any prescriptions or other concerns?"
+    },
+    {
+      "start": 186.78,
+      "end": 191.78,
+      "text": "No, that's everything. Thank you so much for your help, James."
+    },
+    {
+      "start": 191.78,
+      "end": 196.78,
+      "text": "You're very welcome, Sarah. We'll see you tomorrow at 10.30 with Dr. Patel."
+    },
+    {
+      "start": 196.78,
+      "end": 200.78,
+      "text": "Just arrive five to ten minutes early to check in at reception."
+    },
+    {
+      "start": 200.78,
+      "end": 204.78,
+      "text": "We'll do. Thanks again. Take care."
+    },
+    {
+      "start": 204.78,
+      "end": 207.78,
+      "text": "You too. Bye for now. Bye bye."
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "z44Sve0qbaE",
+  "youtube_url": "https://www.youtube.com/watch?v=z44Sve0qbaE",
+  "clip_range_sec": [
+    0.0,
+    0.0
+  ],
+  "category": "doctor_appointment",
+  "transcribe_elapsed_sec": 4.542343124980107
+}

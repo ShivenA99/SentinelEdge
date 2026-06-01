@@ -30,182 +30,182 @@
     {
       "perturbation": "word_swap",
       "rate": 0.0,
-      "stream_f1": 0.7287234042553191,
-      "stream_precision": 0.9716312056737588,
-      "stream_recall": 0.5829787234042553,
-      "stream_auroc": 0.9649558101472996,
-      "sent_f1": 0.5330197380557092,
-      "sent_auroc": 0.6835815602062463
+      "stream_f1": 0.726672171758877,
+      "stream_precision": 0.9523809523809523,
+      "stream_recall": 0.5874499332443258,
+      "stream_auroc": 0.9537504011283094,
+      "sent_f1": 0.5067605220706849,
+      "sent_auroc": 0.6346642306522832
     },
     {
       "perturbation": "word_swap",
       "rate": 0.05,
-      "stream_f1": 0.7155635062611807,
-      "stream_precision": 0.9685230024213075,
-      "stream_recall": 0.5673758865248227,
-      "stream_auroc": 0.963203491543917,
-      "sent_f1": 0.5328163943505954,
-      "sent_auroc": 0.6826185181591965
+      "stream_f1": 0.715,
+      "stream_precision": 0.9512195121951219,
+      "stream_recall": 0.5727636849132176,
+      "stream_auroc": 0.952054767385198,
+      "sent_f1": 0.5051246659422631,
+      "sent_auroc": 0.633431543500145
     },
     {
       "perturbation": "word_swap",
       "rate": 0.1,
-      "stream_f1": 0.6897810218978102,
-      "stream_precision": 0.9667519181585678,
-      "stream_recall": 0.5361702127659574,
-      "stream_auroc": 0.9613769776322968,
-      "sent_f1": 0.5271993692899875,
-      "sent_auroc": 0.6811812657629481
+      "stream_f1": 0.6881903143585386,
+      "stream_precision": 0.9462616822429907,
+      "stream_recall": 0.540720961281709,
+      "stream_auroc": 0.9488536644309128,
+      "sent_f1": 0.5014438092993105,
+      "sent_auroc": 0.6321728943203457
     },
     {
       "perturbation": "word_swap",
       "rate": 0.2,
-      "stream_f1": 0.6666666666666666,
-      "stream_precision": 0.96,
-      "stream_recall": 0.5106382978723404,
-      "stream_auroc": 0.9581014729950901,
-      "sent_f1": 0.5212889987408478,
-      "sent_auroc": 0.6786242873021167
+      "stream_f1": 0.6655172413793103,
+      "stream_precision": 0.9391727493917275,
+      "stream_recall": 0.5153538050734312,
+      "stream_auroc": 0.9467578928185156,
+      "sent_f1": 0.49692089057318806,
+      "sent_auroc": 0.6302603456623999
     },
     {
       "perturbation": "word_swap",
       "rate": 0.3,
-      "stream_f1": 0.6013579049466538,
-      "stream_precision": 0.950920245398773,
-      "stream_recall": 0.4397163120567376,
-      "stream_auroc": 0.9548761593016912,
-      "sent_f1": 0.5200804151666745,
-      "sent_auroc": 0.6767340548047737
+      "stream_f1": 0.6073674752920036,
+      "stream_precision": 0.9285714285714286,
+      "stream_recall": 0.4512683578104139,
+      "stream_auroc": 0.9417759782578553,
+      "sent_f1": 0.4950019280396286,
+      "sent_auroc": 0.6283677391734434
     },
     {
       "perturbation": "word_swap",
       "rate": 0.5,
-      "stream_f1": 0.5102880658436214,
-      "stream_precision": 0.9288389513108615,
-      "stream_recall": 0.3517730496453901,
-      "stream_auroc": 0.9455035460992908,
-      "sent_f1": 0.5021796815769523,
-      "sent_auroc": 0.671344727903657
+      "stream_f1": 0.5195052331113226,
+      "stream_precision": 0.9039735099337748,
+      "stream_recall": 0.3644859813084112,
+      "stream_auroc": 0.9311762864828673,
+      "sent_f1": 0.48079573371681944,
+      "sent_auroc": 0.6242552800982012
     },
     {
       "perturbation": "word_delete",
       "rate": 0.0,
-      "stream_f1": 0.7287234042553191,
-      "stream_precision": 0.9716312056737588,
-      "stream_recall": 0.5829787234042553,
-      "stream_auroc": 0.9649558101472996,
-      "sent_f1": 0.5330197380557092,
-      "sent_auroc": 0.6835815602062463
+      "stream_f1": 0.726672171758877,
+      "stream_precision": 0.9523809523809523,
+      "stream_recall": 0.5874499332443258,
+      "stream_auroc": 0.9537504011283094,
+      "sent_f1": 0.5067605220706849,
+      "sent_auroc": 0.6346642306522832
     },
     {
       "perturbation": "word_delete",
       "rate": 0.05,
-      "stream_f1": 0.6927985414767548,
-      "stream_precision": 0.9693877551020408,
-      "stream_recall": 0.5390070921985816,
-      "stream_auroc": 0.9615340971085652,
-      "sent_f1": 0.5272675897146086,
-      "sent_auroc": 0.6873387856080697
+      "stream_f1": 0.6943972835314092,
+      "stream_precision": 0.9533799533799534,
+      "stream_recall": 0.5460614152202937,
+      "stream_auroc": 0.949972861936588,
+      "sent_f1": 0.4971926890455143,
+      "sent_auroc": 0.6382390371016854
     },
     {
       "perturbation": "word_delete",
       "rate": 0.1,
-      "stream_f1": 0.6629422718808193,
-      "stream_precision": 0.964769647696477,
-      "stream_recall": 0.5049645390070922,
-      "stream_auroc": 0.9583458810692853,
-      "sent_f1": 0.5173026157907368,
-      "sent_auroc": 0.6898641954179221
+      "stream_f1": 0.662608695652174,
+      "stream_precision": 0.9501246882793017,
+      "stream_recall": 0.5086782376502003,
+      "stream_auroc": 0.9473580996224441,
+      "sent_f1": 0.48377975738043844,
+      "sent_auroc": 0.6405405265959302
     },
     {
       "perturbation": "word_delete",
       "rate": 0.2,
-      "stream_f1": 0.5782178217821782,
-      "stream_precision": 0.9573770491803278,
-      "stream_recall": 0.41418439716312055,
-      "stream_auroc": 0.9542214948172395,
-      "sent_f1": 0.4911546319828574,
-      "sent_auroc": 0.6898721131337485
+      "stream_f1": 0.5753931544865865,
+      "stream_precision": 0.9367469879518072,
+      "stream_recall": 0.4152202937249666,
+      "stream_auroc": 0.9417244753637887,
+      "sent_f1": 0.45552967835337066,
+      "sent_auroc": 0.6432321188597242
     },
     {
       "perturbation": "word_delete",
       "rate": 0.3,
-      "stream_f1": 0.48785638859556496,
-      "stream_precision": 0.9545454545454546,
-      "stream_recall": 0.3276595744680851,
-      "stream_auroc": 0.9502160392798691,
-      "sent_f1": 0.447651919255308,
-      "sent_auroc": 0.68088330436636
+      "stream_f1": 0.49060336300692386,
+      "stream_precision": 0.9465648854961832,
+      "stream_recall": 0.3311081441922563,
+      "stream_auroc": 0.9383817394508207,
+      "sent_f1": 0.41494591937069814,
+      "sent_auroc": 0.6391344267811065
     },
     {
       "perturbation": "word_delete",
       "rate": 0.5,
-      "stream_f1": 0.2764423076923077,
-      "stream_precision": 0.905511811023622,
-      "stream_recall": 0.16312056737588654,
-      "stream_auroc": 0.9081047463175121,
-      "sent_f1": 0.33045739274317454,
-      "sent_auroc": 0.6416724396687257
+      "stream_f1": 0.281214848143982,
+      "stream_precision": 0.8928571428571429,
+      "stream_recall": 0.16688918558077437,
+      "stream_auroc": 0.8981312372976036,
+      "sent_f1": 0.30934860622757093,
+      "sent_auroc": 0.6168916612888958
     },
     {
       "perturbation": "char_noise",
       "rate": 0.0,
-      "stream_f1": 0.7287234042553191,
-      "stream_precision": 0.9716312056737588,
-      "stream_recall": 0.5829787234042553,
-      "stream_auroc": 0.9649558101472996,
-      "sent_f1": 0.5330197380557092,
-      "sent_auroc": 0.6835815602062463
+      "stream_f1": 0.726672171758877,
+      "stream_precision": 0.9523809523809523,
+      "stream_recall": 0.5874499332443258,
+      "stream_auroc": 0.9537504011283094,
+      "sent_f1": 0.5067605220706849,
+      "sent_auroc": 0.6346642306522832
     },
     {
       "perturbation": "char_noise",
       "rate": 0.05,
-      "stream_f1": 0.5913555992141454,
-      "stream_precision": 0.9616613418530351,
-      "stream_recall": 0.4269503546099291,
-      "stream_auroc": 0.964582651391162,
-      "sent_f1": 0.527048491077268,
-      "sent_auroc": 0.6811665621458374
+      "stream_f1": 0.5956284153005464,
+      "stream_precision": 0.9369627507163324,
+      "stream_recall": 0.43658210947930576,
+      "stream_auroc": 0.9518210234813579,
+      "sent_f1": 0.4965865241911546,
+      "sent_auroc": 0.6307578672026384
     },
     {
       "perturbation": "char_noise",
       "rate": 0.1,
-      "stream_f1": 0.4883720930232558,
-      "stream_precision": 0.9585062240663901,
-      "stream_recall": 0.3276595744680851,
-      "stream_auroc": 0.9542258592471358,
-      "sent_f1": 0.5063484486873508,
-      "sent_auroc": 0.6740821809242542
+      "stream_f1": 0.492156862745098,
+      "stream_precision": 0.9261992619926199,
+      "stream_recall": 0.33511348464619495,
+      "stream_auroc": 0.9397554801060167,
+      "sent_f1": 0.4771008530461613,
+      "sent_auroc": 0.6244851353004556
     },
     {
       "perturbation": "char_noise",
       "rate": 0.2,
-      "stream_f1": 0.3031026252983294,
-      "stream_precision": 0.9548872180451128,
-      "stream_recall": 0.18014184397163122,
-      "stream_auroc": 0.9498799781778504,
-      "sent_f1": 0.4514851485148515,
-      "sent_auroc": 0.6675042418364785
+      "stream_f1": 0.32229580573951433,
+      "stream_precision": 0.9299363057324841,
+      "stream_recall": 0.19492656875834447,
+      "stream_auroc": 0.9330135531846616,
+      "sent_f1": 0.41974045899124207,
+      "sent_auroc": 0.6159119753104695
     },
     {
       "perturbation": "char_noise",
       "rate": 0.3,
-      "stream_f1": 0.19592875318066158,
-      "stream_precision": 0.9506172839506173,
-      "stream_recall": 0.10921985815602837,
-      "stream_auroc": 0.9361887615930168,
-      "sent_f1": 0.39771025037449176,
-      "sent_auroc": 0.6641381256694472
+      "stream_f1": 0.20616113744075829,
+      "stream_precision": 0.9157894736842105,
+      "stream_recall": 0.11615487316421896,
+      "stream_auroc": 0.9191444180767235,
+      "sent_f1": 0.36386871132633847,
+      "sent_auroc": 0.6134916096003604
     },
     {
       "perturbation": "char_noise",
       "rate": 0.5,
-      "stream_f1": 0.06310013717421124,
-      "stream_precision": 0.9583333333333334,
-      "stream_recall": 0.032624113475177303,
-      "stream_auroc": 0.9361374795417348,
-      "sent_f1": 0.3613556338028169,
-      "sent_auroc": 0.6657650392699259
+      "stream_f1": 0.06426735218508997,
+      "stream_precision": 0.8620689655172413,
+      "stream_recall": 0.03337783711615487,
+      "stream_auroc": 0.9186680163066085,
+      "sent_f1": 0.3158114600013925,
+      "sent_auroc": 0.6116530460629793
     }
   ]
 }

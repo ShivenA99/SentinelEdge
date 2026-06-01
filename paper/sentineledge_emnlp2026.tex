@@ -54,20 +54,22 @@
 \begin{abstract}
 We present \textsc{SentinelEdge}, an open-source streaming detector
 for English-language scam phone calls in which an
-$\HeadlineDim$-feature, $\HeadlineSize$~MB hand-crafted feature
-classifier head reaches per-call streaming $F_1 = \HeadlineFOne$ at
-$\HeadlineLat$~ms p50 per-sentence latency on a single CPU thread
-($\HeadlineThroughput$~sentences/sec). Per-sentence probabilities
-are smoothed by an exponential moving average; alerts fire when the
-smoothed score crosses a threshold, flagging the median scam within
-$\TtdMedianSent$ sentences ($\approx\TtdMedianSec$~s of speech). We
-benchmark this minimal classifier against TF--IDF, combined-feature,
-SVM, XGBoost, and DistilBERT~\citep{Sanh2020DistilBERT} variants
-inside the same streaming framework, and find that linear models on
-hand-crafted features match or exceed heavier classifiers on
-clean data. We further measure robustness to ASR-style perturbations
-and adversarial scam phrasings, report adversarial retraining for
-both the linear and tree-based heads, and quantify zero-shot
+$\HeadlineDim$-feature, $\HeadlineSizeKB$~KB hand-crafted feature
+classifier head reaches per-call streaming $F_1 = \HeadlineFOne$,
+retaining $\HeadlineFRetentionDistilPct\%$ of a fine-tuned
+DistilBERT's streaming $F_1$ while being roughly
+$\DistilOverLRSize\times$ smaller and $\DistilOverLRLatency\times$
+faster per sentence on a single CPU thread. Per-sentence
+probabilities are smoothed by an exponential moving average; alerts
+fire when the smoothed score crosses a threshold, flagging the
+median scam within $\TtdMedianSent$ sentences
+($\approx\TtdMedianSec$~s of speech). We benchmark this minimal
+classifier against TF--IDF, combined-feature, SVM, XGBoost, and
+DistilBERT~\citep{Sanh2020DistilBERT} variants inside the same
+streaming framework. We further measure robustness to ASR-style
+perturbations and adversarial scam phrasings, report adversarial
+retraining for both the linear and tree-based heads, and quantify
+zero-shot
 cross-channel transfer to SMS and phishing URLs. Code, trained
 model, evaluation harness, and a live web demonstration are
 released under MIT license. Live demo: \texttt{\DemoUrl}. Video:
@@ -306,12 +308,19 @@ $\TtdMidSent$ ($\approx\TtdMidSec$~s).
 \paragraph{Classifier-head comparison and quality-latency Pareto.}
 Table~\ref{tab:baselines} compares all six heads inside the
 identical streaming framework. The $\HeadlineDim$-feature LR head
-(bolded) matches or exceeds every heavier classifier on clean
-streaming $F_1$, while requiring orders of magnitude less compute
-and storage. DistilBERT achieves competitive streaming quality but
-at $\SpeedupVsDistil\times$ higher latency and
-$\SizeRatioVsDistil\times$ larger model size. XGBoost on the union
-of features ($518$-dim) reaches $F_1 = \StreamFOne$ on clean data;
+(bolded) reaches $F_1 = \HeadlineFOne$, retaining
+$\HeadlineFRetentionDistilPct\%$ of DistilBERT's streaming $F_1$
+while requiring orders of magnitude less compute and storage.
+DistilBERT achieves the highest absolute streaming quality but at
+$\DistilOverLRLatency\times$ higher latency and
+$\DistilOverLRSize\times$ larger model size. Expressed as an
+auxiliary efficiency metric, the linear head exceeds XGBoost by
+$\LRvsXgbFPerKB\times$ and DistilBERT by
+$\LRvsDistilFPerKB\times$ in $F_1$ per megabyte; this dominance is
+driven by model size, with the linear head still retaining
+$\HeadlineFRetentionDistilPct\%$ of DistilBERT's absolute $F_1$.
+XGBoost on the union of features ($518$-dim) reaches
+$F_1 = \StreamFOne$ on clean data;
 its advantage emerges under adversarial conditions, where it
 recovers more F1 points after retraining than the linear head does
 (Section~\ref{sec:robust}). For the demo we ship XGBoost as a

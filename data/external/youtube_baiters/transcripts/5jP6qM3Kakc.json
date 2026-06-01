@@ -1,0 +1,145 @@
+{
+  "text": "At the doctors. Hi. My name is John Burke. I have an appointment to see Dr. Gray. Of course. Please take a seat, Mr. Burke. The doctor will see you soon. Mr. Burke? The doctor will see you now. Great. Thanks. What seems to be the trouble, Mr. Burke? I feel terrible. My body aches. I have a running nose and a bad cough. I see. Yes. Your temperature is very high too. You have a fever. It looks like you have the flu. Do you have any allergies? I don't think so. Okay. Great. I'm going to prescribe some medicine. Please take it twice every day. Once in the morning. And once before bed. You should feel better in a few days. Great. Thank you.",
+  "segments": [
+    {
+      "start": 5.1,
+      "end": 7.1,
+      "text": "At the doctors."
+    },
+    {
+      "start": 8.1,
+      "end": 12.1,
+      "text": "Hi. My name is John Burke."
+    },
+    {
+      "start": 13.1,
+      "end": 17.1,
+      "text": "I have an appointment to see Dr. Gray."
+    },
+    {
+      "start": 17.1,
+      "end": 19.1,
+      "text": "Of course."
+    },
+    {
+      "start": 19.1,
+      "end": 22.1,
+      "text": "Please take a seat, Mr. Burke."
+    },
+    {
+      "start": 22.1,
+      "end": 24.1,
+      "text": "The doctor will see you soon."
+    },
+    {
+      "start": 24.1,
+      "end": 31.13,
+      "text": "Mr. Burke?"
+    },
+    {
+      "start": 31.13,
+      "end": 33.13,
+      "text": "The doctor will see you now."
+    },
+    {
+      "start": 33.13,
+      "end": 38.5,
+      "text": "Great. Thanks."
+    },
+    {
+      "start": 38.5,
+      "end": 41.5,
+      "text": "What seems to be the trouble, Mr. Burke?"
+    },
+    {
+      "start": 42.5,
+      "end": 45.5,
+      "text": "I feel terrible."
+    },
+    {
+      "start": 45.5,
+      "end": 48.5,
+      "text": "My body aches."
+    },
+    {
+      "start": 48.5,
+      "end": 53.5,
+      "text": "I have a running nose and a bad cough."
+    },
+    {
+      "start": 53.5,
+      "end": 55.5,
+      "text": "I see."
+    },
+    {
+      "start": 55.5,
+      "end": 63.38,
+      "text": "Yes. Your temperature is very high too."
+    },
+    {
+      "start": 63.38,
+      "end": 65.38,
+      "text": "You have a fever."
+    },
+    {
+      "start": 65.38,
+      "end": 68.38,
+      "text": "It looks like you have the flu."
+    },
+    {
+      "start": 68.38,
+      "end": 71.38,
+      "text": "Do you have any allergies?"
+    },
+    {
+      "start": 72.38,
+      "end": 74.38,
+      "text": "I don't think so."
+    },
+    {
+      "start": 74.38,
+      "end": 77.38,
+      "text": "Okay. Great."
+    },
+    {
+      "start": 77.38,
+      "end": 80.38,
+      "text": "I'm going to prescribe some medicine."
+    },
+    {
+      "start": 80.38,
+      "end": 84.38,
+      "text": "Please take it twice every day."
+    },
+    {
+      "start": 84.38,
+      "end": 87.38,
+      "text": "Once in the morning."
+    },
+    {
+      "start": 87.38,
+      "end": 90.38,
+      "text": "And once before bed."
+    },
+    {
+      "start": 90.38,
+      "end": 94.38,
+      "text": "You should feel better in a few days."
+    },
+    {
+      "start": 94.38,
+      "end": 97.38,
+      "text": "Great. Thank you."
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "5jP6qM3Kakc",
+  "youtube_url": "https://www.youtube.com/watch?v=5jP6qM3Kakc",
+  "clip_range_sec": [
+    0.0,
+    103.0
+  ],
+  "category": "doctor_appointment",
+  "transcribe_elapsed_sec": 2.2935783329885453
+}

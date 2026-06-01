@@ -1,4 +1,4 @@
-# SentinelEdge Demo - Hugging Face Spaces Deployment
+# SentinelEdge Demo - Fly.io / container deployment
 # Serves React frontend + FastAPI backend from a single container
 
 FROM node:20-slim AS frontend-build
@@ -36,8 +36,8 @@ COPY --from=frontend-build /build/dist /app/static
 # Copy the deployment server entrypoint
 COPY deploy_server.py .
 
-# HF Spaces expects port 7860
-ENV PORT=7860
-EXPOSE 7860
+# Fly.io routes to the process port configured in fly.toml.
+ENV PORT=8080
+EXPOSE 8080
 
 CMD ["python", "deploy_server.py"]

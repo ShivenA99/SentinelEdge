@@ -50,6 +50,10 @@ model_store/
 # Large data files (regenerate with training/generate_synthetic_data.py)
 data/raw/
 data/processed/
+data/external/youtube_baiters/audio/
+data/external/youtube_baiters/*.bak
+data/external/youtube_baiters/*_full.mp3
+data/external/youtube_baiters/*.mp3
 
 # Large model artifacts (regenerate with training scripts)
 models/*.onnx

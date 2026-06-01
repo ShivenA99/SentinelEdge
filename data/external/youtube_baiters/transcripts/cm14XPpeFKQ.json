@@ -1,0 +1,735 @@
+{
+  "text": "My first name is Steve, and my last name is English. The spelling is English, like the language, sir? Yes, that's correct. Okay, Mr. English, could you please verify your date of birth? Sure, it's June 10, 1998. Thank you, sir. June 10, 1998. I am pulling up your account, Mr. English. All right, sounds good. Here we are. Let's see. Yes, it does show that your date of usage has increased over the past three months. That's why I'm calling. Sir, could you tell me what kind of phone you're using? I'm on an Android. I'm on has the same meaning as I have an Android. Or you could say, I'm using an Android. I see, do you often watch videos or download large files? No, not that often. That's why it's a bit of a mystery to me. Okay, Mr. English, thank you for that. Do you think there is something wrong with my phone? I'm not quite sure, but let me check something out for you. May I put you on hold for a few minutes? Sure, no problem. Thank you, Mr. English. Hello, sir, thank you for your patience. Could I walk you through a few steps in the settings on your phone? Um, can I check my phone while I'm talking with you? Yes, sir, you can put me on speakerphone and still be able to check the settings on your phone. Okay, I'll give it a try. Could you find the settings on your phone? Yeah, I think so. Hold on a sec settings. Yeah, here it is. I got it. Excellent, sir. Next, select settings and then look for a data usage. Give me a second data usage. Okay, I hit that. What's next? The expression I hit that has the same meaning as I chose that. Or you could say I selected that. After that, you are looking for cellular data usage. Right, let me scroll a bit. Where is that? Yep, found it. Sir, if you click on that button, it should show you which apps use the most data on your smartphone. Click on is an expression that means select. Oh, I never knew this was here. Duh, I guess I do use a few social media sites. That's all right, sir. Is there anything else I can do to lower my data usage? Well, sir, you could try to use Wi-Fi networks at home and at work. Also, you could try connecting to Wi-Fi while you are outside your home or workplace. I see, but is that safe? Your home network and workplace should have passwords. However, I cannot guarantee that it will be 100% secure. Also, you may want to refrain from sending personal information using public networks. Yeah, I don't send anything important using public Wi-Fi. Do you have any other advice on ways I can use less data? Let me see. If you are calendar contacts and email sync every 15 minutes, that may drain your data. How can I check that? Have a look under settings, then choose accounts and set your email, calendar and contact apps to sync data every few hours or set them to only sync when connected to Wi-Fi. Hold on, let me find that. Settings and then accounts. That's correct, Mr. English. Take your time, sir. Accounts. Aha! I was set on 15 minutes. I'll be darned. Are you able to set it to two or three hours or only on Wi-Fi? Yes, hold on. I think so. Setting it to three hours. Cool, very cool. That should help you, Mr. English. If you follow those steps, it should lower your monthly data usage. That's awesome, Mario. You've been a huge help. My pleasure, sir. Is there anything else I can assist you with today? No. I think that'll do it. Thank you, sir. One more thing. Would you mind staying on the line to answer a brief survey after our call is completed? No, I don't mind. You've been great. It's the least I can do. Thank you so much, Mr. English. And thank you for calling Bueno Phone. Thanks so much for your help. Goodbye, sir. Goodbye, Mario. Call center phone company. Call number two. Call center agent. And customer. Hello. Thank you for calling single step mobile. This is John speaking. How may I assist you? Hello. I bought a new phone a few months ago. And recently, I noticed that the screen got cracked. All right, ma'am. Could you please tell me your phone number? Yes, hold on. I actually have to look that up. Here it is. It's 415-521-0851. Thank you for that. May I have the name on your account, please? Yes, it's Carol Holmes. Thank you, Ms. Holmes. Pardon me. How do you spell your last name? It's H-O-L-M-E-S. That's H as in hotel, always an Oscar. L as in Lima. M as in Mike. E as in Echo. And S as in Sierra. Is that correct? Yes, that's right. Thank you, Ms. Holmes. Am I covered for insurance for the cracked screen? Let me pull up your account information. This should only take a few seconds. I really hope I'm covered for this. Let me see. You bought this phone at our Novato store. You have the full insurance package, which is coverage for one year. This does include any damage to your screen. Oh, great. How do I get it replaced? You will need to bring the phone into one of our authorized repair stores along with a picture ID. A picture ID equals a photo ID. It usually has your picture or photo along with your address. Will my driver's license be okay? Sure. That'll be fine.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 5.6,
+      "text": "My first name is Steve, and my last name is English."
+    },
+    {
+      "start": 5.6,
+      "end": 10.0,
+      "text": "The spelling is English, like the language, sir?"
+    },
+    {
+      "start": 10.0,
+      "end": 12.0,
+      "text": "Yes, that's correct."
+    },
+    {
+      "start": 12.0,
+      "end": 16.0,
+      "text": "Okay, Mr. English, could you please verify your date of birth?"
+    },
+    {
+      "start": 16.0,
+      "end": 21.0,
+      "text": "Sure, it's June 10, 1998."
+    },
+    {
+      "start": 21.0,
+      "end": 25.31,
+      "text": "Thank you, sir. June 10, 1998."
+    },
+    {
+      "start": 25.31,
+      "end": 28.31,
+      "text": "I am pulling up your account, Mr. English."
+    },
+    {
+      "start": 28.31,
+      "end": 30.31,
+      "text": "All right, sounds good."
+    },
+    {
+      "start": 30.31,
+      "end": 33.31,
+      "text": "Here we are. Let's see."
+    },
+    {
+      "start": 33.31,
+      "end": 36.31,
+      "text": "Yes, it does show that your date of usage has increased"
+    },
+    {
+      "start": 36.31,
+      "end": 38.31,
+      "text": "over the past three months."
+    },
+    {
+      "start": 38.31,
+      "end": 40.31,
+      "text": "That's why I'm calling."
+    },
+    {
+      "start": 40.31,
+      "end": 44.31,
+      "text": "Sir, could you tell me what kind of phone you're using?"
+    },
+    {
+      "start": 44.31,
+      "end": 47.31,
+      "text": "I'm on an Android."
+    },
+    {
+      "start": 47.31,
+      "end": 53.31,
+      "text": "I'm on has the same meaning as I have an Android."
+    },
+    {
+      "start": 53.31,
+      "end": 58.31,
+      "text": "Or you could say, I'm using an Android."
+    },
+    {
+      "start": 59.31,
+      "end": 66.31,
+      "text": "I see, do you often watch videos or download large files?"
+    },
+    {
+      "start": 66.31,
+      "end": 68.31,
+      "text": "No, not that often."
+    },
+    {
+      "start": 68.31,
+      "end": 72.31,
+      "text": "That's why it's a bit of a mystery to me."
+    },
+    {
+      "start": 72.31,
+      "end": 75.31,
+      "text": "Okay, Mr. English, thank you for that."
+    },
+    {
+      "start": 75.31,
+      "end": 80.31,
+      "text": "Do you think there is something wrong with my phone?"
+    },
+    {
+      "start": 80.31,
+      "end": 84.31,
+      "text": "I'm not quite sure, but let me check something out for you."
+    },
+    {
+      "start": 84.31,
+      "end": 86.31,
+      "text": "May I put you on hold for a few minutes?"
+    },
+    {
+      "start": 86.31,
+      "end": 89.31,
+      "text": "Sure, no problem."
+    },
+    {
+      "start": 89.31,
+      "end": 91.31,
+      "text": "Thank you, Mr. English."
+    },
+    {
+      "start": 91.31,
+      "end": 98.82,
+      "text": "Hello, sir, thank you for your patience."
+    },
+    {
+      "start": 98.82,
+      "end": 102.82,
+      "text": "Could I walk you through a few steps in the settings on your phone?"
+    },
+    {
+      "start": 102.82,
+      "end": 107.82,
+      "text": "Um, can I check my phone while I'm talking with you?"
+    },
+    {
+      "start": 107.82,
+      "end": 112.82,
+      "text": "Yes, sir, you can put me on speakerphone and still be able to check the settings on your phone."
+    },
+    {
+      "start": 112.82,
+      "end": 118.26,
+      "text": "Okay, I'll give it a try."
+    },
+    {
+      "start": 118.26,
+      "end": 121.26,
+      "text": "Could you find the settings on your phone?"
+    },
+    {
+      "start": 121.26,
+      "end": 127.26,
+      "text": "Yeah, I think so. Hold on a sec settings."
+    },
+    {
+      "start": 127.26,
+      "end": 130.26,
+      "text": "Yeah, here it is. I got it."
+    },
+    {
+      "start": 130.26,
+      "end": 132.26,
+      "text": "Excellent, sir."
+    },
+    {
+      "start": 132.26,
+      "end": 136.26,
+      "text": "Next, select settings and then look for a data usage."
+    },
+    {
+      "start": 136.26,
+      "end": 139.26,
+      "text": "Give me a second data usage."
+    },
+    {
+      "start": 139.26,
+      "end": 142.26,
+      "text": "Okay, I hit that."
+    },
+    {
+      "start": 142.26,
+      "end": 144.26,
+      "text": "What's next?"
+    },
+    {
+      "start": 144.26,
+      "end": 150.26,
+      "text": "The expression I hit that has the same meaning as I chose that."
+    },
+    {
+      "start": 150.26,
+      "end": 155.26,
+      "text": "Or you could say I selected that."
+    },
+    {
+      "start": 155.26,
+      "end": 159.26,
+      "text": "After that, you are looking for cellular data usage."
+    },
+    {
+      "start": 159.26,
+      "end": 163.26,
+      "text": "Right, let me scroll a bit. Where is that?"
+    },
+    {
+      "start": 163.26,
+      "end": 166.26,
+      "text": "Yep, found it."
+    },
+    {
+      "start": 166.26,
+      "end": 173.26,
+      "text": "Sir, if you click on that button, it should show you which apps use the most data on your smartphone."
+    },
+    {
+      "start": 173.26,
+      "end": 179.26,
+      "text": "Click on is an expression that means select."
+    },
+    {
+      "start": 179.26,
+      "end": 182.26,
+      "text": "Oh, I never knew this was here."
+    },
+    {
+      "start": 182.26,
+      "end": 190.09,
+      "text": "Duh, I guess I do use a few social media sites."
+    },
+    {
+      "start": 190.09,
+      "end": 192.09,
+      "text": "That's all right, sir."
+    },
+    {
+      "start": 192.09,
+      "end": 197.09,
+      "text": "Is there anything else I can do to lower my data usage?"
+    },
+    {
+      "start": 197.09,
+      "end": 202.09,
+      "text": "Well, sir, you could try to use Wi-Fi networks at home and at work."
+    },
+    {
+      "start": 202.09,
+      "end": 207.09,
+      "text": "Also, you could try connecting to Wi-Fi while you are outside your home or workplace."
+    },
+    {
+      "start": 207.09,
+      "end": 211.09,
+      "text": "I see, but is that safe?"
+    },
+    {
+      "start": 211.09,
+      "end": 215.09,
+      "text": "Your home network and workplace should have passwords."
+    },
+    {
+      "start": 215.09,
+      "end": 219.09,
+      "text": "However, I cannot guarantee that it will be 100% secure."
+    },
+    {
+      "start": 219.09,
+      "end": 224.09,
+      "text": "Also, you may want to refrain from sending personal information using public networks."
+    },
+    {
+      "start": 224.09,
+      "end": 229.09,
+      "text": "Yeah, I don't send anything important using public Wi-Fi."
+    },
+    {
+      "start": 229.09,
+      "end": 235.09,
+      "text": "Do you have any other advice on ways I can use less data?"
+    },
+    {
+      "start": 235.09,
+      "end": 237.09,
+      "text": "Let me see."
+    },
+    {
+      "start": 237.09,
+      "end": 243.09,
+      "text": "If you are calendar contacts and email sync every 15 minutes, that may drain your data."
+    },
+    {
+      "start": 243.09,
+      "end": 246.56,
+      "text": "How can I check that?"
+    },
+    {
+      "start": 246.56,
+      "end": 254.56,
+      "text": "Have a look under settings, then choose accounts and set your email, calendar and contact apps to sync data every few hours"
+    },
+    {
+      "start": 254.56,
+      "end": 257.56,
+      "text": "or set them to only sync when connected to Wi-Fi."
+    },
+    {
+      "start": 257.56,
+      "end": 259.56,
+      "text": "Hold on, let me find that."
+    },
+    {
+      "start": 259.56,
+      "end": 263.56,
+      "text": "Settings and then accounts."
+    },
+    {
+      "start": 263.56,
+      "end": 265.56,
+      "text": "That's correct, Mr. English."
+    },
+    {
+      "start": 265.56,
+      "end": 267.56,
+      "text": "Take your time, sir."
+    },
+    {
+      "start": 267.56,
+      "end": 269.56,
+      "text": "Accounts."
+    },
+    {
+      "start": 269.56,
+      "end": 271.56,
+      "text": "Aha!"
+    },
+    {
+      "start": 271.56,
+      "end": 273.56,
+      "text": "I was set on 15 minutes."
+    },
+    {
+      "start": 273.56,
+      "end": 275.56,
+      "text": "I'll be darned."
+    },
+    {
+      "start": 275.56,
+      "end": 281.56,
+      "text": "Are you able to set it to two or three hours or only on Wi-Fi?"
+    },
+    {
+      "start": 281.56,
+      "end": 283.56,
+      "text": "Yes, hold on."
+    },
+    {
+      "start": 283.56,
+      "end": 285.56,
+      "text": "I think so."
+    },
+    {
+      "start": 285.56,
+      "end": 288.56,
+      "text": "Setting it to three hours."
+    },
+    {
+      "start": 288.56,
+      "end": 291.56,
+      "text": "Cool, very cool."
+    },
+    {
+      "start": 291.56,
+      "end": 293.56,
+      "text": "That should help you, Mr. English."
+    },
+    {
+      "start": 293.56,
+      "end": 297.56,
+      "text": "If you follow those steps, it should lower your monthly data usage."
+    },
+    {
+      "start": 297.56,
+      "end": 299.56,
+      "text": "That's awesome, Mario."
+    },
+    {
+      "start": 299.56,
+      "end": 302.56,
+      "text": "You've been a huge help."
+    },
+    {
+      "start": 302.56,
+      "end": 304.56,
+      "text": "My pleasure, sir."
+    },
+    {
+      "start": 304.56,
+      "end": 306.56,
+      "text": "Is there anything else I can assist you with today?"
+    },
+    {
+      "start": 306.56,
+      "end": 307.56,
+      "text": "No."
+    },
+    {
+      "start": 307.56,
+      "end": 309.56,
+      "text": "I think that'll do it."
+    },
+    {
+      "start": 309.56,
+      "end": 312.13,
+      "text": "Thank you, sir."
+    },
+    {
+      "start": 312.13,
+      "end": 313.13,
+      "text": "One more thing."
+    },
+    {
+      "start": 313.13,
+      "end": 319.13,
+      "text": "Would you mind staying on the line to answer a brief survey after our call is completed?"
+    },
+    {
+      "start": 319.13,
+      "end": 321.13,
+      "text": "No, I don't mind."
+    },
+    {
+      "start": 321.13,
+      "end": 322.13,
+      "text": "You've been great."
+    },
+    {
+      "start": 322.13,
+      "end": 325.13,
+      "text": "It's the least I can do."
+    },
+    {
+      "start": 325.13,
+      "end": 327.13,
+      "text": "Thank you so much, Mr. English."
+    },
+    {
+      "start": 327.13,
+      "end": 330.13,
+      "text": "And thank you for calling Bueno Phone."
+    },
+    {
+      "start": 330.13,
+      "end": 332.13,
+      "text": "Thanks so much for your help."
+    },
+    {
+      "start": 332.13,
+      "end": 335.63,
+      "text": "Goodbye, sir."
+    },
+    {
+      "start": 335.63,
+      "end": 336.63,
+      "text": "Goodbye, Mario."
+    },
+    {
+      "start": 336.63,
+      "end": 338.63,
+      "text": "Call center phone company."
+    },
+    {
+      "start": 338.63,
+      "end": 341.63,
+      "text": "Call number two."
+    },
+    {
+      "start": 341.63,
+      "end": 343.63,
+      "text": "Call center agent."
+    },
+    {
+      "start": 343.63,
+      "end": 346.63,
+      "text": "And customer."
+    },
+    {
+      "start": 346.63,
+      "end": 349.58,
+      "text": "Hello."
+    },
+    {
+      "start": 349.58,
+      "end": 351.58,
+      "text": "Thank you for calling single step mobile."
+    },
+    {
+      "start": 351.58,
+      "end": 353.58,
+      "text": "This is John speaking."
+    },
+    {
+      "start": 353.58,
+      "end": 355.58,
+      "text": "How may I assist you?"
+    },
+    {
+      "start": 355.58,
+      "end": 357.58,
+      "text": "Hello."
+    },
+    {
+      "start": 357.58,
+      "end": 359.58,
+      "text": "I bought a new phone a few months ago."
+    },
+    {
+      "start": 359.58,
+      "end": 362.58,
+      "text": "And recently, I noticed that the screen got cracked."
+    },
+    {
+      "start": 362.58,
+      "end": 364.58,
+      "text": "All right, ma'am."
+    },
+    {
+      "start": 364.58,
+      "end": 368.58,
+      "text": "Could you please tell me your phone number?"
+    },
+    {
+      "start": 368.58,
+      "end": 369.58,
+      "text": "Yes, hold on."
+    },
+    {
+      "start": 369.58,
+      "end": 371.58,
+      "text": "I actually have to look that up."
+    },
+    {
+      "start": 371.58,
+      "end": 372.58,
+      "text": "Here it is."
+    },
+    {
+      "start": 372.58,
+      "end": 378.58,
+      "text": "It's 415-521-0851."
+    },
+    {
+      "start": 378.58,
+      "end": 380.58,
+      "text": "Thank you for that."
+    },
+    {
+      "start": 380.58,
+      "end": 385.38,
+      "text": "May I have the name on your account, please?"
+    },
+    {
+      "start": 385.38,
+      "end": 388.38,
+      "text": "Yes, it's Carol Holmes."
+    },
+    {
+      "start": 388.38,
+      "end": 390.38,
+      "text": "Thank you, Ms. Holmes."
+    },
+    {
+      "start": 390.38,
+      "end": 391.38,
+      "text": "Pardon me."
+    },
+    {
+      "start": 391.38,
+      "end": 394.85,
+      "text": "How do you spell your last name?"
+    },
+    {
+      "start": 394.85,
+      "end": 399.85,
+      "text": "It's H-O-L-M-E-S."
+    },
+    {
+      "start": 399.85,
+      "end": 403.85,
+      "text": "That's H as in hotel, always an Oscar."
+    },
+    {
+      "start": 403.85,
+      "end": 405.85,
+      "text": "L as in Lima."
+    },
+    {
+      "start": 405.85,
+      "end": 406.85,
+      "text": "M as in Mike."
+    },
+    {
+      "start": 406.85,
+      "end": 408.85,
+      "text": "E as in Echo."
+    },
+    {
+      "start": 408.85,
+      "end": 410.85,
+      "text": "And S as in Sierra."
+    },
+    {
+      "start": 410.85,
+      "end": 412.85,
+      "text": "Is that correct?"
+    },
+    {
+      "start": 412.85,
+      "end": 415.85,
+      "text": "Yes, that's right."
+    },
+    {
+      "start": 415.85,
+      "end": 417.85,
+      "text": "Thank you, Ms. Holmes."
+    },
+    {
+      "start": 417.85,
+      "end": 421.85,
+      "text": "Am I covered for insurance for the cracked screen?"
+    },
+    {
+      "start": 421.85,
+      "end": 424.85,
+      "text": "Let me pull up your account information."
+    },
+    {
+      "start": 424.85,
+      "end": 428.85,
+      "text": "This should only take a few seconds."
+    },
+    {
+      "start": 428.85,
+      "end": 431.85,
+      "text": "I really hope I'm covered for this."
+    },
+    {
+      "start": 431.85,
+      "end": 433.85,
+      "text": "Let me see."
+    },
+    {
+      "start": 433.85,
+      "end": 437.85,
+      "text": "You bought this phone at our Novato store."
+    },
+    {
+      "start": 437.85,
+      "end": 440.85,
+      "text": "You have the full insurance package,"
+    },
+    {
+      "start": 440.85,
+      "end": 443.85,
+      "text": "which is coverage for one year."
+    },
+    {
+      "start": 443.85,
+      "end": 448.85,
+      "text": "This does include any damage to your screen."
+    },
+    {
+      "start": 448.85,
+      "end": 449.85,
+      "text": "Oh, great."
+    },
+    {
+      "start": 449.85,
+      "end": 453.1,
+      "text": "How do I get it replaced?"
+    },
+    {
+      "start": 453.1,
+      "end": 457.1,
+      "text": "You will need to bring the phone into one of our authorized"
+    },
+    {
+      "start": 457.1,
+      "end": 462.1,
+      "text": "repair stores along with a picture ID."
+    },
+    {
+      "start": 462.1,
+      "end": 466.1,
+      "text": "A picture ID equals a photo ID."
+    },
+    {
+      "start": 466.1,
+      "end": 471.1,
+      "text": "It usually has your picture or photo along with your address."
+    },
+    {
+      "start": 471.1,
+      "end": 475.14,
+      "text": "Will my driver's license be okay?"
+    },
+    {
+      "start": 475.14,
+      "end": 476.14,
+      "text": "Sure."
+    },
+    {
+      "start": 476.14,
+      "end": 477.14,
+      "text": "That'll be fine."
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "cm14XPpeFKQ",
+  "youtube_url": "https://www.youtube.com/watch?v=cm14XPpeFKQ",
+  "clip_range_sec": [
+    60.0,
+    540.0
+  ],
+  "category": "telco",
+  "transcribe_elapsed_sec": 16.149358625058085
+}

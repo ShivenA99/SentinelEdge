@@ -1,0 +1,430 @@
+{
+  "text": "I can help you. Do you know your account number? Yes, I have it on my computer. The number is 045301681. Okay, let me pull up your account information. Thank you. May I have your full name, please? Yes, it's Tina S. Johnson. Thank you, Ms. Johnson. Could you please confirm your mailing address? 104 Lincoln Street, Avon, Ohio, 44011. Thank you for verifying that information, Ms. Johnson. I will cancel your current card and request a new ATM card. How long will it take to get the new card? It takes three to five business days. There's no way to get it sooner? I'm so sorry, Ms. Johnson. That is our bank's policy. That's fine. I understand. Is there anything else I can help you with? No, thanks. I'll just wait for my new card. Thank you for calling Global Bank. Goodbye. Goodbye. Roleplay, scene number two. Thank you for calling Megabank. My name is Kevin. How may I assist you today? Hello, Kevin. I have a question about my credit card statement. Yes, ma'am, I can help you with that. Thank you. May I have your account number, please? Sure. My account number is 05293671. Thank you. Just give me a moment to access your account. Okay, thank you. For security reasons, may I have the last four digits of your Social Security number? Yes, sure. It's 4, 3, 2, 1. Thank you. And may I have your first and last name, please? My first name is Nancy, and my last name is Harper. Thank you, Ms. Harper. Was this for your most recent statement? Yes, that's right. It seems that I have been charged twice on the 15th. I see two charges for 189.54. Are you referring to these charges? That's right. There should only be one charge. Okay, Ms. Harper, I will start an investigation of the second charge. How long will that take? Usually within 24 hours, ma'am. And then what happens? We will confirm with the merchant that there was only one charge. After the merchant confirms, will the second charge be removed? Yes, ma'am, it should be. Please check your account in three business days. Okay, I'll do that. Is there anything else I can help you with? No, I think that will be all. Thank you for calling Megabank, Ms. Harper. Thank you for your help. Goodbye. Have a nice day. Roleplay. Scene number three. Hello. I have a question about my debit account? Yes, sir. My name is Sarah. I can help you with that. There's a transaction on my account that I don't understand. Sir, may I have your account number, please? Sure. It's 045-85-8342. All right. Let me pull up that information for you. Thank you. For verification purposes, may I have your full name, please? Yes, it's Charles T. Jones. Mr. Jones, which charge in your account would you like to check on? I had to put you on speakerphone. Can you hear me? Yes, Mr. Jones, I can hear you fine. Okay, it's the charge on the 12th in the amount of 228-38. Yes, I do see that charge on the 12th. You don't recall making a purchase from that merchant? No, I don't believe I made that purchase. If you would like, I can contact the merchant and ask them about it. Sure, that would be great. I'd appreciate it. My pleasure, Mr. Jones. May I put you on hold for a few minutes. Yes, sure. That'll be fine. Mr. Jones, I was able to reach the merchant and they said that an order was placed and a delivery was made to your address. Hmm, that sounds odd. Sir, is there any chance a family member may have used your card? I don't think so, but I will have to check on that. If that is not the case, please call back and we will resolve the issue. I will do that. Thank you for your help. My pleasure, sir. Have a very nice day. Thank you. You too.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 5.0,
+      "text": "I can help you. Do you know your account number?"
+    },
+    {
+      "start": 5.0,
+      "end": 10.0,
+      "text": "Yes, I have it on my computer."
+    },
+    {
+      "start": 10.0,
+      "end": 18.0,
+      "text": "The number is 045301681."
+    },
+    {
+      "start": 18.0,
+      "end": 23.0,
+      "text": "Okay, let me pull up your account information."
+    },
+    {
+      "start": 23.0,
+      "end": 25.0,
+      "text": "Thank you."
+    },
+    {
+      "start": 25.0,
+      "end": 29.0,
+      "text": "May I have your full name, please?"
+    },
+    {
+      "start": 29.0,
+      "end": 33.0,
+      "text": "Yes, it's Tina S. Johnson."
+    },
+    {
+      "start": 33.0,
+      "end": 36.0,
+      "text": "Thank you, Ms. Johnson."
+    },
+    {
+      "start": 36.0,
+      "end": 40.0,
+      "text": "Could you please confirm your mailing address?"
+    },
+    {
+      "start": 40.0,
+      "end": 48.0,
+      "text": "104 Lincoln Street, Avon, Ohio, 44011."
+    },
+    {
+      "start": 48.0,
+      "end": 53.0,
+      "text": "Thank you for verifying that information, Ms. Johnson."
+    },
+    {
+      "start": 53.0,
+      "end": 59.0,
+      "text": "I will cancel your current card and request a new ATM card."
+    },
+    {
+      "start": 59.0,
+      "end": 62.0,
+      "text": "How long will it take to get the new card?"
+    },
+    {
+      "start": 62.0,
+      "end": 67.25,
+      "text": "It takes three to five business days."
+    },
+    {
+      "start": 67.25,
+      "end": 70.25,
+      "text": "There's no way to get it sooner?"
+    },
+    {
+      "start": 70.25,
+      "end": 75.25,
+      "text": "I'm so sorry, Ms. Johnson. That is our bank's policy."
+    },
+    {
+      "start": 75.25,
+      "end": 79.25,
+      "text": "That's fine. I understand."
+    },
+    {
+      "start": 79.25,
+      "end": 83.25,
+      "text": "Is there anything else I can help you with?"
+    },
+    {
+      "start": 83.25,
+      "end": 88.25,
+      "text": "No, thanks. I'll just wait for my new card."
+    },
+    {
+      "start": 88.25,
+      "end": 91.25,
+      "text": "Thank you for calling Global Bank."
+    },
+    {
+      "start": 91.25,
+      "end": 92.25,
+      "text": "Goodbye."
+    },
+    {
+      "start": 92.25,
+      "end": 94.25,
+      "text": "Goodbye."
+    },
+    {
+      "start": 94.25,
+      "end": 98.25,
+      "text": "Roleplay, scene number two."
+    },
+    {
+      "start": 98.25,
+      "end": 102.25,
+      "text": "Thank you for calling Megabank."
+    },
+    {
+      "start": 102.25,
+      "end": 104.25,
+      "text": "My name is Kevin."
+    },
+    {
+      "start": 104.25,
+      "end": 106.25,
+      "text": "How may I assist you today?"
+    },
+    {
+      "start": 106.25,
+      "end": 112.25,
+      "text": "Hello, Kevin. I have a question about my credit card statement."
+    },
+    {
+      "start": 112.25,
+      "end": 115.25,
+      "text": "Yes, ma'am, I can help you with that."
+    },
+    {
+      "start": 115.25,
+      "end": 117.25,
+      "text": "Thank you."
+    },
+    {
+      "start": 117.25,
+      "end": 120.25,
+      "text": "May I have your account number, please?"
+    },
+    {
+      "start": 120.25,
+      "end": 128.25,
+      "text": "Sure. My account number is 05293671."
+    },
+    {
+      "start": 128.25,
+      "end": 133.25,
+      "text": "Thank you. Just give me a moment to access your account."
+    },
+    {
+      "start": 133.25,
+      "end": 136.25,
+      "text": "Okay, thank you."
+    },
+    {
+      "start": 136.25,
+      "end": 143.25,
+      "text": "For security reasons, may I have the last four digits of your Social Security number?"
+    },
+    {
+      "start": 143.25,
+      "end": 148.25,
+      "text": "Yes, sure. It's 4, 3, 2, 1."
+    },
+    {
+      "start": 148.25,
+      "end": 153.25,
+      "text": "Thank you. And may I have your first and last name, please?"
+    },
+    {
+      "start": 153.25,
+      "end": 159.25,
+      "text": "My first name is Nancy, and my last name is Harper."
+    },
+    {
+      "start": 159.25,
+      "end": 164.25,
+      "text": "Thank you, Ms. Harper. Was this for your most recent statement?"
+    },
+    {
+      "start": 164.25,
+      "end": 172.25,
+      "text": "Yes, that's right. It seems that I have been charged twice on the 15th."
+    },
+    {
+      "start": 172.25,
+      "end": 180.25,
+      "text": "I see two charges for 189.54. Are you referring to these charges?"
+    },
+    {
+      "start": 180.25,
+      "end": 185.25,
+      "text": "That's right. There should only be one charge."
+    },
+    {
+      "start": 185.25,
+      "end": 192.25,
+      "text": "Okay, Ms. Harper, I will start an investigation of the second charge."
+    },
+    {
+      "start": 192.25,
+      "end": 195.25,
+      "text": "How long will that take?"
+    },
+    {
+      "start": 195.25,
+      "end": 199.25,
+      "text": "Usually within 24 hours, ma'am."
+    },
+    {
+      "start": 199.25,
+      "end": 202.25,
+      "text": "And then what happens?"
+    },
+    {
+      "start": 202.25,
+      "end": 208.25,
+      "text": "We will confirm with the merchant that there was only one charge."
+    },
+    {
+      "start": 208.25,
+      "end": 214.25,
+      "text": "After the merchant confirms, will the second charge be removed?"
+    },
+    {
+      "start": 214.25,
+      "end": 220.25,
+      "text": "Yes, ma'am, it should be. Please check your account in three business days."
+    },
+    {
+      "start": 220.25,
+      "end": 223.25,
+      "text": "Okay, I'll do that."
+    },
+    {
+      "start": 223.25,
+      "end": 227.25,
+      "text": "Is there anything else I can help you with?"
+    },
+    {
+      "start": 227.25,
+      "end": 230.25,
+      "text": "No, I think that will be all."
+    },
+    {
+      "start": 230.25,
+      "end": 234.25,
+      "text": "Thank you for calling Megabank, Ms. Harper."
+    },
+    {
+      "start": 234.25,
+      "end": 236.25,
+      "text": "Thank you for your help."
+    },
+    {
+      "start": 236.25,
+      "end": 239.25,
+      "text": "Goodbye. Have a nice day."
+    },
+    {
+      "start": 239.25,
+      "end": 243.25,
+      "text": "Roleplay. Scene number three."
+    },
+    {
+      "start": 243.25,
+      "end": 247.25,
+      "text": "Hello. I have a question about my debit account?"
+    },
+    {
+      "start": 247.25,
+      "end": 252.25,
+      "text": "Yes, sir. My name is Sarah. I can help you with that."
+    },
+    {
+      "start": 252.25,
+      "end": 257.25,
+      "text": "There's a transaction on my account that I don't understand."
+    },
+    {
+      "start": 257.25,
+      "end": 261.25,
+      "text": "Sir, may I have your account number, please?"
+    },
+    {
+      "start": 261.25,
+      "end": 270.25,
+      "text": "Sure. It's 045-85-8342."
+    },
+    {
+      "start": 270.25,
+      "end": 275.25,
+      "text": "All right. Let me pull up that information for you."
+    },
+    {
+      "start": 275.25,
+      "end": 277.25,
+      "text": "Thank you."
+    },
+    {
+      "start": 277.25,
+      "end": 283.25,
+      "text": "For verification purposes, may I have your full name, please?"
+    },
+    {
+      "start": 283.25,
+      "end": 287.25,
+      "text": "Yes, it's Charles T. Jones."
+    },
+    {
+      "start": 287.25,
+      "end": 293.25,
+      "text": "Mr. Jones, which charge in your account would you like to check on?"
+    },
+    {
+      "start": 293.25,
+      "end": 298.25,
+      "text": "I had to put you on speakerphone. Can you hear me?"
+    },
+    {
+      "start": 298.25,
+      "end": 302.25,
+      "text": "Yes, Mr. Jones, I can hear you fine."
+    },
+    {
+      "start": 302.25,
+      "end": 309.25,
+      "text": "Okay, it's the charge on the 12th in the amount of 228-38."
+    },
+    {
+      "start": 309.25,
+      "end": 313.25,
+      "text": "Yes, I do see that charge on the 12th."
+    },
+    {
+      "start": 313.25,
+      "end": 318.25,
+      "text": "You don't recall making a purchase from that merchant?"
+    },
+    {
+      "start": 318.25,
+      "end": 322.25,
+      "text": "No, I don't believe I made that purchase."
+    },
+    {
+      "start": 322.25,
+      "end": 328.25,
+      "text": "If you would like, I can contact the merchant and ask them about it."
+    },
+    {
+      "start": 328.25,
+      "end": 332.25,
+      "text": "Sure, that would be great. I'd appreciate it."
+    },
+    {
+      "start": 332.25,
+      "end": 338.25,
+      "text": "My pleasure, Mr. Jones. May I put you on hold for a few minutes."
+    },
+    {
+      "start": 338.25,
+      "end": 341.25,
+      "text": "Yes, sure. That'll be fine."
+    },
+    {
+      "start": 341.25,
+      "end": 354.64,
+      "text": "Mr. Jones, I was able to reach the merchant and they said that an order was placed and a delivery was made to your address."
+    },
+    {
+      "start": 354.64,
+      "end": 357.64,
+      "text": "Hmm, that sounds odd."
+    },
+    {
+      "start": 357.64,
+      "end": 363.64,
+      "text": "Sir, is there any chance a family member may have used your card?"
+    },
+    {
+      "start": 363.64,
+      "end": 368.64,
+      "text": "I don't think so, but I will have to check on that."
+    },
+    {
+      "start": 368.64,
+      "end": 374.64,
+      "text": "If that is not the case, please call back and we will resolve the issue."
+    },
+    {
+      "start": 374.64,
+      "end": 377.64,
+      "text": "I will do that. Thank you for your help."
+    },
+    {
+      "start": 377.64,
+      "end": 381.64,
+      "text": "My pleasure, sir. Have a very nice day."
+    },
+    {
+      "start": 381.64,
+      "end": 384.64,
+      "text": "Thank you. You too."
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "o34GHVojoiY",
+  "youtube_url": "https://www.youtube.com/watch?v=o34GHVojoiY",
+  "clip_range_sec": [
+    20.0,
+    418.0
+  ],
+  "category": "banking",
+  "transcribe_elapsed_sec": 13.01079895813018
+}

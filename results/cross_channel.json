@@ -45,7 +45,7 @@
         846,
         1165
       ],
-      "scoring_sec": 2.548888166900724
+      "scoring_sec": 3.5255972088780254
     },
     "sms": {
       "label": "SMS Spam Collection",
@@ -82,7 +82,7 @@
         159,
         59
       ],
-      "scoring_sec": 2.661930625094101
+      "scoring_sec": 3.507960499962792
     },
     "urls": {
       "label": "Phishing URLs",
@@ -119,7 +119,7 @@
         1,
         1
       ],
-      "scoring_sec": 1.6955034579150379
+      "scoring_sec": 2.3312933328561485
     }
   }
 }

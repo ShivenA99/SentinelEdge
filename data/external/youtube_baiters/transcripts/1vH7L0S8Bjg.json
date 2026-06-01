@@ -1,0 +1,25 @@
+{
+  "text": "Oh, thank you for calling Apple, this is me. Yeah, um.",
+  "segments": [
+    {
+      "start": 1.78,
+      "end": 4.54,
+      "text": "Oh, thank you for calling Apple, this is me."
+    },
+    {
+      "start": 4.54,
+      "end": 5.38,
+      "text": "Yeah, um."
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "1vH7L0S8Bjg",
+  "youtube_url": "https://www.youtube.com/watch?v=1vH7L0S8Bjg",
+  "clip_range_sec": [
+    0.0,
+    156.0
+  ],
+  "category": "tech_support",
+  "transcribe_elapsed_sec": 0.9048835830762982
+}

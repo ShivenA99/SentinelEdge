@@ -1,0 +1,125 @@
+{
+  "text": "Hi, thank you for calling phone plus. My name is Jolene. How many of us is here today? Hi, I've noticed some discrepancies in my resume bill. There are charges that I believe are inaccurate and I'd like to dispute them. Sure. Thank you for letting us know about this. I immediately understand the word in so bad quit billing. So I'll do my best. This is you, okay? Okay, just start with may have your account number or the phone number associated with your account. Certainly my account number is three to six one four three four one one. Thank you. And the can you please confirm your first and last name? It's Jane Bailey B-A-I-L-E-Y Thank you, Jane. I'm looking at your account now Could you please specify which charges on your bill at causing concern? Yeah, there's a charge for service that I canceled before this billing period. I believe there was December 15th for $55 All right. Thank you for providing that information. Let me investigate further. Please bear with me for a moment, okay? Yeah, sure. By the way, I have a confirmation that I canceled it completely before this billing cycle. Okay, that's great. Jane, it seems there was an oversight and the canceled service charge Should not have been included in this billing cycle. I sincerely apologize for any confusion. This may have caused I will process a credit for the incorrect charge, which is the $55 And you should see the correction in your next billing statement, okay? Okay, that's great. Thank you so much. Angelina, I appreciate your help. You're welcome Jane. And again, I apologize for any convenience If you have any more questions or if there is anything else you'd like to discuss, please don't hesitate to let us know Of Jane, is there anything else that I could further assist you with? Nail City. That's everything. Thank you. All right, then. Thank you for calling phone plus. Have a good one. Bye Mm-hmm, good bye",
+  "segments": [
+    {
+      "start": 3.28,
+      "end": 7.6,
+      "text": "Hi, thank you for calling phone plus. My name is Jolene. How many of us is here today?"
+    },
+    {
+      "start": 8.72,
+      "end": 16.56,
+      "text": "Hi, I've noticed some discrepancies in my resume bill. There are charges that I believe are inaccurate and I'd like to dispute them."
+    },
+    {
+      "start": 17.44,
+      "end": 26.08,
+      "text": "Sure. Thank you for letting us know about this. I immediately understand the word in so bad quit billing. So I'll do my best. This is you, okay?"
+    },
+    {
+      "start": 27.12,
+      "end": 32.48,
+      "text": "Okay, just start with may have your account number or the phone number associated with your account."
+    },
+    {
+      "start": 33.44,
+      "end": 47.2,
+      "text": "Certainly my account number is three to six one four three four one one. Thank you. And the can you please confirm your first and last name?"
+    },
+    {
+      "start": 48.0,
+      "end": 50.0,
+      "text": "It's Jane Bailey"
+    },
+    {
+      "start": 50.56,
+      "end": 52.56,
+      "text": "B-A-I-L-E-Y"
+    },
+    {
+      "start": 54.56,
+      "end": 57.8,
+      "text": "Thank you, Jane. I'm looking at your account now"
+    },
+    {
+      "start": 58.64,
+      "end": 62.84,
+      "text": "Could you please specify which charges on your bill at causing concern?"
+    },
+    {
+      "start": 63.8,
+      "end": 72.52,
+      "text": "Yeah, there's a charge for service that I canceled before this billing period. I believe there was December 15th for $55"
+    },
+    {
+      "start": 73.64,
+      "end": 81.24,
+      "text": "All right. Thank you for providing that information. Let me investigate further. Please bear with me for a moment, okay?"
+    },
+    {
+      "start": 83.16,
+      "end": 90.28,
+      "text": "Yeah, sure. By the way, I have a confirmation that I canceled it completely before this billing cycle."
+    },
+    {
+      "start": 91.08,
+      "end": 93.08,
+      "text": "Okay, that's great."
+    },
+    {
+      "start": 94.84,
+      "end": 103.53,
+      "text": "Jane, it seems there was an oversight and the canceled service charge"
+    },
+    {
+      "start": 104.33,
+      "end": 110.97,
+      "text": "Should not have been included in this billing cycle. I sincerely apologize for any confusion. This may have caused"
+    },
+    {
+      "start": 111.77,
+      "end": 115.69,
+      "text": "I will process a credit for the incorrect charge, which is the $55"
+    },
+    {
+      "start": 116.41,
+      "end": 120.17,
+      "text": "And you should see the correction in your next billing statement, okay?"
+    },
+    {
+      "start": 120.97,
+      "end": 128.97,
+      "text": "Okay, that's great. Thank you so much. Angelina, I appreciate your help. You're welcome Jane. And again, I apologize for any convenience"
+    },
+    {
+      "start": 129.61,
+      "end": 135.77,
+      "text": "If you have any more questions or if there is anything else you'd like to discuss, please don't hesitate to let us know"
+    },
+    {
+      "start": 136.41,
+      "end": 138.97,
+      "text": "Of Jane, is there anything else that I could further assist you with?"
+    },
+    {
+      "start": 139.85,
+      "end": 147.13,
+      "text": "Nail City. That's everything. Thank you. All right, then. Thank you for calling phone plus. Have a good one. Bye"
+    },
+    {
+      "start": 147.13,
+      "end": 150.09,
+      "text": "Mm-hmm, good bye"
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "1LIL2nonofM",
+  "youtube_url": "https://www.youtube.com/watch?v=1LIL2nonofM",
+  "clip_range_sec": [
+    0.0,
+    153.0
+  ],
+  "category": "billing",
+  "transcribe_elapsed_sec": 5.226629874901846
+}

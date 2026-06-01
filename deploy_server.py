@@ -1,6 +1,7 @@
-"""
-SentinelEdge deployment server for Hugging Face Spaces.
-Adds static file serving to the demo backend app.
+"""SentinelEdge deployment server.
+
+Serves the FastAPI backend, hub routes, and built React frontend from one
+process. The same entrypoint works for Fly.io and local container runs.
 """
 
 import os
@@ -37,7 +38,7 @@ if static_dir.exists():
         return FileResponse(str(static_dir / "index.html"))
 
 
-port = int(os.environ.get("PORT", 7860))
+port = int(os.environ.get("PORT", 8080))
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=port)

@@ -1,0 +1,1165 @@
+{
+  "text": "is why she asked the question to clarify. This right here is the first part of probing. In order to find the solution, you have to define the problem as specifically as you can. And in this case, the specific problem is a complete loss of connection. Now that we've determined the problem, we need to find the solution, and we do that by finding out the cause of the problem and then addressing that problem. Here's the complicated part. With most technical issues, the cause of the problem is never straightforward. For example, in this scenario, a complete loss of connection, I can think of five different possible reasons why Sophie is experiencing this. And it could be a modern issue, could be an outage in the area. It could be that Sophie did not pay her bill, or forgot to pay her bill, a device issue, or it could be an obscure issue that only a technician could solve. So what does this mean for your ADHD or average handling time? This means that you have to investigate five possible causes within a limited average handling time, meaning you have to do it as short as possible as fast as possible. How exactly do you do that? Based on these five hypotheses, how do you make your troubleshooting process as fast and efficient and short as possible? Do you have an idea? You have five seconds to answer that question. And the answer is, you need to start with the hypothesis that takes the least amount of time to confirm. As you can see in this table, it's the power outage and the non-payment that take the least amount of time to confirm. So the sooner you can rule these two out, the faster and more simplified it will be for you. So I made a call float chart. For you to make sense of everything that Candace is telling the customer to do, here we start with a call. Thank you for calling, question, technical support. And then the customer says that she has no internet connection and that is a complete loss of connection, right? So of course what you do is you pull a per account, obviously. Now, after pulling a per account, you have to start with the possible cause that takes the least amount of time to confirm. In this case is to check for outages, right? And then you have to ask yourself, is there an outage? If the answer is yes, all you have to do is to advice the customer to wait for the fix because no amount of troubleshooting will solve her issue, but to just wait for the fix from the company. What happens after that is the end of the call, that's it, that's all you have to do if it's an outage issue. You cannot do anything else. And so if it's not an outage issue, what you have to do is to check for unpaid services. And if she does have an unpaid bill, you have to advise her to settle her balance. That's the only solution for this problem. And then you end the call. But if it's not an unpaid bill, then it could be a modern issue or a device issue. In which case you have to have the customer check if a second device can connect to the internet and check the light indicators. Can a second device connect? If a second device can connect and the lights on the bottom are green, that means that it is a possible issue of the first device because why else could the other device connect? So in this case, what you have to do is to ensure that the internet physical setup is correct, that cable is undamaged and properly plugged or that the internet configuration setting is correct. So you basically have to pay attention to your device setup. But let's say that a second device also cannot connect and there may be red lights, not green lights. It will be under no. And so if that's the case, then it is a possible modern issue in which case you have to ask the customer to reset her modem. Did the reset work? And the answer if the answer is no, then your last resort would be to dispatch a technician because that's the last resort. So whatever happens here is you can see everything will lead to you ending the call. But some problems, as you can see, are less complicated and take less time to solve and others like modern issue and issue of the device, take longer to solve. So now we're gonna continue with a mock call. Is it an intermittent connection where it's cutting in and out or is it a complete loss of connection? A complete loss. It's not just low or, as you said, intermittent connection? No, I've been reloading it for 30 minutes straight now and there is nothing whatsoever. I see, okay. Okay. So I'm gonna start troubleshooting now. First thing I'm gonna do is to check for outages in your area and for that, I would need to pull up your account. May I have your account number? It's two and three, four, five, six, eight, seven, nine. Thank you. Notice this pattern because this is crucial. ERC or explanation request compliance. So this is a very common pattern when making a request to your customer. It's gonna be like this throughout the call. ERC, ERC, a continuous cycle of ERC until there is a solution. But how exactly does ERC look like? As you heard earlier, the agent said, so the first thing I'm gonna do now is to pull up your account to check for outages in your area. So that is the explanation. In this case, the agent is telling the customer her plan as to how she would go about solving her problems. In the request part, she said, may you know your account number? After that, we know that the request is successful because the customer gave her account number. So that's the first ERC cycle of this call. Now let's proceed and I want you to notice the next one. So I'm gonna start troubleshooting now. First thing I'm gonna do is to check for outages in your area and for that, I would need to pull up your account. May I have your account number? It's two and three, four, five, six, eight, seven, nine. Eight, seven, nine. Thank you. And your complete name and best callback number? Sophie Collins, nine, six, two, one, six, four, four, five, six, six. Awesome. And your four-digit passcode. Oh, come on, are you kidding me? What is that? Where can I find that? Do you remember the four-digit passcode you set up when you ordered our service? I don't know. I don't know. Um, try one, four, two, six. Okay, one, four, two, six. Okay, got it. And lastly, I just need the address where your internet is installed so I can check if there's an ongoing outage in your area. One, six, five, Winterfell Street, Philadelphia, Pennsylvania, one, nine, go, nine, three. Thank you. One moment, please. While I'm checking for outages, by the way, Candace at this moment is not just checking for outages. She's also checking for unpaid bills, but she's not actually gonna tell Sophie that. Because what's the point of saying, great, Sophie. I see that your loss of connection isn't caused by an unpaid bill. What's the point of saying that? That would be catastrophic for the rapport. The likely response of Sophie would be like, of course I paid, do you think I'm an idiot? You're wasting my time, fix my connection now. Why are you checking my billing history? Of course I paid. So you don't want that to happen. Check the billing history of your customer secretly and only bring up that issue if she really has an unpaid bill. All right, there's no outage in your area and there's no open tickets admitted so far. So this brings us to the possible issue with either your modem or your device. And for me to identify which, I'm going to ask you a series of questions to diagnose the problem. Is that okay with you? Okay, fair enough. Did you notice that? That's the second cycle of ERC. There's no outage in your area and there's no open tickets admitted so far. So this brings us to the possible issue with either your modem or your device and then it's followed by the request. And for me to identify which, I'm going to ask you a series of questions to diagnose the problem. Is that okay with you? Okay, fair enough. The customer would have no problem complying because she knows the purpose of those questions. This pattern is like saying, this is the current status. Here's what I need you to do. And if you do that, I'm going to provide you an update or better yet a resolution later. So it's a give and take relationship. You're making your customer do things, but at the same time, you're giving something in return because what usually happens is that agents tend to ask, ask, ask without giving anything in return. God only knows what the plan is, whether there's any progress. The customers don't have a clue. They feel lost and they feel impatient and no wonder. Whereas with ERC, your performance.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 3.28,
+      "text": "is why she asked the question to clarify."
+    },
+    {
+      "start": 3.28,
+      "end": 6.92,
+      "text": "This right here is the first part of probing."
+    },
+    {
+      "start": 6.92,
+      "end": 8.92,
+      "text": "In order to find the solution,"
+    },
+    {
+      "start": 8.92,
+      "end": 13.92,
+      "text": "you have to define the problem as specifically as you can."
+    },
+    {
+      "start": 14.28,
+      "end": 17.08,
+      "text": "And in this case, the specific problem"
+    },
+    {
+      "start": 17.08,
+      "end": 19.52,
+      "text": "is a complete loss of connection."
+    },
+    {
+      "start": 20.72,
+      "end": 22.56,
+      "text": "Now that we've determined the problem,"
+    },
+    {
+      "start": 22.56,
+      "end": 24.04,
+      "text": "we need to find the solution,"
+    },
+    {
+      "start": 24.04,
+      "end": 28.0,
+      "text": "and we do that by finding out the cause of the problem"
+    },
+    {
+      "start": 28.0,
+      "end": 30.24,
+      "text": "and then addressing that problem."
+    },
+    {
+      "start": 30.24,
+      "end": 32.12,
+      "text": "Here's the complicated part."
+    },
+    {
+      "start": 32.12,
+      "end": 34.28,
+      "text": "With most technical issues,"
+    },
+    {
+      "start": 34.28,
+      "end": 38.0,
+      "text": "the cause of the problem is never straightforward."
+    },
+    {
+      "start": 38.0,
+      "end": 39.52,
+      "text": "For example, in this scenario,"
+    },
+    {
+      "start": 39.52,
+      "end": 41.36,
+      "text": "a complete loss of connection,"
+    },
+    {
+      "start": 41.36,
+      "end": 45.28,
+      "text": "I can think of five different possible reasons"
+    },
+    {
+      "start": 45.28,
+      "end": 48.36,
+      "text": "why Sophie is experiencing this."
+    },
+    {
+      "start": 48.36,
+      "end": 50.32,
+      "text": "And it could be a modern issue,"
+    },
+    {
+      "start": 50.32,
+      "end": 51.96,
+      "text": "could be an outage in the area."
+    },
+    {
+      "start": 51.96,
+      "end": 54.64,
+      "text": "It could be that Sophie did not pay her bill,"
+    },
+    {
+      "start": 54.64,
+      "end": 56.56,
+      "text": "or forgot to pay her bill,"
+    },
+    {
+      "start": 56.56,
+      "end": 57.88,
+      "text": "a device issue,"
+    },
+    {
+      "start": 57.88,
+      "end": 60.32,
+      "text": "or it could be an obscure issue"
+    },
+    {
+      "start": 60.32,
+      "end": 62.88,
+      "text": "that only a technician could solve."
+    },
+    {
+      "start": 62.88,
+      "end": 65.32,
+      "text": "So what does this mean for your ADHD"
+    },
+    {
+      "start": 65.32,
+      "end": 67.64,
+      "text": "or average handling time?"
+    },
+    {
+      "start": 67.64,
+      "end": 72.64,
+      "text": "This means that you have to investigate five possible causes"
+    },
+    {
+      "start": 73.08,
+      "end": 76.08,
+      "text": "within a limited average handling time,"
+    },
+    {
+      "start": 76.08,
+      "end": 79.64,
+      "text": "meaning you have to do it as short as possible"
+    },
+    {
+      "start": 79.64,
+      "end": 81.56,
+      "text": "as fast as possible."
+    },
+    {
+      "start": 81.56,
+      "end": 83.4,
+      "text": "How exactly do you do that?"
+    },
+    {
+      "start": 83.4,
+      "end": 85.96,
+      "text": "Based on these five hypotheses,"
+    },
+    {
+      "start": 86.0,
+      "end": 89.12,
+      "text": "how do you make your troubleshooting process as fast"
+    },
+    {
+      "start": 89.12,
+      "end": 92.68,
+      "text": "and efficient and short as possible?"
+    },
+    {
+      "start": 92.68,
+      "end": 94.4,
+      "text": "Do you have an idea?"
+    },
+    {
+      "start": 94.4,
+      "end": 102.0,
+      "text": "You have five seconds to answer that question."
+    },
+    {
+      "start": 102.0,
+      "end": 103.12,
+      "text": "And the answer is,"
+    },
+    {
+      "start": 103.12,
+      "end": 105.4,
+      "text": "you need to start with the hypothesis"
+    },
+    {
+      "start": 105.4,
+      "end": 108.68,
+      "text": "that takes the least amount of time to confirm."
+    },
+    {
+      "start": 108.68,
+      "end": 110.0,
+      "text": "As you can see in this table,"
+    },
+    {
+      "start": 110.0,
+      "end": 112.92,
+      "text": "it's the power outage and the non-payment"
+    },
+    {
+      "start": 112.92,
+      "end": 116.4,
+      "text": "that take the least amount of time to confirm."
+    },
+    {
+      "start": 116.4,
+      "end": 118.84,
+      "text": "So the sooner you can rule these two out,"
+    },
+    {
+      "start": 118.84,
+      "end": 122.4,
+      "text": "the faster and more simplified it will be for you."
+    },
+    {
+      "start": 122.4,
+      "end": 125.28,
+      "text": "So I made a call float chart."
+    },
+    {
+      "start": 125.28,
+      "end": 126.8,
+      "text": "For you to make sense of everything"
+    },
+    {
+      "start": 126.8,
+      "end": 128.96,
+      "text": "that Candace is telling the customer to do,"
+    },
+    {
+      "start": 128.96,
+      "end": 132.08,
+      "text": "here we start with a call."
+    },
+    {
+      "start": 132.08,
+      "end": 135.08,
+      "text": "Thank you for calling, question, technical support."
+    },
+    {
+      "start": 135.08,
+      "end": 138.92,
+      "text": "And then the customer says that she has no internet connection"
+    },
+    {
+      "start": 138.92,
+      "end": 141.88,
+      "text": "and that is a complete loss of connection, right?"
+    },
+    {
+      "start": 141.88,
+      "end": 146.32,
+      "text": "So of course what you do is you pull a per account, obviously."
+    },
+    {
+      "start": 146.52,
+      "end": 149.28,
+      "text": "Now, after pulling a per account,"
+    },
+    {
+      "start": 149.28,
+      "end": 151.84,
+      "text": "you have to start with the possible cause"
+    },
+    {
+      "start": 151.84,
+      "end": 154.36,
+      "text": "that takes the least amount of time to confirm."
+    },
+    {
+      "start": 154.36,
+      "end": 157.76,
+      "text": "In this case is to check for outages, right?"
+    },
+    {
+      "start": 157.76,
+      "end": 159.44,
+      "text": "And then you have to ask yourself,"
+    },
+    {
+      "start": 159.44,
+      "end": 160.84,
+      "text": "is there an outage?"
+    },
+    {
+      "start": 160.84,
+      "end": 162.08,
+      "text": "If the answer is yes,"
+    },
+    {
+      "start": 162.08,
+      "end": 164.44,
+      "text": "all you have to do is to advice the customer to wait"
+    },
+    {
+      "start": 164.44,
+      "end": 167.96,
+      "text": "for the fix because no amount of troubleshooting"
+    },
+    {
+      "start": 167.96,
+      "end": 171.28,
+      "text": "will solve her issue, but to just wait for the fix"
+    },
+    {
+      "start": 171.28,
+      "end": 172.96,
+      "text": "from the company."
+    },
+    {
+      "start": 172.96,
+      "end": 176.28,
+      "text": "What happens after that is the end of the call,"
+    },
+    {
+      "start": 176.32,
+      "end": 178.08,
+      "text": "that's it, that's all you have to do"
+    },
+    {
+      "start": 178.08,
+      "end": 179.48,
+      "text": "if it's an outage issue."
+    },
+    {
+      "start": 179.48,
+      "end": 181.32,
+      "text": "You cannot do anything else."
+    },
+    {
+      "start": 181.32,
+      "end": 184.12,
+      "text": "And so if it's not an outage issue,"
+    },
+    {
+      "start": 184.12,
+      "end": 187.92,
+      "text": "what you have to do is to check for unpaid services."
+    },
+    {
+      "start": 187.92,
+      "end": 191.12,
+      "text": "And if she does have an unpaid bill,"
+    },
+    {
+      "start": 191.12,
+      "end": 193.44,
+      "text": "you have to advise her to settle her balance."
+    },
+    {
+      "start": 193.44,
+      "end": 196.6,
+      "text": "That's the only solution for this problem."
+    },
+    {
+      "start": 196.6,
+      "end": 198.4,
+      "text": "And then you end the call."
+    },
+    {
+      "start": 198.4,
+      "end": 200.64,
+      "text": "But if it's not an unpaid bill,"
+    },
+    {
+      "start": 200.64,
+      "end": 204.68,
+      "text": "then it could be a modern issue or a device issue."
+    },
+    {
+      "start": 204.72,
+      "end": 207.88,
+      "text": "In which case you have to have the customer check"
+    },
+    {
+      "start": 207.88,
+      "end": 210.68,
+      "text": "if a second device can connect to the internet"
+    },
+    {
+      "start": 210.68,
+      "end": 213.2,
+      "text": "and check the light indicators."
+    },
+    {
+      "start": 213.2,
+      "end": 215.2,
+      "text": "Can a second device connect?"
+    },
+    {
+      "start": 215.2,
+      "end": 217.0,
+      "text": "If a second device can connect"
+    },
+    {
+      "start": 217.0,
+      "end": 219.0,
+      "text": "and the lights on the bottom are green,"
+    },
+    {
+      "start": 219.0,
+      "end": 223.04,
+      "text": "that means that it is a possible issue of the first device"
+    },
+    {
+      "start": 223.04,
+      "end": 225.8,
+      "text": "because why else could the other device connect?"
+    },
+    {
+      "start": 225.8,
+      "end": 228.4,
+      "text": "So in this case, what you have to do"
+    },
+    {
+      "start": 228.4,
+      "end": 231.8,
+      "text": "is to ensure that the internet physical setup is correct,"
+    },
+    {
+      "start": 231.8,
+      "end": 234.8,
+      "text": "that cable is undamaged and properly plugged"
+    },
+    {
+      "start": 234.8,
+      "end": 237.52,
+      "text": "or that the internet configuration setting is correct."
+    },
+    {
+      "start": 237.52,
+      "end": 239.16,
+      "text": "So you basically have to pay attention"
+    },
+    {
+      "start": 239.16,
+      "end": 240.76,
+      "text": "to your device setup."
+    },
+    {
+      "start": 240.76,
+      "end": 245.76,
+      "text": "But let's say that a second device also cannot connect"
+    },
+    {
+      "start": 245.76,
+      "end": 249.4,
+      "text": "and there may be red lights, not green lights."
+    },
+    {
+      "start": 249.4,
+      "end": 251.04,
+      "text": "It will be under no."
+    },
+    {
+      "start": 251.04,
+      "end": 255.4,
+      "text": "And so if that's the case, then it is a possible modern issue"
+    },
+    {
+      "start": 255.4,
+      "end": 257.2,
+      "text": "in which case you have to ask the customer"
+    },
+    {
+      "start": 257.2,
+      "end": 258.64,
+      "text": "to reset her modem."
+    },
+    {
+      "start": 258.64,
+      "end": 260.96,
+      "text": "Did the reset work?"
+    },
+    {
+      "start": 260.96,
+      "end": 262.6,
+      "text": "And the answer if the answer is no,"
+    },
+    {
+      "start": 262.6,
+      "end": 265.88,
+      "text": "then your last resort would be to dispatch a technician"
+    },
+    {
+      "start": 265.88,
+      "end": 267.44,
+      "text": "because that's the last resort."
+    },
+    {
+      "start": 267.44,
+      "end": 269.92,
+      "text": "So whatever happens here is you can see"
+    },
+    {
+      "start": 269.92,
+      "end": 274.92,
+      "text": "everything will lead to you ending the call."
+    },
+    {
+      "start": 275.2,
+      "end": 277.4,
+      "text": "But some problems, as you can see,"
+    },
+    {
+      "start": 277.4,
+      "end": 282.4,
+      "text": "are less complicated and take less time to solve"
+    },
+    {
+      "start": 282.88,
+      "end": 286.76,
+      "text": "and others like modern issue and issue of the device,"
+    },
+    {
+      "start": 286.76,
+      "end": 288.68,
+      "text": "take longer to solve."
+    },
+    {
+      "start": 288.68,
+      "end": 291.52,
+      "text": "So now we're gonna continue with a mock call."
+    },
+    {
+      "start": 291.52,
+      "end": 293.2,
+      "text": "Is it an intermittent connection"
+    },
+    {
+      "start": 293.2,
+      "end": 294.6,
+      "text": "where it's cutting in and out"
+    },
+    {
+      "start": 294.6,
+      "end": 297.24,
+      "text": "or is it a complete loss of connection?"
+    },
+    {
+      "start": 297.24,
+      "end": 299.24,
+      "text": "A complete loss."
+    },
+    {
+      "start": 299.24,
+      "end": 302.56,
+      "text": "It's not just low or, as you said,"
+    },
+    {
+      "start": 302.56,
+      "end": 304.48,
+      "text": "intermittent connection?"
+    },
+    {
+      "start": 304.48,
+      "end": 308.04,
+      "text": "No, I've been reloading it for 30 minutes straight now"
+    },
+    {
+      "start": 308.04,
+      "end": 310.84,
+      "text": "and there is nothing whatsoever."
+    },
+    {
+      "start": 310.84,
+      "end": 312.68,
+      "text": "I see, okay."
+    },
+    {
+      "start": 312.68,
+      "end": 313.36,
+      "text": "Okay."
+    },
+    {
+      "start": 313.36,
+      "end": 315.48,
+      "text": "So I'm gonna start troubleshooting now."
+    },
+    {
+      "start": 315.48,
+      "end": 317.68,
+      "text": "First thing I'm gonna do is to check for outages"
+    },
+    {
+      "start": 317.72,
+      "end": 319.12,
+      "text": "in your area and for that,"
+    },
+    {
+      "start": 319.12,
+      "end": 320.84,
+      "text": "I would need to pull up your account."
+    },
+    {
+      "start": 320.84,
+      "end": 322.8,
+      "text": "May I have your account number?"
+    },
+    {
+      "start": 322.8,
+      "end": 327.8,
+      "text": "It's two and three, four, five, six, eight, seven, nine."
+    },
+    {
+      "start": 330.44,
+      "end": 331.68,
+      "text": "Thank you."
+    },
+    {
+      "start": 331.68,
+      "end": 334.6,
+      "text": "Notice this pattern because this is crucial."
+    },
+    {
+      "start": 334.6,
+      "end": 339.6,
+      "text": "ERC or explanation request compliance."
+    },
+    {
+      "start": 340.28,
+      "end": 342.0,
+      "text": "So this is a very common pattern"
+    },
+    {
+      "start": 342.0,
+      "end": 344.2,
+      "text": "when making a request to your customer."
+    },
+    {
+      "start": 344.2,
+      "end": 347.04,
+      "text": "It's gonna be like this throughout the call."
+    },
+    {
+      "start": 347.04,
+      "end": 350.52,
+      "text": "ERC, ERC, a continuous cycle of ERC"
+    },
+    {
+      "start": 350.52,
+      "end": 352.4,
+      "text": "until there is a solution."
+    },
+    {
+      "start": 352.4,
+      "end": 355.12,
+      "text": "But how exactly does ERC look like?"
+    },
+    {
+      "start": 355.12,
+      "end": 357.76,
+      "text": "As you heard earlier, the agent said,"
+    },
+    {
+      "start": 357.76,
+      "end": 359.04,
+      "text": "so the first thing I'm gonna do now"
+    },
+    {
+      "start": 359.04,
+      "end": 362.32,
+      "text": "is to pull up your account to check for outages in your area."
+    },
+    {
+      "start": 362.32,
+      "end": 365.64,
+      "text": "So that is the explanation."
+    },
+    {
+      "start": 365.64,
+      "end": 368.4,
+      "text": "In this case, the agent is telling the customer"
+    },
+    {
+      "start": 368.4,
+      "end": 372.76,
+      "text": "her plan as to how she would go about solving her problems."
+    },
+    {
+      "start": 372.76,
+      "end": 374.0,
+      "text": "In the request part,"
+    },
+    {
+      "start": 374.0,
+      "end": 376.36,
+      "text": "she said, may you know your account number?"
+    },
+    {
+      "start": 376.36,
+      "end": 379.36,
+      "text": "After that, we know that the request is successful"
+    },
+    {
+      "start": 379.36,
+      "end": 381.76,
+      "text": "because the customer gave her account number."
+    },
+    {
+      "start": 381.76,
+      "end": 385.64,
+      "text": "So that's the first ERC cycle of this call."
+    },
+    {
+      "start": 385.64,
+      "end": 388.68,
+      "text": "Now let's proceed and I want you to notice the next one."
+    },
+    {
+      "start": 388.68,
+      "end": 390.8,
+      "text": "So I'm gonna start troubleshooting now."
+    },
+    {
+      "start": 390.8,
+      "end": 393.0,
+      "text": "First thing I'm gonna do is to check for outages"
+    },
+    {
+      "start": 393.0,
+      "end": 394.44,
+      "text": "in your area and for that,"
+    },
+    {
+      "start": 394.44,
+      "end": 396.2,
+      "text": "I would need to pull up your account."
+    },
+    {
+      "start": 396.2,
+      "end": 398.12,
+      "text": "May I have your account number?"
+    },
+    {
+      "start": 398.12,
+      "end": 403.12,
+      "text": "It's two and three, four, five, six, eight, seven, nine."
+    },
+    {
+      "start": 403.76,
+      "end": 405.76,
+      "text": "Eight, seven, nine."
+    },
+    {
+      "start": 405.76,
+      "end": 406.84,
+      "text": "Thank you."
+    },
+    {
+      "start": 406.84,
+      "end": 409.48,
+      "text": "And your complete name and best callback number?"
+    },
+    {
+      "start": 409.48,
+      "end": 411.84,
+      "text": "Sophie Collins, nine, six, two,"
+    },
+    {
+      "start": 411.84,
+      "end": 414.84,
+      "text": "one, six, four, four, five, six, six."
+    },
+    {
+      "start": 414.84,
+      "end": 416.2,
+      "text": "Awesome."
+    },
+    {
+      "start": 416.2,
+      "end": 418.48,
+      "text": "And your four-digit passcode."
+    },
+    {
+      "start": 418.48,
+      "end": 420.0,
+      "text": "Oh, come on, are you kidding me?"
+    },
+    {
+      "start": 420.0,
+      "end": 421.24,
+      "text": "What is that?"
+    },
+    {
+      "start": 421.24,
+      "end": 422.88,
+      "text": "Where can I find that?"
+    },
+    {
+      "start": 424.24,
+      "end": 426.56,
+      "text": "Do you remember the four-digit passcode you set up"
+    },
+    {
+      "start": 426.56,
+      "end": 428.88,
+      "text": "when you ordered our service?"
+    },
+    {
+      "start": 428.88,
+      "end": 429.72,
+      "text": "I don't know."
+    },
+    {
+      "start": 429.72,
+      "end": 430.56,
+      "text": "I don't know."
+    },
+    {
+      "start": 432.46,
+      "end": 435.7,
+      "text": "Um, try one, four, two, six."
+    },
+    {
+      "start": 435.7,
+      "end": 437.3,
+      "text": "Okay, one, four, two, six."
+    },
+    {
+      "start": 437.3,
+      "end": 438.46,
+      "text": "Okay, got it."
+    },
+    {
+      "start": 438.46,
+      "end": 440.42,
+      "text": "And lastly, I just need the address"
+    },
+    {
+      "start": 440.42,
+      "end": 443.02,
+      "text": "where your internet is installed so I can check"
+    },
+    {
+      "start": 443.02,
+      "end": 446.3,
+      "text": "if there's an ongoing outage in your area."
+    },
+    {
+      "start": 446.3,
+      "end": 450.46,
+      "text": "One, six, five, Winterfell Street, Philadelphia,"
+    },
+    {
+      "start": 450.46,
+      "end": 454.26,
+      "text": "Pennsylvania, one, nine, go, nine, three."
+    },
+    {
+      "start": 454.26,
+      "end": 455.1,
+      "text": "Thank you."
+    },
+    {
+      "start": 455.1,
+      "end": 456.58,
+      "text": "One moment, please."
+    },
+    {
+      "start": 456.58,
+      "end": 459.9,
+      "text": "While I'm checking for outages, by the way,"
+    },
+    {
+      "start": 459.94,
+      "end": 464.22,
+      "text": "Candace at this moment is not just checking for outages."
+    },
+    {
+      "start": 464.22,
+      "end": 466.94,
+      "text": "She's also checking for unpaid bills,"
+    },
+    {
+      "start": 466.94,
+      "end": 469.66,
+      "text": "but she's not actually gonna tell Sophie that."
+    },
+    {
+      "start": 469.66,
+      "end": 472.82,
+      "text": "Because what's the point of saying, great, Sophie."
+    },
+    {
+      "start": 472.82,
+      "end": 476.94,
+      "text": "I see that your loss of connection isn't caused"
+    },
+    {
+      "start": 476.94,
+      "end": 478.94,
+      "text": "by an unpaid bill."
+    },
+    {
+      "start": 478.94,
+      "end": 480.34,
+      "text": "What's the point of saying that?"
+    },
+    {
+      "start": 480.34,
+      "end": 483.98,
+      "text": "That would be catastrophic for the rapport."
+    },
+    {
+      "start": 485.26,
+      "end": 488.18,
+      "text": "The likely response of Sophie would be like,"
+    },
+    {
+      "start": 488.18,
+      "end": 490.82,
+      "text": "of course I paid, do you think I'm an idiot?"
+    },
+    {
+      "start": 490.82,
+      "end": 493.22,
+      "text": "You're wasting my time, fix my connection now."
+    },
+    {
+      "start": 493.22,
+      "end": 495.38,
+      "text": "Why are you checking my billing history?"
+    },
+    {
+      "start": 495.38,
+      "end": 497.18,
+      "text": "Of course I paid."
+    },
+    {
+      "start": 497.18,
+      "end": 498.9,
+      "text": "So you don't want that to happen."
+    },
+    {
+      "start": 498.9,
+      "end": 502.74,
+      "text": "Check the billing history of your customer secretly"
+    },
+    {
+      "start": 502.74,
+      "end": 506.58,
+      "text": "and only bring up that issue if she really has"
+    },
+    {
+      "start": 506.58,
+      "end": 511.5,
+      "text": "an unpaid bill."
+    },
+    {
+      "start": 511.5,
+      "end": 513.86,
+      "text": "All right, there's no outage in your area"
+    },
+    {
+      "start": 513.86,
+      "end": 516.82,
+      "text": "and there's no open tickets admitted so far."
+    },
+    {
+      "start": 516.82,
+      "end": 519.78,
+      "text": "So this brings us to the possible issue"
+    },
+    {
+      "start": 519.78,
+      "end": 522.54,
+      "text": "with either your modem or your device."
+    },
+    {
+      "start": 522.54,
+      "end": 524.7,
+      "text": "And for me to identify which,"
+    },
+    {
+      "start": 524.7,
+      "end": 526.74,
+      "text": "I'm going to ask you a series of questions"
+    },
+    {
+      "start": 526.74,
+      "end": 527.98,
+      "text": "to diagnose the problem."
+    },
+    {
+      "start": 527.98,
+      "end": 529.14,
+      "text": "Is that okay with you?"
+    },
+    {
+      "start": 529.14,
+      "end": 530.82,
+      "text": "Okay, fair enough."
+    },
+    {
+      "start": 530.82,
+      "end": 532.02,
+      "text": "Did you notice that?"
+    },
+    {
+      "start": 532.02,
+      "end": 534.54,
+      "text": "That's the second cycle of ERC."
+    },
+    {
+      "start": 534.54,
+      "end": 535.9,
+      "text": "There's no outage in your area"
+    },
+    {
+      "start": 535.9,
+      "end": 538.86,
+      "text": "and there's no open tickets admitted so far."
+    },
+    {
+      "start": 538.86,
+      "end": 541.82,
+      "text": "So this brings us to the possible issue"
+    },
+    {
+      "start": 541.82,
+      "end": 544.74,
+      "text": "with either your modem or your device"
+    },
+    {
+      "start": 544.74,
+      "end": 546.78,
+      "text": "and then it's followed by the request."
+    },
+    {
+      "start": 546.78,
+      "end": 548.94,
+      "text": "And for me to identify which,"
+    },
+    {
+      "start": 548.94,
+      "end": 550.98,
+      "text": "I'm going to ask you a series of questions"
+    },
+    {
+      "start": 550.98,
+      "end": 552.22,
+      "text": "to diagnose the problem."
+    },
+    {
+      "start": 552.22,
+      "end": 553.42,
+      "text": "Is that okay with you?"
+    },
+    {
+      "start": 553.42,
+      "end": 555.34,
+      "text": "Okay, fair enough."
+    },
+    {
+      "start": 555.34,
+      "end": 557.74,
+      "text": "The customer would have no problem complying"
+    },
+    {
+      "start": 557.74,
+      "end": 560.74,
+      "text": "because she knows the purpose of those questions."
+    },
+    {
+      "start": 560.74,
+      "end": 564.74,
+      "text": "This pattern is like saying, this is the current status."
+    },
+    {
+      "start": 564.74,
+      "end": 566.34,
+      "text": "Here's what I need you to do."
+    },
+    {
+      "start": 566.34,
+      "end": 569.26,
+      "text": "And if you do that, I'm going to provide you"
+    },
+    {
+      "start": 569.26,
+      "end": 573.26,
+      "text": "an update or better yet a resolution later."
+    },
+    {
+      "start": 573.26,
+      "end": 575.82,
+      "text": "So it's a give and take relationship."
+    },
+    {
+      "start": 575.82,
+      "end": 577.94,
+      "text": "You're making your customer do things,"
+    },
+    {
+      "start": 577.94,
+      "end": 578.98,
+      "text": "but at the same time,"
+    },
+    {
+      "start": 578.98,
+      "end": 580.94,
+      "text": "you're giving something in return"
+    },
+    {
+      "start": 580.94,
+      "end": 582.66,
+      "text": "because what usually happens is that"
+    },
+    {
+      "start": 582.66,
+      "end": 585.98,
+      "text": "agents tend to ask, ask, ask"
+    },
+    {
+      "start": 585.98,
+      "end": 588.06,
+      "text": "without giving anything in return."
+    },
+    {
+      "start": 588.06,
+      "end": 590.18,
+      "text": "God only knows what the plan is,"
+    },
+    {
+      "start": 590.18,
+      "end": 592.46,
+      "text": "whether there's any progress."
+    },
+    {
+      "start": 592.46,
+      "end": 594.54,
+      "text": "The customers don't have a clue."
+    },
+    {
+      "start": 594.54,
+      "end": 598.42,
+      "text": "They feel lost and they feel impatient and no wonder."
+    },
+    {
+      "start": 598.42,
+      "end": 600.54,
+      "text": "Whereas with ERC, your performance."
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "9n84Nrsjh1A",
+  "youtube_url": "https://www.youtube.com/watch?v=9n84Nrsjh1A",
+  "clip_range_sec": [
+    120.0,
+    720.0
+  ],
+  "category": "tech_support",
+  "transcribe_elapsed_sec": 22.901714500039816
+}

@@ -40,6 +40,7 @@ import os
 import subprocess
 import sys
 import time
+import shutil
 from pathlib import Path
 
 
@@ -98,9 +99,15 @@ def _import_whisper(model_name: str):
 
 def _have_yt_dlp() -> bool:
     return subprocess.call(
-        ["yt-dlp", "--version"],
+        _yt_dlp_cmd("--version"),
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
     ) == 0
+
+
+def _yt_dlp_cmd(*args: str) -> list[str]:
+    if shutil.which("yt-dlp"):
+        return ["yt-dlp", *args]
+    return [sys.executable, "-m", "yt_dlp", *args]
 
 
 def _have_ffmpeg() -> bool:
@@ -122,8 +129,7 @@ def download_audio(url: str, out_path: Path) -> bool:
     if out_path.exists() and out_path.stat().st_size > 0:
         return True
     cmd = [
-        "yt-dlp",
-        "-x", "--audio-format", "mp3",
+        *_yt_dlp_cmd("-x", "--audio-format", "mp3"),
         "--audio-quality", "5",
         "-o", str(out_path.with_suffix("")) + ".%(ext)s",
         url,

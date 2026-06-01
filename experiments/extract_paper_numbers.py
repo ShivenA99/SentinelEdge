@@ -70,6 +70,15 @@ _DEFAULT_MACROS: dict[str, str] = {
     "DistilLat":  "TBD", "DistilSize":  "TBD",
     "SpeedupVsDistil":   "TBD",
     "SizeRatioVsDistil": "TBD",
+    "HeadlineSizeKB": "TBD",
+    "HeadlineFRetentionDistilPct": "TBD",
+    "DistilOverLRSize": "TBD",
+    "DistilOverLRLatency": "TBD",
+    "DistilOverLRThroughput": "TBD",
+    "HeadlineFPerKB": "TBD",
+    "LRvsTfidfFPerKB": "TBD",
+    "LRvsXgbFPerKB": "TBD",
+    "LRvsDistilFPerKB": "TBD",
     # --- baseline quality rows ---
     "HandLRFOne":  "TBD", "HandLRPrec":  "TBD", "HandLRRec":  "TBD",
     "HandSVMFOne": "TBD", "HandSVMPrec": "TBD", "HandSVMRec": "TBD",
@@ -296,6 +305,35 @@ def from_distilbert(data: dict, m: dict) -> None:
         pass
 
 
+def from_efficiency(data: dict, m: dict) -> None:
+    """efficiency.json -> abstract/body resource-efficiency macros."""
+    rows = {r.get("model"): r for r in data.get("rows", [])}
+    ratios = data.get("headline_ratios", {})
+    ours = rows.get("handcrafted_lr", {})
+
+    if ours.get("size_kb") is not None:
+        m["HeadlineSizeKB"] = fmt(ours.get("size_kb"), 1)
+    if ours.get("f1_per_kb") is not None:
+        m["HeadlineFPerKB"] = fmt(ours.get("f1_per_kb"), 3)
+
+    if ratios.get("f1_retention_vs_distilbert") is not None:
+        m["HeadlineFRetentionDistilPct"] = fmt_int(
+            round(100 * ratios["f1_retention_vs_distilbert"])
+        )
+    if ratios.get("vs_distilbert_size") is not None:
+        m["DistilOverLRSize"] = fmt_int(round(ratios["vs_distilbert_size"]))
+    if ratios.get("vs_distilbert_latency") is not None:
+        m["DistilOverLRLatency"] = fmt_int(round(ratios["vs_distilbert_latency"]))
+    if ratios.get("vs_distilbert_throughput") is not None:
+        m["DistilOverLRThroughput"] = fmt_int(round(ratios["vs_distilbert_throughput"]))
+    if ratios.get("vs_tfidf_lr_f1_per_mb") is not None:
+        m["LRvsTfidfFPerKB"] = fmt(ratios["vs_tfidf_lr_f1_per_mb"], 1)
+    if ratios.get("vs_xgb_f1_per_mb") is not None:
+        m["LRvsXgbFPerKB"] = fmt(ratios["vs_xgb_f1_per_mb"], 1)
+    if ratios.get("vs_distilbert_f1_per_mb") is not None:
+        m["LRvsDistilFPerKB"] = fmt_int(round(ratios["vs_distilbert_f1_per_mb"]))
+
+
 def from_asr(data: dict, m: dict) -> None:
     """asr_robustness.json -> clean F1 and F1 at p=0.30 per perturbation."""
     table = data.get("table", [])
@@ -447,6 +485,7 @@ def main() -> int:
         ("latency.json",          from_latency),
         ("baselines.json",        from_baselines),
         ("distilbert.json",       from_distilbert),
+        ("efficiency.json",       from_efficiency),
         ("asr_robustness.json",   from_asr),
         ("adversarial.json",      from_adversarial),
         ("adversarial_lr.json",   from_adversarial_lr),

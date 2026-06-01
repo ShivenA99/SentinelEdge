@@ -2,17 +2,18 @@
 
 import asyncio
 import json
-import re
 import time
 import os
 import sys
 import re
+import statistics
 import urllib.request
 import urllib.error
 import numpy as np
 from pathlib import Path
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 import uvicorn
 
 # Load environment variables from .env file if present
@@ -235,6 +236,47 @@ app.add_middleware(
 
 # Track active WebSocket connections
 active_connections: list[WebSocket] = []
+_TEXT_ENGINE = None
+
+
+class TextScoreRequest(BaseModel):
+    """Request payload for paste-your-own transcript scoring."""
+
+    text: str = Field(default="", max_length=5000)
+
+
+def _split_text_for_scoring(text: str) -> list[str]:
+    """Split pasted text into bounded sentence-like chunks."""
+    normalized = " ".join(text.strip().split())
+    if not normalized:
+        return []
+
+    pieces = [
+        part.strip()
+        for part in re.split(r"(?<=[.!?])\s+", normalized)
+        if part.strip()
+    ]
+    if len(pieces) == 1 and len(pieces[0]) > 320:
+        chunk = pieces[0]
+        pieces = [chunk[i : i + 320].strip() for i in range(0, len(chunk), 320)]
+    return pieces[:80]
+
+
+def _get_text_engine():
+    """Lazily construct the shared scoring engine for REST endpoints."""
+    global _TEXT_ENGINE
+    if _TEXT_ENGINE is None:
+        from sentinel_edge.engine import SentinelEngine
+
+        _TEXT_ENGINE = SentinelEngine(models_dir=os.path.join(_PROJECT_ROOT, "models"))
+    return _TEXT_ENGINE
+
+
+def _round_features(features: dict[str, float]) -> dict[str, float | int]:
+    return {
+        k: round(float(v), 4) if isinstance(v, (float, np.floating)) else int(v)
+        for k, v in features.items()
+    }
 
 # ---------------------------------------------------------------------------
 # Available demo calls
@@ -317,7 +359,106 @@ async def list_calls():
 @app.get("/api/health")
 async def health_check():
     """Health check endpoint."""
-    return {"status": "ok", "active_connections": len(active_connections)}
+    return {
+        "status": "ok",
+        "service": "sentineledge-demo",
+        "version": app.version,
+        "active_connections": len(active_connections),
+        "model_available": (Path(_PROJECT_ROOT) / "models" / "call_fraud_xgb.json").exists(),
+    }
+
+
+@app.get("/api/latency")
+async def latency_benchmark():
+    """Measure current model inference latency on the running backend."""
+    engine = _get_text_engine()
+    samples = [
+        "This is a routine appointment reminder for next Tuesday.",
+        "Your account has a suspicious charge and we need to verify it.",
+        "Buy gift cards today and read the numbers to avoid arrest.",
+        "Please call the office number on your insurance card.",
+    ]
+
+    # Warm the vectorizer/model path before timing.
+    engine.analyze_sentence(samples[0])
+    timings: list[float] = []
+    for idx in range(24):
+        sentence = samples[idx % len(samples)]
+        t0 = time.perf_counter()
+        engine.analyze_sentence(sentence)
+        timings.append((time.perf_counter() - t0) * 1000.0)
+
+    timings_sorted = sorted(timings)
+    p95_index = min(len(timings_sorted) - 1, int(round(0.95 * (len(timings_sorted) - 1))))
+    return {
+        "source": "live_backend_model_benchmark",
+        "backend": getattr(engine, "active_backend", "unknown"),
+        "n": len(timings_sorted),
+        "p50_ms": round(statistics.median(timings_sorted), 4),
+        "p95_ms": round(timings_sorted[p95_index], 4),
+        "min_ms": round(timings_sorted[0], 4),
+        "max_ms": round(timings_sorted[-1], 4),
+    }
+
+
+@app.post("/api/score-text")
+async def score_text(payload: TextScoreRequest):
+    """Score pasted transcript text sentence-by-sentence."""
+    sentences = _split_text_for_scoring(payload.text)
+    if not sentences:
+        return {
+            "sentences": [],
+            "final_score": 0.0,
+            "peak_score": 0.0,
+            "mean_score": 0.0,
+            "latency": {
+                "n": 0,
+                "p50_ms": 0.0,
+                "p95_ms": 0.0,
+                "total_ms": 0.0,
+            },
+        }
+
+    engine = _get_text_engine()
+    engine.reset_call_state()
+
+    scored = []
+    timings: list[float] = []
+    for idx, sentence in enumerate(sentences):
+        t0 = time.perf_counter()
+        raw_score, features = engine.analyze_sentence(sentence)
+        inference_ms = (time.perf_counter() - t0) * 1000.0
+        timings.append(inference_ms)
+        ema_score = engine.accumulator.update(raw_score)
+        alert = engine.alert_engine.evaluate(ema_score, features)
+        scored.append(
+            {
+                "index": idx,
+                "text": sentence,
+                "raw_score": round(float(raw_score), 4),
+                "ema_score": round(float(ema_score), 4),
+                "risk_level": alert.risk_level.value,
+                "should_alert": alert.should_alert,
+                "reasons": alert.reasons,
+                "features": _round_features(features),
+                "inference_ms": round(inference_ms, 4),
+            }
+        )
+
+    timings_sorted = sorted(timings)
+    p95_index = min(len(timings_sorted) - 1, int(round(0.95 * (len(timings_sorted) - 1))))
+    return {
+        "sentences": scored,
+        "final_score": round(float(engine.accumulator.current_score), 4),
+        "peak_score": round(float(engine.accumulator.peak_score), 4),
+        "mean_score": round(float(engine.accumulator.mean_score), 4),
+        "latency": {
+            "n": len(timings_sorted),
+            "p50_ms": round(statistics.median(timings_sorted), 4),
+            "p95_ms": round(timings_sorted[p95_index], 4),
+            "total_ms": round(sum(timings_sorted), 4),
+        },
+    }
 
 
 @app.get("/api/audio-devices")

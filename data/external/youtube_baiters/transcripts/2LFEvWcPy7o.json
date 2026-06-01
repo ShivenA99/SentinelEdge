@@ -1,0 +1,955 @@
+{
+  "text": "He has your day going. I'm doing pretty well. Thank you. Great. I'm happy to hear that. And how can I help you today? I'll make payment. Absolutely. It's a good thing that he always want to be on top of your account. And that reminds me that I also need to pay my bills. Well, I can certainly check for the options that's available to help you process the payment immediately. Okay. Oh, sure. Thank you. All right. Kenny, I just want to make sure that I will be looking at the right account. We have the phone number that you're calling in about. Okay. Okay. One moment. That's six, seven, eight. Four, three, two. Five, six, one, eight. Thank you. And your four-digit security code, please. I'm so sorry, honey. I don't know. My security code. That's okay. I can just send your code through SMS and you just have to tell me the code, all right? Okay. Sure. Okay. Tell me when you're ready. Okay. I'm ready. All right. Give me a moment. And there we go. I already sent you the code. Okay. Sure. Let me check it here. Security code. Pin. Okay. This is my security code. Five, zero, five. All right. Thank you so much, Kenny. And to make sure that your account is up to date and secured, I'm going to assign a new security code. Kenny, please provide me a random four-digit number that you can easily remember. Okay. But zero, nine, zero, three. Thank you so much. So again, please make sure to take me with a very security code so you don't have to go to the same process again. Okay. And also, I can update your security question. What is the name of your best friend? Elena. Oh, that's a pretty name. Thank you. All right. I was able to successfully get into your account. And as I can see here, you're in a $40 in limited stock index plan with five gigs of data. And you're currently not enrolled in Odo Pay. And you mentioned earlier that you wish to make a payment, right? Yeah. That's what I've told you. All right, Kenny. I suppose he had tried to make this payment on the IVR. Oh, can you tell me what happened when you tried to process the payment in the automated system? Okay. Yeah. I had trouble processing it in the automated system. They're giving me a lot of steps to do it. And a little time tip it in my card number. I say, well, I can certainly imagine how hard it is to do it in the IVR. And sometimes it can be a little bit confusing, but nobody reads. I'll be glad to walk you through the process of being it in the automated system in the easy way. How about that? Well, thank you. That's great. Sure, Kenny. You're welcome. So let me ask you this. Have you tried to use a credit or debit card earlier in IVR? Yeah, at the easy card. Was it the same card number that you've used before? Yeah. All right. Thank you. So Kenny, here's what you need to do. Okay? Listen carefully. Once I transferred his call over to the IVR, you just need to press one. Okay? Press one. The reason is because since he will be using the same card in file, he don't really need to key in your credit card information. It will automatically recognize the card on file. Okay? So in that way, you won't be experiencing the same inconvenience. How does that sound? Easy, right? Yeah, definitely. That's the care for me. Thank you very much. Yeah, that's welcome, Kenny. And do you have any questions for me? No. That's all. That's it. That's great. By the way, Kenny, before I let you go, for your future reference, it can also utilize the IVRZ app. So you can manage your account, check your payments, make payments, view your usage, and a lot more. Or you can also try to press pound six, seven, eight, nine, to check your current balance and make payments using credit or debit card. By the way, do you have the IVRZ app installed in your phone? Oh, yeah. I have it. Good. Because since you mentioned that you're using credit card to process payments, you can also set up auto pay. So in that way, you won't need to call us every time that you need to make a payment. And we can certainly just have the payments drafted on your account every month for your convenience. Oh, wow. That's good to know. Great, right? And what's good about the auto pay? You could actually have a $5 discount if you decided to set up auto pay today. And it will take effect on your next billing cycle. So instead of paying $40, you only have to pay $35. And not only that, since you've been with us for 10 years, you can also cut an additional $10 discount like loyalty discount. So imagine how much you can save if you decided to enroll in auto pay with your loyalty discount. It's 15 bucks. That's, you know, that's a huge amount of money, right? So from $40, you only need to pay $25. It's like you're getting more, but paying less. How does that sound? Oh, wow. I'm so happy that you guys have the kind of a promotion and very, very easy. And I will certainly chuck in that auto pay that you mentioned. So I can take advantage of a discount. Exactly. So would you like me to help you out? So I'll set up your auto pay today. Oh. Okay. Yes, honey. Because I know how to use it in my, in my variety app. That's okay. If you want, I can walk you through the process and how to set up a little pain. Okay. Oh, that's great. But can you do it in somebody's time? Because I don't need to do something else. I'm sure in your problem, I can just send you a step-by-step procedure on how to do it under my variety app. I'll send it to you for estimates so you can do it in your most convenient time. Just have to click on the link that I'll be sending out to you. Okay. Oh, okay. Thank you. Thank you for being very helpful, Joanne. Your most welcome, Kenny. And do you have any further questions for me today? Oh, no. You answered everything, honey. Sure. All right. Your most welcome, Kenny. So just to recap, I'm glad that I was able to provide the option and how you can make your payments under IVR instantly. And you too lie as you might be raising the app. So if you don't have any further questions, again, thank you so much for being with us for 10 years. Again, this is Chalene. And you have a great day. Thank you so much, Chalene.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.0,
+      "text": "He has your day going."
+    },
+    {
+      "start": 2.0,
+      "end": 4.0,
+      "text": "I'm doing pretty well."
+    },
+    {
+      "start": 4.0,
+      "end": 5.0,
+      "text": "Thank you."
+    },
+    {
+      "start": 5.0,
+      "end": 6.0,
+      "text": "Great."
+    },
+    {
+      "start": 6.0,
+      "end": 8.0,
+      "text": "I'm happy to hear that."
+    },
+    {
+      "start": 8.0,
+      "end": 11.0,
+      "text": "And how can I help you today?"
+    },
+    {
+      "start": 11.0,
+      "end": 13.0,
+      "text": "I'll make payment."
+    },
+    {
+      "start": 13.0,
+      "end": 14.0,
+      "text": "Absolutely."
+    },
+    {
+      "start": 14.0,
+      "end": 18.0,
+      "text": "It's a good thing that he always want to be on top of your account."
+    },
+    {
+      "start": 18.0,
+      "end": 21.0,
+      "text": "And that reminds me that I also need to pay my bills."
+    },
+    {
+      "start": 21.0,
+      "end": 27.0,
+      "text": "Well, I can certainly check for the options that's available to help you process the payment"
+    },
+    {
+      "start": 27.0,
+      "end": 29.0,
+      "text": "immediately."
+    },
+    {
+      "start": 29.0,
+      "end": 30.0,
+      "text": "Okay."
+    },
+    {
+      "start": 30.0,
+      "end": 31.0,
+      "text": "Oh, sure."
+    },
+    {
+      "start": 31.0,
+      "end": 33.0,
+      "text": "Thank you."
+    },
+    {
+      "start": 33.0,
+      "end": 34.0,
+      "text": "All right."
+    },
+    {
+      "start": 34.0,
+      "end": 38.0,
+      "text": "Kenny, I just want to make sure that I will be looking at the right account."
+    },
+    {
+      "start": 38.0,
+      "end": 42.0,
+      "text": "We have the phone number that you're calling in about."
+    },
+    {
+      "start": 42.0,
+      "end": 44.0,
+      "text": "Okay."
+    },
+    {
+      "start": 44.0,
+      "end": 45.0,
+      "text": "Okay."
+    },
+    {
+      "start": 45.0,
+      "end": 47.0,
+      "text": "One moment."
+    },
+    {
+      "start": 47.0,
+      "end": 50.0,
+      "text": "That's six, seven, eight."
+    },
+    {
+      "start": 50.0,
+      "end": 55.5,
+      "text": "Four, three, two."
+    },
+    {
+      "start": 55.5,
+      "end": 58.5,
+      "text": "Five, six, one, eight."
+    },
+    {
+      "start": 58.5,
+      "end": 59.5,
+      "text": "Thank you."
+    },
+    {
+      "start": 59.5,
+      "end": 62.5,
+      "text": "And your four-digit security code, please."
+    },
+    {
+      "start": 62.5,
+      "end": 67.94,
+      "text": "I'm so sorry, honey."
+    },
+    {
+      "start": 67.94,
+      "end": 70.94,
+      "text": "I don't know."
+    },
+    {
+      "start": 70.94,
+      "end": 72.94,
+      "text": "My security code."
+    },
+    {
+      "start": 72.94,
+      "end": 73.94,
+      "text": "That's okay."
+    },
+    {
+      "start": 73.94,
+      "end": 79.94,
+      "text": "I can just send your code through SMS and you just have to tell me the code, all right?"
+    },
+    {
+      "start": 79.94,
+      "end": 80.94,
+      "text": "Okay."
+    },
+    {
+      "start": 80.94,
+      "end": 81.94,
+      "text": "Sure."
+    },
+    {
+      "start": 81.94,
+      "end": 82.94,
+      "text": "Okay."
+    },
+    {
+      "start": 82.94,
+      "end": 85.94,
+      "text": "Tell me when you're ready."
+    },
+    {
+      "start": 85.94,
+      "end": 86.94,
+      "text": "Okay."
+    },
+    {
+      "start": 86.94,
+      "end": 87.94,
+      "text": "I'm ready."
+    },
+    {
+      "start": 87.94,
+      "end": 88.94,
+      "text": "All right."
+    },
+    {
+      "start": 88.94,
+      "end": 91.94,
+      "text": "Give me a moment."
+    },
+    {
+      "start": 91.94,
+      "end": 93.94,
+      "text": "And there we go."
+    },
+    {
+      "start": 93.94,
+      "end": 98.38,
+      "text": "I already sent you the code."
+    },
+    {
+      "start": 98.38,
+      "end": 99.38,
+      "text": "Okay."
+    },
+    {
+      "start": 99.38,
+      "end": 100.38,
+      "text": "Sure."
+    },
+    {
+      "start": 100.38,
+      "end": 101.38,
+      "text": "Let me check it here."
+    },
+    {
+      "start": 101.38,
+      "end": 107.82,
+      "text": "Security code."
+    },
+    {
+      "start": 107.82,
+      "end": 108.82,
+      "text": "Pin."
+    },
+    {
+      "start": 108.82,
+      "end": 109.82,
+      "text": "Okay."
+    },
+    {
+      "start": 109.82,
+      "end": 112.82,
+      "text": "This is my security code."
+    },
+    {
+      "start": 112.82,
+      "end": 116.82,
+      "text": "Five, zero, five."
+    },
+    {
+      "start": 116.82,
+      "end": 120.38,
+      "text": "All right."
+    },
+    {
+      "start": 120.38,
+      "end": 122.38,
+      "text": "Thank you so much, Kenny."
+    },
+    {
+      "start": 122.38,
+      "end": 126.38,
+      "text": "And to make sure that your account is up to date and secured,"
+    },
+    {
+      "start": 126.38,
+      "end": 129.38,
+      "text": "I'm going to assign a new security code."
+    },
+    {
+      "start": 129.38,
+      "end": 137.38,
+      "text": "Kenny, please provide me a random four-digit number that you can easily remember."
+    },
+    {
+      "start": 137.38,
+      "end": 139.38,
+      "text": "Okay."
+    },
+    {
+      "start": 139.38,
+      "end": 147.38,
+      "text": "But zero, nine, zero, three."
+    },
+    {
+      "start": 147.38,
+      "end": 148.38,
+      "text": "Thank you so much."
+    },
+    {
+      "start": 148.38,
+      "end": 155.38,
+      "text": "So again, please make sure to take me with a very security code so you don't have to go to the same process again."
+    },
+    {
+      "start": 155.38,
+      "end": 156.38,
+      "text": "Okay."
+    },
+    {
+      "start": 156.38,
+      "end": 160.38,
+      "text": "And also, I can update your security question."
+    },
+    {
+      "start": 160.38,
+      "end": 166.38,
+      "text": "What is the name of your best friend?"
+    },
+    {
+      "start": 166.38,
+      "end": 167.38,
+      "text": "Elena."
+    },
+    {
+      "start": 167.38,
+      "end": 169.38,
+      "text": "Oh, that's a pretty name."
+    },
+    {
+      "start": 169.38,
+      "end": 170.38,
+      "text": "Thank you."
+    },
+    {
+      "start": 170.38,
+      "end": 171.38,
+      "text": "All right."
+    },
+    {
+      "start": 171.38,
+      "end": 173.38,
+      "text": "I was able to successfully get into your account."
+    },
+    {
+      "start": 173.38,
+      "end": 180.38,
+      "text": "And as I can see here, you're in a $40 in limited stock index plan with five gigs of data."
+    },
+    {
+      "start": 180.38,
+      "end": 183.38,
+      "text": "And you're currently not enrolled in Odo Pay."
+    },
+    {
+      "start": 183.38,
+      "end": 188.38,
+      "text": "And you mentioned earlier that you wish to make a payment, right?"
+    },
+    {
+      "start": 188.38,
+      "end": 189.38,
+      "text": "Yeah."
+    },
+    {
+      "start": 189.38,
+      "end": 192.38,
+      "text": "That's what I've told you."
+    },
+    {
+      "start": 192.38,
+      "end": 194.38,
+      "text": "All right, Kenny."
+    },
+    {
+      "start": 194.38,
+      "end": 198.38,
+      "text": "I suppose he had tried to make this payment on the IVR."
+    },
+    {
+      "start": 198.38,
+      "end": 205.38,
+      "text": "Oh, can you tell me what happened when you tried to process the payment in the automated system?"
+    },
+    {
+      "start": 205.38,
+      "end": 206.38,
+      "text": "Okay."
+    },
+    {
+      "start": 206.38,
+      "end": 207.38,
+      "text": "Yeah."
+    },
+    {
+      "start": 207.38,
+      "end": 212.38,
+      "text": "I had trouble processing it in the automated system."
+    },
+    {
+      "start": 212.38,
+      "end": 215.38,
+      "text": "They're giving me a lot of steps to do it."
+    },
+    {
+      "start": 215.38,
+      "end": 220.38,
+      "text": "And a little time tip it in my card number."
+    },
+    {
+      "start": 220.38,
+      "end": 226.38,
+      "text": "I say, well, I can certainly imagine how hard it is to do it in the IVR."
+    },
+    {
+      "start": 226.38,
+      "end": 231.38,
+      "text": "And sometimes it can be a little bit confusing, but nobody reads."
+    },
+    {
+      "start": 231.38,
+      "end": 236.38,
+      "text": "I'll be glad to walk you through the process of being it in the automated system in the easy way."
+    },
+    {
+      "start": 236.38,
+      "end": 238.38,
+      "text": "How about that?"
+    },
+    {
+      "start": 238.38,
+      "end": 240.38,
+      "text": "Well, thank you."
+    },
+    {
+      "start": 240.38,
+      "end": 241.38,
+      "text": "That's great."
+    },
+    {
+      "start": 241.38,
+      "end": 243.38,
+      "text": "Sure, Kenny."
+    },
+    {
+      "start": 243.38,
+      "end": 244.38,
+      "text": "You're welcome."
+    },
+    {
+      "start": 244.38,
+      "end": 246.38,
+      "text": "So let me ask you this."
+    },
+    {
+      "start": 246.38,
+      "end": 253.38,
+      "text": "Have you tried to use a credit or debit card earlier in IVR?"
+    },
+    {
+      "start": 253.38,
+      "end": 257.38,
+      "text": "Yeah, at the easy card."
+    },
+    {
+      "start": 257.38,
+      "end": 262.38,
+      "text": "Was it the same card number that you've used before?"
+    },
+    {
+      "start": 262.38,
+      "end": 263.38,
+      "text": "Yeah."
+    },
+    {
+      "start": 263.38,
+      "end": 264.38,
+      "text": "All right."
+    },
+    {
+      "start": 264.38,
+      "end": 265.38,
+      "text": "Thank you."
+    },
+    {
+      "start": 265.38,
+      "end": 268.38,
+      "text": "So Kenny, here's what you need to do."
+    },
+    {
+      "start": 268.38,
+      "end": 269.38,
+      "text": "Okay?"
+    },
+    {
+      "start": 269.38,
+      "end": 270.38,
+      "text": "Listen carefully."
+    },
+    {
+      "start": 270.38,
+      "end": 277.38,
+      "text": "Once I transferred his call over to the IVR, you just need to press one."
+    },
+    {
+      "start": 277.38,
+      "end": 278.38,
+      "text": "Okay?"
+    },
+    {
+      "start": 278.38,
+      "end": 279.38,
+      "text": "Press one."
+    },
+    {
+      "start": 279.38,
+      "end": 282.38,
+      "text": "The reason is because since he will be using the same card in file,"
+    },
+    {
+      "start": 282.38,
+      "end": 286.38,
+      "text": "he don't really need to key in your credit card information."
+    },
+    {
+      "start": 286.38,
+      "end": 289.38,
+      "text": "It will automatically recognize the card on file."
+    },
+    {
+      "start": 289.38,
+      "end": 290.38,
+      "text": "Okay?"
+    },
+    {
+      "start": 290.38,
+      "end": 295.38,
+      "text": "So in that way, you won't be experiencing the same inconvenience."
+    },
+    {
+      "start": 295.38,
+      "end": 297.38,
+      "text": "How does that sound?"
+    },
+    {
+      "start": 297.38,
+      "end": 298.38,
+      "text": "Easy, right?"
+    },
+    {
+      "start": 298.38,
+      "end": 300.38,
+      "text": "Yeah, definitely."
+    },
+    {
+      "start": 300.38,
+      "end": 303.38,
+      "text": "That's the care for me."
+    },
+    {
+      "start": 303.38,
+      "end": 305.38,
+      "text": "Thank you very much."
+    },
+    {
+      "start": 305.38,
+      "end": 307.38,
+      "text": "Yeah, that's welcome, Kenny."
+    },
+    {
+      "start": 307.38,
+      "end": 310.38,
+      "text": "And do you have any questions for me?"
+    },
+    {
+      "start": 310.38,
+      "end": 312.38,
+      "text": "No."
+    },
+    {
+      "start": 312.38,
+      "end": 313.38,
+      "text": "That's all."
+    },
+    {
+      "start": 313.38,
+      "end": 315.38,
+      "text": "That's it."
+    },
+    {
+      "start": 315.38,
+      "end": 317.38,
+      "text": "That's great."
+    },
+    {
+      "start": 317.38,
+      "end": 321.38,
+      "text": "By the way, Kenny, before I let you go, for your future reference,"
+    },
+    {
+      "start": 321.38,
+      "end": 324.38,
+      "text": "it can also utilize the IVRZ app."
+    },
+    {
+      "start": 324.38,
+      "end": 328.38,
+      "text": "So you can manage your account, check your payments, make payments,"
+    },
+    {
+      "start": 328.38,
+      "end": 331.38,
+      "text": "view your usage, and a lot more."
+    },
+    {
+      "start": 331.38,
+      "end": 336.38,
+      "text": "Or you can also try to press pound six, seven, eight, nine,"
+    },
+    {
+      "start": 336.38,
+      "end": 341.38,
+      "text": "to check your current balance and make payments using credit or debit card."
+    },
+    {
+      "start": 341.38,
+      "end": 347.38,
+      "text": "By the way, do you have the IVRZ app installed in your phone?"
+    },
+    {
+      "start": 347.38,
+      "end": 348.38,
+      "text": "Oh, yeah."
+    },
+    {
+      "start": 348.38,
+      "end": 350.38,
+      "text": "I have it."
+    },
+    {
+      "start": 350.38,
+      "end": 351.38,
+      "text": "Good."
+    },
+    {
+      "start": 351.38,
+      "end": 355.38,
+      "text": "Because since you mentioned that you're using credit card to process payments,"
+    },
+    {
+      "start": 355.38,
+      "end": 358.38,
+      "text": "you can also set up auto pay."
+    },
+    {
+      "start": 358.38,
+      "end": 363.38,
+      "text": "So in that way, you won't need to call us every time that you need to make a payment."
+    },
+    {
+      "start": 363.38,
+      "end": 368.38,
+      "text": "And we can certainly just have the payments drafted on your account every month"
+    },
+    {
+      "start": 368.38,
+      "end": 371.38,
+      "text": "for your convenience."
+    },
+    {
+      "start": 371.38,
+      "end": 373.38,
+      "text": "Oh, wow."
+    },
+    {
+      "start": 373.38,
+      "end": 376.38,
+      "text": "That's good to know."
+    },
+    {
+      "start": 376.38,
+      "end": 377.38,
+      "text": "Great, right?"
+    },
+    {
+      "start": 377.38,
+      "end": 379.38,
+      "text": "And what's good about the auto pay?"
+    },
+    {
+      "start": 379.38,
+      "end": 386.38,
+      "text": "You could actually have a $5 discount if you decided to set up auto pay today."
+    },
+    {
+      "start": 386.38,
+      "end": 389.38,
+      "text": "And it will take effect on your next billing cycle."
+    },
+    {
+      "start": 389.38,
+      "end": 394.38,
+      "text": "So instead of paying $40, you only have to pay $35."
+    },
+    {
+      "start": 394.38,
+      "end": 399.38,
+      "text": "And not only that, since you've been with us for 10 years,"
+    },
+    {
+      "start": 399.38,
+      "end": 405.38,
+      "text": "you can also cut an additional $10 discount like loyalty discount."
+    },
+    {
+      "start": 405.38,
+      "end": 413.38,
+      "text": "So imagine how much you can save if you decided to enroll in auto pay with your loyalty discount."
+    },
+    {
+      "start": 413.38,
+      "end": 415.38,
+      "text": "It's 15 bucks."
+    },
+    {
+      "start": 415.38,
+      "end": 418.38,
+      "text": "That's, you know, that's a huge amount of money, right?"
+    },
+    {
+      "start": 418.38,
+      "end": 422.38,
+      "text": "So from $40, you only need to pay $25."
+    },
+    {
+      "start": 422.38,
+      "end": 426.38,
+      "text": "It's like you're getting more, but paying less."
+    },
+    {
+      "start": 426.38,
+      "end": 427.38,
+      "text": "How does that sound?"
+    },
+    {
+      "start": 427.38,
+      "end": 429.38,
+      "text": "Oh, wow."
+    },
+    {
+      "start": 429.38,
+      "end": 433.38,
+      "text": "I'm so happy that you guys have the kind of a"
+    },
+    {
+      "start": 433.38,
+      "end": 436.38,
+      "text": "promotion and very, very easy."
+    },
+    {
+      "start": 436.38,
+      "end": 444.38,
+      "text": "And I will certainly chuck in that auto pay that you mentioned."
+    },
+    {
+      "start": 444.38,
+      "end": 450.38,
+      "text": "So I can take advantage of a discount."
+    },
+    {
+      "start": 450.38,
+      "end": 451.38,
+      "text": "Exactly."
+    },
+    {
+      "start": 451.38,
+      "end": 457.38,
+      "text": "So would you like me to help you out?"
+    },
+    {
+      "start": 457.38,
+      "end": 460.38,
+      "text": "So I'll set up your auto pay today."
+    },
+    {
+      "start": 460.38,
+      "end": 462.38,
+      "text": "Oh."
+    },
+    {
+      "start": 462.38,
+      "end": 463.38,
+      "text": "Okay."
+    },
+    {
+      "start": 463.38,
+      "end": 464.38,
+      "text": "Yes, honey."
+    },
+    {
+      "start": 464.38,
+      "end": 470.38,
+      "text": "Because I know how to use it in my, in my variety app."
+    },
+    {
+      "start": 470.38,
+      "end": 471.38,
+      "text": "That's okay."
+    },
+    {
+      "start": 471.38,
+      "end": 476.38,
+      "text": "If you want, I can walk you through the process and how to set up a little pain."
+    },
+    {
+      "start": 476.38,
+      "end": 477.38,
+      "text": "Okay."
+    },
+    {
+      "start": 477.38,
+      "end": 479.38,
+      "text": "Oh, that's great."
+    },
+    {
+      "start": 479.38,
+      "end": 483.38,
+      "text": "But can you do it in somebody's time?"
+    },
+    {
+      "start": 483.38,
+      "end": 487.38,
+      "text": "Because I don't need to do something else."
+    },
+    {
+      "start": 487.38,
+      "end": 491.38,
+      "text": "I'm sure in your problem, I can just send you a step-by-step"
+    },
+    {
+      "start": 491.38,
+      "end": 495.38,
+      "text": "procedure on how to do it under my variety app."
+    },
+    {
+      "start": 495.38,
+      "end": 498.38,
+      "text": "I'll send it to you for estimates so you can do it in your most"
+    },
+    {
+      "start": 498.38,
+      "end": 499.38,
+      "text": "convenient time."
+    },
+    {
+      "start": 499.38,
+      "end": 502.38,
+      "text": "Just have to click on the link that I'll be sending out to you."
+    },
+    {
+      "start": 502.38,
+      "end": 503.38,
+      "text": "Okay."
+    },
+    {
+      "start": 503.38,
+      "end": 505.38,
+      "text": "Oh, okay."
+    },
+    {
+      "start": 505.38,
+      "end": 506.38,
+      "text": "Thank you."
+    },
+    {
+      "start": 506.38,
+      "end": 509.38,
+      "text": "Thank you for being very helpful, Joanne."
+    },
+    {
+      "start": 509.38,
+      "end": 511.38,
+      "text": "Your most welcome, Kenny."
+    },
+    {
+      "start": 511.38,
+      "end": 516.38,
+      "text": "And do you have any further questions for me today?"
+    },
+    {
+      "start": 516.38,
+      "end": 517.38,
+      "text": "Oh, no."
+    },
+    {
+      "start": 517.38,
+      "end": 519.38,
+      "text": "You answered everything, honey."
+    },
+    {
+      "start": 519.38,
+      "end": 520.38,
+      "text": "Sure."
+    },
+    {
+      "start": 520.38,
+      "end": 521.38,
+      "text": "All right."
+    },
+    {
+      "start": 521.38,
+      "end": 523.38,
+      "text": "Your most welcome, Kenny."
+    },
+    {
+      "start": 523.38,
+      "end": 527.38,
+      "text": "So just to recap, I'm glad that I was able to provide the"
+    },
+    {
+      "start": 527.38,
+      "end": 531.38,
+      "text": "option and how you can make your payments under IVR instantly."
+    },
+    {
+      "start": 531.38,
+      "end": 534.38,
+      "text": "And you too lie as you might be raising the app."
+    },
+    {
+      "start": 534.38,
+      "end": 537.38,
+      "text": "So if you don't have any further questions, again, thank you so"
+    },
+    {
+      "start": 537.38,
+      "end": 539.38,
+      "text": "much for being with us for 10 years."
+    },
+    {
+      "start": 539.38,
+      "end": 541.38,
+      "text": "Again, this is Chalene."
+    },
+    {
+      "start": 541.38,
+      "end": 543.38,
+      "text": "And you have a great day."
+    },
+    {
+      "start": 543.38,
+      "end": 545.38,
+      "text": "Thank you so much, Chalene."
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "2LFEvWcPy7o",
+  "youtube_url": "https://www.youtube.com/watch?v=2LFEvWcPy7o",
+  "clip_range_sec": [
+    20.0,
+    566.0
+  ],
+  "category": "billing",
+  "transcribe_elapsed_sec": 19.894048625137657
+}

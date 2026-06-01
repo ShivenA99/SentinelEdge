@@ -1,0 +1,185 @@
+{
+  "text": "Thank you for calling Thank you for calling Amazon customer service. This is Georgina. How can I help? Hi Georgina, this is a brand. I'm calling because I haven't received my item yet Hello, Brian. I'm really sorry if you haven't received your parcel no worries since you have me on the line I'll be more than willing to assist. Oh, okay. All right for security purposes. Can you have the complete name on the account? Sure, it's Brian Johnson. Okay. Can I also have your email address? Sure, it's Brian 205 at theajo.com Thanks for verifying those information to me. Let me proceed to your account It seems that you are referring to meets attack 500x5. Am I right? You've got it right Georgina Cool. Based on the information here. Yeah, it already passed the estimated delivery date It is quite late for a week already since the items shipped and sold the Amazon We can process a full refund or a replacement which one would rip for you I really wanted to get the item as soon as possible. I choose the free shipping to save shipment feeds However, I didn't expect that it will come later than expect I'm really sorry for the inconvenience Brian to compensate I can request a refund for that order and process a replacement right now Then expert at it to one day shipping without additional cost for the shipping Really? You can do that from me. Yes, of course. Let me process your order one moment, please Thanks, please take your time I know how in the word can I receive the mail refund Brian dirty fund was already requested expector to receive the refund within two to three business days It will be credited back to the original payment method. You use in placing the order Also, I've already processed a replacement. You can have the item by today until tomorrow Then the confirmation regarding our conversation will be sent to your account If you want, I can also help you track your order And which you back tomorrow just to make sure that you are receiving the item within the expected date Yes, please Great. Can I have your phone number? Sure. It's three one four three four six three Got it. Thanks expect my call tomorrow. I will Aside from this is there anything else that I can help you with Then you're doing great. Great. I really appreciate it. Thank you, Brian. I think we are all set for other queries Feel free to visit our health pages. Thank you for calling Amazon and have a nice day. Thank you so much Goodbye",
+  "segments": [
+    {
+      "start": 2.7,
+      "end": 4.7,
+      "text": "Thank you for calling"
+    },
+    {
+      "start": 5.42,
+      "end": 15.79,
+      "text": "Thank you for calling Amazon customer service. This is Georgina. How can I help?"
+    },
+    {
+      "start": 16.43,
+      "end": 21.07,
+      "text": "Hi Georgina, this is a brand. I'm calling because I haven't received my item yet"
+    },
+    {
+      "start": 21.63,
+      "end": 28.19,
+      "text": "Hello, Brian. I'm really sorry if you haven't received your parcel no worries since you have me on the line"
+    },
+    {
+      "start": 28.19,
+      "end": 36.07,
+      "text": "I'll be more than willing to assist. Oh, okay. All right for security purposes. Can you have the complete name on the account?"
+    },
+    {
+      "start": 36.95,
+      "end": 41.59,
+      "text": "Sure, it's Brian Johnson. Okay. Can I also have your email address?"
+    },
+    {
+      "start": 42.71,
+      "end": 45.91,
+      "text": "Sure, it's Brian 205 at theajo.com"
+    },
+    {
+      "start": 46.63,
+      "end": 50.95,
+      "text": "Thanks for verifying those information to me. Let me proceed to your account"
+    },
+    {
+      "start": 51.83,
+      "end": 57.03,
+      "text": "It seems that you are referring to meets attack 500x5. Am I right?"
+    },
+    {
+      "start": 57.83,
+      "end": 59.83,
+      "text": "You've got it right Georgina"
+    },
+    {
+      "start": 59.99,
+      "end": 65.27,
+      "text": "Cool. Based on the information here. Yeah, it already passed the estimated delivery date"
+    },
+    {
+      "start": 65.75,
+      "end": 71.03,
+      "text": "It is quite late for a week already since the items shipped and sold the Amazon"
+    },
+    {
+      "start": 71.19,
+      "end": 76.39,
+      "text": "We can process a full refund or a replacement which one would rip for you"
+    },
+    {
+      "start": 77.19,
+      "end": 83.19,
+      "text": "I really wanted to get the item as soon as possible. I choose the free shipping to save shipment feeds"
+    },
+    {
+      "start": 83.51,
+      "end": 87.67,
+      "text": "However, I didn't expect that it will come later than expect"
+    },
+    {
+      "start": 89.43,
+      "end": 92.95,
+      "text": "I'm really sorry for the inconvenience Brian to compensate"
+    },
+    {
+      "start": 93.11,
+      "end": 97.11,
+      "text": "I can request a refund for that order and process a replacement right now"
+    },
+    {
+      "start": 97.67,
+      "end": 102.07,
+      "text": "Then expert at it to one day shipping without additional cost for the shipping"
+    },
+    {
+      "start": 102.87,
+      "end": 108.55,
+      "text": "Really? You can do that from me. Yes, of course. Let me process your order one moment, please"
+    },
+    {
+      "start": 109.51,
+      "end": 111.83,
+      "text": "Thanks, please take your time"
+    },
+    {
+      "start": 113.03,
+      "end": 116.07,
+      "text": "I know how in the word can I receive the mail refund"
+    },
+    {
+      "start": 116.87,
+      "end": 124.07,
+      "text": "Brian dirty fund was already requested expector to receive the refund within two to three business days"
+    },
+    {
+      "start": 124.55,
+      "end": 128.87,
+      "text": "It will be credited back to the original payment method. You use in placing the order"
+    },
+    {
+      "start": 129.43,
+      "end": 134.39,
+      "text": "Also, I've already processed a replacement. You can have the item by today until tomorrow"
+    },
+    {
+      "start": 135.03,
+      "end": 138.95,
+      "text": "Then the confirmation regarding our conversation will be sent to your account"
+    },
+    {
+      "start": 139.43,
+      "end": 142.31,
+      "text": "If you want, I can also help you track your order"
+    },
+    {
+      "start": 142.87,
+      "end": 148.47,
+      "text": "And which you back tomorrow just to make sure that you are receiving the item within the expected date"
+    },
+    {
+      "start": 149.83,
+      "end": 151.83,
+      "text": "Yes, please"
+    },
+    {
+      "start": 151.83,
+      "end": 157.75,
+      "text": "Great. Can I have your phone number? Sure. It's three one four three four six three"
+    },
+    {
+      "start": 158.63,
+      "end": 162.07,
+      "text": "Got it. Thanks expect my call tomorrow. I will"
+    },
+    {
+      "start": 162.87,
+      "end": 166.07,
+      "text": "Aside from this is there anything else that I can help you with"
+    },
+    {
+      "start": 166.79,
+      "end": 174.31,
+      "text": "Then you're doing great. Great. I really appreciate it. Thank you, Brian. I think we are all set for other queries"
+    },
+    {
+      "start": 174.55,
+      "end": 180.47,
+      "text": "Feel free to visit our health pages. Thank you for calling Amazon and have a nice day. Thank you so much"
+    },
+    {
+      "start": 181.67,
+      "end": 183.67,
+      "text": "Goodbye"
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "QTZq96twjs0",
+  "youtube_url": "https://www.youtube.com/watch?v=QTZq96twjs0",
+  "clip_range_sec": [
+    0.0,
+    0.0
+  ],
+  "category": "customer_service",
+  "transcribe_elapsed_sec": 4.323664749972522
+}

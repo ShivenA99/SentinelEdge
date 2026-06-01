@@ -1,0 +1,110 @@
+{
+  "text": "Thank you for calling Martha's florist. How miss is to be below. I'd like to order flowers and I think you have what I'm looking for I'd be happy to take care of your order may have your name, please Randall Thomas can you spell that for me? Randall on a N B A L L Robert D H O M A Thank you for that information Randall may have your home or office number area code first very good for all night Then five eight six six five zero eight eight. That's four zero nine eight six six five zero eight eight Do you have the facts number or email address an email is Randall? Robert and she may have dot com Randall dot Thomas at gmail dot com may have your shipping address 1,800, okay, bad. It's every year. So I'm on Texas There's code a 7, 7, 7, 7, 0, 6 Glad is Avenue, Beaumont Texas zip code 7, 7, 7, 0, 6. Thank you for the information. What products are you interested in purchasing? Red roses probably a dozen One dozen of red roses do you want long stamps? They're sure. All right, Randall. Let me process your order one moment, please Okay, Randall. We are ordering one dozen long stamps red roses to toll them out of your order is 40 dollars And it will be shipped to your address within 24 hours. I was looking to deliver my roses again We're in 24 hours Okay, no problem. Is there anything else I can help you with? That's all for now thing. No problem Randall. Thank you for calling Martha's florist. Have a nice day",
+  "segments": [
+    {
+      "start": 0.4,
+      "end": 7.18,
+      "text": "Thank you for calling Martha's florist. How miss is to be below. I'd like to order flowers and I think you have what I'm looking for"
+    },
+    {
+      "start": 7.18,
+      "end": 10.42,
+      "text": "I'd be happy to take care of your order may have your name, please"
+    },
+    {
+      "start": 12.46,
+      "end": 18.6,
+      "text": "Randall Thomas can you spell that for me? Randall on a N B A L L"
+    },
+    {
+      "start": 19.32,
+      "end": 21.82,
+      "text": "Robert D H O M A"
+    },
+    {
+      "start": 22.42,
+      "end": 28.5,
+      "text": "Thank you for that information Randall may have your home or office number area code first very good for all night"
+    },
+    {
+      "start": 29.06,
+      "end": 38.02,
+      "text": "Then five eight six six five zero eight eight. That's four zero nine eight six six five zero eight eight"
+    },
+    {
+      "start": 38.02,
+      "end": 42.38,
+      "text": "Do you have the facts number or email address an email is Randall?"
+    },
+    {
+      "start": 43.38,
+      "end": 46.16,
+      "text": "Robert and she may have dot com"
+    },
+    {
+      "start": 46.78,
+      "end": 51.56,
+      "text": "Randall dot Thomas at gmail dot com may have your shipping address"
+    },
+    {
+      "start": 52.16,
+      "end": 57.12,
+      "text": "1,800, okay, bad. It's every year. So I'm on Texas"
+    },
+    {
+      "start": 57.78,
+      "end": 60.92,
+      "text": "There's code a 7, 7, 7, 7, 0, 6"
+    },
+    {
+      "start": 61.32,
+      "end": 70.42,
+      "text": "Glad is Avenue, Beaumont Texas zip code 7, 7, 7, 0, 6. Thank you for the information. What products are you interested in purchasing?"
+    },
+    {
+      "start": 70.86,
+      "end": 72.86,
+      "text": "Red roses probably a dozen"
+    },
+    {
+      "start": 73.66,
+      "end": 80.92,
+      "text": "One dozen of red roses do you want long stamps? They're sure. All right, Randall. Let me process your order one moment, please"
+    },
+    {
+      "start": 82.34,
+      "end": 90.54,
+      "text": "Okay, Randall. We are ordering one dozen long stamps red roses to toll them out of your order is 40 dollars"
+    },
+    {
+      "start": 90.54,
+      "end": 96.42,
+      "text": "And it will be shipped to your address within 24 hours. I was looking to deliver my roses again"
+    },
+    {
+      "start": 96.58,
+      "end": 98.58,
+      "text": "We're in 24 hours"
+    },
+    {
+      "start": 98.58,
+      "end": 101.74,
+      "text": "Okay, no problem. Is there anything else I can help you with?"
+    },
+    {
+      "start": 102.24,
+      "end": 107.68,
+      "text": "That's all for now thing. No problem Randall. Thank you for calling Martha's florist. Have a nice day"
+    }
+  ],
+  "language": "en",
+  "backend": "faster-whisper",
+  "video_id": "hpZFJctBUHQ",
+  "youtube_url": "https://www.youtube.com/watch?v=hpZFJctBUHQ",
+  "clip_range_sec": [
+    0.0,
+    0.0
+  ],
+  "category": "order_taking",
+  "transcribe_elapsed_sec": 2.70911187492311
+}
