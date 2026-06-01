@@ -1,186 +1,211 @@
-# Preparing External Datasets for Evaluation
+# Preparing External Data for SentinelEdge Evaluation
 
-This document explains how to acquire the two external datasets that the
-SentinelEdge paper evaluation uses. The repo itself ships with only the
-23 hand-written call transcripts in `data/real/call_transcripts/`; the
-external datasets need to be downloaded once and placed in
-`data/external/`.
+> **Correction**: an earlier version of this document listed
+> TeleAntiFraud-28k as the primary external benchmark. That dataset is
+> **Mandarin Chinese**, not English, and is **not used** for the
+> headline evaluation. It can be considered for a future cross-lingual
+> extension; it is not part of the EMNLP demo paper's evaluation.
 
-The dataset loaders in `experiments/dataset_loader.py` are tolerant of
-column-name variations and will work as long as the expected files are
-present at the paths below.
+The repository ships with three real-data sources already:
 
----
+| In-repo source | Path | Size | Used as |
+|---|---|---|---|
+| `repo_real` call transcripts | `data/real/call_transcripts/` | 23 calls | primary in-domain test |
+| SMS Spam Collection | `data/real/sms_spam/SMSSpamCollection.tsv` | 5,574 SMS | cross-channel transfer test |
+| Phishing URLs (combined) | `data/real/phishing_urls/combined_real_urls.csv` | 4,001 URLs | cross-channel transfer test |
 
-## TeleAntiFraud-28k (primary external benchmark)
-
-A 28,511-sample audio+text scam call corpus released in March 2025
-(arXiv:2503.24115). Roughly balanced (46% scam, 54% normal). The audio
-is useful for future ASR experiments; for now we only need the text.
-
-### Files expected
-
-```
-data/external/teleantifraud_28k/
-├── train.jsonl   # 21,490 records
-└── test.jsonl    #  7,021 records
-```
-
-Each line is a JSON object. The loader is tolerant but expects at
-minimum:
-
-```json
-{"id": "taf_test_0001",
- "label": 1,
- "transcript": "Hello, this is Officer Wilson with the SSA Fraud Division...",
- "category": "government_impersonation"}
-```
-
-### How to obtain
-
-The dataset is released through the corresponding HuggingFace mirror.
-At the time of writing the canonical link is announced in the arXiv
-paper (search the project page for "TeleAntiFraud" on HuggingFace).
-Two options:
-
-**Option A: HuggingFace Hub**
-
-```bash
-pip install huggingface_hub
-mkdir -p data/external/teleantifraud_28k
-huggingface-cli download <ORG>/TeleAntiFraud-28k \
-    --repo-type dataset \
-    --local-dir data/external/teleantifraud_28k
-```
-
-You may need to convert from Parquet to JSONL:
-
-```bash
-python -c "
-import pandas as pd, json, glob, os
-for split in ('train', 'test'):
-    pq = glob.glob(f'data/external/teleantifraud_28k/{split}*.parquet')
-    if not pq: continue
-    df = pd.concat([pd.read_parquet(p) for p in pq])
-    out = f'data/external/teleantifraud_28k/{split}.jsonl'
-    with open(out, 'w') as fh:
-        for _, r in df.iterrows():
-            fh.write(json.dumps({
-                'id': r.get('id', ''),
-                'label': int(r.get('label', 0)),
-                'transcript': r.get('transcript', r.get('text', '')),
-                'category': r.get('category', 'unknown'),
-            }) + '\n')
-    print('wrote', out)
-"
-```
-
-**Option B: arXiv supplementary**
-
-If the HF mirror is gated, the arXiv paper's GitHub typically links to
-the raw data. Place either `data.jsonl` or the split files in
-`data/external/teleantifraud_28k/`; the loader looks for either layout.
-
-### Verify
-
-```bash
-python experiments/dataset_loader.py
-```
-
-You should see something like:
-
-```
-source                   n_calls    n_scam   n_legit   sent/call
-----------------------------------------------------------------
-repo_real                     23        15         8        21.0
-teleantifraud_28k           7021      3697      3324         9.2
-better30                  (none)
-```
+This file documents the **external** data you need to add to
+strengthen the evaluation. There are two tiers: a minimum-viable
+set, and a stronger set worth the extra effort given the EMNLP demo
+deadline.
 
 ---
 
-## Kaggle BETTER30 transcript dataset
+## Tier 1 (download in 30 minutes): BETTER30
 
-A smaller real-life-annotated call-transcript dataset on Kaggle,
-"Call Transcripts Scam Determinations" (filename `BETTER30.csv`).
-Useful as a second cross-validation source.
+**What it is.** A Kaggle dataset titled *"Call Transcripts: Scam
+Determinations"*. Real call transcripts, manually annotated, English.
+About 30 calls -- small but real.
 
-### Files expected
+**Why use it.** It is the only publicly downloadable English
+call-transcript scam corpus that ships ready-to-use. Pair with the
+23 `repo_real` calls and you have ~50 real calls for evaluation,
+which is the realistic floor.
 
-```
-data/external/better30.csv
-```
-
-Columns expected (case-insensitive, the loader handles synonyms):
-`transcript`, `label`, optional `category`, optional `id`.
-
-### How to obtain
+**How to download.**
 
 ```bash
-# Requires Kaggle API credentials in ~/.kaggle/kaggle.json
+# Install Kaggle CLI if you don't have it
 pip install kaggle
-kaggle datasets download -d <USERNAME>/call-transcripts-scam-determinations \
+# Place your kaggle.json API token at ~/.kaggle/kaggle.json
+
+# Search for the dataset; the file is consistently called BETTER30.csv.
+# Common slug (confirm on Kaggle):
+kaggle datasets download -d narayanaramaiyer/call-transcripts-scam-determinations \
     -p data/external/
-unzip data/external/call-transcripts-scam-determinations.zip -d data/external/
-mv data/external/BETTER30.csv data/external/better30.csv
+cd data/external && unzip -o *.zip
+mv BETTER30.csv better30.csv
 ```
 
-If Kaggle auth is unavailable, the dataset can be downloaded manually
-from kaggle.com. The loader accepts any CSV with the expected columns.
+If the slug above fails, search Kaggle for *"BETTER30"* or *"call
+transcripts scam determinations"* manually. Place the resulting CSV
+at `data/external/better30.csv`. The `dataset_loader.load_better30`
+function is tolerant of column-name variations.
 
-### Verify
+**Verify.**
 
 ```bash
 python experiments/dataset_loader.py
 ```
 
-You should now see all three sources populated.
+You should see `better30` populated with ~30 records.
 
 ---
 
-## Optional: real Whisper transcripts on TeleAntiFraud audio
+## Tier 2 (most important external data, requires email): Wu et al. 2024 aggregated corpus
 
-The "ASR-error robustness" experiment in `run_asr_robustness.py` uses
-synthetic perturbations as a stand-in for true Whisper errors. If you
-have GPU time, you can run actual Whisper-tiny on TeleAntiFraud-28k
-audio and store the resulting transcripts at:
+**What it is.** The corpus used in *Combating Phone Scams with
+LLM-based Detection: Where Do We Stand?* (Shen, Wang, Zhang, Ngai, Fu;
+AAAI 2025, arXiv 2409.11643). It aggregates:
+
+- **SC**, **SD**, **MASC** -- three synthesized dialogue corpora from
+  Gumphusiri 2024 (IEEE WI-IAT)
+- **Our-Real** -- real fraudulent calls scraped from YouTube
+  scam-baiter videos, Whisper-transcribed
+- **Our-Synt** -- their own LLM-generated synthesized corpus
+
+This is the most directly comparable evaluation set to your work and
+the most important one to acquire if you can. It is **not on GitHub**
+as of the searches conducted for this document; it requires
+contacting the authors.
+
+**How to obtain.** Email the corresponding author:
+
+> Zitong Shen --
+> [esther.shen@connect.polyu.hk](mailto:esther.shen@connect.polyu.hk)
+> (Hong Kong Polytechnic University)
+
+A template email is in `experiments/EMAIL_TEMPLATE.md`. Researchers
+in this space are usually responsive to evaluation-only requests
+from non-competing groups; expect a response in 1-2 weeks. If they
+share it, place the files at:
 
 ```
-data/external/teleantifraud_28k_whisper_tiny/{train,test}.jsonl
+data/external/wu2024_corpus/
+├── sc.csv
+├── sd.csv
+├── masc.csv
+├── our_real.csv
+└── our_synt.csv
 ```
 
-with the same schema as the gold transcripts. Then add a comparison
-section to the paper: gold-vs-Whisper transcript F1.
+The loader (`load_wu2024` in `dataset_loader.py`) accepts any of the
+columns `text`, `transcript`, `dialogue`, `content` for the call
+text and `label`, `is_scam`, `class` for the label.
 
-A minimal script:
-
-```python
-import whisper, json, glob, os
-model = whisper.load_model("tiny.en")
-out = open("data/external/teleantifraud_28k_whisper_tiny/test.jsonl", "w")
-for wav in glob.glob("data/external/teleantifraud_28k/audio/test/*.wav"):
-    r = model.transcribe(wav)
-    cid = os.path.splitext(os.path.basename(wav))[0]
-    out.write(json.dumps({"id": cid, "transcript": r["text"]}) + "\n")
-```
-
-This is left as an extension because (a) it needs GPU, (b) it needs the
-audio half of the dataset which is ~10 GB, and (c) the synthetic ASR
-perturbations are already a defensible lower bound for the paper.
+If you cannot obtain Wu et al.'s corpus before the deadline, the
+backup is the YouTube scam-baiter collection below, which mirrors
+the methodology of their "Our-Real" subset.
 
 ---
 
-## Disk and time budget
+## Tier 2 backup: build your own YouTube scam-baiter corpus
 
-| Step | Disk | Wall-clock (CPU) |
-|---|---|---|
-| Synthetic training/test CSVs (regen) | 3 MB | 1 min |
-| Adversarial CSV (regen)              | 1 MB | 30 s  |
-| TeleAntiFraud-28k text only         | 50 MB | 2 min download |
-| TeleAntiFraud-28k audio (optional)  | ~10 GB | 1-2 hrs download |
-| BETTER30                            | < 5 MB | 30 s |
-| Whisper-tiny on TAF-28k audio       | --     | ~6 hrs on a 4090, otherwise skip |
+**What it is.** A small (50-100 call) test set built by downloading
+videos from public scam-baiter YouTube channels and transcribing
+them with Whisper.
 
-After preparation, `python experiments/run_all.py --sources repo_real
-teleantifraud_28k better30` will execute the full evaluation in roughly
-10-20 minutes on a single CPU core (excluding any DistilBERT fine-tune).
+**Why.** This is exactly what Wu et al. did for their "Our-Real"
+subset, so doing it yourself gives you a comparable evaluation
+without needing their cooperation, and it can be done in a few days.
+
+**Step-by-step protocol** lives in
+`experiments/SCAMBAITER_PROTOCOL.md`. Summary:
+
+1. Pick 30-50 videos from the channels listed in the protocol.
+   Several large channels publish under standard YouTube license;
+   using their content for non-commercial academic evaluation is
+   accepted research practice (Wu et al. 2024 and Wood et al. 2023
+   do this), but verify each channel's terms before publishing.
+2. Download with `yt-dlp` (you install it; we do not bundle it).
+3. Run `experiments/collect_youtube_scambaiters.py` to Whisper-tiny
+   transcribe the audio.
+4. Manually annotate which segments are scammer speech vs.
+   baiter/host speech. The protocol provides an annotation TSV
+   template.
+5. Pick 20-30 legitimate calls as negatives, either from the Santa
+   Barbara Corpus (see Tier 3 below) or by recording short consented
+   conversations.
+
+Output goes to `data/external/youtube_baiters/` and is automatically
+picked up by `dataset_loader.load_youtube_baiters`.
+
+---
+
+## Tier 3 (optional, for legitimate-call negatives): Santa Barbara Corpus
+
+**What it is.** A standard corpus of ~60 hours of transcribed
+everyday American English conversation. Used by multiple
+scam-detection papers (Wu et al., FraudCallDetector) as the negative
+class.
+
+**Why.** If you build a sizeable scam-baiter corpus and want a
+matched-size legitimate-call set, this is the standard choice.
+
+**How to obtain.** Distributed by the Linguistic Data Consortium
+(LDC) and the UC Santa Barbara linguistics department:
+
+> https://www.linguistics.ucsb.edu/research/santa-barbara-corpus
+
+Place at `data/external/sbcorpus/` after registration.
+
+---
+
+## Tier 4 (cross-channel adjacent data, already in your repo)
+
+These are **already downloaded** and do not require external
+acquisition. They are used by `experiments/run_cross_channel.py` to
+measure how well your call classifier transfers to adjacent fraud
+channels.
+
+- `data/real/sms_spam/SMSSpamCollection.tsv` -- 5,574 SMS messages
+  (Almeida et al. 2011). 13% spam.
+- `data/real/phishing_urls/combined_real_urls.csv` -- 4,001 URLs
+  labelled `phishing` / `benign` from PhishTank and other public
+  feeds.
+
+For an even larger SMS scam corpus, consider Salman et al. 2022
+(arXiv 2210.10451): 153,551 SMS, the largest publicly-available SMS
+scam dataset. Distribution method varies; contact Salman/Ikram/Kaafar
+at Macquarie if needed.
+
+---
+
+## Recommended sequence given a July deadline
+
+| Day | Action |
+|---|---|
+| 1 | Tier 1: download BETTER30. Email Wu et al. for Tier 2. |
+| 2-5 | Start YouTube scam-baiter collection. 50 videos is enough. |
+| 6-7 | Re-run `experiments/run_all.py` with all sources, update paper. |
+| any | Run cross-channel experiment (always feasible -- data already present). |
+
+If Wu et al. respond positively in time, add their corpus and
+report both. If they do not, the YouTube scam-baiter set is a
+defensible substitute that follows the exact methodology of their
+"Our-Real" subset.
+
+## What the final paper-evaluation source list should look like
+
+| Source | Calls | Type | Origin |
+|---|---|---|---|
+| `repo_real` | 23 | call transcripts | in-repo, human-written from scam advisories |
+| `better30` | ~30 | call transcripts | Kaggle public |
+| `wu2024_corpus` | ~5,000 | call transcripts | Wu et al. 2024 (if obtained) |
+| `youtube_baiters` | 50-100 | Whisper-transcribed real calls | YouTube scam-baiter, manual collection |
+| `sms_spam` (cross-channel) | 5,574 | SMS messages | Almeida 2011, in-repo |
+| `phishing_urls` (cross-channel) | 4,001 | URLs | in-repo, PhishTank etc. |
+
+Headline numbers in the paper should come from the union of
+`repo_real`, `better30`, `wu2024_corpus`, and `youtube_baiters`
+where available. Cross-channel transfer is a separate section.

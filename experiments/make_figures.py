@@ -270,6 +270,45 @@ def fig_asr(asr: dict, outdir: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Figure 5: Cross-channel transfer
+# ---------------------------------------------------------------------------
+
+def fig_cross_channel(cc: dict, outdir: Path) -> None:
+    """Grouped bar chart: F1 / Prec / Recall / AUROC across channels."""
+    res = cc.get("results", {})
+    if not res:
+        return
+    channels = [c for c in ["calls", "sms", "urls"] if c in res]
+    if not channels:
+        return
+    labels = {"calls": "Calls (in-domain)", "sms": "SMS", "urls": "URLs"}
+    metrics = ["f1", "precision", "recall", "auroc"]
+    metric_labels = ["F1", "Precision", "Recall", "AUROC"]
+
+    fig, ax = plt.subplots(figsize=(3.4, 2.3))
+    x = np.arange(len(metrics))
+    width = 0.25
+    colours = {
+        "calls": _PALETTE["xgb"],
+        "sms":   _PALETTE["tfidf_lr"],
+        "urls":  _PALETTE["hand_lr"],
+    }
+    for i, ch in enumerate(channels):
+        vals = [res[ch].get(m, 0.0) for m in metrics]
+        ax.bar(x + i * width - width, vals, width=width,
+               color=colours[ch], edgecolor="black", linewidth=0.4,
+               label=labels[ch])
+    ax.set_xticks(x)
+    ax.set_xticklabels(metric_labels)
+    ax.set_ylim(0, 1.05)
+    ax.set_ylabel("Score")
+    ax.grid(True, axis="y", alpha=0.3)
+    ax.legend(loc="lower right", frameon=False, handletextpad=0.4,
+              labelspacing=0.2, fontsize=7)
+    _save(fig, outdir, "fig5_cross_channel")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -285,6 +324,7 @@ def main() -> int:
     baselines = _load(rdir / "baselines.json") or {}
     ttd = _load(rdir / "ttd.json") or {}
     asr = _load(rdir / "asr_robustness.json") or {}
+    cc = _load(rdir / "cross_channel.json") or {}
 
     print(f"[plot] writing figures to {out}")
     if latency and baselines:
@@ -294,6 +334,8 @@ def main() -> int:
         fig_first_n(ttd, out)
     if asr:
         fig_asr(asr, out)
+    if cc:
+        fig_cross_channel(cc, out)
     print("[plot] done")
     return 0
 

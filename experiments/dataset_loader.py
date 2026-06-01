@@ -1,7 +1,7 @@
 """Unified dataset loader for SentinelEdge evaluation.
 
 Provides a single interface for loading both per-sentence and per-call
-data from four sources, returned in a common schema:
+data from multiple sources, returned in a common schema:
 
     {
       "call_id":  str,
@@ -12,21 +12,26 @@ data from four sources, returned in a common schema:
     }
 
 Currently wired:
-  * ``repo_real``           -- the 23 human-written transcripts in
-                               ``data/real/call_transcripts/``.
-  * ``synthetic``           -- the existing template-based training data
-                               (loaded from CSV if available, else regenerated).
-  * ``teleantifraud_28k``   -- expects pre-downloaded HuggingFace files at
-                               ``data/external/teleantifraud_28k/`` (loader
-                               is implemented; data download is documented in
-                               ``experiments/PREPARE_DATA.md``).
-  * ``better30``            -- expects ``data/external/better30.csv`` from
-                               Kaggle. Loader is implemented; download is
-                               manual due to Kaggle auth.
+  * ``repo_real``         -- 23 human-written transcripts in
+                             ``data/real/call_transcripts/``
+  * ``better30``          -- Kaggle "Call Transcripts Scam
+                             Determinations" (~30 real calls); place
+                             at ``data/external/better30.csv``
+  * ``wu2024_corpus``     -- aggregated corpus from Shen et al. 2024
+                             (SC/SD/MASC/Our-Real/Our-Synt); requires
+                             contacting authors -- see EMAIL_TEMPLATE.md
+  * ``youtube_baiters``   -- self-collected YouTube scam-baiter corpus,
+                             Whisper-transcribed and manually annotated;
+                             see SCAMBAITER_PROTOCOL.md
 
-Each loader returns ``list[dict]`` in the schema above.  Sentence
-segmentation re-uses the project's own ``SentenceSplitter`` so the
-evaluation pipeline matches what the deployed system would see.
+The previously listed ``teleantifraud_28k`` loader is retained for
+optional cross-lingual extensions but is **not part of the headline
+evaluation** -- the corpus is Mandarin Chinese, not English.
+
+Each loader returns ``list[dict]`` in the schema above. Loaders are
+tolerant of missing data: if the external files aren't present the
+loader returns an empty list and prints a one-line warning. This
+makes ``load_all_call_records()`` safe to call in any environment.
 """
 from __future__ import annotations
 
@@ -307,6 +312,152 @@ def load_better30(csv_path: Path | None = None) -> list[CallRecord]:
 
 
 # ---------------------------------------------------------------------------
+# Loader 5: Wu et al. 2024 aggregated corpus
+# ---------------------------------------------------------------------------
+
+# Maps file stem -> (source_tag, default_label_if_subset_is_all_scam)
+_WU2024_FILES = {
+    "sc":       ("wu2024_sc", None),
+    "sd":       ("wu2024_sd", None),
+    "masc":     ("wu2024_masc", None),
+    "our_real": ("wu2024_our_real", None),
+    "our_synt": ("wu2024_our_synt", None),
+}
+
+
+def load_wu2024(root: Path | None = None) -> list[CallRecord]:
+    """Load the aggregated corpus from Shen et al. 2024 (AAAI 2025).
+
+    Expects (after Tier 2 acquisition per PREPARE_DATA.md) one CSV
+    per subset at::
+
+        data/external/wu2024_corpus/
+            sc.csv
+            sd.csv
+            masc.csv
+            our_real.csv
+            our_synt.csv
+
+    Each file should have a text column (any of ``text``, ``transcript``,
+    ``dialogue``, ``content``) and a label column (``label``, ``is_scam``,
+    ``class``). The loader is tolerant of missing files: only the
+    subsets that are physically present get loaded.
+    """
+    if root is None:
+        root = _PROJECT_ROOT / "data" / "external" / "wu2024_corpus"
+    if not root.exists():
+        return []
+
+    import pandas as pd
+    records: list[CallRecord] = []
+    for stem, (src_tag, _) in _WU2024_FILES.items():
+        candidates = [root / f"{stem}.csv", root / f"{stem}.tsv", root / f"{stem}.jsonl"]
+        path = next((p for p in candidates if p.exists()), None)
+        if path is None:
+            continue
+        if path.suffix == ".jsonl":
+            rows = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+            df = pd.DataFrame(rows)
+        else:
+            sep = "\t" if path.suffix == ".tsv" else ","
+            df = pd.read_csv(path, sep=sep)
+        cols = {c.lower(): c for c in df.columns}
+        text_col = (cols.get("text") or cols.get("transcript")
+                    or cols.get("dialogue") or cols.get("content")
+                    or df.columns[0])
+        label_col = (cols.get("label") or cols.get("is_scam")
+                     or cols.get("class") or df.columns[-1])
+        id_col = cols.get("id") or cols.get("call_id")
+        for i, row in df.iterrows():
+            raw_label = str(row[label_col]).strip().lower()
+            if raw_label in {"1", "scam", "fraud", "true", "yes"}:
+                y = 1
+            elif raw_label in {"0", "ham", "not_scam", "legit", "normal", "false", "no"}:
+                y = 0
+            else:
+                try:
+                    y = int(float(raw_label))
+                except Exception:
+                    continue
+            text = str(row[text_col])
+            if not text.strip():
+                continue
+            records.append(CallRecord(
+                call_id=str(row[id_col]) if id_col else f"{stem}_{i}",
+                label=y,
+                category=stem,
+                source=src_tag,
+                sentences=_split_sentences(text),
+            ))
+    return records
+
+
+# ---------------------------------------------------------------------------
+# Loader 6: YouTube scam-baiter self-collected corpus
+# ---------------------------------------------------------------------------
+
+def load_youtube_baiters(root: Path | None = None) -> list[CallRecord]:
+    """Load the YouTube scam-baiter corpus built per SCAMBAITER_PROTOCOL.md.
+
+    Expects::
+
+        data/external/youtube_baiters/
+            annotations.tsv
+            transcripts/{call_id}.json   # Whisper output per call
+
+    Rows in annotations.tsv must have:
+        call_id, label, category, transcript_file, ...
+
+    Rows with an empty ``label`` are skipped (the script writes empty
+    labels for un-annotated calls).
+    """
+    if root is None:
+        root = _PROJECT_ROOT / "data" / "external" / "youtube_baiters"
+    anno_path = root / "annotations.tsv"
+    if not anno_path.exists():
+        return []
+
+    import csv
+    records: list[CallRecord] = []
+    with open(anno_path, "r", encoding="utf-8") as fh:
+        reader = csv.DictReader(fh, delimiter="\t")
+        for row in reader:
+            label_raw = (row.get("label") or "").strip()
+            if not label_raw:
+                continue
+            try:
+                y = int(label_raw)
+            except ValueError:
+                continue
+            tr_rel = row.get("transcript_file") or f"transcripts/{row['call_id']}.json"
+            tr_path = root / tr_rel
+            if not tr_path.exists():
+                continue
+            tr = json.loads(tr_path.read_text())
+            # Whisper output has 'segments' with 'text' fields
+            if "segments" in tr and tr["segments"]:
+                sentences = []
+                for seg in tr["segments"]:
+                    txt = seg.get("text", "").strip()
+                    if txt:
+                        # Each Whisper segment is approximately a sentence
+                        sentences.append(txt)
+            else:
+                # Fall back to 'text' field, segment manually
+                sentences = _split_sentences(tr.get("text", ""))
+            if not sentences:
+                continue
+            records.append(CallRecord(
+                call_id=row["call_id"],
+                label=y,
+                category=row.get("category", "unknown"),
+                source="youtube_baiters",
+                sentences=sentences,
+            ))
+    return records
+
+
+# ---------------------------------------------------------------------------
 # Convenience: load everything available
 # ---------------------------------------------------------------------------
 
@@ -314,8 +465,11 @@ def load_all_call_records() -> dict[str, list[CallRecord]]:
     """Load every call-level dataset that's locally available."""
     return {
         "repo_real": load_repo_real(),
-        "teleantifraud_28k": load_teleantifraud(),
         "better30": load_better30(),
+        "wu2024_corpus": load_wu2024(),
+        "youtube_baiters": load_youtube_baiters(),
+        # Cross-lingual / not part of headline eval:
+        "teleantifraud_28k": load_teleantifraud(),
     }
 
 

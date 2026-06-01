@@ -38,7 +38,8 @@ if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
 from experiments.dataset_loader import (  # noqa: E402
-    CallRecord, load_repo_real, load_teleantifraud, load_better30,
+    CallRecord, load_repo_real, load_better30,
+    load_wu2024, load_youtube_baiters, load_teleantifraud,
 )
 from experiments.run_evaluation import (  # noqa: E402
     evaluate_per_sentence as _eval_per_sentence_with,
@@ -51,8 +52,10 @@ from sentinel_edge.features.handcrafted import extract_handcrafted_features  # n
 
 _LOADERS = {
     "repo_real": load_repo_real,
-    "teleantifraud_28k": load_teleantifraud,
     "better30": load_better30,
+    "wu2024_corpus": load_wu2024,
+    "youtube_baiters": load_youtube_baiters,
+    "teleantifraud_28k": load_teleantifraud,
 }
 
 

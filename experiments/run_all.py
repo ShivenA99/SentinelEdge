@@ -107,6 +107,10 @@ def main() -> int:
         rc, dt = _run([_PY, "experiments/run_adversarial.py"], "adversarial")
         timings["adversarial"] = dt
 
+    if "cross_channel" not in skip:
+        rc, dt = _run([_PY, "experiments/run_cross_channel.py"], "cross_channel")
+        timings["cross_channel"] = dt
+
     if args.with_neural and "neural" not in skip:
         # Modern path: dedicated train + eval scripts. Falls back to
         # the older bundled run_baselines_neural.py if --legacy-neural.
@@ -141,6 +145,7 @@ def main() -> int:
         for f in [
             "eval_xgb", "ttd", "latency", "baselines",
             "asr_robustness", "adversarial", "baselines_neural",
+            "distilbert", "cross_channel",
         ]:
             p = results_dir / f"{f}.json"
             if p.exists():
