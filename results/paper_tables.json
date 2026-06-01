@@ -1,14 +1,5 @@
 {
-  "timings_sec": {
-    "evaluation": 51.809125874890015,
-    "ttd": 31.42196095804684,
-    "latency": 3.766991165932268,
-    "baselines": 118.44391062483191,
-    "asr": 446.2415557920467,
-    "adversarial": 11.58044237503782,
-    "cross_channel": 8.280848792055622,
-    "figures": 10.892734125023708
-  },
+  "timings_sec": {},
   "sources": [
     "repo_real",
     "bothbosu_scam_dialogue",
@@ -16345,6 +16336,97 @@
           }
         }
       }
+    }
+  },
+  "distilbert": {
+    "config": {
+      "ckpt": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/models/distilbert_scam",
+      "eval_sources": [
+        "repo_real",
+        "bothbosu_scam_dialogue",
+        "bothbosu_scammer_conversation",
+        "youtube_baiters"
+      ],
+      "device": "cpu",
+      "threads": 1,
+      "ema_alpha": 0.3,
+      "ema_threshold": 0.75,
+      "n_warm": 50,
+      "n_time": 500,
+      "reps": 3,
+      "out": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/results/distilbert.json"
+    },
+    "info": {
+      "model": "distilbert_finetuned",
+      "ckpt": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/models/distilbert_scam",
+      "n_params_M": 66.95501,
+      "disk_size_mb_estimate": 255.41309356689453,
+      "device": "cpu"
+    },
+    "quality": {
+      "per_sentence": {
+        "n": 28405,
+        "n_pos": 13131,
+        "n_neg": 15274,
+        "threshold": 0.5,
+        "accuracy": 0.7789825734905826,
+        "precision": 0.795158928417607,
+        "recall": 0.7029929175234179,
+        "f1": 0.7462409054163298,
+        "auroc": 0.8435906893126501,
+        "auprc": 0.8396098177965884,
+        "confusion": {
+          "tn": 12896,
+          "fp": 2378,
+          "fn": 3900,
+          "tp": 9231
+        }
+      },
+      "per_call_mean": {
+        "n": 1355,
+        "n_pos": 705,
+        "n_neg": 650,
+        "threshold": 0.5,
+        "accuracy": 0.9660516605166052,
+        "precision": 0.9621318373071529,
+        "recall": 0.9730496453900709,
+        "f1": 0.9675599435825106,
+        "auroc": 0.9949132569558101,
+        "auprc": 0.995329856711231,
+        "confusion": {
+          "tn": 623,
+          "fp": 27,
+          "fn": 19,
+          "tp": 686
+        }
+      },
+      "per_call_streaming": {
+        "n": 1355,
+        "n_pos": 705,
+        "n_neg": 650,
+        "threshold": 0.75,
+        "accuracy": 0.9291512915129151,
+        "precision": 0.8849557522123894,
+        "recall": 0.9929078014184397,
+        "f1": 0.9358288770053476,
+        "auroc": 0.9808336061102019,
+        "auprc": 0.981833871744093,
+        "confusion": {
+          "tn": 559,
+          "fp": 91,
+          "fn": 5,
+          "tp": 700
+        }
+      }
+    },
+    "latency": {
+      "p50_ms": 6.159875076264143,
+      "p95_ms": 8.32170806825161,
+      "p99_ms": 8.902707835659385,
+      "throughput_sent_per_sec": 158.036403992071,
+      "reps": 3,
+      "n_time": 500,
+      "n_warm": 50
     }
   },
   "cross_channel": {

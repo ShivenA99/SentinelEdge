@@ -53,6 +53,7 @@ data/processed/
 
 # Large model artifacts (regenerate with training scripts)
 models/*.onnx
+models/distilbert_scam/
 
 # Federated simulation outputs
 federated/simulation_results.json
