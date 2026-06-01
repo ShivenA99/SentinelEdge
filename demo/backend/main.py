@@ -403,13 +403,20 @@ async def call_detection(websocket: WebSocket, call_id: str):
 
         _model_path = os.path.join(_PROJECT_ROOT, "models", "call_fraud_xgb.json")
         _tfidf_path = os.path.join(_PROJECT_ROOT, "models", "tfidf_call_vectorizer.pkl")
-        _use_real_model = os.path.exists(_model_path) and os.path.exists(_tfidf_path)
-        if _use_real_model:
-            _classifier = FraudClassifier(_model_path)
-            _pipeline = FeaturePipeline(_tfidf_path)
-        else:
-            _classifier = None
-            _pipeline = None
+        if not (os.path.exists(_model_path) and os.path.exists(_tfidf_path)):
+            await websocket.send_json({
+                "type": "error",
+                "message": (
+                    "Trained model not found. The demo requires "
+                    "models/call_fraud_xgb.json and "
+                    "models/tfidf_call_vectorizer.pkl. Run the training "
+                    "pipeline (see README) before launching the demo."
+                ),
+                "timestamp": time.time(),
+            })
+            return
+        _classifier = FraudClassifier(_model_path)
+        _pipeline = FeaturePipeline(_tfidf_path)
 
         call_start_time = time.time()
 
@@ -418,14 +425,10 @@ async def call_detection(websocket: WebSocket, call_id: str):
 
             features = extract_handcrafted_features(sentence)
 
-            if _use_real_model:
-                t0 = time.perf_counter()
-                feature_vec = _pipeline.extract(sentence)
-                fraud_score = _classifier.predict_proba(feature_vec)
-                _inference_ms = (time.perf_counter() - t0) * 1000
-            else:
-                fraud_score = compute_heuristic_score(features)
-                _inference_ms = np.random.uniform(5, 15)
+            t0 = time.perf_counter()
+            feature_vec = _pipeline.extract(sentence)
+            fraud_score = _classifier.predict_proba(feature_vec)
+            _inference_ms = (time.perf_counter() - t0) * 1000
 
             ema_score = accumulator.update(fraud_score)
             alert = alert_engine.evaluate(ema_score, features)
@@ -1047,13 +1050,20 @@ async def live_mic_detection(websocket: WebSocket):
 
         _model_path = os.path.join(_PROJECT_ROOT, "models", "call_fraud_xgb.json")
         _tfidf_path = os.path.join(_PROJECT_ROOT, "models", "tfidf_call_vectorizer.pkl")
-        _use_real_model = os.path.exists(_model_path) and os.path.exists(_tfidf_path)
-        if _use_real_model:
-            _classifier = XGBFraudClassifier(_model_path)
-            _pipeline = FeaturePipeline(_tfidf_path)
-        else:
-            _classifier = None
-            _pipeline = None
+        if not (os.path.exists(_model_path) and os.path.exists(_tfidf_path)):
+            await websocket.send_json({
+                "type": "error",
+                "message": (
+                    "Trained model not found. The demo requires "
+                    "models/call_fraud_xgb.json and "
+                    "models/tfidf_call_vectorizer.pkl. Run the training "
+                    "pipeline before launching the demo."
+                ),
+                "timestamp": time.time(),
+            })
+            return
+        _classifier = XGBFraudClassifier(_model_path)
+        _pipeline = FeaturePipeline(_tfidf_path)
 
         try:
             mic.start()
@@ -1131,14 +1141,10 @@ async def live_mic_detection(websocket: WebSocket):
 
                     features = extract_handcrafted_features(sentence)
 
-                    if _use_real_model:
-                        t0 = time.perf_counter()
-                        feature_vec = _pipeline.extract(sentence)
-                        fraud_score = _classifier.predict_proba(feature_vec)
-                        _inference_ms = (time.perf_counter() - t0) * 1000
-                    else:
-                        fraud_score = compute_heuristic_score(features)
-                        _inference_ms = np.random.uniform(5, 15)
+                    t0 = time.perf_counter()
+                    feature_vec = _pipeline.extract(sentence)
+                    fraud_score = _classifier.predict_proba(feature_vec)
+                    _inference_ms = (time.perf_counter() - t0) * 1000
 
                     ema_score = accumulator.update(fraud_score)
                     alert = alert_engine.evaluate(ema_score, features)
@@ -1347,41 +1353,34 @@ def get_fallback_transcript(file_path: str) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# Heuristic fraud scorer (substitutes for XGBoost in demo mode)
+# Removed heuristic fraud scorer
 # ---------------------------------------------------------------------------
 
 
 def compute_heuristic_score(features: dict[str, float]) -> float:
-    """Compute a heuristic fraud score from handcrafted features."""
-    score = 0.0
-    weights = {
-        "urgency_count": 0.08,
-        "action_count": 0.06,
-        "financial_count": 0.07,
-        "impersonation_count": 0.10,
-        "has_url": 0.04,
-        "has_shortened_url": 0.06,
-        "has_verify_pattern": 0.04,
-        "has_threat": 0.10,
-        "has_prize": 0.06,
-        "has_account_ref": 0.07,
-        "dollar_sign": 0.03,
-        "has_phone_number": 0.02,
-        "exclamation_count": 0.02,
-        "caps_ratio": 0.03,
-    }
+    """DEPRECATED hand-tuned heuristic scorer.
 
-    for feature, weight in weights.items():
-        value = features.get(feature, 0)
-        if isinstance(value, bool):
-            value = 1.0 if value else 0.0
-        score += value * weight
+    This function used to be silently invoked when the trained model
+    files were missing, producing demo scores from a hand-tuned weighted
+    sum plus Gaussian noise. That made the demo's fraud scores
+    indistinguishable from the trained model's, which the ASSESSMENT.md
+    identified as the single largest gap between the demo's narrative
+    and the underlying code.
 
-    score = max(0.0, min(1.0, score))
-    score += np.random.normal(0, 0.02)
-    score = max(0.0, min(1.0, score))
-
-    return score
+    The demo path now refuses to start without the trained model and
+    TF-IDF vectorizer artefacts. This function is kept only so older
+    scripts that imported it still resolve; it raises rather than
+    quietly returning a fake score.
+    """
+    raise RuntimeError(
+        "compute_heuristic_score has been removed from the live demo path. "
+        "The demo backend now requires the trained model at "
+        "models/call_fraud_xgb.json and the fitted TF-IDF vectorizer at "
+        "models/tfidf_call_vectorizer.pkl. Run `python "
+        "training/generate_synthetic_data.py && python "
+        "training/prepare_datasets.py && python training/fit_tfidf.py && "
+        "python training/train_call_classifier.py` to create them."
+    )
 
 
 # ---------------------------------------------------------------------------
