@@ -533,9 +533,20 @@ def load_youtube_baiters(root: Path | None = None) -> list[CallRecord]:
                 continue
             tr = json.loads(tr_path.read_text())
             # Whisper output has 'segments' with 'text' fields
-            if "segments" in tr and tr["segments"]:
+            all_segments = tr.get("segments") if "segments" in tr else None
+            seg_range = (row.get("segment_range") or "").strip()
+            if all_segments and seg_range and ":" in seg_range:
+                try:
+                    a, _, b = seg_range.partition(":")
+                    a = int(a) if a else 0
+                    b = int(b) if b else len(all_segments)
+                    all_segments = all_segments[a:b]
+                except ValueError:
+                    pass
+
+            if all_segments:
                 sentences = []
-                for seg in tr["segments"]:
+                for seg in all_segments:
                     txt = seg.get("text", "").strip()
                     if txt:
                         # Each Whisper segment is approximately a sentence

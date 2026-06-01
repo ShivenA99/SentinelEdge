@@ -1,10 +1,13 @@
 {
   "config": {
     "sources": [
-      "repo_real"
+      "repo_real",
+      "bothbosu_scam_dialogue",
+      "bothbosu_scammer_conversation",
+      "youtube_baiters"
     ],
-    "model": "/home/claude/SE/models/call_fraud_xgb.json",
-    "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
+    "model": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/models/call_fraud_xgb.json",
+    "tfidf": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/models/tfidf_call_vectorizer.pkl",
     "perturbations": [
       "word_swap",
       "word_delete",
@@ -21,188 +24,188 @@
     "seed": 42,
     "ema_alpha": 0.3,
     "ema_threshold": 0.75,
-    "out": "/home/claude/SE/results/asr_robustness.json"
+    "out": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/results/asr_robustness.json"
   },
   "table": [
     {
       "perturbation": "word_swap",
       "rate": 0.0,
-      "stream_f1": 0.9285714285714286,
-      "stream_precision": 1.0,
-      "stream_recall": 0.8666666666666667,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7899159663865546,
-      "sent_auroc": 0.8010932662538699
+      "stream_f1": 0.7287234042553191,
+      "stream_precision": 0.9716312056737588,
+      "stream_recall": 0.5829787234042553,
+      "stream_auroc": 0.9649558101472996,
+      "sent_f1": 0.5330197380557092,
+      "sent_auroc": 0.6835815602062463
     },
     {
       "perturbation": "word_swap",
       "rate": 0.05,
-      "stream_f1": 0.9655172413793104,
-      "stream_precision": 1.0,
-      "stream_recall": 0.9333333333333333,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7871621621621622,
-      "sent_auroc": 0.7964880030959753
+      "stream_f1": 0.7155635062611807,
+      "stream_precision": 0.9685230024213075,
+      "stream_recall": 0.5673758865248227,
+      "stream_auroc": 0.963203491543917,
+      "sent_f1": 0.5328163943505954,
+      "sent_auroc": 0.6826185181591965
     },
     {
       "perturbation": "word_swap",
       "rate": 0.1,
-      "stream_f1": 0.9655172413793104,
-      "stream_precision": 1.0,
-      "stream_recall": 0.9333333333333333,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7864406779661017,
-      "sent_auroc": 0.795984907120743
+      "stream_f1": 0.6897810218978102,
+      "stream_precision": 0.9667519181585678,
+      "stream_recall": 0.5361702127659574,
+      "stream_auroc": 0.9613769776322968,
+      "sent_f1": 0.5271993692899875,
+      "sent_auroc": 0.6811812657629481
     },
     {
       "perturbation": "word_swap",
       "rate": 0.2,
-      "stream_f1": 0.9285714285714286,
-      "stream_precision": 1.0,
-      "stream_recall": 0.8666666666666667,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7824620573355818,
-      "sent_auroc": 0.7939628482972136
+      "stream_f1": 0.6666666666666666,
+      "stream_precision": 0.96,
+      "stream_recall": 0.5106382978723404,
+      "stream_auroc": 0.9581014729950901,
+      "sent_f1": 0.5212889987408478,
+      "sent_auroc": 0.6786242873021167
     },
     {
       "perturbation": "word_swap",
       "rate": 0.3,
-      "stream_f1": 0.9655172413793104,
-      "stream_precision": 1.0,
-      "stream_recall": 0.9333333333333333,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7681895093062606,
-      "sent_auroc": 0.7795085139318886
+      "stream_f1": 0.6013579049466538,
+      "stream_precision": 0.950920245398773,
+      "stream_recall": 0.4397163120567376,
+      "stream_auroc": 0.9548761593016912,
+      "sent_f1": 0.5200804151666745,
+      "sent_auroc": 0.6767340548047737
     },
     {
       "perturbation": "word_swap",
       "rate": 0.5,
-      "stream_f1": 0.9285714285714286,
-      "stream_precision": 1.0,
-      "stream_recall": 0.8666666666666667,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7529812606473595,
-      "sent_auroc": 0.7624709752321981
+      "stream_f1": 0.5102880658436214,
+      "stream_precision": 0.9288389513108615,
+      "stream_recall": 0.3517730496453901,
+      "stream_auroc": 0.9455035460992908,
+      "sent_f1": 0.5021796815769523,
+      "sent_auroc": 0.671344727903657
     },
     {
       "perturbation": "word_delete",
       "rate": 0.0,
-      "stream_f1": 0.9285714285714286,
-      "stream_precision": 1.0,
-      "stream_recall": 0.8666666666666667,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7899159663865546,
-      "sent_auroc": 0.8010932662538699
+      "stream_f1": 0.7287234042553191,
+      "stream_precision": 0.9716312056737588,
+      "stream_recall": 0.5829787234042553,
+      "stream_auroc": 0.9649558101472996,
+      "sent_f1": 0.5330197380557092,
+      "sent_auroc": 0.6835815602062463
     },
     {
       "perturbation": "word_delete",
       "rate": 0.05,
-      "stream_f1": 0.9285714285714286,
-      "stream_precision": 1.0,
-      "stream_recall": 0.8666666666666667,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7789115646258503,
-      "sent_auroc": 0.7937983746130031
+      "stream_f1": 0.6927985414767548,
+      "stream_precision": 0.9693877551020408,
+      "stream_recall": 0.5390070921985816,
+      "stream_auroc": 0.9615340971085652,
+      "sent_f1": 0.5272675897146086,
+      "sent_auroc": 0.6873387856080697
     },
     {
       "perturbation": "word_delete",
       "rate": 0.1,
-      "stream_f1": 0.9285714285714286,
-      "stream_precision": 1.0,
-      "stream_recall": 0.8666666666666667,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7612456747404844,
-      "sent_auroc": 0.7889802631578946
+      "stream_f1": 0.6629422718808193,
+      "stream_precision": 0.964769647696477,
+      "stream_recall": 0.5049645390070922,
+      "stream_auroc": 0.9583458810692853,
+      "sent_f1": 0.5173026157907368,
+      "sent_auroc": 0.6898641954179221
     },
     {
       "perturbation": "word_delete",
       "rate": 0.2,
-      "stream_f1": 0.8,
-      "stream_precision": 1.0,
-      "stream_recall": 0.6666666666666666,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7340425531914894,
-      "sent_auroc": 0.7612229102167183
+      "stream_f1": 0.5782178217821782,
+      "stream_precision": 0.9573770491803278,
+      "stream_recall": 0.41418439716312055,
+      "stream_auroc": 0.9542214948172395,
+      "sent_f1": 0.4911546319828574,
+      "sent_auroc": 0.6898721131337485
     },
     {
       "perturbation": "word_delete",
       "rate": 0.3,
-      "stream_f1": 0.6363636363636364,
-      "stream_precision": 1.0,
-      "stream_recall": 0.4666666666666667,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.6948529411764706,
-      "sent_auroc": 0.7612519349845202
+      "stream_f1": 0.48785638859556496,
+      "stream_precision": 0.9545454545454546,
+      "stream_recall": 0.3276595744680851,
+      "stream_auroc": 0.9502160392798691,
+      "sent_f1": 0.447651919255308,
+      "sent_auroc": 0.68088330436636
     },
     {
       "perturbation": "word_delete",
       "rate": 0.5,
-      "stream_f1": 0.5,
-      "stream_precision": 1.0,
-      "stream_recall": 0.3333333333333333,
-      "stream_auroc": 0.9833333333333334,
-      "sent_f1": 0.62,
-      "sent_auroc": 0.7086880804953559
+      "stream_f1": 0.2764423076923077,
+      "stream_precision": 0.905511811023622,
+      "stream_recall": 0.16312056737588654,
+      "stream_auroc": 0.9081047463175121,
+      "sent_f1": 0.33045739274317454,
+      "sent_auroc": 0.6416724396687257
     },
     {
       "perturbation": "char_noise",
       "rate": 0.0,
-      "stream_f1": 0.9285714285714286,
-      "stream_precision": 1.0,
-      "stream_recall": 0.8666666666666667,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7899159663865546,
-      "sent_auroc": 0.8010932662538699
+      "stream_f1": 0.7287234042553191,
+      "stream_precision": 0.9716312056737588,
+      "stream_recall": 0.5829787234042553,
+      "stream_auroc": 0.9649558101472996,
+      "sent_f1": 0.5330197380557092,
+      "sent_auroc": 0.6835815602062463
     },
     {
       "perturbation": "char_noise",
       "rate": 0.05,
-      "stream_f1": 1.0,
-      "stream_precision": 1.0,
-      "stream_recall": 1.0,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7684391080617495,
-      "sent_auroc": 0.7773993808049535
+      "stream_f1": 0.5913555992141454,
+      "stream_precision": 0.9616613418530351,
+      "stream_recall": 0.4269503546099291,
+      "stream_auroc": 0.964582651391162,
+      "sent_f1": 0.527048491077268,
+      "sent_auroc": 0.6811665621458374
     },
     {
       "perturbation": "char_noise",
       "rate": 0.1,
-      "stream_f1": 0.9655172413793104,
-      "stream_precision": 1.0,
-      "stream_recall": 0.9333333333333333,
-      "stream_auroc": 1.0,
-      "sent_f1": 0.7663865546218488,
-      "sent_auroc": 0.7684404024767801
+      "stream_f1": 0.4883720930232558,
+      "stream_precision": 0.9585062240663901,
+      "stream_recall": 0.3276595744680851,
+      "stream_auroc": 0.9542258592471358,
+      "sent_f1": 0.5063484486873508,
+      "sent_auroc": 0.6740821809242542
     },
     {
       "perturbation": "char_noise",
       "rate": 0.2,
-      "stream_f1": 0.8888888888888888,
-      "stream_precision": 1.0,
-      "stream_recall": 0.8,
-      "stream_auroc": 0.9916666666666667,
-      "sent_f1": 0.6920289855072463,
-      "sent_auroc": 0.7242550309597523
+      "stream_f1": 0.3031026252983294,
+      "stream_precision": 0.9548872180451128,
+      "stream_recall": 0.18014184397163122,
+      "stream_auroc": 0.9498799781778504,
+      "sent_f1": 0.4514851485148515,
+      "sent_auroc": 0.6675042418364785
     },
     {
       "perturbation": "char_noise",
       "rate": 0.3,
-      "stream_f1": 0.6363636363636364,
-      "stream_precision": 1.0,
-      "stream_recall": 0.4666666666666667,
-      "stream_auroc": 0.9416666666666667,
-      "sent_f1": 0.632768361581921,
-      "sent_auroc": 0.6854779411764707
+      "stream_f1": 0.19592875318066158,
+      "stream_precision": 0.9506172839506173,
+      "stream_recall": 0.10921985815602837,
+      "stream_auroc": 0.9361887615930168,
+      "sent_f1": 0.39771025037449176,
+      "sent_auroc": 0.6641381256694472
     },
     {
       "perturbation": "char_noise",
       "rate": 0.5,
-      "stream_f1": 0.23529411764705882,
-      "stream_precision": 1.0,
-      "stream_recall": 0.13333333333333333,
-      "stream_auroc": 0.9083333333333333,
-      "sent_f1": 0.6228893058161351,
-      "sent_auroc": 0.6681308049535605
+      "stream_f1": 0.06310013717421124,
+      "stream_precision": 0.9583333333333334,
+      "stream_recall": 0.032624113475177303,
+      "stream_auroc": 0.9361374795417348,
+      "sent_f1": 0.3613556338028169,
+      "sent_auroc": 0.6657650392699259
     }
   ]
 }

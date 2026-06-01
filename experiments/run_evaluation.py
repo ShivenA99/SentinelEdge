@@ -67,6 +67,16 @@ _LOADERS = {
     "better30": load_better30,
     "wu2024_corpus": load_wu2024,
     "bothbosu": load_bothbosu,
+    "bothbosu_scam_dialogue": lambda: load_bothbosu(subsets=["scam_dialogue"]),
+    "bothbosu_multi_agent_scam_conversation": (
+        lambda: load_bothbosu(subsets=["multi_agent_scam_conversation"])
+    ),
+    "bothbosu_single_agent_scam_conversations": (
+        lambda: load_bothbosu(subsets=["single_agent_scam_conversations"])
+    ),
+    "bothbosu_scammer_conversation": (
+        lambda: load_bothbosu(subsets=["Scammer_Conversation"], splits=["train"])
+    ),
     "youtube_baiters": load_youtube_baiters,
     "teleantifraud_28k": load_teleantifraud,
 }

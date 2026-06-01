@@ -1,65 +1,68 @@
 {
   "config": {
     "sources": [
-      "repo_real"
+      "repo_real",
+      "bothbosu_scam_dialogue",
+      "bothbosu_scammer_conversation",
+      "youtube_baiters"
     ],
-    "model": "/home/claude/SE/models/call_fraud_xgb.json",
-    "tfidf": "/home/claude/SE/models/tfidf_call_vectorizer.pkl",
+    "model": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/models/call_fraud_xgb.json",
+    "tfidf": "/Users/abhijit.chakraborty/Documents/GitHub/SentinelEdge/models/tfidf_call_vectorizer.pkl",
     "ema_alpha": 0.3,
     "ema_threshold": 0.75
   },
   "per_sentence": {
-    "n": 483,
-    "n_pos": 323,
-    "n_neg": 160,
+    "n": 28405,
+    "n_pos": 13131,
+    "n_neg": 15274,
     "threshold": 0.5,
-    "accuracy": 0.7412008281573499,
-    "precision": 0.8639705882352942,
-    "recall": 0.7275541795665634,
-    "f1": 0.7899159663865546,
-    "auroc": 0.8010932662538699,
-    "auprc": 0.8833446524350143,
+    "accuracy": 0.6435134659390952,
+    "precision": 0.6756693557815971,
+    "recall": 0.4401035717005559,
+    "f1": 0.5330197380557092,
+    "auroc": 0.6835815602062463,
+    "auprc": 0.6683493969880485,
     "confusion": {
-      "tn": 123,
-      "fp": 37,
-      "fn": 88,
-      "tp": 235
+      "tn": 12500,
+      "fp": 2774,
+      "fn": 7352,
+      "tp": 5779
     }
   },
   "per_call_mean": {
-    "n": 23,
-    "n_pos": 15,
-    "n_neg": 8,
+    "n": 1355,
+    "n_pos": 705,
+    "n_neg": 650,
     "threshold": 0.5,
-    "accuracy": 1.0,
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1": 1.0,
-    "auroc": 1.0,
-    "auprc": 1.0,
+    "accuracy": 0.6627306273062731,
+    "precision": 0.9920634920634921,
+    "recall": 0.3546099290780142,
+    "f1": 0.522466039707419,
+    "auroc": 0.9857872340425532,
+    "auprc": 0.9823685502923529,
     "confusion": {
-      "tn": 8,
-      "fp": 0,
-      "fn": 0,
-      "tp": 15
+      "tn": 648,
+      "fp": 2,
+      "fn": 455,
+      "tp": 250
     }
   },
   "per_call_streaming": {
-    "n": 23,
-    "n_pos": 15,
-    "n_neg": 8,
+    "n": 1355,
+    "n_pos": 705,
+    "n_neg": 650,
     "threshold": 0.75,
-    "accuracy": 0.9130434782608695,
-    "precision": 1.0,
-    "recall": 0.8666666666666667,
-    "f1": 0.9285714285714286,
-    "auroc": 1.0,
-    "auprc": 1.0,
+    "accuracy": 0.7741697416974169,
+    "precision": 0.9716312056737588,
+    "recall": 0.5829787234042553,
+    "f1": 0.7287234042553191,
+    "auroc": 0.9649558101472996,
+    "auprc": 0.9428293843119818,
     "confusion": {
-      "tn": 8,
-      "fp": 0,
-      "fn": 2,
-      "tp": 13
+      "tn": 638,
+      "fp": 12,
+      "fn": 294,
+      "tp": 411
     }
   },
   "per_source_streaming": {
@@ -81,7 +84,64 @@
         "tp": 13
       },
       "n_calls": 23
+    },
+    "bothbosu_scam_dialogue": {
+      "n": 320,
+      "n_pos": 160,
+      "n_neg": 160,
+      "threshold": 0.75,
+      "accuracy": 0.6375,
+      "precision": 1.0,
+      "recall": 0.275,
+      "f1": 0.43137254901960786,
+      "auroc": 0.8608203125,
+      "auprc": 0.8816915601281718,
+      "confusion": {
+        "tn": 160,
+        "fp": 0,
+        "fn": 116,
+        "tp": 44
+      },
+      "n_calls": 320
+    },
+    "bothbosu_Scammer_Conversation": {
+      "n": 1000,
+      "n_pos": 524,
+      "n_neg": 476,
+      "threshold": 0.75,
+      "accuracy": 0.817,
+      "precision": 0.9722991689750693,
+      "recall": 0.6698473282442748,
+      "f1": 0.7932203389830509,
+      "auroc": 0.9782979985887486,
+      "auprc": 0.951409130378635,
+      "confusion": {
+        "tn": 466,
+        "fp": 10,
+        "fn": 173,
+        "tp": 351
+      },
+      "n_calls": 1000
+    },
+    "youtube_baiters": {
+      "n": 12,
+      "n_pos": 6,
+      "n_neg": 6,
+      "threshold": 0.75,
+      "accuracy": 0.5833333333333334,
+      "precision": 0.6,
+      "recall": 0.5,
+      "f1": 0.5454545454545454,
+      "auroc": 0.4722222222222222,
+      "auprc": 0.5057239057239057,
+      "confusion": {
+        "tn": 4,
+        "fp": 2,
+        "fn": 3,
+        "tp": 3
+      },
+      "n_calls": 12
     }
   },
-  "elapsed_sec": 2.3109812980000015
+  "elapsed_sec": 49.603052333928645
 }

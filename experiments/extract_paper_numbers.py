@@ -184,6 +184,11 @@ def from_eval(data: dict, m: dict) -> None:
                 "repo_real": "\\textsc{repo-real}",
                 "better30":  "BETTER30",
                 "wu2024_corpus": "Wu~et~al.~corpus",
+                "bothbosu": "BothBosu",
+                "bothbosu_scam_dialogue": "BothBosu~SD",
+                "bothbosu_multi_agent_scam_conversation": "BothBosu~MASC",
+                "bothbosu_single_agent_scam_conversations": "BothBosu~SASC",
+                "bothbosu_scammer_conversation": "BothBosu~SC",
                 "youtube_baiters": "YouTube~scam-baiter",
             }.get(s, s))
         m["EvalSources"] = " + ".join(names)
