@@ -247,6 +247,11 @@ def _metrics(y_true: np.ndarray, y_score: np.ndarray, threshold: float) -> dict:
     else:
         out["auroc"] = float("nan")
         out["auprc"] = float("nan")
+    # Raw labels and scores so downstream tooling (experiments/bootstrap_cis.py)
+    # can bootstrap confidence intervals, including AUROC for the
+    # channel-disjoint result, which needs the continuous scores.
+    out["y_true"] = np.asarray(y_true).astype(int).tolist()
+    out["y_score"] = np.round(np.asarray(y_score, dtype=float), 6).tolist()
     return out
 
 

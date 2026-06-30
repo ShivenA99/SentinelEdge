@@ -164,7 +164,10 @@ def fig_ttd_cdf(ttd: dict, outdir: Path, sec_per_sentence: float = 4.0) -> None:
 
     # Construct empirical CDF over ALL scam calls (so missed calls show
     # up as flat at the end, never reaching 1.0).
-    xs = list(sorted_idx)
+    # ``ttd_idx`` is a 0-based sentence index; plot the 1-based number of
+    # sentences heard (idx + 1) so the axis matches the paper's macros and
+    # the (idx + 1) * sec_per_sentence seconds convention.
+    xs = [i + 1 for i in sorted_idx]
     ys = [(i + 1) / n_scam for i in range(len(xs))]
     # extend horizontally to a sensible max
     max_idx = max(max(xs) + 2, 25)
@@ -178,12 +181,13 @@ def fig_ttd_cdf(ttd: dict, outdir: Path, sec_per_sentence: float = 4.0) -> None:
     # Median marker
     median = agg.get("ttd_idx_median")
     if median is not None:
-        ax.axvline(median, color="black", linewidth=0.6, linestyle="--", alpha=0.6)
-        ax.text(median + 0.4, 0.05,
-                f"median = {median:.0f} sentences\n(≈ {median*sec_per_sentence:.0f}s)",
+        median_sent = median + 1
+        ax.axvline(median_sent, color="black", linewidth=0.6, linestyle="--", alpha=0.6)
+        ax.text(median_sent + 0.4, 0.05,
+                f"median = {median_sent:.0f} sentences\n(≈ {median_sent*sec_per_sentence:.0f}s)",
                 fontsize=7, alpha=0.8)
 
-    ax.set_xlabel("Sentence index at which EMA first crosses 0.75")
+    ax.set_xlabel("Sentences heard before EMA first crosses 0.75")
     ax.set_ylabel("Fraction of scam calls detected")
     ax.set_xlim(0, max_idx)
     ax.set_ylim(0, 1.02)

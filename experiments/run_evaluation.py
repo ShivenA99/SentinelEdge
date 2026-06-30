@@ -137,6 +137,11 @@ def metrics_block(
     fn = int(np.sum((y_true == 1) & (y_pred == 0)))
     tp = int(np.sum((y_true == 1) & (y_pred == 1)))
     out["confusion"] = {"tn": tn, "fp": fp, "fn": fn, "tp": tp}
+    # Raw labels and scores so downstream tooling (experiments/bootstrap_cis.py)
+    # can bootstrap confidence intervals, including AUROC, which needs the
+    # continuous scores rather than the thresholded confusion counts.
+    out["y_true"] = np.asarray(y_true).astype(int).tolist()
+    out["y_score"] = np.round(np.asarray(y_score, dtype=float), 6).tolist()
     return out
 
 

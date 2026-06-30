@@ -1,0 +1,17 @@
+{
+  "_note": "Per-head blocks for the channel-disjoint (YouTube) n=24 held-out test, extracted from results/robust_lr_channel_disjoint.json. Confusion-only: F1/precision/recall CIs are exact; AUROC CIs require per-call y_score arrays (not stored by the original generator).",
+  "old_xgb_disjoint": {
+    "n": 24,
+    "n_pos": 15,
+    "n_neg": 9,
+    "threshold": 0.75,
+    "confusion": {"tn": 6, "fp": 3, "fn": 9, "tp": 6}
+  },
+  "retrained_tfidf_lr_disjoint": {
+    "n": 24,
+    "n_pos": 15,
+    "n_neg": 9,
+    "threshold": 0.7875,
+    "confusion": {"tn": 5, "fp": 4, "fn": 0, "tp": 15}
+  }
+}

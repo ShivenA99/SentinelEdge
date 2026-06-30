@@ -38,11 +38,23 @@ _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 _DEFAULT_MACROS: dict[str, str] = {
     # --- corpus sizes ---
-    "NumTrainSentences": "TBD",
+    # Canonical row count of data/processed/call_fraud_train.csv. Kept as a
+    # concrete default (not "TBD") so the compiled PDF stays complete on
+    # machines where the generated CSV is absent; the count is recomputed
+    # from the CSV (or --num-train-sentences) whenever it is available.
+    "NumTrainSentences": "22{,}553",
     "NumEvalCalls": "TBD",
     "NumScamCalls": "TBD",
     "NumLegitCalls": "TBD",
     "EvalSources": "\\textsc{repo-real}",
+    # --- channel-disjoint retraining (held-out scam-baiter channel) ---
+    # AUROC point estimates only; F1/precision/recall CIs live in
+    # paper/_cis.tex (experiments/bootstrap_cis.py).
+    "DisjointN": "TBD",
+    "DisjointNPos": "TBD",
+    "DisjointNNeg": "TBD",
+    "DisjointOldXgbAuroc": "TBD",
+    "DisjointRetrainedAuroc": "TBD",
     # --- per-sentence ---
     "PerSentAcc":  "TBD", "PerSentPrec": "TBD",
     "PerSentRec":  "TBD", "PerSentFOne": "TBD",
@@ -81,6 +93,7 @@ _DEFAULT_MACROS: dict[str, str] = {
     "LRvsDistilFPerKB": "TBD",
     # --- baseline quality rows ---
     "HandLRFOne":  "TBD", "HandLRPrec":  "TBD", "HandLRRec":  "TBD",
+    "HandLRFP":    "TBD",
     "HandSVMFOne": "TBD", "HandSVMPrec": "TBD", "HandSVMRec": "TBD",
     "TfidfLRFOne": "TBD", "TfidfLRPrec": "TBD", "TfidfLRRec": "TBD",
     "CombLRFOne":  "TBD", "CombLRPrec":  "TBD", "CombLRRec":  "TBD",
@@ -223,11 +236,22 @@ def from_eval(data: dict, m: dict) -> None:
 def from_ttd(data: dict, m: dict) -> None:
     """ttd.json -> time-to-detection + full-transcript baseline."""
     agg = data.get("ttd_aggregate", {})
-    m["TtdMedianSent"] = fmt_int(agg.get("ttd_idx_median"))
+
+    def _sent_count(idx):
+        # ``ttd_idx`` is a 0-based sentence index, but the seconds below are
+        # computed as ``(idx + 1) * sec_per_sentence`` in
+        # run_time_to_detection.py. Report the 1-based number of sentences
+        # heard before the alert so the sentence and second macros agree
+        # (e.g. 1 sentence ~= 4 s, not "0 sentences ~= 4 s").
+        if idx is None:
+            return "TBD"
+        return fmt_int(int(round(idx)) + 1)
+
+    m["TtdMedianSent"] = _sent_count(agg.get("ttd_idx_median"))
     m["TtdMedianSec"]  = fmt_int(agg.get("ttd_sec_median"))
-    m["TtdMidSent"]    = fmt_int(agg.get("ttd_idx_p75"))
+    m["TtdMidSent"]    = _sent_count(agg.get("ttd_idx_p75"))
     m["TtdMidSec"]     = fmt_int(agg.get("ttd_sec_p75"))
-    m["TtdHighSent"]   = fmt_int(agg.get("ttd_idx_p90"))
+    m["TtdHighSent"]   = _sent_count(agg.get("ttd_idx_p90"))
 
     full = data.get("streaming_vs_full", {}).get("full_transcript", {})
     m["FullAcc"]  = fmt(full.get("accuracy"))
@@ -270,6 +294,12 @@ def from_baselines(data: dict, m: dict) -> None:
             m[mf] = fmt(s.get("f1"))
             m[mp] = fmt(s.get("precision"))
             m[mr] = fmt(s.get("recall"))
+
+    # False-positive count of the headline LR head on the full eval set.
+    hlr_stream = results.get("handcrafted_lr", {}).get("per_call_streaming", {})
+    hlr_conf = hlr_stream.get("confusion", {})
+    if "fp" in hlr_conf:
+        m["HandLRFP"] = str(hlr_conf["fp"])
 
     # Combined LR doesn't have a separate latency benchmark; use TfidfLR's
     if m.get("CombLRLat") == "TBD" and m.get("TfidfLRLat") != "TBD":
@@ -452,6 +482,34 @@ def from_cross_channel(data: dict, m: dict) -> None:
         fill("urls", "Url")
 
 
+def from_channel_disjoint(data: dict, m: dict) -> None:
+    """robust_lr_channel_disjoint.json -> held-out-channel AUROC point
+    estimates for the demo-default XGBoost head vs the retrained linear
+    head.
+
+    Only AUROC point estimates are taken here; the F1/precision/recall
+    bootstrap intervals are produced separately by
+    ``experiments/bootstrap_cis.py`` into ``paper/_cis.tex``. AUROC has no
+    interval because the per-call ranking scores from the original run
+    were not persisted.
+    """
+    old = data.get("old_xgb_same_channel_disjoint_test", {})
+    if old:
+        m["DisjointOldXgbAuroc"] = fmt(old.get("auroc"))
+        if old.get("n") is not None:
+            m["DisjointN"] = str(old.get("n"))
+        if old.get("n_pos") is not None:
+            m["DisjointNPos"] = str(old.get("n_pos"))
+        if old.get("n_neg") is not None:
+            m["DisjointNNeg"] = str(old.get("n_neg"))
+    test = data.get("headline", {}).get(
+        "youtube_channel_disjoint_test_streaming", {})
+    if test:
+        m["DisjointRetrainedAuroc"] = fmt(test.get("auroc"))
+        if m.get("DisjointN", "TBD") == "TBD" and test.get("n") is not None:
+            m["DisjointN"] = str(test.get("n"))
+
+
 def from_paper_tables(data: dict, m: dict) -> None:
     """paper_tables.json -> the total run-all wall-clock time."""
     t = data.get("timings_sec", {})
@@ -490,6 +548,7 @@ def main() -> int:
         ("adversarial.json",      from_adversarial),
         ("adversarial_lr.json",   from_adversarial_lr),
         ("cross_channel.json",    from_cross_channel),
+        ("robust_lr_channel_disjoint.json", from_channel_disjoint),
         ("paper_tables.json",     from_paper_tables),
     ]
     for fname, fn in extractors:

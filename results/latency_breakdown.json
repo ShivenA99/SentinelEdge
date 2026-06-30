@@ -1,0 +1,62 @@
+{
+  "window_sec": 5.0,
+  "classifier_model": "call_fraud_xgb.json",
+  "stages": {
+    "asr": {
+      "label": "ASR (Whisper tiny.en)",
+      "unit": "5s window",
+      "median_ms": null,
+      "available": false,
+      "skip_reason": "no --audio file provided",
+      "samples_ms": []
+    },
+    "segment": {
+      "label": "Segmentation",
+      "unit": "window",
+      "median_ms": 0.007070872932672501,
+      "available": true,
+      "skip_reason": "",
+      "samples_ms": [
+        0.00707264244556427,
+        0.007061582058668137,
+        0.007070872932672501
+      ]
+    },
+    "features": {
+      "label": "Feature extraction",
+      "unit": "sentence",
+      "median_ms": 0.38256507739424706,
+      "available": true,
+      "skip_reason": "",
+      "samples_ms": [
+        0.35928815230727196,
+        0.38256507739424706,
+        0.384941253811121
+      ]
+    },
+    "classify": {
+      "label": "Classifier",
+      "unit": "sentence",
+      "median_ms": 0.1751112937927246,
+      "available": true,
+      "skip_reason": "",
+      "samples_ms": [
+        0.1765817515552044,
+        0.1751112937927246,
+        0.17509646341204643
+      ]
+    },
+    "ema": {
+      "label": "EMA smoothing",
+      "unit": "sentence",
+      "median_ms": 0.0002314932644367218,
+      "available": true,
+      "skip_reason": "",
+      "samples_ms": [
+        0.0002314932644367218,
+        0.00026780739426612854,
+        0.0002207718789577484
+      ]
+    }
+  }
+}

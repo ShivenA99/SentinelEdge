@@ -1,0 +1,30 @@
+{
+  "dataset": "youtube_baiters",
+  "n": 80,
+  "n_pos": 50,
+  "n_neg": 30,
+  "threshold": 0.5,
+  "heads": {
+    "default": {
+      "n": 80,
+      "n_pos": 50,
+      "accuracy": 0.6375,
+      "precision": 0.6329113924050633,
+      "recall": 1.0,
+      "f1": 0.7751937984496124,
+      "auroc": 0.6943333333333334,
+      "auprc": 0.7886173457776458
+    },
+    "adv_retrained": {
+      "n": 80,
+      "n_pos": 50,
+      "accuracy": 0.6375,
+      "precision": 0.6329113924050633,
+      "recall": 1.0,
+      "f1": 0.7751937984496124,
+      "auroc": 0.653,
+      "auprc": 0.7647922084211708
+    }
+  },
+  "delta_f1": 0.0
+}

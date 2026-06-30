@@ -1,4 +1,4 @@
-app = "sentineledge-demo"
+app = "sentineledge-scamguard"
 primary_region = "sjc"
 
 [build]

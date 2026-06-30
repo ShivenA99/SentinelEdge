@@ -25,14 +25,15 @@ right ballpark).
 | `\StreamAcc / Prec / Rec / FOne` | per-call streaming EMA metrics                  | `results/eval_xgb.json`                          | `0.913 / 1.000 / 0.867 / 0.929` |
 | `\StreamMissed`          | number of scam calls missed by streaming                 | `results/eval_xgb.json` confusion.fn             | `2` |
 | `\FullAcc / Prec / Rec / FOne` | full-transcript baseline metrics                   | `results/ttd.json` streaming_vs_full             | `0.739 / 0.714 / 1.000 / 0.833` |
-| `\TtdMedianSent`         | median time-to-detection (sentences)                     | `results/ttd.json`                               | `8` |
-| `\TtdMedianSec`          | median time-to-detection (seconds at 4 s/sentence)       | `results/ttd.json`                               | `36` |
-| `\TtdMidSent / TtdMidSec` | 75th-percentile time-to-detection                       | `results/ttd.json`                               | `10 / 44` |
-| `\TtdHighSent`           | 90th-percentile time-to-detection                        | `results/ttd.json`                               | `11` |
+| `\TtdMedianSent`         | median time-to-detection (sentences heard, 1-based)      | `results/ttd.json`                               | `1` |
+| `\TtdMedianSec`          | median time-to-detection (seconds at 4 s/sentence)       | `results/ttd.json`                               | `4` |
+| `\TtdMidSent / TtdMidSec` | 75th-percentile time-to-detection                       | `results/ttd.json`                               | `2 / 8` |
+| `\TtdHighSent`           | 90th-percentile time-to-detection                        | `results/ttd.json`                               | `2` |
 | `\XgbLatencyMs`          | XGB+TF-IDF per-sentence latency p50, single CPU thread   | `results/latency.json`                           | `1.13` |
 | `\XgbThroughput`         | sentences/sec, single CPU thread                         | `results/latency.json`                           | `874` |
 | `\XgbSizeMB`             | trained classifier + vectorizer on disk                  | `results/latency.json`                           | `0.25` |
 | `\HandLRFOne / Prec / Rec` | logistic regression on 18 handcrafted features          | `results/baselines.json`                         | `0.846 / 1.000 / 0.733` |
+| `\HandLRFP`               | LR head false-positive count on the full eval set       | `results/baselines.json` per_call_streaming confusion.fp | `4` |
 | `\HandLRLat / Size`        | latency / size of handcrafted-LR                        | `results/latency.json`                           | `0.29 ms / 0.001 MB` |
 | `\HandSVMFOne / Prec / Rec` | SVM on 18 handcrafted features                         | `results/baselines.json`                         | `0.846 / 1.000 / 0.733` |
 | `\HandSVMLat / Size`       | (defaults to HandLR's, since SVM not separately timed)  | derived                                          | `0.29 ms / 0.001 MB` |

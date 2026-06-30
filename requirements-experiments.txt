@@ -1,0 +1,21 @@
+# Pinned deps for the experiment re-runs (Task 5/6/7, bootstrap CIs).
+# Recreate with:
+#   python3 -m venv .venv_exp && source .venv_exp/bin/activate \
+#     && pip install -r requirements-experiments.txt
+# Throwaway: delete .venv_exp when done.
+#
+# xgboost pinned to the version call_fraud_xgb.json was trained with
+# (model "version":[2,1,4]) so the JSON loads without a binary mismatch.
+xgboost==2.1.4
+# scikit-learn pinned to the version the .joblib / .pkl artifacts were
+# pickled with, to avoid InconsistentVersionWarning and result drift.
+scikit-learn==1.6.1
+numpy>=2.0,<3.0
+scipy
+pandas
+joblib
+matplotlib
+
+# Optional (ASR latency row only): pulls in torch (~hundreds of MB).
+# Uncomment and reinstall if you want to measure the Whisper stage here.
+# openai-whisper
