@@ -5,7 +5,6 @@ interface PrivacyDashboardProps {
   callsAnalyzed?: number
   scamsBlocked?: number
   modelVersion?: string
-  lastFederatedUpdate?: string
   localTrainingSamples?: number
   totalDataTransmitted?: number
   privacyBudget?: number
@@ -62,7 +61,6 @@ export default function PrivacyDashboard({
   callsAnalyzed = 0,
   scamsBlocked = 0,
   modelVersion = 'v1.2.4',
-  lastFederatedUpdate = 'Never',
   localTrainingSamples = 0,
   totalDataTransmitted = 2.4,
   privacyBudget = 0.12,
@@ -118,12 +116,6 @@ export default function PrivacyDashboard({
               value={localTrainingSamples}
               note="feature vectors only — no text"
             />
-            <div className="pt-2 border-t border-dark-border/30">
-              <span className="text-base text-gray-400 font-mono uppercase tracking-wider block mb-2">
-                Last federated update
-              </span>
-              <span className="text-xl text-gray-200 font-mono">{lastFederatedUpdate}</span>
-            </div>
           </div>
           <div className="mt-8 pt-4 border-t border-dark-border/30">
             <p className="text-base text-gray-500 font-mono leading-relaxed">

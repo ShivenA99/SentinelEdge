@@ -593,7 +593,7 @@ async def call_detection(websocket: WebSocket, call_id: str):
                         "reasons": alert.reasons,
                     },
                     "elapsed_seconds": round(elapsed, 1),
-                    "inference_ms": round(_inference_ms, 1),
+                    "inference_ms": round(_inference_ms, 2),
                     "timestamp": time.time(),
                 }
             )

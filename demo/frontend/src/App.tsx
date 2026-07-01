@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { Shield, Radio, Lock, GitBranch, Activity, Cpu, Gauge, Server, Zap, Send, Loader2 } from 'lucide-react'
+import { Shield, Radio, Lock, Activity, Cpu, Gauge, Server, Zap, Send, Loader2 } from 'lucide-react'
 import PhoneSimulator from './components/PhoneSimulator'
 import CallScreen from './components/CallScreen'
 import TranscriptPanel from './components/TranscriptPanel'
@@ -7,7 +7,6 @@ import ScoreGauge from './components/ScoreGauge'
 import FeatureBreakdown from './components/FeatureBreakdown'
 import DemoControls from './components/DemoControls'
 import PrivacyDemo from './components/PrivacyDemo'
-import FederatedDashboard from './components/FederatedDashboard'
 import CallHistory from './components/CallHistory'
 import type { CallHistoryEntry } from './components/CallHistory'
 import { useWebSocket } from './hooks/useWebSocket'
@@ -197,6 +196,7 @@ export default function App() {
   const [callHistory, setCallHistory] = useState<CallHistoryEntry[]>([])
   const [availableCalls, setAvailableCalls] = useState<AvailableCall[]>(FALLBACK_AVAILABLE_CALLS)
   const [latencyStats, setLatencyStats] = useState<LatencyStats | null>(null)
+  const [liveInferenceMs, setLiveInferenceMs] = useState<number | null>(null)
   const [customText, setCustomText] = useState('')
   const [customResult, setCustomResult] = useState<CustomScoreResult | null>(null)
   const [customError, setCustomError] = useState<string | null>(null)
@@ -259,6 +259,7 @@ export default function App() {
           setCurrentScore(data.raw_score ?? 0)
           setEmaScore(data.ema_score ?? data.raw_score ?? 0)
           if (data.features) setFeatures(data.features)
+          if (typeof data.inference_ms === 'number') setLiveInferenceMs(data.inference_ms)
           if (data.alert?.should_alert || displayScore >= 0.5) {
             setFraudSignalReceived(true)
             setAlertDismissed(false)
@@ -382,6 +383,7 @@ export default function App() {
     setIsCallActive(true)
     setPrivacySentences([])
     setGradientVectors([])
+    setLiveInferenceMs(null)
     setIsBackendDriven(false)
 
     // Start duration timer
@@ -594,8 +596,12 @@ export default function App() {
     { label: 'Streaming F1', value: '0.817', detail: 'LR edge model', icon: <Gauge className="h-4 w-4" /> },
     {
       label: 'Latency',
-      value: latencyStats ? `${latencyStats.p50_ms.toFixed(3)} ms` : 'Measuring',
-      detail: latencyStats ? `${latencyStats.backend} p50, n=${latencyStats.n}` : 'live backend p50',
+      value: liveInferenceMs != null
+        ? `${liveInferenceMs.toFixed(2)} ms`
+        : latencyStats ? `${latencyStats.p50_ms.toFixed(3)} ms` : 'Measuring',
+      detail: liveInferenceMs != null
+        ? 'live, per sentence'
+        : latencyStats ? `${latencyStats.backend} p50, n=${latencyStats.n}` : 'live backend p50',
       icon: <Zap className="h-4 w-4" />,
     },
     { label: 'Model Size', value: '<1 KB', detail: 'hand-crafted head', icon: <Cpu className="h-4 w-4" /> },
@@ -605,7 +611,6 @@ export default function App() {
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: 'detection', label: 'Live Detection', icon: <Radio className="w-4 h-4" /> },
     { id: 'privacy', label: 'Privacy Demo', icon: <Lock className="w-4 h-4" /> },
-    { id: 'federated', label: 'Federated Learning', icon: <GitBranch className="w-4 h-4" /> },
     { id: 'privacy-dashboard', label: 'Privacy Dashboard', icon: <Shield className="w-4 h-4" /> },
   ]
   const isDetectionLoading = isCallActive && sentences.length === 0
@@ -902,10 +907,6 @@ export default function App() {
             gradientVectors={gradientVectors}
             isCallActive={isCallActive}
           />
-        )}
-
-        {activeTab === 'federated' && (
-          <FederatedDashboard />
         )}
 
         {activeTab === 'privacy-dashboard' && (
